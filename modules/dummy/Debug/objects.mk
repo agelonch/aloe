@@ -4,5 +4,5 @@
 
 USER_OBJS :=
 
-LIBS := -lswapi_static
+LIBS := -lswapi
 

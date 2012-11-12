@@ -47,7 +47,7 @@
 							<tool id="cdt.managedbuild.tool.gnu.c.linker.so.debug.963988129" name="GCC C Linker" superClass="cdt.managedbuild.tool.gnu.c.linker.so.debug">
 								<option defaultValue="true" id="gnu.c.link.so.debug.option.shared.275575508" name="Shared (-shared)" superClass="gnu.c.link.so.debug.option.shared" valueType="boolean"/>
 								<option id="gnu.c.link.option.libs.215301820" name="Libraries (-l)" superClass="gnu.c.link.option.libs" valueType="libs">
-									<listOptionValue builtIn="false" value="swapi_static"/>
+									<listOptionValue builtIn="false" value="swapi"/>
 								</option>
 								<option id="gnu.c.link.option.paths.1594576633" name="Library search path (-L)" superClass="gnu.c.link.option.paths" valueType="libPaths">
 									<listOptionValue builtIn="false" value="&quot;../../../swapi_static/Debug&quot;"/>

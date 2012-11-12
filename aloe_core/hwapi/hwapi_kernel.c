@@ -1,3 +1,21 @@
+/* 
+ * Copyright (c) 2012, Ismael Gomez-Miguelez <ismael.gomez@tsc.upc.edu>.
+ * This file is part of ALOE++ (http://flexnets.upc.edu/)
+ * 
+ * ALOE++ is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * ALOE++ is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.
+ * 
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with ALOE++.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 #include <pthread.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -40,6 +58,7 @@ static char UNUSED(sigmsg[1024]);
 
 static void go_out();
 static void thread_signal_handler(int signum, siginfo_t *info, void *ctx);
+static void print_license();
 
 /**
  * A real-time fault has been detected. if hwapi.machine.rtFaultKill, calls
@@ -529,7 +548,7 @@ int main(int argc, char **argv) {
 	timeslot_us = atol(argv[2]);
 	hwapi.machine.nof_processors = atoi(argv[4]);
 
-	printf("\n----- %s -----\n\n", ALOE_VERSION);
+	print_license();
 	if (getuid()) {
 		printf("Run as root to run in real-time mode\n\n");
 	}
@@ -552,4 +571,12 @@ int main(int argc, char **argv) {
 clean_and_exit:
 	cleanup();
 	exit(0);
+}
+
+
+static void print_license() {
+	printf("%s  Copyright (C) %d http://flexnets.upc.edu/\n"
+    "This program comes with ABSOLUTELY NO WARRANTY.\n"
+    "This is free software, and you are welcome to redistribute it\n"
+    "under certain conditions. See license.txt\n\n",ALOE_VERSION, ALOE_YEAR);
 }
