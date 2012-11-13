@@ -38,7 +38,7 @@ typedef struct {
 	float mopts;
 	float mbpts;
 	string name;
-	int nof_processors;
+	int nof_cores;
 	int rt_fault_opts;
 	int kernel_prio;
 	int pipeline_prio;

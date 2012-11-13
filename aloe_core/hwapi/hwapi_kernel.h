@@ -24,12 +24,6 @@
 #define ALOE_VERSION "ALOE++-0.1"
 #define ALOE_YEAR 2012
 
-#ifdef THREADED_CPU
-#define CORE_ID(i) 2*i+1
-#else
-#define CORE_ID(i) i
-#endif
-
 void hwapi_kernel_tasks();
 int hwapi_kernel_sigwait_thread();
 

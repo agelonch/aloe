@@ -31,7 +31,7 @@ int dummy_test(char *module_path, int nof_modules, int nof_cores) {
 	struct hwapi_process_attr attr;
 	h_proc_t proc;
 
-	if (!module_path || nof_modules*nof_cores>MAX_MODULES) {
+	if (!module_path || nof_modules*nof_cores>MAX_MODULES || nof_modules < 0) {
 		aerror("Invalid parameters\n");
 		return -1;
 	}

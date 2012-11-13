@@ -54,7 +54,7 @@ static int multi_timer_futex;
 static pid_t kernel_pid;
 static pthread_t single_timer_thread;
 static char UNUSED(sigmsg[1024]);
-
+static int *core_mapping;
 
 static void go_out();
 static void thread_signal_handler(int signum, siginfo_t *info, void *ctx);
@@ -81,13 +81,13 @@ static int __attribute__((__unused__)) rt_fault(hwapi_process_t *process) {
 
 inline static void ts_begins_synchronize_rt_control() {
 	if (hwapi.machine.rt_fault_opts == RT_FAULT_OPTS_HARD) {
-		for (int i=0;i<hwapi.machine.nof_processors;i++) {
+		for (int i=0;i<hwapi.machine.nof_cores;i++) {
 			if (!hwapi.pipelines[i].finished) {
 				//rt_fault(i);
 			}
 		}
 	}  else {
-		for (int i=0;i<hwapi.machine.nof_processors;i++) {
+		for (int i=0;i<hwapi.machine.nof_cores;i++) {
 			if (!hwapi.pipelines[i].running_process_idx) {
 				//rt_fault(i);
 			}
@@ -167,7 +167,7 @@ inline static int kernel_initialize_setup_clock() {
 		usleep(100000);
 		printf("Starting clocks in %d sec...\n", TIMER_FUTEX_GUARD_SEC);
 		clock_gettime(CLOCK_MONOTONIC, &start_time);
-		for (int i=0;i<hwapi.machine.nof_processors;i++) {
+		for (int i=0;i<hwapi.machine.nof_cores;i++) {
 			hwapi.pipelines[i].mytimer.next = start_time;
 		}
 		futex_wake(&multi_timer_futex);
@@ -192,9 +192,9 @@ inline static int kernel_initialize_create_pipelines() {
 	void *(*tmp_thread_fnc)(void*);
 	void *tmp_thread_arg;
 
-	pipeline_initialize(hwapi.machine.nof_processors);
+	pipeline_initialize(hwapi.machine.nof_cores);
 
-	for (int i=0;i<hwapi.machine.nof_processors;i++) {
+	for (int i=0;i<hwapi.machine.nof_cores;i++) {
 		hwapi.pipelines[i].id = i;
 
 		if (hwapi.machine.clock_source == MULTI_TIMER) {
@@ -217,7 +217,7 @@ inline static int kernel_initialize_create_pipelines() {
 
 		if (hwapi_task_new_thread(&hwapi.pipelines[i].thread,
 				tmp_thread_fnc, tmp_thread_arg, DETACHABLE,
-				hwapi.machine.kernel_prio, CORE_ID(i))) {
+				hwapi.machine.kernel_prio, core_mapping[i])) {
 			hwapi_perror();
 			return -1;
 		}
@@ -481,12 +481,12 @@ static void thread_signal_handler(int signum, siginfo_t *info, void *ctx) {
 	pthread_t thisthread = pthread_self();
 
 	/* is it a pipeline thread? */
-	for (i=0;i<hwapi.machine.nof_processors;i++) {
+	for (i=0;i<hwapi.machine.nof_cores;i++) {
 		if (thisthread == hwapi.pipelines[i].thread) {
 			break;
 		}
 	}
-	if (i < hwapi.machine.nof_processors) {
+	if (i < hwapi.machine.nof_cores) {
 		thread_id = i;
 	} else {
 		/* it is not, may be it is the kernel timer */
@@ -515,7 +515,7 @@ static void thread_signal_handler(int signum, siginfo_t *info, void *ctx) {
 static void go_out() {
 	sigwait_stops = 1;
 	kernel_timer.stop = 1;
-	for (int i=0;i<hwapi.machine.nof_processors;i++) {
+	for (int i=0;i<hwapi.machine.nof_cores;i++) {
 		if (hwapi.machine.clock_source != MULTI_TIMER) {
 			hwapi.pipelines[i].mytimer.stop = 1;
 		} else {
@@ -533,11 +533,80 @@ static void cleanup() {
 	wait_threads();
 }
 
+int parse_cores_comma_sep(char *str) {
+	int i;
+	size_t sz;
+	char *tok;
+
+	/* assume 10 cores */
+	sz = 10;
+	assert((core_mapping = malloc(sizeof(int)*sz)));
+	i=0;
+	tok = strtok(str,",");
+	while (tok) {
+		core_mapping[i] = atoi(tok);
+		tok = strtok(0,",");
+		i++;
+		if ((size_t) i > sz) {
+			sz += 10;
+			assert((core_mapping = realloc(core_mapping, sizeof(int)*sz)));
+		}
+	}
+	assert((core_mapping = realloc(core_mapping, sizeof(int)*(size_t)i)));
+
+	return i;
+}
+
+int parse_cores_single_array(char *core_init, char *core_end) {
+	int c_ini, c_end;
+	if (core_init) {
+		c_ini = atoi(core_init);
+	} else {
+		c_ini = 0;
+	}
+	if (core_end) {
+		c_end = atoi(core_end);
+	} else {
+		return -1;
+	}
+	core_mapping = malloc(sizeof(int)*((size_t) c_end-(size_t)c_ini));
+	for (int i=0;i<(c_end-c_ini);i++) {
+		core_mapping[i] = i+c_ini;
+	}
+	return (c_end-c_ini);
+}
+
+/** Parses a string indicating which cores can be used to load modules
+ * Valid string formats are:
+ * - "N" Just a number, without "," nor ":" means to use core id 0 to N-1
+ * - "n1:n2" Indicates that core ids n1 to n2 will be used
+ * - "n1,n2,n3" Indicates that core ids n1, n2 and n3 only will be used
+ */
+int parse_cores(char *str) {
+	char *dp;
+	char *c;
+
+	dp = index(str,':');
+	c = index(str,',');
+
+	if (!c && !dp) {
+		return parse_cores_single_array(NULL,str);
+	} else if (!c && dp) {
+		*dp = '\0';
+		dp++;
+		return parse_cores_single_array(str,dp);
+	} else if (c && !dp) {
+		return parse_cores_comma_sep(str);
+	} else {
+		return -1;
+	}
+}
+
 
 int main(int argc, char **argv) {
 
 	if (argc!=5 && argc!=6) {
-		printf("Usage: %s path_to_dummy_lib ts_us nof_modules nof_cores [-s]\n",argv[0]);
+		printf("Usage: %s path_to_dummy_lib ts_us nof_modules cores [-s]\n",argv[0]);
 		return -1;
 	}
 
@@ -546,14 +615,22 @@ int main(int argc, char **argv) {
 	kernel_pid = getpid();
 
 	timeslot_us = atol(argv[2]);
-	hwapi.machine.nof_processors = atoi(argv[4]);
+	if (timeslot_us <= 0) {
+		printf("Error invalid timeslot %d\n",timeslot_us);
+		exit(0);
+	}
+	hwapi.machine.nof_cores = parse_cores(argv[4]);
+	if (hwapi.machine.nof_cores <= 0) {
+		printf("Error invalid cores %s\n",argv[4]);
+		exit(0);
+	}
 
 	print_license();
 	if (getuid()) {
 		printf("Run as root to run in real-time mode\n\n");
 	}
 	printf("Time slot:\t%d us\nPlatform:\t%d cores\n\n", (int) timeslot_us,
-			hwapi.machine.nof_processors);
+			hwapi.machine.nof_cores);
 
 	/* initialize kernel */
 	if (kernel_initialize()) {
@@ -561,7 +638,7 @@ int main(int argc, char **argv) {
 		goto clean_and_exit;
 	}
 
-	dummy_test(argv[1],atoi(argv[3]),atoi(argv[4]));
+	dummy_test(argv[1],atoi(argv[3]),hwapi.machine.nof_cores);
 
 	/* the main thread runs the sigwait loop */
 	sigwait_loop();
