@@ -48,6 +48,7 @@ const int thread_specific_signals[N_THREAD_SPECIFIC_SIGNALS] =
 static hwapi_context_t hwapi;
 static hwapi_timer_t kernel_timer;
 static long int timeslot_us;
+static enum clock_source clock_source;
 
 static int sigwait_stops = 0;
 static int multi_timer_futex;
@@ -313,7 +314,7 @@ inline static int kernel_initialize_set_kernel_priority() {
 static int kernel_initialize(void) {
 
 	/* Initialize hwapi_base library */
-	hwapi.machine.clock_source = MULTI_TIMER;
+	hwapi.machine.clock_source = clock_source;
 	hwapi.machine.ts_len_us = timeslot_us;
 	hwapi.machine.kernel_prio = 50;
 	hwapi_initialize_node(&hwapi, NULL, NULL);
@@ -625,12 +626,19 @@ int main(int argc, char **argv) {
 		exit(0);
 	}
 
+	clock_source = MULTI_TIMER;
+	if (argc == 6) {
+		if (!strcmp("-s",argv[5])) {
+			clock_source = SINGLE_TIMER;
+		}
+	}
+
 	print_license();
 	if (getuid()) {
 		printf("Run as root to run in real-time mode\n\n");
 	}
-	printf("Time slot:\t%d us\nPlatform:\t%d cores\n\n", (int) timeslot_us,
-			hwapi.machine.nof_cores);
+	printf("Time slot:\t%d us\nPlatform:\t%d cores\nTimer:\t\t%s\n\n", (int) timeslot_us,
+			hwapi.machine.nof_cores,(clock_source==MULTI_TIMER)?"Multi":"Single");
 
 	/* initialize kernel */
 	if (kernel_initialize()) {
