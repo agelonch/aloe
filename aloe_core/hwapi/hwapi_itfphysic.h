@@ -37,6 +37,19 @@ typedef struct {
 	int id;
 }hwapi_itfphysic_t;
 
+int hwapi_itfphysic_create(h_itf_t obj, string address);
+int hwapi_itfphysic_remove(h_itf_t obj);
+int hwapi_itfphysic_send(h_itf_t obj, void* buffer, int len);
+int hwapi_itfphysic_recv(h_itf_t obj, void* buffer, int len);
+int hwapi_itfphysic_set_callback(h_itf_t obj, void (*fnc)(void), int prio);
+int hwapi_itfphysic_set_blocking(h_itf_t obj, int block);
+int hwapi_itfphysic_get_blocking(h_itf_t obj);
+pkt_t* hwapi_itfphysic_request_pkt(h_itf_t obj);
+int hwapi_itfphysic_put_pkt(h_itf_t obj, pkt_t* ptr);
+pkt_t* hwapi_itfphysic_get_pkt(h_itf_t obj);
+int hwapi_itfphysic_release_pkt(h_itf_t obj, pkt_t* ptr);
+int hwapi_itfphysic_set_delay(h_itf_t obj, int delay);
+int hwapi_itfphysic_get_delay(h_itf_t obj);
 
 
 #endif

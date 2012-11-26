@@ -54,9 +54,6 @@
 /* general error caused by a hwapi call */
 #define HWAPI_ERROR(msg)   hwapi_error_set_msg(HWAPI_ERROR_OTHER, __FILE__, __LINE__, msg)
 
-/* Called from outside API. Prints hwapi error in one line and current file/line plus message in another */
-#define hwapi_perror(msg) hwapi_error_print(""); aerror(msg)
-
 
 typedef struct {
 	int code;
@@ -68,6 +65,6 @@ void hwapi_error_set_context(hwapi_error_t *_context);
 void hwapi_error_systemcall(int errnum, const char *file, int line, const char *system_call);
 void hwapi_error_set(int code, const char *file, int line);
 void hwapi_error_set_msg(int code, const char *file, int line, const char *msg);
-void hwapi_error_print(const char *user_message);
+int hwapi_error_code();
 
 #endif

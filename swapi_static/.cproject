@@ -33,13 +33,12 @@
 								<option defaultValue="gnu.c.optimization.level.none" id="gnu.c.compiler.lib.debug.option.optimization.level.1506416593" name="Optimization Level" superClass="gnu.c.compiler.lib.debug.option.optimization.level" valueType="enumerated"/>
 								<option id="gnu.c.compiler.lib.debug.option.debugging.level.153641950" name="Debug Level" superClass="gnu.c.compiler.lib.debug.option.debugging.level" value="gnu.c.debugging.level.max" valueType="enumerated"/>
 								<option id="gnu.c.compiler.option.include.paths.337572609" name="Include paths (-I)" superClass="gnu.c.compiler.option.include.paths" valueType="includePath">
-									<listOptionValue builtIn="false" value="&quot;../../aloe_core/base&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;../../aloe_core/hwapi&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;../../aloe_core/base/include&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;../../aloe_core/hwapi/include&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;../../aloe_core/swapi_shared/include&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;../../aloe_core/common&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;../../aloe_core/swapi_shared&quot;"/>
+									<listOptionValue builtIn="false" value="../../aloe_core/hwapi/include"/>
+									<listOptionValue builtIn="false" value="../../aloe_core/swapi_shared/include"/>
+									<listOptionValue builtIn="false" value="../../aloe_core/swapi_shared/"/>
+									<listOptionValue builtIn="false" value="/usr/include"/>
+									<listOptionValue builtIn="false" value="../../aloe_core/common/include"/>
+									<listOptionValue builtIn="false" value="../../aloe_core/node/include"/>
 								</option>
 								<option id="gnu.c.compiler.option.preprocessor.def.symbols.1484455150" name="Defined symbols (-D)" superClass="gnu.c.compiler.option.preprocessor.def.symbols" valueType="definedSymbols">
 									<listOptionValue builtIn="false" value="_GNU_SOURCE"/>
@@ -107,15 +106,6 @@
 	<storageModule moduleId="cdtBuildSystem" version="4.0.0">
 		<project id="swapi_static.cdt.managedbuild.target.gnu.lib.601635509" name="Static Library" projectType="cdt.managedbuild.target.gnu.lib"/>
 	</storageModule>
-	<storageModule moduleId="scannerConfiguration">
-		<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
-		<scannerConfigBuildInfo instanceId="cdt.managedbuild.config.gnu.lib.debug.868690244;cdt.managedbuild.config.gnu.lib.debug.868690244.;cdt.managedbuild.tool.gnu.c.compiler.lib.debug.1360641557;cdt.managedbuild.tool.gnu.c.compiler.input.950417435">
-			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
-		</scannerConfigBuildInfo>
-		<scannerConfigBuildInfo instanceId="cdt.managedbuild.config.gnu.lib.release.1171148355;cdt.managedbuild.config.gnu.lib.release.1171148355.;cdt.managedbuild.tool.gnu.c.compiler.lib.release.776219610;cdt.managedbuild.tool.gnu.c.compiler.input.1404493087">
-			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
-		</scannerConfigBuildInfo>
-	</storageModule>
 	<storageModule moduleId="org.eclipse.cdt.core.LanguageSettingsProviders"/>
 	<storageModule moduleId="refreshScope"/>
 	<storageModule moduleId="org.eclipse.cdt.make.core.buildtargets">
@@ -137,5 +127,14 @@
 				<runAllBuilders>true</runAllBuilders>
 			</target>
 		</buildTargets>
+	</storageModule>
+	<storageModule moduleId="scannerConfiguration">
+		<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
+		<scannerConfigBuildInfo instanceId="cdt.managedbuild.config.gnu.lib.release.1171148355;cdt.managedbuild.config.gnu.lib.release.1171148355.;cdt.managedbuild.tool.gnu.c.compiler.lib.release.776219610;cdt.managedbuild.tool.gnu.c.compiler.input.1404493087">
+			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
+		</scannerConfigBuildInfo>
+		<scannerConfigBuildInfo instanceId="cdt.managedbuild.config.gnu.lib.debug.868690244;cdt.managedbuild.config.gnu.lib.debug.868690244.;cdt.managedbuild.tool.gnu.c.compiler.lib.debug.1360641557;cdt.managedbuild.tool.gnu.c.compiler.input.950417435">
+			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
+		</scannerConfigBuildInfo>
 	</storageModule>
 </cproject>

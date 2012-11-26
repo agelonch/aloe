@@ -35,5 +35,7 @@ int _run_cycle(void* context);
 void _abort(void* context);
 
 int Run(void *context);
+int Init(void *context);
+int Stop(void *context);
 
 #endif

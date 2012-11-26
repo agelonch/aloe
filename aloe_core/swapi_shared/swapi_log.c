@@ -19,31 +19,48 @@
 #include "swapi_log.h"
 #include "swapi.h"
 #include "defs.h"
+#include "str.h"
+#include "swapi_context.h"
+#include "nod_waveform.h"
 
-int swapi_log_init(log_t log, string name) {
-	aerror("Not yet implemented");
-	return -1;
+int swapi_log_init(void *context, swapi_log_t *log, string name) {
+	swapi_context_t *ctx = context;
+	nod_module_t *module = ctx->module;
+	lstrdef(tmp);
+	SWAPI_ASSERT_PARAM(log);
+	SWAPI_ASSERT_PARAM(name);
+	snprintf(tmp,LSTR_LEN,"%s.%s",module->parent.name,name);
+	int fd = hwapi_file_open(tmp);
+	if (fd < 0) {
+		return -1;
+	}
+	log->fd = fd;
+	log->context = ctx;
+	strcpy(log->name,name);
+	return 0;
 }
 
 int swapi_log_close(log_t log) {
-	aerror("Not yet implemented");
-	return -1;
+	swapi_log_t *l = (swapi_log_t*) log;
+	swapi_context_t *ctx = l->context;
+	SWAPI_ASSERT_PARAM(log);
+	if (hwapi_file_close(l->fd)) {
+		return -1;
+	}
+	l->fd = 0;
+	l->id = 0;
+	return 0;
 }
 
 /**
  * Concatenates the string to buffer
  */
 int swapi_log_write(log_t log, string str) {
-	aerror("Not yet implemented");
-	return -1;
-}
-
-/**
- * Use aerror to format string and concatenates to buffer
- */
-int swapi_log_laerror(log_t log, int va_args) {
-	aerror("Not yet implemented");
-	return -1;
+	swapi_log_t *l = (swapi_log_t*) log;
+	swapi_context_t *ctx = l->context;
+	SWAPI_ASSERT_PARAM(log);
+	strncat(l->buffer,str,LSTR_LEN);
+	return 0;
 }
 
 /**

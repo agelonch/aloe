@@ -28,12 +28,12 @@ int hwapi_itfphysic_create(h_itf_t obj, string address) {
 	return -1;
 }
 
-int hwapi_itfphysic_connect(h_phyitf_t obj) {
+int hwapi_itfphysic_connect(h_itf_t obj) {
 	aerror("Not yet implemented");
 	return -1;
 }
 
-int hwapi_itfphysic_disconnect(h_phyitf_t obj) {
+int hwapi_itfphysic_disconnect(h_itf_t obj) {
 	aerror("Not yet implemented");
 	return -1;
 }
@@ -63,17 +63,17 @@ int hwapi_itfphysic_get_blocking(h_itf_t obj) {
 	return -1;
 }
 
-void* hwapi_itfphysic_request_ptr(h_itf_t obj, int size) {
+pkt_t* hwapi_itfphysic_request_pkt(h_itf_t obj) {
 	aerror("Not yet implemented");
 	return NULL;
 }
 
-int hwapi_itfphysic_release_ptr(h_itf_t obj, void* ptr) {
+int hwapi_itfphysic_release_pkt(h_itf_t obj, pkt_t* pkt) {
 	aerror("Not yet implemented");
 	return -1;
 }
 
-int hwapi_itfphysic_put_ptr(h_itf_t obj, void* ptr) {
+int hwapi_itfphysic_put_pkt(h_itf_t obj, pkt_t* pkt) {
 	aerror("Not yet implemented");
 	return -1;
 }
@@ -92,7 +92,7 @@ int hwapi_itfphysic_get_delay(h_itf_t obj) {
 	return -1;//hwapi_itf_get_delay__(obj);
 }
 
-void* hwapi_itfphysic_get_ptr(h_itf_t obj) {
+pkt_t* hwapi_itfphysic_get_pkt(h_itf_t obj) {
 	aerror("Not yet implemented");
 	return NULL;
 }

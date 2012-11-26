@@ -8,9 +8,13 @@ RM := rm -rf
 
 # All of the sources participating in the build are defined here
 -include sources.mk
+-include test_suite/subdir.mk
 -include swapi_shared/subdir.mk
+-include node/subdir.mk
+-include manapi/subdir.mk
+-include manager/subdir.mk
 -include hwapi/subdir.mk
--include base/subdir.mk
+-include common/subdir.mk
 -include subdir.mk
 -include objects.mk
 

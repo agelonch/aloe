@@ -31,14 +31,16 @@
 								<option defaultValue="gnu.c.optimization.level.none" id="gnu.c.compiler.exe.debug.option.optimization.level.1569014727" name="Optimization Level" superClass="gnu.c.compiler.exe.debug.option.optimization.level" value="gnu.c.optimization.level.none" valueType="enumerated"/>
 								<option id="gnu.c.compiler.exe.debug.option.debugging.level.870639137" name="Debug Level" superClass="gnu.c.compiler.exe.debug.option.debugging.level" value="gnu.c.debugging.level.max" valueType="enumerated"/>
 								<option id="gnu.c.compiler.option.include.paths.216834119" name="Include paths (-I)" superClass="gnu.c.compiler.option.include.paths" valueType="includePath">
-									<listOptionValue builtIn="false" value="&quot;../common&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;../base&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;../base/include&quot;"/>
+									<listOptionValue builtIn="false" value="../manager/include"/>
+									<listOptionValue builtIn="false" value="../test_suite/"/>
+									<listOptionValue builtIn="false" value="../manapi/include"/>
+									<listOptionValue builtIn="false" value="../node/include"/>
+									<listOptionValue builtIn="false" value="&quot;../common/include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;../hwapi/include&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;../swapi_shared&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;../swapi_shared/include&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;../swapi_shared/&quot;"/>
 								</option>
-								<option id="gnu.c.compiler.option.misc.other.1950497613" name="Other flags" superClass="gnu.c.compiler.option.misc.other" value="-c -fmessage-length=0 -std=c99 -Wno-unused-parameter -Winline" valueType="string"/>
+								<option id="gnu.c.compiler.option.misc.other.1950497613" name="Other flags" superClass="gnu.c.compiler.option.misc.other" value="-c -fmessage-length=0 -std=c99 -Wno-unused-parameter -Winline -Wno-format" valueType="string"/>
 								<option id="gnu.c.compiler.option.warnings.pedantic.error.387119503" name="Pedantic warnings as errors (-pedantic-errors)" superClass="gnu.c.compiler.option.warnings.pedantic.error" value="false" valueType="boolean"/>
 								<option id="gnu.c.compiler.option.warnings.pedantic.853000314" name="Pedantic (-pedantic)" superClass="gnu.c.compiler.option.warnings.pedantic" value="true" valueType="boolean"/>
 								<option id="gnu.c.compiler.option.warnings.extrawarn.1411913541" name="Extra warnings (-Wextra)" superClass="gnu.c.compiler.option.warnings.extrawarn" value="true" valueType="boolean"/>
@@ -52,6 +54,7 @@
 							<tool errorParsers="org.eclipse.cdt.core.GLDErrorParser" id="cdt.managedbuild.tool.gnu.c.linker.exe.debug.553978356" name="GCC C Linker" superClass="cdt.managedbuild.tool.gnu.c.linker.exe.debug">
 								<option id="gnu.c.link.option.libs.1853081934" name="Libraries (-l)" superClass="gnu.c.link.option.libs" valueType="libs">
 									<listOptionValue builtIn="false" value="rt"/>
+									<listOptionValue builtIn="false" value="config"/>
 									<listOptionValue builtIn="false" value="pthread"/>
 									<listOptionValue builtIn="false" value="dl"/>
 								</option>
@@ -68,7 +71,7 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry excluding="swapi_static|hwapi/mutex.h|hwapi/barrier.h|hwapi/mutex.c|hwapi/barrier.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
+						<entry excluding="common/malloc.c|test_suite/tx_rx_test.c|test_suite/dummy_test.c|swapi_static|hwapi/mutex.h|hwapi/barrier.h|hwapi/mutex.c|hwapi/barrier.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
@@ -115,7 +118,7 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry excluding="swapi_static|hwapi/mutex.h|hwapi/barrier.h|hwapi/mutex.c|hwapi/barrier.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
+						<entry excluding="common/malloc.c|swapi_static|hwapi/mutex.h|hwapi/barrier.h|hwapi/mutex.c|hwapi/barrier.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
@@ -126,7 +129,14 @@
 		<project id="aloe.cdt.managedbuild.target.gnu.exe.460115147" name="Executable" projectType="cdt.managedbuild.target.gnu.exe"/>
 	</storageModule>
 	<storageModule moduleId="org.eclipse.cdt.core.LanguageSettingsProviders"/>
-	<storageModule moduleId="refreshScope"/>
+	<storageModule moduleId="refreshScope" versionNumber="2">
+		<configuration configurationName="Release">
+			<resource resourceType="PROJECT" workspacePath="/aloe_core"/>
+		</configuration>
+		<configuration configurationName="Debug">
+			<resource resourceType="PROJECT" workspacePath="/aloe_core"/>
+		</configuration>
+	</storageModule>
 	<storageModule moduleId="org.eclipse.cdt.make.core.buildtargets">
 		<buildTargets>
 			<target name="all" path="" targetID="org.eclipse.cdt.build.MakeTargetBuilder">

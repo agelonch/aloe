@@ -28,11 +28,12 @@
 typedef struct {
 	int id;
 	strdef(name);
-	strdef(buffer);
+	lstrdef(buffer);
 	int fd;
 	int w_ptr;
+	void *context;
 }swapi_log_t;
 
-int swapi_log_init(log_t log, string name);
+int swapi_log_init(void *context, swapi_log_t *log, string name);
 
 #endif

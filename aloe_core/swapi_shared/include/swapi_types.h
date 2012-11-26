@@ -44,4 +44,5 @@ struct _s_log {
 };
 typedef struct _s_log* log_t;
 
+
 #endif /* SWAPI_TYPES_H_ */

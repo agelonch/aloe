@@ -41,27 +41,17 @@ struct hwapi_process_attr {
 };
 
 
-
-struct h_itf_ {
-	int id;
-};
-typedef struct h_itf_* h_itf_t;
-
-
-struct h_phyitf_ {
-	int id;
-};
-typedef struct h_phyitf_* h_phyitf_t;
-
 typedef struct {
 	int len;
 	void *data;
-}h_pkt_t;
+}pkt_t;
 
-struct h_qitf_ {
+struct h_itf_ {
 	int id;
+	int is_external;
 };
-typedef struct h_qitf_* h_qitf_t;
+typedef struct h_itf_* h_itf_t;
+
 
 struct h_dac_ {
 	int id;

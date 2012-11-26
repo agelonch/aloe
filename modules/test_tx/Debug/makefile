@@ -28,7 +28,7 @@ all: libtest_tx.so
 libtest_tx.so: $(OBJS) $(USER_OBJS)
 	@echo 'Building target: $@'
 	@echo 'Invoking: GCC C Linker'
-	gcc -L"/home/ismael/aloe_workspace/swapi_static/Debug" -u _run_cycle -shared -o "libtest_tx.so" $(OBJS) $(USER_OBJS) $(LIBS)
+	gcc -L../../../swapi_static/Debug -u _run_cycle -shared -o "libtest_tx.so" $(OBJS) $(USER_OBJS) $(LIBS)
 	@echo 'Finished building target: $@'
 	@echo ' '
 

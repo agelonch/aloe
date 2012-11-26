@@ -37,6 +37,7 @@ static int is_first_in_cycle_count;
 
 
 void pipeline_initialize(int _num_pipelines) {
+	hdebug("num_pipelines=%d\n",_num_pipelines);
 	num_pipelines = _num_pipelines;
 	pipeline_sync_initialize_;
 }
@@ -47,7 +48,7 @@ inline void pipeline_sync_threads() {
 
 inline static void pipeline_run_thread_run_module(pipeline_t *pipe,
 		hwapi_process_t *proc, int idx) {
-
+	hdebug("pipeid=%d, pid=%d, idx=%d, run=%d\n",pipe->id,proc->pid,idx,proc->runnable);
 	if (proc->runnable) {
 		pipe->running_process = proc;
 		pipe->running_process_idx = idx;
@@ -81,7 +82,7 @@ inline static int is_first_in_cycle() {
 inline static void pipeline_run_time_slot(pipeline_t *obj) {
 	int idx;
 	hwapi_process_t *run_proc;
-
+	hdebug("pipeid=%d, tslot=%d, nof_process=%d\n",obj->id,obj->ts_counter, obj->nof_processes);
 	obj->finished = 0;
 
 	pipeline_run_thread_print_time(obj);
@@ -130,14 +131,16 @@ void *pipeline_run_thread(void *self) {
 	pipeline_t *obj = (pipeline_t*) self;
 	assert(obj->id>=0);
 
+	hdebug("pipeid=%d waiting\n",obj->id);
+
 	obj->stop = 0;
 	pipeline_sync_thread_waits(obj->id);
-
+	hdebug("pipeid=%d start\n",obj->id);
 	while(!obj->stop) {
 		pipeline_run_time_slot(obj);
 		pipeline_sync_thread_waits(obj->id);
 	}
-	printf("%d go out %d\n",obj->id, obj->stop);
+	hdebug("pipeid=%d exiting\n",obj->id);
 	return NULL;
 }
 
@@ -161,28 +164,34 @@ int pipeline_recover_thread(pipeline_t *obj) {
  *  inserted, or -1 on error.
  */
 int pipeline_add(pipeline_t *obj, hwapi_process_t *process) {
+	hdebug("pipeid=%d, nof_process=%d, pid=%d, pid_pos=%d\n",obj->id,obj->nof_processes,
+			process->pid,process->attributes.exec_position);
 	HWAPI_ASSERT_PARAM(obj);
 	HWAPI_ASSERT_PARAM(process);
-
 	int i, obj_pos;
-	hwapi_process_t *cur, *prev;
+	hwapi_process_t *cur, *prev = NULL;;
 
 	obj_pos = process->attributes.exec_position;
 
 	i = 0;
 	cur = obj->first_process;
 	if (!cur) {
+		hdebug("pipeid=%d, obj->first_process=NULL\n", obj->id);
 		obj->first_process = process;
 		process->next = NULL;
 	} else {
-		while(cur && i<obj_pos) {
+		while(cur && i<=obj_pos) {
 			prev = cur;
 			cur = cur->next;
 			i++;
+			hdebug("pipeid=%d, i=%d obj_pos=%d, prev=0x%x, cur=0x%x\n", obj->id,
+					i,obj_pos,prev,cur);
 		}
 		if (cur) {
+			hdebug("pipeid=%d inserting middle i=%d\n",obj->id,i);
 			process->next = cur->next;
 		} else {
+			hdebug("pipeid=%d inserting end i=%d\n",obj->id,i);
 			process->next = NULL;
 		}
 		/* should be not null */
@@ -205,6 +214,8 @@ int pipeline_add(pipeline_t *obj, hwapi_process_t *process) {
  * @return Zero on success, -1 on error
  */
 int pipeline_remove(pipeline_t *obj, hwapi_process_t *proc) {
+	hdebug("pipeid=%d, nof_process=%d, pid=%d, pid_pos=%d\n",obj->id,obj->nof_processes,
+			proc->pid,proc->attributes.exec_position);
 	HWAPI_ASSERT_PARAM(obj);
 	HWAPI_ASSERT_PARAM(proc);
 
@@ -213,6 +224,8 @@ int pipeline_remove(pipeline_t *obj, hwapi_process_t *proc) {
 	prev = NULL;
 	cur = obj->first_process;
 	while(cur != proc && cur) {
+		hdebug("pipeid=%d, prev=0x%x, cur=0x%x\n", obj->id,
+				prev,cur);
 		prev = cur;
 		cur = cur->next;
 	}
@@ -221,8 +234,10 @@ int pipeline_remove(pipeline_t *obj, hwapi_process_t *proc) {
 		return -1;
 	}
 	if (prev) {
+		hdebug("pipeid=%d remove middle/end\n",obj->id);
 		prev->next = cur->next;
 	} else {
+		hdebug("pipeid=%d remove first\n",obj->id);
 		obj->first_process = cur->next;
 	}
 

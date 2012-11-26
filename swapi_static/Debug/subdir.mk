@@ -17,7 +17,7 @@ C_DEPS += \
 %.o: ../%.c
 	@echo 'Building file: $<'
 	@echo 'Invoking: GCC C Compiler'
-	gcc -D_GNU_SOURCE -I"../../aloe_core/base" -I"../../aloe_core/hwapi" -I"../../aloe_core/base/include" -I"../../aloe_core/hwapi/include" -I"../../aloe_core/swapi_shared/include" -I"../../aloe_core/common" -I"../../aloe_core/swapi_shared" -O0 -g3 -Wall -c -fmessage-length=0 -Wl,--whole-archive -fPIC -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -o "$@" "$<"
+	gcc -D_GNU_SOURCE -I../../aloe_core/hwapi/include -I../../aloe_core/swapi_shared/include -I../../aloe_core/swapi_shared/ -I/usr/include -I../../aloe_core/common/include -I../../aloe_core/node/include -O0 -g3 -Wall -c -fmessage-length=0 -Wl,--whole-archive -fPIC -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -o "$@" "$<"
 	@echo 'Finished building: $<'
 	@echo ' '
 

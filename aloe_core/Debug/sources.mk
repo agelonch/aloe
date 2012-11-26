@@ -13,7 +13,11 @@ EXECUTABLES :=
 
 # Every subdirectory with source files must be described here
 SUBDIRS := \
+test_suite \
 swapi_shared \
+node \
+manapi \
+manager \
 hwapi \
-base \
+common \
 

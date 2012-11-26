@@ -17,18 +17,43 @@
  */
 
 #include <stddef.h>
-#include "swapi_var.h"
 #include "swapi.h"
+#include "swapi_context.h"
+#include "nod_waveform.h"
 
 /**
  * Declares a module variable as "public". Then other modules or the manager can view and modify it.
  *
- * 1) Find if variable name exists in mymodule.variables, otherwise find an empty space and fill attributes
- * 2) call hwapi.openShm() to create a shared memory area for the variable. Save pointer in the variable object found in previous step
+ * 1) Find if variable name exists in mymodule.variables, otherwise find an empty space and
+ * fill attributes
+ * 2) call hwapi.openShm() to create a shared memory area for the variable. Save pointer in
+ * the variable object found in previous step
  * 3) If all ok, return the shared memory pointer, otherwise return null
  */
-int swapi_var_init(var_t var, string name, int size, void **ptr) {
-	aerror("Not yet implemented");
+var_t swapi_var_create(void *context, string name, int size, void **ptr) {
+	swapi_context_t *ctx = context;
+	nod_module_t *module = ctx->module;
+
+	SWAPI_ASSERT_PARAM_P(module);
+	SWAPI_ASSERT_PARAM_P(name);
+	SWAPI_ASSERT_PARAM_P(size>0);
+	SWAPI_ASSERT_PARAM_P(ptr);
+	SWAPI_ASSERT_PARAM_P(*ptr);
+
+	variable_t *variable;
+	variable = nod_module_variable_get(module, name);
+	if (!variable) {
+		variable = nod_module_variable_create(module, name);
+		if (!variable) {
+			return NULL;
+		}
+	}
+
+	if (nod_variable_init(variable, size)) {
+		return NULL;
+	}
+
+	*ptr = variable->cur_value;
 	return 0;
 }
 
@@ -38,9 +63,20 @@ int swapi_var_init(var_t var, string name, int size, void **ptr) {
  * 1) find a variable in mymodule.variables with mymodule.variables[i].name=name
  * 2) copy min(size,mymodule.variables[i].size) bytes of mymodule.variables[i].initValue to ptr
  */
-int swapi_var_initialize(string name, void* ptr, int size) {
-	aerror("Not yet implemented");
-	return -1;
+int swapi_var_initialize(void *context, string name, void* ptr, int size) {
+	cast(ctx,context);
+	SWAPI_ASSERT_PARAM(name);
+	SWAPI_ASSERT_PARAM(ptr);
+	SWAPI_ASSERT_PARAM(size>0);
+	int cpy_sz;
+	variable_t *variable = nod_module_variable_get((nod_module_t*) ctx->module, name);
+	if (!variable) {
+		SWAPI_SETERROR(SWAPI_ERROR_NOTFOUND);
+		return -1;
+	}
+	cpy_sz = (variable->size > size)?size:variable->size;
+	memcpy(ptr, variable->init_value, (size_t) cpy_sz);
+	return cpy_sz;
 }
 
 /**
@@ -50,7 +86,15 @@ int swapi_var_initialize(string name, void* ptr, int size) {
  * 2) clear mymodule.variables[i] attributes
  * 3) call hwapi.closeShm(ptr);
  */
-int swapi_var_close(var_t var) {
-	aerror("Not yet implemented");
-	return -1;
+int swapi_var_close(void *context, var_t var) {
+	cast(ctx,context);
+	variable_t *variable = (variable_t*) var;
+	SWAPI_ASSERT_PARAM(var);
+
+	if (!nod_variable_close(variable)) {
+		SWAPI_SETERROR(SWAPI_ERROR_NOTFOUND);
+		return -1;
+	}
+	variable->id = 0;
+	return 0;
 }

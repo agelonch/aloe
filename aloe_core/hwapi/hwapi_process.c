@@ -23,6 +23,8 @@
 #include "hwapi.h"
 #include "pipeline.h"
 
+lstrdef(tmp);
+
 /**
  * Loads a process binary into memory. The process must have been created using
  *  hwapi_process_new(). This function loads the library defined in the process
@@ -31,10 +33,13 @@
  *  @return Zero on success, -1 on error.
  */
 int hwapi_process_launch(hwapi_process_t *obj) {
+	hdebug("path=%s\n",obj->attributes.binary_path);
 	HWAPI_ASSERT_PARAM(obj);
 	char *error;
 
-	obj->dl_handle = dlopen(obj->attributes.binary_path, RTLD_NOW);
+	snprintf(tmp,LSTR_LEN,"%s/%s/Debug/lib%s.so",MODULES_PATH,obj->attributes.binary_path,
+			obj->attributes.binary_path);
+	obj->dl_handle = dlopen(tmp, RTLD_NOW);
 
 	if (!obj->dl_handle) {
 		HWAPI_DLERROR(dlerror());
@@ -75,6 +80,7 @@ int hwapi_process_launch(hwapi_process_t *obj) {
 int hwapi_process_remove(h_proc_t process) {
 	HWAPI_ASSERT_PARAM(process);
 	hwapi_process_t *obj = (hwapi_process_t*) process;
+	hdebug("pid=%d\n",obj->pid)
 
 	if (pipeline_remove((pipeline_t*) obj->pipeline, obj)) {
 		return -1;
@@ -83,6 +89,7 @@ int hwapi_process_remove(h_proc_t process) {
 	dlclose(obj->dl_handle);
 
 	if (obj->attributes.finish_callback) {
+		hdebug("calling finish 0x%x\n",obj->attributes.finish_callback);
 		obj->attributes.finish_callback(process);
 	}
 
@@ -112,6 +119,7 @@ int hwapi_process_pid(h_proc_t process) {
 int hwapi_process_run(h_proc_t process) {
 	HWAPI_ASSERT_PARAM(process);
 	hwapi_process_t *obj = (hwapi_process_t*) process;
+	hdebug("pid=%d\n",obj->pid);
 	obj->runnable = 1;
 	return 0;
 }
@@ -125,8 +133,16 @@ int hwapi_process_run(h_proc_t process) {
 int hwapi_process_stop(h_proc_t process) {
 	HWAPI_ASSERT_PARAM(process);
 	hwapi_process_t *obj = (hwapi_process_t*) process;
+	hdebug("pid=%d\n",obj->pid);
 	obj->runnable = 0;
 	return 0;
 }
 
+int hwapi_process_seterror(h_proc_t proc, hwapi_processerrors_t code) {
+	HWAPI_ASSERT_PARAM(proc);
+	hwapi_process_t *obj = (hwapi_process_t*) proc;
+	hdebug("pid=%d, code=%d\n",obj->pid,(int)code);
+	obj->finish_code = code;
+	return 0;
+}
 

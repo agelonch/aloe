@@ -27,6 +27,7 @@
  */
 typedef struct {
 	int id;
+	int is_external;
 
 	strdef(name);
 	int mode_is_input;
@@ -34,7 +35,6 @@ typedef struct {
 	 * Interface delay, in timeslots
 	 */
 	int delay;
-	lstrdef(address);
 	int is_blocking;
 	void (*callback)(void);
 

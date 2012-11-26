@@ -21,10 +21,7 @@
 
 #include "str.h"
 #include "hwapi_types.h"
-
-typedef enum {
-	OK, RTFAULT, SIG_RECV, RUNERROR
-}hwapi_processerrors_t;
+#include "hwapi.h"
 
 /**
  * A HWAPI Process is defined as dynamically loaded shared library with two symbols that *MUST* be defined:

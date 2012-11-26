@@ -26,6 +26,7 @@
 #include <sys/types.h>
 #include <sys/mman.h>
 
+#include "str.h"
 #include "defs.h"
 #include "hwapi_time.h"
 #include "hwapi_kernel.h"
@@ -34,9 +35,9 @@
 #include "hwapi_task.h"
 #include "hwapi.h"
 #include "hwapi_timer.h"
-#include "nod_module.h"
 #include "futex.h"
-#include "dummy_test.h"
+
+#include "run_test_suite_waveform.h"
 
 #define KERNEL_SIG_TIMER SIGRTMIN
 #define KERNEL_SIG_THREAD_SPECIFIC SIGUSR1
@@ -99,7 +100,9 @@ inline static void ts_begins_synchronize_rt_control() {
 static inline void ts_begins_process_periodic_callbacks() {
 	/* Call periodic functions */
 	for (int i=0;i<hwapi.nof_periodic;i++) {
+		hdebug("function %d, counter %d\n",i,hwapi.periodic[i].counter);
 		if (hwapi.periodic[i].counter==hwapi.periodic[i].period)  {
+			hdebug("function %d, calling\n",i);
 			hwapi.periodic[i].callback();
 			hwapi.periodic[i].counter=0;
 		}
@@ -109,15 +112,18 @@ static inline void ts_begins_process_periodic_callbacks() {
 
 static inline void ts_begin_process_sleep_main_thread() {
 	if (hwapi.wake_tslot) {
+		hdebug("wake at %d\n",hwapi.wake_tslot);
 		if (hwapi_time_slot()>=hwapi.wake_tslot) {
+			hdebug("waking up %d\n",hwapi.wake_tslot);
 			sem_post(&hwapi.sleep_semaphore);
 		}
 	}
 }
 
 inline void hwapi_kernel_tasks() {
-
 	hwapi_time_ts_inc();
+
+	hdebug("tslot=%d\n",hwapi_time_slot());
 
 #ifdef rtcontrol
 	ts_begins_synchronize_rt_control();
@@ -157,6 +163,7 @@ inline static int kernel_initialize_setup_clock() {
 		kernel_timer.mode = NANOSLEEP;
 		kernel_timer.wait_futex = NULL;
 		kernel_timer.thread = &single_timer_thread;
+		hdebug("creating single_timer_thread period %d\n",(int) kernel_timer.period);
 		if (hwapi_task_new_thread(&single_timer_thread, timer_run_thread,
 				&kernel_timer, JOINABLE,
 				hwapi.machine.kernel_prio, 0)) {
@@ -194,10 +201,10 @@ inline static int kernel_initialize_create_pipelines() {
 	void *tmp_thread_arg;
 
 	pipeline_initialize(hwapi.machine.nof_cores);
+	hdebug("creating %d pipeline threads\n",hwapi.machine.nof_cores);
 
 	for (int i=0;i<hwapi.machine.nof_cores;i++) {
 		hwapi.pipelines[i].id = i;
-
 		if (hwapi.machine.clock_source == MULTI_TIMER) {
 			hwapi.pipelines[i].mytimer.period_function =
 					pipeline_run_from_timer;
@@ -236,7 +243,6 @@ inline static int kernel_initialize_create_resources() {
 	 * hwapi.time structure should then be a pointer to a shared
 	 * memory area.
 	 * */
-
 	if (sem_init(&hwapi.sleep_semaphore, 0, 0)) {
 		poserror(errno, "sem_init");
 		return -1;
@@ -280,6 +286,7 @@ inline static int kernel_initialize_set_kernel_priority() {
 	cpu_set_t cpuset;
 
 	param.sched_priority = hwapi.machine.kernel_prio;
+	hdebug("kernel_prio=%d\n",hwapi.machine.kernel_prio);
 
 	if (sched_setscheduler(0, SCHED_FIFO, &param)) {
 		if (errno == EPERM) {
@@ -318,9 +325,6 @@ static int kernel_initialize(void) {
 	hwapi.machine.ts_len_us = timeslot_us;
 	hwapi.machine.kernel_prio = 50;
 	hwapi_initialize_node(&hwapi, NULL, NULL);
-
-	/* initialize anode */
-	//anode_initialize();
 
 	/* create kernel resources */
 	if (kernel_initialize_create_resources()) {
@@ -383,20 +387,21 @@ static int sigwait_loop_process_thread_signal(siginfo_t *info) {
 	if (thread_id > -1) {
 		if (strlen(tmp_msg)>1) {
 			sprintf(&tmp_msg[strlen(tmp_msg)-1],
-					" pipeline thread %d\n",
-					info->si_value.sival_int);
+					"pipeline thread %d process %d\n",
+					info->si_value.sival_int,
+					hwapi.pipelines[info->si_value.sival_int].running_process_idx);
 		}
 		pipeline_recover_thread(
 				&hwapi.pipelines[info->si_value.sival_int]);
 
 	} else if (info->si_value.sival_int == -1) {
-		strcat(tmp_msg, " the kernel thread\n");
+		strcat(tmp_msg, "the kernel thread\n");
 		kernel_timer_recover_thread();
 	} else {
-		strcat(tmp_msg, " an unkown thread\n");
+		strcat(tmp_msg, "an unkown thread\n");
 	}
 
-	fputs(tmp_msg, stderr);
+	hdebug("%s",tmp_msg);
 
 	return 1;
 }
@@ -428,6 +433,7 @@ static void sigwait_loop(void) {
 			poserror(errno, "sigwaitinfo");
 			goto out;
 		}
+		hdebug("detected signal %d\n",signum);
 		switch(signum) {
 		case KERNEL_SIG_THREAD_SPECIFIC:
 			sigwait_loop_process_thread_signal(&info);
@@ -606,8 +612,8 @@ int parse_cores(char *str) {
 
 int main(int argc, char **argv) {
 
-	if (argc!=5 && argc!=6) {
-		printf("Usage: %s path_to_dummy_lib ts_us nof_modules cores [-s]\n",argv[0]);
+	if (argc!=4 && argc!=5) {
+		printf("Usage: %s ts_us nof_cores path_to_waveform_model [-s]\n",argv[0]);
 		return -1;
 	}
 
@@ -615,20 +621,20 @@ int main(int argc, char **argv) {
 
 	kernel_pid = getpid();
 
-	timeslot_us = atol(argv[2]);
+	timeslot_us = atol(argv[1]);
 	if (timeslot_us <= 0) {
-		printf("Error invalid timeslot %d\n",timeslot_us);
+		printf("Error invalid timeslot %d\n",(int) timeslot_us);
 		exit(0);
 	}
-	hwapi.machine.nof_cores = parse_cores(argv[4]);
+	hwapi.machine.nof_cores = parse_cores(argv[2]);
 	if (hwapi.machine.nof_cores <= 0) {
-		printf("Error invalid cores %s\n",argv[4]);
+		printf("Error invalid cores %s\n",argv[2]);
 		exit(0);
 	}
 
 	clock_source = MULTI_TIMER;
-	if (argc == 6) {
-		if (!strcmp("-s",argv[5])) {
+	if (argc == 5) {
+		if (!strcmp("-s",argv[4])) {
 			clock_source = SINGLE_TIMER;
 		}
 	}
@@ -646,7 +652,11 @@ int main(int argc, char **argv) {
 		goto clean_and_exit;
 	}
 
-	dummy_test(argv[1],atoi(argv[3]),hwapi.machine.nof_cores);
+	if (hwapi_task_new(run_test_suite_waveform,argv[3])) {
+		hwapi_perror("hwapi_task_new");
+		goto clean_and_exit;
+	}
+
 
 	/* the main thread runs the sigwait loop */
 	sigwait_loop();

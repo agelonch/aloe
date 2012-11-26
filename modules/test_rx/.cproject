@@ -34,19 +34,17 @@
 								<option defaultValue="gnu.c.optimization.level.none" id="gnu.c.compiler.so.debug.option.optimization.level.712149606" name="Optimization Level" superClass="gnu.c.compiler.so.debug.option.optimization.level" valueType="enumerated"/>
 								<option id="gnu.c.compiler.so.debug.option.debugging.level.1329254570" name="Debug Level" superClass="gnu.c.compiler.so.debug.option.debugging.level" value="gnu.c.debugging.level.max" valueType="enumerated"/>
 								<option id="gnu.c.compiler.option.include.paths.1912838143" name="Include paths (-I)" superClass="gnu.c.compiler.option.include.paths" valueType="includePath">
-									<listOptionValue builtIn="false" value="/home/ismael/aloe_workspace/aloe/hwapi/include"/>
-									<listOptionValue builtIn="false" value="/home/ismael/aloe_workspace/aloe/common"/>
-									<listOptionValue builtIn="false" value="/home/ismael/aloe_workspace/aloe/hwapi"/>
+									<listOptionValue builtIn="false" value="../../../aloe_core/swapi_shared/include"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.c.compiler.input.1249370930" superClass="cdt.managedbuild.tool.gnu.c.compiler.input"/>
 							</tool>
 							<tool id="cdt.managedbuild.tool.gnu.c.linker.so.debug.551435879" name="GCC C Linker" superClass="cdt.managedbuild.tool.gnu.c.linker.so.debug">
 								<option defaultValue="true" id="gnu.c.link.so.debug.option.shared.1490080896" name="Shared (-shared)" superClass="gnu.c.link.so.debug.option.shared" valueType="boolean"/>
 								<option id="gnu.c.link.option.paths.1669291720" name="Library search path (-L)" superClass="gnu.c.link.option.paths" valueType="libPaths">
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/swapi_static/Debug}&quot;"/>
+									<listOptionValue builtIn="false" value="../../../swapi_static/Debug"/>
 								</option>
 								<option id="gnu.c.link.option.libs.1311678437" name="Libraries (-l)" superClass="gnu.c.link.option.libs" valueType="libs">
-									<listOptionValue builtIn="false" value="swapi_static"/>
+									<listOptionValue builtIn="false" value="swapi"/>
 								</option>
 								<option id="gnu.c.link.option.ldflags.512940540" name="Linker flags" superClass="gnu.c.link.option.ldflags" value="-u _run_cycle" valueType="string"/>
 								<inputType id="cdt.managedbuild.tool.gnu.c.linker.input.867191112" superClass="cdt.managedbuild.tool.gnu.c.linker.input">

@@ -44,6 +44,8 @@ int hwapi_task_new_prio(void *(*fnc)(void*), void* arg, int prio, int cpu) {
 
 int hwapi_task_new_thread(pthread_t *thread, void *(*fnc)(void*), void *arg,
 		enum hwapi_task_type type, int prio, int cpu) {
+	hdebug("thread=0x%x,fnc=0x%x,arg=0x%x,type=%s,prio=%d,cpu=%d\n",thread,fnc,arg,
+			type==DETACHABLE?"detach":"join",prio,cpu);
 	HWAPI_ASSERT_PARAM(thread);
 	HWAPI_ASSERT_PARAM(fnc);
 	HWAPI_ASSERT_PARAM(prio>=0);

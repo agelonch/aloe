@@ -23,6 +23,7 @@
 #include "hwapi_itf.h"
 #include "hwapi.h"
 #include "queue.h"
+#include "swapi_types.h"
 
 typedef struct {
 	hwapi_itf_t parent;
@@ -33,10 +34,22 @@ typedef struct {
 	queue_t q_tx;
 	queue_t q_pkts;
 
-	h_pkt_t *packets;
+	pkt_t *packets;
 	void *data;
 }hwapi_itfqueue_t;
 
 int hwapi_itfqueue_init(hwapi_itfqueue_t *obj);
-
+int hwapi_itfqueue_create(h_itf_t obj, string address);
+int hwapi_itfqueue_remove(h_itf_t obj);
+int hwapi_itfqueue_send(h_itf_t obj, void* buffer, int len);
+int hwapi_itfqueue_recv(h_itf_t obj, void* buffer, int len);
+int hwapi_itfqueue_set_callback(h_itf_t obj, void (*fnc)(void), int prio);
+int hwapi_itfqueue_set_blocking(h_itf_t obj, int block);
+int hwapi_itfqueue_get_blocking(h_itf_t obj);
+pkt_t* hwapi_itfqueue_request_pkt(h_itf_t obj);
+int hwapi_itfqueue_put_pkt(h_itf_t obj, pkt_t* ptr);
+pkt_t* hwapi_itfqueue_get_pkt(h_itf_t obj);
+int hwapi_itfqueue_release_pkt(h_itf_t obj, pkt_t* ptr);
+int hwapi_itfqueue_set_delay(h_itf_t obj, int delay);
+int hwapi_itfqueue_get_delay(h_itf_t obj);
 #endif

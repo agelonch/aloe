@@ -36,10 +36,10 @@ static strdef(syspath);
  * @param path Real file-system path.
  */
 int hwapi_file_set_path(string path) {
+	hdebug("path=%s\n",path);
 	HWAPI_ASSERT_PARAM(path);
 
 	struct stat st;
-
 	if(stat(path,&st)) {
 		HWAPI_SYSERROR("stat");
 		return -1;
@@ -61,8 +61,10 @@ int hwapi_file_set_path(string path) {
  * @return nonnegative integer on success, -1 on error.
  */
 int hwapi_file_open(string name) {
+	hdebug("name=%s\n",name);
 	HWAPI_ASSERT_PARAM(name);
 	int fd;
+
 
 	sprintf(tmp_path, "%s/%s", syspath, name);
 
@@ -80,8 +82,8 @@ int hwapi_file_open(string name) {
  * @return zero on success, -1 on error.
  */
 int hwapi_file_close(int fd) {
+	hdebug("fd=%d\n",fd);
 	HWAPI_ASSERT_PARAM(fd>0);
-
 	if (close(fd)) {
 		HWAPI_SYSERROR("open");
 		return -1;
@@ -100,6 +102,7 @@ int hwapi_file_close(int fd) {
  * nothing was written). On error, -1 is returned
  */
 int hwapi_file_write(int fd, void* buf, int size) {
+	hdebug("fd=%d, buf=0x%x, size=%d\n",fd, buf, size);
 	HWAPI_ASSERT_PARAM(fd>0);
 	HWAPI_ASSERT_PARAM(buf);
 	HWAPI_ASSERT_PARAM(size>0);

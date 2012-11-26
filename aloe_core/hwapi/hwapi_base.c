@@ -119,7 +119,7 @@ int hwapi_periodic_add(void (*callback)(void), int period) {
 	context->periodic[i].counter = 0;
 	context->periodic[i].period = period;
 	context->periodic[i].callback = callback;
-
+	hdebug("i=%d, period=%d, callback=0x%x\n",i,period,callback);
 	return 0;
 }
 
@@ -147,7 +147,7 @@ int hwapi_periodic_remove(void (*callback)(void)) {
 	context->periodic[i].counter = 0;
 	context->periodic[i].period = 0;
 	context->periodic[i].callback = NULL;
-
+	hdebug("i=%d\n",i);
 	return 0;
 }
 
@@ -167,11 +167,11 @@ int hwapi_sleep(int wake_tslot) {
 		HWAPI_ERROR("Already being blocked");
 		return -1;
 	}
-
+	hdebug("wake_tslot=%d\n",wake_tslot);
 	context->wake_tslot = wake_tslot;
 	sem_wait(&context->sleep_semaphore);
 	context->wake_tslot = 0;
-
+	hdebug("waking up at %d\n",hwapi_time_slot());
 	return 0;
 }
 
@@ -180,21 +180,43 @@ int hwapi_sleep(int wake_tslot) {
  * @param name Name of the physical interface
  * @return non-null value on success, zero on error
  */
-h_phyitf_t hwapi_itf_physic_get(string name) {
+h_itf_t hwapi_itfphysic_get(string name) {
+	hdebug("name=%s\n",name);
 	assert(context);
 	HWAPI_ASSERT_PARAM_P(name);
 	int i;
-
 	for (i=0;i<MAX(hwapi_itfphysic);i++) {
 		if (!strcmp(context->physic_itfs[i].parent.name, name))
 			break;
 	}
+	hdebug("i=%d\n",i);
 	if (i == MAX(hwapi_itfphysic)) {
 		HWAPI_SETERROR(HWAPI_ERROR_NOTFOUND);
 		return NULL;
 	}
+	return (h_itf_t) &context->physic_itfs[i];
+}
 
-	return (h_phyitf_t) &context->physic_itfs[i];
+/**
+ * Returns a handler to the first physical interface matching the id.
+ * @param id Id of the physical interface
+ * @return non-null value on success, zero on error
+ */
+h_itf_t hwapi_itfphysic_get_id(int id) {
+	hdebug("id=%d\n",id);
+	assert(context);
+	HWAPI_ASSERT_PARAM_P(id);
+	int i;
+	for (i=0;i<MAX(hwapi_itfphysic);i++) {
+		if (context->physic_itfs[i].parent.id == id)
+			break;
+	}
+	hdebug("i=%d\n",i);
+	if (i == MAX(hwapi_itfphysic)) {
+		HWAPI_SETERROR(HWAPI_ERROR_NOTFOUND);
+		return NULL;
+	}
+	return (h_itf_t) &context->physic_itfs[i];
 }
 
 /**
@@ -204,12 +226,11 @@ h_phyitf_t hwapi_itf_physic_get(string name) {
  * @param msg_sz Positive integer. Maximum message size
  * @return non-null value on success, zero on error
  */
-h_qitf_t hwapi_itfqueue_new(string name, int max_msg, int max_msg_sz) {
+h_itf_t hwapi_itfqueue_new(int max_msg, int max_msg_sz) {
+	hdebug("max_msg=%d,max_msg_sz=%d\n",max_msg,max_msg_sz);
 	assert(context);
-	HWAPI_ASSERT_PARAM_P(name);
 	HWAPI_ASSERT_PARAM_P(max_msg>=0);
 	HWAPI_ASSERT_PARAM_P(max_msg_sz>=0);
-
 	int i;
 
 	for (i=0;i<MAX(hwapi_itfqueue);i++) {
@@ -220,7 +241,7 @@ h_qitf_t hwapi_itfqueue_new(string name, int max_msg, int max_msg_sz) {
 		HWAPI_SETERROR(HWAPI_ERROR_NOTFOUND);
 		return NULL;
 	}
-
+	hdebug("i=%d\n",i);
 	context->queues[i].max_msg = max_msg;
 	context->queues[i].max_msg_sz = max_msg_sz;
 
@@ -229,34 +250,9 @@ h_qitf_t hwapi_itfqueue_new(string name, int max_msg, int max_msg_sz) {
 	}
 
 	context->queues[i].parent.id = i+1;
-	strncat(context->queues[i].parent.name, name, STR_LEN);
-
-	return (h_qitf_t) &context->queues[i];
+	return (h_itf_t) &context->queues[i];
 }
 
-/**
- * Returns a handler to the first queue interface matching the name.
- * @param name Name of the queue interface
- * @return non-null value on success, zero on error
- */
-h_qitf_t hwapi_itfqueue_get(string name) {
-	assert(context);
-	HWAPI_ASSERT_PARAM_P(name);
-	int i;
-
-	for (i=0;i<MAX(hwapi_itfqueue);i++) {
-		if (context->queues[i].parent.id) {
-			if (!strcmp(context->queues[i].parent.name, name))
-				break;
-		}
-	}
-	if (i == MAX(hwapi_itfqueue)) {
-		HWAPI_SETERROR(HWAPI_ERROR_NOTFOUND);
-		return NULL;
-	}
-
-	return (h_qitf_t) &context->queues[i];
-}
 
 /**
  * Returns a handler to the first dac object matching the name.
@@ -293,11 +289,12 @@ h_dac_t hwapi_dac_get(string address) {
  * @return non-null value on success, zero on error
  */
 h_proc_t hwapi_process_new(struct hwapi_process_attr *attr, void *arg) {
+	hdebug("binary=%s, proc=%d, pos=%d, finish=0x%x, arg=0x%x\n",attr->binary_path,attr->pipeline_id,
+			attr->exec_position,attr->finish_callback,arg);
 	assert(context);
 	HWAPI_ASSERT_PARAM_P(attr);
 	HWAPI_ASSERT_PARAM_P(arg);
 	int i=0;
-
 	/* find empty space on process db */
 	for (i=0;i<MAX(hwapi_process);i++) {
 		if (!context->processes[i].pid)
@@ -307,8 +304,10 @@ h_proc_t hwapi_process_new(struct hwapi_process_attr *attr, void *arg) {
 		HWAPI_SETERROR(HWAPI_ERROR_NOSPACE);
 		return NULL;
 	}
-
 	context->processes[i].pid=i+1;
+
+	hdebug("i=%d, pid=%d\n",context->processes[i].pid);
+
 	memcpy(&context->processes[i].attributes, attr,
 			sizeof(struct hwapi_process_attr));
 	context->processes[i].arg = arg;
@@ -323,7 +322,6 @@ h_proc_t hwapi_process_new(struct hwapi_process_attr *attr, void *arg) {
 				&context->processes[i]);
 		return NULL;
 	}
-
 	return (h_proc_t) &context->processes[i];
 }
 
