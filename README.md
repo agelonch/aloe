@@ -1,3 +1,4 @@
+[![githalytics.com alpha](https://cruel-carlota.pagodabox.com/fbe47a2652453cdc1eb50219b38ab2f0 "githalytics.com")](http://githalytics.com/flexnets/aloe)
 aloe
 ====
 
@@ -11,4 +12,4 @@ The ALOE project develops an open-source SDR framework with cognitive resource m
 
 
 
-[![githalytics.com alpha](https://cruel-carlota.pagodabox.com/fbe47a2652453cdc1eb50219b38ab2f0 "githalytics.com")](http://githalytics.com/flexnets/aloe)
+
