@@ -22,7 +22,6 @@
 #include <signal.h>
 #include "objects_max.h"
 #include "hwapi_process.h"
-#include "hwapi_kernel.h"
 #include "hwapi_timer.h"
 
 #define PRINT_TIME
@@ -74,6 +73,7 @@ void pipeline_sync_threads();
 void pipeline_initialize(int _num_pipelines);
 void *pipeline_run_thread(void *obj);
 int pipeline_recover_thread(pipeline_t *obj);
+int pipeline_rt_fault(pipeline_t *obj);
 int pipeline_add(pipeline_t *obj, hwapi_process_t *process);
 int pipeline_remove(pipeline_t *obj, hwapi_process_t *proc);
 

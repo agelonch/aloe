@@ -17,6 +17,8 @@
  */
 
 #include <stddef.h>
+#include "hwapi.h"
+
 #include "str.h"
 #include "defs.h"
 #include "swapi.h"
@@ -49,22 +51,11 @@ int swapi_context_init(void *_context, void *_module) {
 	return 0;
 }
 
-/** \brief Calls the function fnc with argument arg
- */
-int call_status(int (*fnc)(void*), void *arg, waveform_status_enum new_status) {
-	sdebug("fnc=0x%x, context=0x%x, new_status=%d\n",fnc,arg, new_status);
-	cast(ctx,arg);
-	if (fnc(arg)) {
-		return -1;
-	}
-	nod_module_t *module = (nod_module_t*) ctx->module;
-	sdebug("module_id=%d, changing_status=%d, now_is=0\n",module->parent.id,
-			module->changing_status);
-	module->changing_status = 0;
-	module->parent.status = new_status;
-	return 0;
+nod_module_t *swapi_get_module(void *context) {
+	if (!context) return NULL;
+	swapi_context_t *ctx = (swapi_context_t*) context;
+	return (nod_module_t*) ctx->module;
 }
-
 
 
 
@@ -175,12 +166,23 @@ int report_variable(variable_t variable) {
 	return -1;
 }
 
-/**
- * This function is called by the sStop() function and the _abort() functions.
- * It removes the module from the execution pipeline in ProcThread.
- * The next timeslot the module won't be executed.
+/** \brief Stops the calling module execution. Sets the module as NON-runnable.
+ *
+ * The module continues the execution after this function returns but, once the module returns from one
+ * of the Init/Run/Stop functions, it will not be executed again.
+ * The swapi_exit() function DOES NOT free the module's resources. In the case of a normal STOP,
+ * this is done by the same function that allocated them, that is, the nod_waveform_unserializeTo().
  */
-void swapi_exit(void *context) {
-	aerror("Not yet implemented");
+int swapi_exit(void *context) {
+	swapi_context_t *ctx = (swapi_context_t*) context;
+	nod_module_t *module = (nod_module_t*) ctx->module;
+	sdebug("module_id=%d, cur_status=%d\n",module->parent.id, module->parent.status);
+	if (!module->process) {
+		return -1;
+	}
+	if (hwapi_process_stop(module->process)) {
+		return -1;
+	}
+	return 0;
 }
 

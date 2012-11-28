@@ -86,14 +86,3 @@ int nod_anode_cmd_recv() {
 	return nod_anode_dispatch(&anode.packet);
 }
 
-/**
- * This function is called by a Process object when his module finishes the execution.
- *
- * If process.finishCode!=ProcessErrorCode.OK, an excepcional aerror occurred.
- * The reason is stored in process.errorMsg string. This function then uses the probeItf to send a
- * message to the manager with the format detailed in CmdPlatform.asyncError() method.
- */
-int nod_anode_process_finish(h_proc_t *process) {
-	aerror("Not yet implemented");
-	return -1;
-}

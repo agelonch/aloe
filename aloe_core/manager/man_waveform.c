@@ -75,10 +75,12 @@ int waveform_load(waveform_t *waveform) {
 	mdebug("waveform_id=%d, waveform_name=%s\n",waveform->id, waveform->name);
 
 	aassert(waveform);
-
-	if (waveform->status.cur_status != PARSED) {
+	/* @FIXME: temporary avoid checking this since there is no node feedback */
+	/*if (waveform->status.cur_status != PARSED) {
 		return -1;
-	}
+	}*/
+	waveform->status.cur_status = PARSED;
+
 	if (mapping_map(&map, waveform)) {
 		return -1;
 	}
@@ -173,7 +175,11 @@ int waveform_status_set(waveform_t *waveform, waveform_status_t *new_status) {
 	if (waveform_send(waveform, CMD_SET)) {
 		return -1;
 	}
-	waveform->status.cur_status = new_status->cur_status;
+	if (new_status->cur_status == STOP) {
+		waveform->status.cur_status = PARSED;
+	} else {
+		waveform->status.cur_status = new_status->cur_status;
+	}
 
 	return 0;
 }

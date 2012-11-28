@@ -25,6 +25,7 @@
 #include "objects_max.h"
 #include "hwapi.h"
 #include "waveform.h"
+#include "nod_waveform.h"
 
 typedef struct {
 	swapi_counter_t counters[MAX(swapi_counter)];
@@ -37,9 +38,9 @@ typedef struct {
 	int closed_resources;
 }swapi_context_t;
 
-int call_status(int (*fnc)(void*), void *arg, waveform_status_enum new_status);
 size_t swapi_sizeof();
 int swapi_context_init(void *context, void *module);
+nod_module_t *swapi_get_module(void *context);
 
 #define cast(a,b) swapi_context_t *a = (swapi_context_t*) b; SWAPI_ASSERT_PARAM(a)
 #define cast_p(a,b) swapi_context_t *a = (swapi_context_t*) b; SWAPI_ASSERT_PARAM_P(a)

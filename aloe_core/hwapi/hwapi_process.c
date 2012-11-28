@@ -53,12 +53,6 @@ int hwapi_process_launch(hwapi_process_t *obj) {
 		return -1;
 	}
 
-	*(void**) (&obj->abort_point) = dlsym(obj->dl_handle, "_abort");
-	if ((error = dlerror()) != NULL) {
-		HWAPI_DLERROR(error);
-		return -1;
-	}
-
 	return 0;
 }
 
@@ -88,14 +82,9 @@ int hwapi_process_remove(h_proc_t process) {
 
 	dlclose(obj->dl_handle);
 
-	if (obj->attributes.finish_callback) {
-		hdebug("calling finish 0x%x\n",obj->attributes.finish_callback);
-		obj->attributes.finish_callback(process);
-	}
-
 	obj->pid = 0;
 
-	return -1;
+	return 0;
 }
 
 /**
@@ -146,3 +135,9 @@ int hwapi_process_seterror(h_proc_t proc, hwapi_processerrors_t code) {
 	return 0;
 }
 
+hwapi_processerrors_t hwapi_process_geterror(h_proc_t proc) {
+	HWAPI_ASSERT_PARAM(proc);
+	hwapi_process_t *obj = (hwapi_process_t*) proc;
+	hdebug("pid=%d, code=%d\n",obj->pid,(int)obj->finish_code);
+	return obj->finish_code;
+}

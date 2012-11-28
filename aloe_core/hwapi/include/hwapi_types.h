@@ -19,6 +19,7 @@
 #ifndef HWAPI_TYPES_H_
 #define HWAPI_TYPES_H_
 
+#include <pthread.h>
 #include <time.h>
 #define time_t struct timeval
 
@@ -37,7 +38,7 @@ struct hwapi_process_attr {
 	strdef(binary_path);
 	int pipeline_id;
 	int exec_position;
-	void (*finish_callback)(h_proc_t);
+	void* (*finish_callback)(void*);
 };
 
 
@@ -57,6 +58,8 @@ struct h_dac_ {
 	int id;
 };
 typedef struct h_dac_* h_dac_t;
+
+typedef pthread_t h_task_t;
 
 
 #endif

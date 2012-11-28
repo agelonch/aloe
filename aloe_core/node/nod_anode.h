@@ -40,6 +40,5 @@ typedef struct {
 
 int nod_anode_initialize();
 int nod_anode_cmd_recv();
-int nod_anode_process_finish();
 
 #endif

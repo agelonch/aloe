@@ -23,7 +23,7 @@
 
 #define SWAPI_ITF_DEFAULT_MSG (64*1024)
 
-void swapi_exit(void *context);
+int swapi_exit(void *context);
 int swapi_tstamp(void *context);
 
 char *swapi_module_name(void *context);

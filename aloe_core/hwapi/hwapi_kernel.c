@@ -39,11 +39,10 @@
 
 #include "run_test_suite_waveform.h"
 
-#define KERNEL_SIG_TIMER SIGRTMIN
-#define KERNEL_SIG_THREAD_SPECIFIC SIGUSR1
-#define N_THREAD_SPECIFIC_SIGNALS 4
+#define KERNEL_SIG_THREAD_SPECIFIC SIGRTMIN
+#define N_THREAD_SPECIFIC_SIGNALS 6
 const int thread_specific_signals[N_THREAD_SPECIFIC_SIGNALS] =
-	{SIGSEGV, SIGBUS, SIGILL, SIGFPE};
+	{SIGSEGV, SIGBUS, SIGILL, SIGFPE, TASK_TERMINATION_SIGNAL, SIGUSR1};
 
 
 static hwapi_context_t hwapi;
@@ -75,29 +74,25 @@ static void print_license();
  *  rt-fault it is a system-wide problem, despite identifying which module is
  *  causing it is always helpful.
  */
-static int __attribute__((__unused__)) rt_fault(hwapi_process_t *process) {
-	aerror("Not yet implemented");
-	return -1;
-}
 
 
-inline static void ts_begins_synchronize_rt_control() {
+inline static void kernel_tslot_run_rt_control() {
+	hdebug("tslot=%d\n",hwapi_time_slot());
 	if (hwapi.machine.rt_fault_opts == RT_FAULT_OPTS_HARD) {
 		for (int i=0;i<hwapi.machine.nof_cores;i++) {
-			if (!hwapi.pipelines[i].finished) {
-				//rt_fault(i);
+			if (!hwapi.pipelines[i].finished && hwapi.pipelines[i].running_process) {
+				if (pipeline_rt_fault(&hwapi.pipelines[i])) {
+					aerror("Couldn't kill pipeline after an rt-fault, "
+							"going out\n");
+				}
 			}
 		}
 	}  else {
-		for (int i=0;i<hwapi.machine.nof_cores;i++) {
-			if (!hwapi.pipelines[i].running_process_idx) {
-				//rt_fault(i);
-			}
-		}
+		aerror("Not implemented\n");
 	}
 }
 
-static inline void ts_begins_process_periodic_callbacks() {
+static inline void kernel_tslot_run_periodic_callbacks() {
 	/* Call periodic functions */
 	for (int i=0;i<hwapi.nof_periodic;i++) {
 		hdebug("function %d, counter %d\n",i,hwapi.periodic[i].counter);
@@ -110,7 +105,7 @@ static inline void ts_begins_process_periodic_callbacks() {
 	}
 }
 
-static inline void ts_begin_process_sleep_main_thread() {
+static inline void kernel_tslot_run_sleep() {
 	if (hwapi.wake_tslot) {
 		hdebug("wake at %d\n",hwapi.wake_tslot);
 		if (hwapi_time_slot()>=hwapi.wake_tslot) {
@@ -120,18 +115,16 @@ static inline void ts_begin_process_sleep_main_thread() {
 	}
 }
 
-inline void hwapi_kernel_tasks() {
+inline void kernel_tslot_run() {
 	hwapi_time_ts_inc();
 
 	hdebug("tslot=%d\n",hwapi_time_slot());
 
-#ifdef rtcontrol
-	ts_begins_synchronize_rt_control();
-#endif
+	kernel_tslot_run_rt_control();
 
-	ts_begins_process_periodic_callbacks();
+	kernel_tslot_run_periodic_callbacks();
 
-	ts_begin_process_sleep_main_thread();
+	kernel_tslot_run_sleep();
 }
 
 static int first_cycle = 0;
@@ -140,13 +133,13 @@ static int first_cycle = 0;
  * after the reception of a synchronization packet.
  */
 static void kernel_cycle(void *x, struct timespec *time) {
-
+	hdebug("now is %d:%d\n",time->tv_sec,time->tv_nsec);
 	if (!first_cycle) {
 		hwapi_time_reset_realtime(time);
 		first_cycle = 1;
 	}
+	kernel_tslot_run();
 	pipeline_sync_threads();
-	hwapi_kernel_tasks();
 }
 
 inline static int kernel_initialize_setup_clock() {
@@ -165,8 +158,8 @@ inline static int kernel_initialize_setup_clock() {
 		kernel_timer.thread = &single_timer_thread;
 		hdebug("creating single_timer_thread period %d\n",(int) kernel_timer.period);
 		if (hwapi_task_new_thread(&single_timer_thread, timer_run_thread,
-				&kernel_timer, JOINABLE,
-				hwapi.machine.kernel_prio, 0)) {
+				&kernel_timer, DETACHABLE,
+				hwapi.machine.kernel_prio-1, 0,0)) {
 			hwapi_perror("hwapi_task_new_thread");
 			return -1;
 		}
@@ -192,41 +185,52 @@ inline static int kernel_initialize_setup_clock() {
 	return 0;
 }
 
+int kernel_initialize_create_pipeline(pipeline_t *obj, int *wait_futex) {
+	void *(*tmp_thread_fnc)(void*);
+	void *tmp_thread_arg;
+
+	hdebug("pipeline_id=%d\n",obj->id);
+	if (hwapi.machine.clock_source == MULTI_TIMER) {
+		obj->mytimer.period_function =
+				pipeline_run_from_timer;
+		obj->mytimer.period =
+				hwapi.machine.ts_len_us*1000;
+		obj->mytimer.arg = obj;
+		obj->mytimer.wait_futex = wait_futex;
+		obj->mytimer.mode = NANOSLEEP;
+
+		obj->mytimer.thread =
+				&obj->thread;
+		tmp_thread_fnc = timer_run_thread;
+		tmp_thread_arg = &obj->mytimer;
+	} else {
+		tmp_thread_fnc = pipeline_run_thread;
+		tmp_thread_arg = obj;
+	}
+
+	if (hwapi_task_new_thread(&obj->thread,
+			tmp_thread_fnc, tmp_thread_arg, DETACHABLE,
+			hwapi.machine.kernel_prio-2, core_mapping[obj->id],0)) {
+		hwapi_perror();
+		return -1;
+	}
+	return 0;
+}
+
 /**
  * Creates the pipelines.
  * @return
  */
 inline static int kernel_initialize_create_pipelines() {
-	void *(*tmp_thread_fnc)(void*);
-	void *tmp_thread_arg;
+
 
 	pipeline_initialize(hwapi.machine.nof_cores);
 	hdebug("creating %d pipeline threads\n",hwapi.machine.nof_cores);
 
 	for (int i=0;i<hwapi.machine.nof_cores;i++) {
 		hwapi.pipelines[i].id = i;
-		if (hwapi.machine.clock_source == MULTI_TIMER) {
-			hwapi.pipelines[i].mytimer.period_function =
-					pipeline_run_from_timer;
-			hwapi.pipelines[i].mytimer.period =
-					hwapi.machine.ts_len_us*1000;
-			hwapi.pipelines[i].mytimer.arg = &hwapi.pipelines[i];
-			hwapi.pipelines[i].mytimer.wait_futex = &multi_timer_futex;
-			hwapi.pipelines[i].mytimer.mode = NANOSLEEP;
-
-			hwapi.pipelines[i].mytimer.thread =
-					&hwapi.pipelines[i].thread;
-			tmp_thread_fnc = timer_run_thread;
-			tmp_thread_arg = &hwapi.pipelines[i].mytimer;
-		} else {
-			tmp_thread_fnc = pipeline_run_thread;
-			tmp_thread_arg = &hwapi.pipelines[i];
-		}
-
-		if (hwapi_task_new_thread(&hwapi.pipelines[i].thread,
-				tmp_thread_fnc, tmp_thread_arg, DETACHABLE,
-				hwapi.machine.kernel_prio, core_mapping[i])) {
-			hwapi_perror();
+		if (kernel_initialize_create_pipeline(&hwapi.pipelines[i],&multi_timer_futex)) {
+			aerror("Creating pipeline\n");
 			return -1;
 		}
 	}
@@ -324,6 +328,7 @@ static int kernel_initialize(void) {
 	hwapi.machine.clock_source = clock_source;
 	hwapi.machine.ts_len_us = timeslot_us;
 	hwapi.machine.kernel_prio = 50;
+	hwapi.machine.rt_fault_opts = RT_FAULT_OPTS_HARD;
 	hwapi_initialize_node(&hwapi, NULL, NULL);
 
 	/* create kernel resources */
@@ -354,19 +359,13 @@ static int kernel_initialize(void) {
 	return 0;
 }
 
-static void wait_threads() {
-	if (single_timer_thread != 0) {
-		pthread_join(single_timer_thread, NULL);
-		single_timer_thread = 0;
-	}
-}
 
 /**
  * called after kernel timer caught a synchronous signal.
  * todo: try to recover thread?
  */
 static void kernel_timer_recover_thread() {
-
+	aerror("Not implemented\n");
 }
 
 static int sigwait_loop_process_thread_signal(siginfo_t *info) {
@@ -375,7 +374,7 @@ static int sigwait_loop_process_thread_signal(siginfo_t *info) {
 
 	signum = info->si_value.sival_int & 0xffff;
 	thread_id = info->si_value.sival_int >> 16;
-
+	hdebug("signum=%d, thread_id=%d\n",signum,thread_id);
 	if (signum < N_THREAD_SPECIFIC_SIGNALS) {
 		sprintf(tmp_msg, "Got signal num %d from ",
 				thread_specific_signals[signum]);
@@ -388,11 +387,13 @@ static int sigwait_loop_process_thread_signal(siginfo_t *info) {
 		if (strlen(tmp_msg)>1) {
 			sprintf(&tmp_msg[strlen(tmp_msg)-1],
 					"pipeline thread %d process %d\n",
-					info->si_value.sival_int,
-					hwapi.pipelines[info->si_value.sival_int].running_process_idx);
+					thread_id,
+					hwapi.pipelines[thread_id].running_process_idx);
 		}
-		pipeline_recover_thread(
-				&hwapi.pipelines[info->si_value.sival_int]);
+		if (pipeline_recover_thread(
+				&hwapi.pipelines[thread_id])) {
+			aerror("recovering pipeline thread\n");
+		}
 
 	} else if (info->si_value.sival_int == -1) {
 		strcat(tmp_msg, "the kernel thread\n");
@@ -400,9 +401,6 @@ static int sigwait_loop_process_thread_signal(siginfo_t *info) {
 	} else {
 		strcat(tmp_msg, "an unkown thread\n");
 	}
-
-	hdebug("%s",tmp_msg);
-
 	return 1;
 }
 
@@ -425,6 +423,7 @@ static void sigwait_loop(void) {
 	siginfo_t info;
 
         sigfillset(&set);
+        sigdelset(&set,TASK_TERMINATION_SIGNAL);
 	while(!sigwait_stops) {
 		do {
 			signum = sigwaitinfo(&set, &info);
@@ -434,20 +433,16 @@ static void sigwait_loop(void) {
 			goto out;
 		}
 		hdebug("detected signal %d\n",signum);
-		switch(signum) {
-		case KERNEL_SIG_THREAD_SPECIFIC:
+		if (signum == KERNEL_SIG_THREAD_SPECIFIC) {
 			sigwait_loop_process_thread_signal(&info);
-			break;
-		case SIGINT:
+		} else if (signum == SIGINT) {
 			printf("Caught SIGINT, exiting\n");
 			fflush(stdout);
 			goto out;
-			break;
-		default:
+		} else {
 			printf("Got signal %d, exiting\n", signum);
 			fflush(stdout);
 			goto out;
-			break;
 		}
 	}
 
@@ -487,6 +482,12 @@ static void thread_signal_handler(int signum, siginfo_t *info, void *ctx) {
 	 */
 	pthread_t thisthread = pthread_self();
 
+	/* if signum is SIGUSR2, its a task termination signal, just exit */
+	if (signum == TASK_TERMINATION_SIGNAL) {
+		hdebug("sigusr2 signal. thread=%d\n",thisthread);
+		goto cancel_and_exit;
+	}
+
 	/* is it a pipeline thread? */
 	for (i=0;i<hwapi.machine.nof_cores;i++) {
 		if (thisthread == hwapi.pipelines[i].thread) {
@@ -494,13 +495,19 @@ static void thread_signal_handler(int signum, siginfo_t *info, void *ctx) {
 		}
 	}
 	if (i < hwapi.machine.nof_cores) {
+		hdebug("pipeline_idx=%d\n",i);
 		thread_id = i;
+
+		/* set the thread to 0 because is terminating */
+		hwapi.pipelines[thread_id].thread = 0;
 	} else {
 		/* it is not, may be it is the kernel timer */
 		if (thisthread == single_timer_thread) {
+			hdebug("timer thread=%d\n",thisthread);
 			thread_id = -1;
 		} else {
-			thread_id = -2;
+			hdebug("other thread=%d\n",thisthread);
+			goto cancel_and_exit;
 		}
 	}
 
@@ -509,14 +516,29 @@ static void thread_signal_handler(int signum, siginfo_t *info, void *ctx) {
 		if (thread_specific_signals[i] == signum)
 			break;
 	}
+	hdebug("signal=%d, thread=%d\n",i,thread_id);
 	value.sival_int = thread_id<<16 | i;
-	printf("received sigsegv\n");
 	if (sigqueue(kernel_pid,
 			KERNEL_SIG_THREAD_SPECIFIC,
 			value)) {
 		poserror(errno, "sigqueue");
 	}
-	pthread_cancel(thisthread);
+
+cancel_and_exit:
+	pthread_exit(NULL);
+}
+
+static void check_threads() {
+	if (!pthread_kill(single_timer_thread,0)) {
+		aerror("kernel timer still running, killing\n");
+		pthread_kill(single_timer_thread, TASK_TERMINATION_SIGNAL);
+	}
+	for (int i=0;i<hwapi.machine.nof_cores;i++) {
+		if (!pthread_kill(hwapi.pipelines[i].thread,0)) {
+			aerror_msg("pipeline thread %d still running, killing\n",i);
+			pthread_kill(hwapi.pipelines[i].thread, TASK_TERMINATION_SIGNAL);
+		}
+	}
 }
 
 static void go_out() {
@@ -529,16 +551,10 @@ static void go_out() {
 			hwapi.pipelines[i].stop = 1;
 		}
 	}
+	usleep(100000);
+	check_threads();
 }
 
-/**
- * if resources opened
- * 1) clear shared memory for init_time
- * 2) clear procThread and sleep semaphores.
- */
-static void cleanup() {
-	wait_threads();
-}
 
 int parse_cores_comma_sep(char *str) {
 	int i;
@@ -612,6 +628,7 @@ int parse_cores(char *str) {
 
 int main(int argc, char **argv) {
 
+
 	if (argc!=4 && argc!=5) {
 		printf("Usage: %s ts_us nof_cores path_to_waveform_model [-s]\n",argv[0]);
 		return -1;
@@ -652,7 +669,7 @@ int main(int argc, char **argv) {
 		goto clean_and_exit;
 	}
 
-	if (hwapi_task_new(run_test_suite_waveform,argv[3])) {
+	if (hwapi_task_new(NULL,run_test_suite_waveform,argv[3])) {
 		hwapi_perror("hwapi_task_new");
 		goto clean_and_exit;
 	}
@@ -664,7 +681,6 @@ int main(int argc, char **argv) {
 
 
 clean_and_exit:
-	cleanup();
 	exit(0);
 }
 

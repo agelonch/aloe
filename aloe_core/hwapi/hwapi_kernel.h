@@ -24,7 +24,12 @@
 #define ALOE_VERSION "ALOE++-0.1"
 #define ALOE_YEAR 2012
 
-void hwapi_kernel_tasks();
+#include "pipeline.h"
+
+#define TASK_TERMINATION_SIGNAL	SIGUSR2
+
+void kernel_tslot_run();
 int hwapi_kernel_sigwait_thread();
+int kernel_initialize_create_pipeline(pipeline_t *obj, int *wait_futex);
 
 #endif

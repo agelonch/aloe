@@ -93,14 +93,22 @@ man_platform_model_t* man_platform_get_model() {
 
 int man_platform_config(man_platform_t *_platform, string config_file) {
 	mdebug("platform=0x%x, config_file=%s\n",platform,config_file);
+
+	hwapi_machine_t machine;
+
 	if (!_platform) {
 		return -1;
 	}
+	hwapi_machine(&machine);
+
 	platform = _platform;
 	platform->nof_nodes = 1;
-	platform->nof_processors = 1;
-	platform->nodes[0].processors[0].node = &platform->nodes[0];
-	platform->processors[0] = &platform->nodes[0].processors[0];
+	platform->nof_processors = machine.nof_cores;
+	for (int i=0;i<platform->nof_processors;i++) {
+		platform->nodes[0].processors[i].node = &platform->nodes[0];
+		platform->processors[i] = &platform->nodes[0].processors[i];
+		platform->nodes[0].processors[i].idx_in_node = i;
+	}
 	platform->nodes[0].id = 1;
 	platform->nodes[0].platform = platform;
 

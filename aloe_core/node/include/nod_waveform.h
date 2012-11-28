@@ -26,11 +26,15 @@
 #include "packet.h"
 #include "hwapi_types.h"
 
+#define LOAD_TSLOT_DEAD 2
+#define STOP_TSLOT_DEAD 5
+
 typedef struct {
 	module_t parent;
 	h_proc_t process;
 	void *context;
 	int changing_status;
+	h_task_t status_task;
 } nod_module_t;
 
 typedef struct {
@@ -40,6 +44,7 @@ typedef struct {
 	int nof_modes;
 	int nof_modules;
 	int id;
+	int finishing;
 	strdef(name);
 } nod_waveform_t;
 
@@ -48,8 +53,15 @@ int nod_waveform_alloc(nod_waveform_t *w, int nof_modules);
 int nod_waveform_load(nod_waveform_t *waveform);
 int nod_waveform_run(nod_waveform_t *waveform);
 int nod_waveform_remove(nod_waveform_t *waveform);
+int nod_waveform_status_new(nod_waveform_t *waveform, waveform_status_t *new_status);
+int nod_waveform_stop(nod_waveform_t *waveform, nod_module_t *module);
 
 int nod_module_alloc(nod_module_t *module);
+int nod_module_load(nod_module_t *module);
+int nod_module_run(nod_module_t *module);
+int nod_module_remove(nod_module_t *module);
+int nod_module_status_ok(nod_module_t *module, waveform_status_enum w_status);
+int nod_module_free(nod_module_t *module);
 variable_t* nod_module_variable_get(nod_module_t *module, string name);
 variable_t* nod_module_variable_create(nod_module_t *module, string name);
 

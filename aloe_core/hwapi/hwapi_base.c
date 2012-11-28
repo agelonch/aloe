@@ -17,6 +17,9 @@
  */
 
 #include <stddef.h>
+#include <unistd.h>
+#include <time.h>
+
 #include "defs.h"
 #include "str.h"
 #include "objects_max.h"
@@ -27,6 +30,16 @@
 #include "hwapi.h"
 
 static hwapi_context_t *context;
+
+
+
+/**\brief Writes the machine structure into the buffer pointed by *machine
+ *
+ */
+void hwapi_machine(hwapi_machine_t *machine) {
+	assert(context);
+	memcpy(machine,&context->machine,sizeof(hwapi_machine_t));
+}
 
 /**
  * Must be called before any other function.
@@ -159,7 +172,7 @@ int hwapi_periodic_remove(void (*callback)(void)) {
  * @return 0 on success, -1 on error
  *
  */
-int hwapi_sleep(int wake_tslot) {
+int hwapi_sleep_to(int wake_tslot) {
 	assert(context);
 	HWAPI_ASSERT_PARAM(wake_tslot>=0);
 
@@ -171,6 +184,20 @@ int hwapi_sleep(int wake_tslot) {
 	context->wake_tslot = wake_tslot;
 	sem_wait(&context->sleep_semaphore);
 	context->wake_tslot = 0;
+	hdebug("waking up at %d\n",hwapi_time_slot());
+	return 0;
+}
+
+/** \brief sleep the calling thread for approximately nof_slots slots
+ * This function uses the clock_nanosleep() system call with absolute timing.
+ */
+int hwapi_sleep(int nof_slots) {
+	assert(context);
+	HWAPI_ASSERT_PARAM(nof_slots>=0);
+	hdebug("sleep_for=%d\n",nof_slots);
+	if (usleep((useconds_t) (nof_slots*context->machine.ts_len_us))) {
+		return -1;
+	}
 	hdebug("waking up at %d\n",hwapi_time_slot());
 	return 0;
 }
@@ -304,6 +331,7 @@ h_proc_t hwapi_process_new(struct hwapi_process_attr *attr, void *arg) {
 		HWAPI_SETERROR(HWAPI_ERROR_NOSPACE);
 		return NULL;
 	}
+	memset(&context->processes[i],0,sizeof(hwapi_process_t));
 	context->processes[i].pid=i+1;
 
 	hdebug("i=%d, pid=%d\n",context->processes[i].pid);
@@ -311,6 +339,7 @@ h_proc_t hwapi_process_new(struct hwapi_process_attr *attr, void *arg) {
 	memcpy(&context->processes[i].attributes, attr,
 			sizeof(struct hwapi_process_attr));
 	context->processes[i].arg = arg;
+	context->processes[i].finish_code = FINISH_OK;
 
 	if (pipeline_add(&context->pipelines[attr->pipeline_id],
 			&context->processes[i]) == -1) {

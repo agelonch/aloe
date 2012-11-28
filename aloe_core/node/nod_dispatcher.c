@@ -56,7 +56,14 @@ static int nod_dispatcher_load(packet_t *pkt) {
 		nod_waveform_remove(&anode.loaded_waveforms[i]);
 		return -1;
 	}
-	anode.loaded_waveforms[i].status.cur_status = LOADED;
+	waveform_status_t status;
+	status.cur_status = LOADED;
+	status.next_timeslot = hwapi_time_slot();
+	status.dead_timeslot = hwapi_time_slot()+LOAD_TSLOT_DEAD;
+	if (nod_waveform_status_new(&anode.loaded_waveforms[i],&status)) {
+		aerror("loading waveform\n");
+		return -1;
+	}
 	return 0;
 }
 /**

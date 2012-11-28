@@ -34,9 +34,12 @@ typedef enum {
 	FINISH_OK, RTFAULT, SIG_RECV, RUNERROR
 }hwapi_processerrors_t;
 
+void hwapi_machine(hwapi_machine_t *machine);
+
 int hwapi_start_manager_interfaces(string config_file);
 
-int hwapi_sleep(int wake_tslot);
+int hwapi_sleep_to(int wake_tslot);
+int hwapi_sleep(int nof_slots);
 
 int hwapi_periodic_add(void (*fnc)(void), int period);
 int hwapi_periodic_remove(void (*fnc)(void));
@@ -49,10 +52,14 @@ h_proc_t hwapi_process_new(struct hwapi_process_attr *attr, void *arg);
 int hwapi_process_remove(h_proc_t proc);
 int hwapi_process_pid(h_proc_t proc);
 int hwapi_process_run(h_proc_t proc);
+int hwapi_process_stop(h_proc_t process);
 int hwapi_process_seterror(h_proc_t proc, hwapi_processerrors_t code);
+hwapi_processerrors_t hwapi_process_geterror(h_proc_t proc);
 
-int hwapi_task_new(void *(*fnc)(void*), void* arg);
-int hwapi_task_new_prio(void *(*fnc)(void*), void* arg, int prio, int cpu);
+int hwapi_task_new(h_task_t *task, void *(*fnc)(void*), void* arg);
+int hwapi_task_new_prio(h_task_t *task, void *(*fnc)(void*), void* arg, int prio, int cpu);
+int hwapi_task_kill(h_task_t task);
+int hwapi_task_wait(h_task_t task, void **retval);
 
 int hwapi_time_set(time_t *time);
 int hwapi_time_get(time_t *time);

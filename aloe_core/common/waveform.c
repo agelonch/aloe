@@ -81,6 +81,7 @@ int module_alloc(module_t *module, int nof_inputs, int nof_outputs, int nof_vari
  *
  */
 int module_free(module_t *module) {
+	int i;
 	mdebug("module_id=%d\n",module->id);
 	if (!module) return -1;
 	if (module->inputs) {
@@ -92,6 +93,11 @@ int module_free(module_t *module) {
 		module->outputs = NULL;
 	}
 	if (module->variables) {
+		for (i=0;i<module->nof_variables;i++) {
+			if (variable_free(&module->variables[i])) {
+				return -1;
+			}
+		}
 		if (pool_free(module->variables)) return -1;
 		module->variables = NULL;
 	}

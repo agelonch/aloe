@@ -53,10 +53,16 @@ int generate_model(mapping_t *m) {
 }
 
 /** USES MANAPI_ERROR to describe any mapping error */
-int call_algorithm(mapping_t *m, int nof_modules) {
+int call_algorithm(mapping_t *m, waveform_t *waveform, man_platform_t *platform) {
 	int i;
-	for (i=0;i<nof_modules;i++) {
-		m->p_res[i]=0;
+	if (waveform->nof_modules == platform->nof_processors) {
+		for (i=0;i<waveform->nof_modules;i++) {
+			m->p_res[i]=i;
+		}
+	} else {
+		for (i=0;i<waveform->nof_modules;i++) {
+			m->p_res[i]=0;
+		}
 	}
 	return 0;
 }
@@ -89,11 +95,16 @@ int mapping_map(mapping_t *m, waveform_t *waveform) {
 	if (generate_model(m)) {
 		goto free;
 	}
-	if (call_algorithm(m,waveform->nof_modules)) {
+	if (call_algorithm(m,waveform, platform)) {
 		goto free;
 	}
 	memset(m->modules_x_node,0,sizeof(int)*MAX(processors));
 	for (i=0;i<waveform->nof_modules;i++) {
+		if (m->p_res[i] >= platform->nof_processors) {
+			aerror_msg("Module %d mapped to processor %d, but platform has %d processors only\n",
+					i,m->p_res[i]+1,platform->nof_processors);
+			goto free;
+		}
 		man_processor_t *p = (man_processor_t*) platform->processors[m->p_res[i]];
 		waveform->modules[i].node = p->node;
 		waveform->modules[i].processor_idx = p->idx_in_node;
