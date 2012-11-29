@@ -70,9 +70,6 @@ nod_module_t *swapi_get_module(void *context) {
 char *swapi_module_name(void *context) {
 	cast_p(ctx,context);
 	nod_module_t *module = (nod_module_t*) ctx->module;
-	sdebug("context=0x%x, module_id=%d, module_name=0x%x\n",context,module->parent.id,
-			module->parent.name);
-
 	return module->parent.name;
 }
 
@@ -94,7 +91,6 @@ int swapi_module_id(void *context) {
  */
 int swapi_tstamp(void *context) {
 	cast(ctx,context);
-	sdebug("context=0x%x, tstamp=%d\n",context,ctx->tstamp);
 	return ctx->tstamp;
 }
 
@@ -115,6 +111,7 @@ int swapi_tstamp(void *context) {
 counter_t swapi_counter_create(void *context, string name) {
 	sdebug("context=0x%x, name=%s\n",context,name);
 	cast_p(ctx,context);
+	SWAPI_ASSERT_PARAM_P(name);
 	int i;
 
 	i=0;
@@ -133,13 +130,15 @@ counter_t swapi_counter_create(void *context, string name) {
 	}
 }
 
-/** \brief Returns a pointer to the first empty log. Before returning, it fills the
- * log name with the second parameter string and sets the id to a positive integer.
+/** \brief Returns a log handler used by the module to read/write logs. Find an empty log in
+ * the logs array and initializes it usign swapi_log_init(). The returned handler (if non-null)
+ * is then passed as the first parameter to the functions swapi_log_write() or swapi_log_printf().
  * \returns NULL on error or non-null on success.
  */
 log_t swapi_log_create(void *context, string name) {
 	sdebug("context=0x%x, name=%s\n",context,name);
 	cast_p(ctx,context);
+	SWAPI_ASSERT_PARAM_P(name);
 	int i;
 
 	i=0;
@@ -152,10 +151,10 @@ log_t swapi_log_create(void *context, string name) {
 	sdebug("log_pos=%d\n",i);
 	if (swapi_log_init(ctx, &ctx->logs[i], name)) {
 		return NULL;
-	} else {
-		ctx->logs[i].id = i+1;
-		return (log_t) &ctx->logs[i];
 	}
+	ctx->logs[i].id = i+1;
+	return (log_t) &ctx->logs[i];
+
 }
 
 /**
@@ -174,7 +173,7 @@ int report_variable(variable_t variable) {
  * this is done by the same function that allocated them, that is, the nod_waveform_unserializeTo().
  */
 int swapi_exit(void *context) {
-	swapi_context_t *ctx = (swapi_context_t*) context;
+	cast(ctx,context);
 	nod_module_t *module = (nod_module_t*) ctx->module;
 	sdebug("module_id=%d, cur_status=%d\n",module->parent.id, module->parent.status);
 	if (!module->process) {

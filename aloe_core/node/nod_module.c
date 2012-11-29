@@ -35,7 +35,11 @@ int nod_module_alloc(nod_module_t *module) {
 	if (!module->context) {
 		return -1;
 	}
-	ndebug("module_id=%d, addr=0x%x, context=0x%x\n",module->parent.id,module,module->context);
+
+	if (swapi_context_init(module->context, module)) {
+		return -1;
+	}
+
 	return 0;
 }
 
@@ -85,7 +89,7 @@ void *nod_module_finish_callback(void *context) {
 				aerror("run\n");
 			}
 		} else {
-			if (nod_waveform_stop(waveform,module)) {
+			if (nod_waveform_stop(waveform)) {
 				aerror("stopping waveform\n");
 			}
 		}
@@ -106,10 +110,6 @@ int nod_module_load(nod_module_t *module) {
 			module->context);
 	aassert(module);
 	struct hwapi_process_attr attr;
-
-	if (swapi_context_init(module->context, module)) {
-		return -1;
-	}
 
 	memset(&attr, 0, sizeof(struct hwapi_process_attr));
 	strcpy(attr.binary_path,module->parent.binary);
@@ -211,10 +211,9 @@ int nod_module_status_ok(nod_module_t *module, waveform_status_enum w_status) {
 variable_t* nod_module_variable_get(nod_module_t *module, string name) {
 	ndebug("module_id=%d, nof_variables=%d, name=%s\n",module->parent.id,
 			module->parent.nof_variables, name);
+	aassert_p(module);
+	aassert_p(name);
 	int i;
-	if (!module || !name) {
-		return NULL;
-	}
 	i=0;
 	while(i < module->parent.nof_variables && strcmp(name,module->parent.variables[i].name))
 		i++;

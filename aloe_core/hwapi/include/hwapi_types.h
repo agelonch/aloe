@@ -45,7 +45,7 @@ struct hwapi_process_attr {
 typedef struct {
 	int len;
 	void *data;
-}pkt_t;
+}h_pkt_t;
 
 struct h_itf_ {
 	int id;

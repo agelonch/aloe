@@ -1,0 +1,104 @@
+/* 
+ * Copyright (c) 2012, Ismael Gomez-Miguelez <ismael.gomez@tsc.upc.edu>.
+ * This file is part of ALOE++ (http://flexnets.upc.edu/)
+ * 
+ * ALOE++ is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * ALOE++ is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.
+ * 
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with ALOE++.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+#ifndef SKELETON_H
+#define SKELETON_H
+
+#include <assert.h>
+#include <stdio.h>
+
+#define USE_LOG 0
+#define MOD_DEBUG 1
+
+
+
+#ifdef _COMPILE_MEX_INCLUDE
+#include "mex.h"
+#endif
+
+
+int get_input_samples(int idx);
+void set_output_samples(int idx, int len);
+int get_input_max_samples();
+int get_output_max_samples();
+
+/* in aloe<2, these functions are defined in modulename.h */
+#if ALOE_VERSION < 2
+
+int initialize();
+
+#else
+
+int work(void **input, void **output);
+int initialize();
+
+#endif
+
+#define in(ptr,idx) &ptr[idx*INPUT_MAX_DATA]
+#define out(ptr,idx) &ptr[idx*OUTPUT_MAX_DATA]
+
+#ifdef _COMPILE_ALOE
+extern void *context;
+extern log_t mlog;
+#define INTERFACE_CONFIG
+#endif
+
+/* Info and error messages print */
+#define INFOSTR "[info at "
+#define ERRSTR "[error at "
+
+#ifdef _COMPILE_ALOE
+#define WHERESTR  "%s, line %d]: "
+#define WHEREARG  swapi_module_name(context), __LINE__
+#else
+#define WHERESTR  "file %s, line %d]: "
+#define WHEREARG  __FILE__, __LINE__
+#endif
+
+#define DEBUGPRINT2(out,...)       do {fprintf(out, __VA_ARGS__)
+
+#ifdef _COMPILE_MEX
+#undef DEBUGPRINT2
+#define DEBUGPRINT2(out,...)       mexPrintf(__VA_ARGS__)
+#endif
+
+#ifdef _COMPILE_ALOE
+#undef DEBUGPRINT2
+#define DEBUGPRINT2(out,...)       do {if (mlog && USE_LOG) { swapi_log_printf(mlog,__VA_ARGS__); }\
+					else {fprintf(out, __VA_ARGS__); } } while(0)
+#endif
+
+
+#define aerror_msg(_fmt, ...)  DEBUGPRINT2(stderr,ERRSTR WHERESTR _fmt, WHEREARG, __VA_ARGS__)
+#define aerror(a)  DEBUGPRINT2(stderr, ERRSTR WHERESTR a, WHEREARG)
+
+#define ainfo(a) DEBUGPRINT2(stdout, INFOSTR WHERESTR a, WHEREARG)
+#define ainfo_msg(_fmt, ...)  DEBUGPRINT2(stdout,INFOSTR WHERESTR _fmt, WHEREARG, __VA_ARGS__)
+
+#define modinfo 		ainfo
+#define modinfo_msg 	ainfo_msg
+#define moderror 		aerror
+#define moderror_msg 	aerror_msg
+
+#define moddebug(_fmt, ...) \
+	do { if (MOD_DEBUG) printf("[mod_debug-%s]\t[%s()]: " _fmt, swapi_module_name(context),__func__,\
+			__VA_ARGS__);} while(0);
+
+
+#endif
+

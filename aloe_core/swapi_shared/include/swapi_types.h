@@ -20,9 +20,23 @@
 #ifndef SWAPI_TYPES_H_
 #define SWAPI_TYPES_H_
 
+#define SWAPI_ERROR_INVAL 	1
+#define SWAPI_ERROR_HWAPI 	2
+#define SWAPI_ERROR_OTHER 	3
+#define SWAPI_ERROR_NOSPACE 	4
+#define SWAPI_ERROR_LARGE 	5
+#define SWAPI_ERROR_NOTFOUND 	6
+#define SWAPI_ERROR_NOTREADY 	6
+
 typedef enum {
-	READ, WRITE
+	ITF_READ, ITF_WRITE
 }swapi_itf_mode_t;
+
+/** must be exactly the same than h_pkt_t in hwapi_types.h */
+typedef struct {
+	int len;
+	void *data;
+}pkt_t;
 
 struct _s_itf {
 	int id;

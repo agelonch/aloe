@@ -49,10 +49,12 @@ static int nod_dispatcher_load(packet_t *pkt) {
 		return -1;
 	}
 	if (nod_waveform_load(&anode.loaded_waveforms[i])) {
+		ndebug("error loading waveform_idx=%d. Removing\n",i);
 		nod_waveform_remove(&anode.loaded_waveforms[i]);
 		return -1;
 	}
 	if (nod_waveform_run(&anode.loaded_waveforms[i])) {
+		ndebug("error running waveform_idx=%d. Removing\n",i);
 		nod_waveform_remove(&anode.loaded_waveforms[i]);
 		return -1;
 	}

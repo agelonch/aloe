@@ -54,17 +54,17 @@ int hwapi_itf_get_blocking(h_itf_t obj) {
 	call(get_blocking,obj);
 }
 
-pkt_t* hwapi_itf_request_pkt(h_itf_t obj) {
+h_pkt_t* hwapi_itf_request_pkt(h_itf_t obj) {
 	hdebug("type=%s, obj=0x%x\n",obj->is_external?"external":"internal",obj);
 	call(request_pkt,obj);
 }
 
-int hwapi_itf_release_pkt(h_itf_t obj, pkt_t* pkt) {
+int hwapi_itf_release_pkt(h_itf_t obj, h_pkt_t* pkt) {
 	hdebug("type=%s, obj=0x%x, pkt=0x%x\n",obj->is_external?"external":"internal",obj,pkt);
 	call(release_pkt,obj,pkt);
 }
 
-int hwapi_itf_put_pkt(h_itf_t obj, pkt_t* pkt) {
+int hwapi_itf_put_pkt(h_itf_t obj, h_pkt_t* pkt) {
 	hdebug("type=%s, obj=0x%x, pkt=0x%x\n",obj->is_external?"external":"internal",obj,pkt);
 	call(put_pkt,obj,pkt);
 }
@@ -85,7 +85,7 @@ int hwapi_itf_get_delay(h_itf_t obj) {
 	call(get_delay,obj);
 }
 
-pkt_t* hwapi_itf_get_pkt(h_itf_t obj) {
+h_pkt_t* hwapi_itf_get_pkt(h_itf_t obj) {
 	hdebug("type=%s, obj=0x%x\n",obj->is_external?"external":"internal",obj);
 	call(get_pkt,obj);
 }

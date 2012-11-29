@@ -111,8 +111,8 @@ inline static void pipeline_run_time_slot(pipeline_t *obj) {
 	idx = 0;
 
 	while(run_proc) {
-		hdebug("%d/%d: run=%d code=%d\n",idx,obj->nof_processes,run_proc->runnable,
-				run_proc->finish_code);
+		hdebug("%d/%d: run=%d code=%d next=0x%x\n",idx,obj->nof_processes,run_proc->runnable,
+				run_proc->finish_code,run_proc->next);
 		if (idx > obj->nof_processes) {
 			aerror_msg("Fatal error. Corrupted pipeline-%d process list at process %d\n",
 					obj->id, idx);
@@ -219,42 +219,42 @@ int pipeline_rt_fault(pipeline_t *obj) {
  *  inserted, or -1 on error.
  */
 int pipeline_add(pipeline_t *obj, hwapi_process_t *process) {
-	hdebug("pipeid=%d, nof_process=%d, pid=%d, pid_pos=%d\n",obj->id,obj->nof_processes,
+	hdebug("pipeid=%d, nof_process=%d, pid=%d, exec_pos=%d\n",obj->id,obj->nof_processes,
 			process->pid,process->attributes.exec_position);
 	HWAPI_ASSERT_PARAM(obj);
 	HWAPI_ASSERT_PARAM(process);
-	int i, obj_pos;
-	hwapi_process_t *cur, *prev = NULL;;
+	int exec_pos, i;
+	hwapi_process_t *p = NULL;
 
-	obj_pos = process->attributes.exec_position;
+	exec_pos = process->attributes.exec_position;
 
-	i = 0;
-	cur = obj->first_process;
-	if (!cur) {
-		hdebug("pipeid=%d, obj->first_process=NULL\n", obj->id);
+	/* head because empty list */
+	if (!obj->first_process) {
+		hdebug("pipeid=%d add pid=%d to head\n", obj->id, process->pid);
 		obj->first_process = process;
 		process->next = NULL;
-	} else {
-		while(cur && i<=obj_pos) {
-			prev = cur;
-			cur = cur->next;
-			i++;
-			hdebug("pipeid=%d, i=%d obj_pos=%d, prev=0x%x, cur=0x%x\n", obj->id,
-					i,obj_pos,prev,cur);
-		}
-		if (cur) {
-			hdebug("pipeid=%d inserting middle i=%d\n",obj->id,i);
-			process->next = cur->next;
-		} else {
-			hdebug("pipeid=%d inserting end i=%d\n",obj->id,i);
-			process->next = NULL;
-		}
-		/* should be not null */
-		assert(prev);
-		prev->next = process;
-
+		goto end;
 	}
+	/* head because first exec position */
+	if (exec_pos < obj->first_process->attributes.exec_position) {
+		hdebug("pipeid=%d add pid=%d to head\n", obj->id, process->pid);
+		process->next = obj->first_process;
+		obj->first_process = process;
+		goto end;
+	}
+	/* middle */
+	i=0;
+	p = obj->first_process;
+	while(p->next && exec_pos < p->next->attributes.exec_position) {
+		p=p->next;
+		i++;
+	}
+	process->next = p->next;
+	p->next = process;
 
+	hdebug("pipeid=%d, add pid=%d to pos=%d\n", obj->id, process->pid,i);
+
+end:
 	obj->nof_processes++;
 	/* assign pipeline to object */
 	process->pipeline = obj;

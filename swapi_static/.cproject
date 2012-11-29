@@ -6,8 +6,11 @@
 				<externalSettings>
 					<externalSetting>
 						<entry flags="VALUE_WORKSPACE_PATH" kind="includePath" name="/swapi_static"/>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="includePath" name="/swapi"/>
 						<entry flags="VALUE_WORKSPACE_PATH" kind="libraryPath" name="/swapi_static/Debug"/>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="libraryPath" name="/swapi/Debug"/>
 						<entry flags="RESOLVED" kind="libraryFile" name="swapi_static" srcPrefixMapping="" srcRootPath=""/>
+						<entry flags="RESOLVED" kind="libraryFile" name="swapi" srcPrefixMapping="" srcRootPath=""/>
 					</externalSetting>
 				</externalSettings>
 				<extensions>
@@ -33,18 +36,20 @@
 								<option defaultValue="gnu.c.optimization.level.none" id="gnu.c.compiler.lib.debug.option.optimization.level.1506416593" name="Optimization Level" superClass="gnu.c.compiler.lib.debug.option.optimization.level" valueType="enumerated"/>
 								<option id="gnu.c.compiler.lib.debug.option.debugging.level.153641950" name="Debug Level" superClass="gnu.c.compiler.lib.debug.option.debugging.level" value="gnu.c.debugging.level.max" valueType="enumerated"/>
 								<option id="gnu.c.compiler.option.include.paths.337572609" name="Include paths (-I)" superClass="gnu.c.compiler.option.include.paths" valueType="includePath">
-									<listOptionValue builtIn="false" value="../../aloe_core/hwapi/include"/>
-									<listOptionValue builtIn="false" value="../../aloe_core/swapi_shared/include"/>
-									<listOptionValue builtIn="false" value="../../aloe_core/swapi_shared/"/>
-									<listOptionValue builtIn="false" value="/usr/include"/>
 									<listOptionValue builtIn="false" value="../../aloe_core/common/include"/>
+									<listOptionValue builtIn="false" value="/usr/lib/gcc/i686-linux-gnu/4.7/include/"/>
+									<listOptionValue builtIn="false" value="../include/"/>
+									<listOptionValue builtIn="false" value="/usr/include/"/>
+									<listOptionValue builtIn="false" value="../../aloe_core/swapi_shared"/>
 									<listOptionValue builtIn="false" value="../../aloe_core/node/include"/>
+									<listOptionValue builtIn="false" value="../../aloe_core/swapi_shared/include"/>
+									<listOptionValue builtIn="false" value="../../aloe_core/hwapi/include"/>
 								</option>
 								<option id="gnu.c.compiler.option.preprocessor.def.symbols.1484455150" name="Defined symbols (-D)" superClass="gnu.c.compiler.option.preprocessor.def.symbols" valueType="definedSymbols">
 									<listOptionValue builtIn="false" value="_GNU_SOURCE"/>
 								</option>
 								<option id="gnu.c.compiler.option.misc.pic.1544960678" name="Position Independent Code (-fPIC)" superClass="gnu.c.compiler.option.misc.pic" value="true" valueType="boolean"/>
-								<option id="gnu.c.compiler.option.misc.other.1336769840" name="Other flags" superClass="gnu.c.compiler.option.misc.other" value="-c -fmessage-length=0 -Wl,--whole-archive" valueType="string"/>
+								<option id="gnu.c.compiler.option.misc.other.1336769840" name="Other flags" superClass="gnu.c.compiler.option.misc.other" value="-c -fmessage-length=0 -Wl,--whole-archive -Wno-format" valueType="string"/>
 								<inputType id="cdt.managedbuild.tool.gnu.c.compiler.input.950417435" superClass="cdt.managedbuild.tool.gnu.c.compiler.input"/>
 							</tool>
 							<tool id="cdt.managedbuild.tool.gnu.c.linker.base.171624637" name="GCC C Linker" superClass="cdt.managedbuild.tool.gnu.c.linker.base"/>
@@ -54,6 +59,11 @@
 							</tool>
 						</toolChain>
 					</folderInfo>
+					<sourceEntries>
+						<entry excluding="skeleton|skeleton.h|params.c|base|params.h|skeleton.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
+						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="base"/>
+						<entry excluding="old_skeleton.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="skeleton"/>
+					</sourceEntries>
 				</configuration>
 			</storageModule>
 			<storageModule moduleId="org.eclipse.cdt.core.externalSettings"/>
@@ -63,8 +73,11 @@
 				<externalSettings>
 					<externalSetting>
 						<entry flags="VALUE_WORKSPACE_PATH" kind="includePath" name="/swapi_static"/>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="includePath" name="/swapi"/>
 						<entry flags="VALUE_WORKSPACE_PATH" kind="libraryPath" name="/swapi_static/Release"/>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="libraryPath" name="/swapi/Release"/>
 						<entry flags="RESOLVED" kind="libraryFile" name="swapi_static" srcPrefixMapping="" srcRootPath=""/>
+						<entry flags="RESOLVED" kind="libraryFile" name="swapi" srcPrefixMapping="" srcRootPath=""/>
 					</externalSetting>
 				</externalSettings>
 				<extensions>
@@ -98,6 +111,11 @@
 							</tool>
 						</toolChain>
 					</folderInfo>
+					<sourceEntries>
+						<entry excluding="skeleton|skeleton.h|params.c|base|params.h|skeleton.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
+						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="base"/>
+						<entry excluding="old_skeleton.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="skeleton"/>
+					</sourceEntries>
 				</configuration>
 			</storageModule>
 			<storageModule moduleId="org.eclipse.cdt.core.externalSettings"/>

@@ -4,20 +4,20 @@
 
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS += \
-../swapi_static.c 
+../src/swapi_static.c 
 
 OBJS += \
-./swapi_static.o 
+./src/swapi_static.o 
 
 C_DEPS += \
-./swapi_static.d 
+./src/swapi_static.d 
 
 
 # Each subdirectory must supply rules for building sources it contributes
-%.o: ../%.c
+src/%.o: ../src/%.c
 	@echo 'Building file: $<'
 	@echo 'Invoking: GCC C Compiler'
-	gcc -D_GNU_SOURCE -I../../aloe_core/hwapi/include -I../../aloe_core/swapi_shared/include -I../../aloe_core/swapi_shared/ -I/usr/include -I../../aloe_core/common/include -I../../aloe_core/node/include -O0 -g3 -Wall -c -fmessage-length=0 -Wl,--whole-archive -fPIC -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -o "$@" "$<"
+	gcc -D_GNU_SOURCE -I../../aloe_core/common/include -I/usr/include/ -I../../aloe_core/swapi_shared -I../../aloe_core/node/include -I../../aloe_core/swapi_shared/include -I../../aloe_core/hwapi/include -O0 -g3 -Wall -c -fmessage-length=0 -Wl,--whole-archive -fPIC -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -o "$@" "$<"
 	@echo 'Finished building: $<'
 	@echo ' '
 

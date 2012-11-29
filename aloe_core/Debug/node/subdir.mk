@@ -8,7 +8,6 @@ C_SRCS += \
 ../node/nod_dispatcher.c \
 ../node/nod_module.c \
 ../node/nod_sync.c \
-../node/nod_variable.c \
 ../node/nod_waveform.c 
 
 OBJS += \
@@ -16,7 +15,6 @@ OBJS += \
 ./node/nod_dispatcher.o \
 ./node/nod_module.o \
 ./node/nod_sync.o \
-./node/nod_variable.o \
 ./node/nod_waveform.o 
 
 C_DEPS += \
@@ -24,7 +22,6 @@ C_DEPS += \
 ./node/nod_dispatcher.d \
 ./node/nod_module.d \
 ./node/nod_sync.d \
-./node/nod_variable.d \
 ./node/nod_waveform.d 
 
 

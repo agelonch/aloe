@@ -36,18 +36,14 @@ typedef struct {
 	int last_update_ts;
 } execinfo_t;
 
-typedef enum {
-	ITF_READ, ITF_WRITE
-}interface_mode_t;
-
 typedef struct {
+	int id;
 	int remote_port_idx;
 	int remote_module_id;
 	int physic_itf_id;
 	float total_mbpts;
 	float use_mbpts;
 	int delay;
-	int active;
 	h_itf_t hw_itf;
 } interface_t;
 

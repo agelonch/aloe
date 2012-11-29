@@ -11,8 +11,6 @@ int Init(void *context) {
 
 int Run(void *context) {
 	cnt++;
-	while(1)
-		cnt++;
 	printf("rx is in run\n");
 	return 0;
 }

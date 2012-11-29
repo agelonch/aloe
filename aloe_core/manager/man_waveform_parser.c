@@ -414,6 +414,7 @@ void check_interfaces(module_t *module) {
 				module->nof_outputs);
 	int i;
 	for (i=0;i<module->nof_inputs;i++) {
+		module->inputs[i].id = i;
 		if (!module->inputs[i].remote_module_id) {
 			aerror_msg("warning: module %s has %d input ports but port %d "
 					"has not been connected\n",module->name,module->nof_inputs,
@@ -421,6 +422,7 @@ void check_interfaces(module_t *module) {
 		}
 	}
 	for (i=0;i<module->nof_outputs;i++) {
+		module->outputs[i].id = module->nof_inputs+i;
 		if (!module->outputs[i].remote_module_id) {
 			aerror_msg("warning: module %s has %d output ports but port %d "
 					"has not been connected\n",module->name,module->nof_outputs,

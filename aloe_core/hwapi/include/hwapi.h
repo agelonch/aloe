@@ -85,10 +85,10 @@ int hwapi_itf_recv(h_itf_t obj, void* buffer, int len);
 int hwapi_itf_set_callback(h_itf_t obj, void (*fnc)(void), int prio);
 int hwapi_itf_set_blocking(h_itf_t obj, int block);
 int hwapi_itf_get_blocking(h_itf_t obj);
-pkt_t* hwapi_itf_request_pkt(h_itf_t obj);
-int hwapi_itf_put_pkt(h_itf_t obj, pkt_t* ptr);
-pkt_t* hwapi_itf_get_pkt(h_itf_t obj);
-int hwapi_itf_release_pkt(h_itf_t obj, pkt_t* ptr);
+h_pkt_t* hwapi_itf_request_pkt(h_itf_t obj);
+int hwapi_itf_put_pkt(h_itf_t obj, h_pkt_t* ptr);
+h_pkt_t* hwapi_itf_get_pkt(h_itf_t obj);
+int hwapi_itf_release_pkt(h_itf_t obj, h_pkt_t* ptr);
 int hwapi_itf_set_delay(h_itf_t obj, int delay);
 int hwapi_itf_get_delay(h_itf_t obj);
 

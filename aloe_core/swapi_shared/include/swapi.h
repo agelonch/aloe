@@ -21,7 +21,11 @@
 
 #include "swapi_types.h"
 
-#define SWAPI_ITF_DEFAULT_MSG (64*1024)
+#define SWAPI_ITF_DEFAULT_MSG 10
+
+#define swapi_perror(msg) swapi_error_print(context,""); aerror(msg)
+int swapi_error_code(void *ctx);
+void swapi_error_print(void *context, const char *user_message);
 
 int swapi_exit(void *context);
 int swapi_tstamp(void *context);
@@ -34,12 +38,12 @@ int swapi_itf_close(itf_t itf);
 int swapi_itf_write(itf_t itf, void* buffer, int size);
 int swapi_itf_read(itf_t itf, void* buffer, int size);
 int swapi_itf_status(itf_t itf);
-void *swapi_itf_ptr_request(itf_t itf);
-int swapi_itf_ptr_release(itf_t itf, void *ptr);
-int swapi_itf_ptr_put(itf_t itf, void *ptr, int len);
-void *swapi_itf_ptr_get(itf_t itf, int *len);
+pkt_t* swapi_itf_pkt_request(itf_t itf);
+int swapi_itf_pkt_release(itf_t itf, pkt_t *pkt);
+int swapi_itf_pkt_put(itf_t itf, pkt_t *pkt);
+pkt_t* swapi_itf_pkt_get(itf_t itf);
 
-var_t swapi_var_create(void *context, char* name, int size, void **ptr);
+var_t swapi_var_create(void *context, char* name, void *ptr, int size);
 int swapi_var_initialize(void *context, char* name, void* ptr, int size);
 int swapi_var_close(void *context, var_t var);
 
@@ -48,9 +52,9 @@ int swapi_counter_close(counter_t counter);
 int swapi_counter_start(counter_t counter);
 int swapi_counter_stop(counter_t counter);
 
-
 log_t swapi_log_create(void *context, char* name);
 int swapi_log_close(log_t log);
 int swapi_log_write(log_t log, char *str);
+int swapi_log_printf(log_t log, const char *fmt, ...);
 
 #endif

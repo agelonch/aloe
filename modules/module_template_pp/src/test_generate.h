@@ -16,16 +16,5 @@
  * along with ALOE++.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef SWAPI_STATIC_H
-#define SWAPI_STATIC_H
 
-int _run_cycle(void* context);
-
-/** Return 0 on success or -1 to stop the waveform */
-int Run(void *context);
-/** Return 1 on success, 0 to be called in the next timeslot or -1 to stop the waveform */
-int Init(void *context);
-/* Return 0 on success or -1 on error */
-int Stop(void *context);
-
-#endif
+int generate_input_signal(input_t *input, int *lengths);

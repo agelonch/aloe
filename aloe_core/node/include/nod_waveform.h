@@ -54,7 +54,8 @@ int nod_waveform_load(nod_waveform_t *waveform);
 int nod_waveform_run(nod_waveform_t *waveform);
 int nod_waveform_remove(nod_waveform_t *waveform);
 int nod_waveform_status_new(nod_waveform_t *waveform, waveform_status_t *new_status);
-int nod_waveform_stop(nod_waveform_t *waveform, nod_module_t *module);
+int nod_waveform_stop(nod_waveform_t *waveform);
+nod_module_t* nod_waveform_find_module_id(nod_waveform_t *w, int module_id);
 
 int nod_module_alloc(nod_module_t *module);
 int nod_module_load(nod_module_t *module);
@@ -62,6 +63,8 @@ int nod_module_run(nod_module_t *module);
 int nod_module_remove(nod_module_t *module);
 int nod_module_status_ok(nod_module_t *module, waveform_status_enum w_status);
 int nod_module_free(nod_module_t *module);
+void nod_module_kill_status_task(nod_module_t *module);
+
 variable_t* nod_module_variable_get(nod_module_t *module, string name);
 variable_t* nod_module_variable_create(nod_module_t *module, string name);
 

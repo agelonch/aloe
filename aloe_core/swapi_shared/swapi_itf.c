@@ -26,7 +26,6 @@
 #include "waveform.h"
 
 
-#define get_pkt(a,b) int *tmp = b; pkt_t *a = (pkt_t*) (tmp-1)
 
 /** \brief An interface is used by modules to exchange data packets (with samples) asynchronously.
  *
@@ -45,7 +44,7 @@
  * transmitter/receiver modules use the same hwapi interface to communicate each other. This interface
  * is created by the transmitter. The receiver then attaches to the same interface. Since the
  * order of creation is unknown, the interface might not yet be created by the transmitter. In this
- * case, the swapi_error_code is set to SWAPI_ERROR_NOTFOUND and the transmitter may try to call
+ * case, the swapi_error_code is set to SWAPI_ERROR_NOTREADY and the transmitter may try to call
  * again the swapi_itf_create() function in the next timeslot.
  *
  * \param context Pointer to the swapi context
@@ -68,15 +67,16 @@ itf_t swapi_itf_create(void *context, int port_idx, swapi_itf_mode_t mode,
 
 	SWAPI_ASSERT_PARAM_P(module);
 	SWAPI_ASSERT_PARAM_P(port_idx>=0);
-	sdebug("physic itf=%d\n",nod_itf->physic_itf_id);
 
-	if (mode == WRITE) {
+	if (mode == ITF_WRITE) {
 		SWAPI_ASSERT_PARAM_P(port_idx < module->parent.nof_outputs);
 		nod_itf = &module->parent.outputs[port_idx];
 	} else {
 		SWAPI_ASSERT_PARAM_P(port_idx < module->parent.nof_inputs);
 		nod_itf = &module->parent.inputs[port_idx];
 	}
+
+	sdebug("physic itf=%d\n",nod_itf->physic_itf_id);
 
 	if (nod_itf->physic_itf_id != 0) {
 		/* is external */
@@ -86,25 +86,38 @@ itf_t swapi_itf_create(void *context, int port_idx, swapi_itf_mode_t mode,
 		}
 	} else {
 		/* is internal */
-		if (mode == WRITE) {
+		if (mode == ITF_WRITE) {
 			hwapi_itf = (h_itf_t) hwapi_itfqueue_new(SWAPI_ITF_DEFAULT_MSG,
 					size);
+			if (!hwapi_itf) {
+				SWAPI_HWERROR("hwapi_itfqueue");
+				return NULL;
+			}
 		} else {
-			waveform_t *waveform = module->parent.waveform;
-			module_t *remote = waveform_find_module_id(waveform, nod_itf->remote_module_id);
+			sdebug("remote_id=%d, remote_idx=%d\n",nod_itf->remote_module_id,
+					nod_itf->remote_port_idx);
+			nod_waveform_t *waveform = module->parent.waveform;
+			nod_module_t *remote = nod_waveform_find_module_id(waveform,
+					nod_itf->remote_module_id);
 			if (!remote) {
 				SWAPI_SETERROR(SWAPI_ERROR_NOTFOUND);
 				return NULL;
 			}
-			hwapi_itf = remote->outputs[nod_itf->remote_port_idx].hw_itf;
-		}
-		if (!hwapi_itf) {
-			SWAPI_HWERROR("hwapi_itfqueue");
-			return NULL;
+			sdebug("remote found\n",0);
+			if (nod_itf->remote_port_idx > remote->parent.nof_outputs) {
+				SWAPI_SETERROR(SWAPI_ERROR_NOTFOUND);
+				return NULL;
+			}
+			sdebug("valid\n",0);
+			hwapi_itf = remote->parent.outputs[nod_itf->remote_port_idx].hw_itf;
+			if (!hwapi_itf) {
+				SWAPI_SETERROR(SWAPI_ERROR_NOTREADY);
+				return NULL;
+			}
 		}
 	}
 	nod_itf->hw_itf = hwapi_itf;
-	sdebug("itf_addr=0x%x\n",nod_itf);
+	sdebug("module_id=%d hitf=0x%x\n",module->parent.id,hwapi_itf);
 
 	return (itf_t) nod_itf;
 }
@@ -120,8 +133,8 @@ itf_t swapi_itf_create(void *context, int port_idx, swapi_itf_mode_t mode,
  *
  */
 int swapi_itf_close(itf_t itf) {
-	sdebug("itf_addr=0x%x\n",itf);
 	aassert(itf);
+	sdebug("itf_id=%d\n",itf->id);
 	interface_t *x = (interface_t*) itf;
 	return hwapi_itf_remove(x->hw_itf);
 }
@@ -138,14 +151,12 @@ int swapi_itf_close(itf_t itf) {
  * \param buffer Pointer to the memory to copy to the interface
  * \param size Number of bytes to copy
  *
- * \return The number of bytes send on success. If no bytes have been sent because the interface
- * is full, zero is returned, otherwise a positive number is returned. The function returns -1
- * on error.
+ * \return 1 if all the packet was sent, 0 if the packet was not sent or -1 on error.
  *
  */
 int swapi_itf_write(itf_t itf, void* buffer, int size) {
-	sdebug("addr=0x%x, buffer=0x%x, size=%d\n",itf, buffer,size);
 	aassert(itf);
+	sdebug("itf_id=%d, buffer=0x%x, size=%d\n",itf->id, buffer,size);
 	aassert(buffer);
 	aassert(size>=0);
 	interface_t *x = (interface_t*) itf;
@@ -166,8 +177,8 @@ int swapi_itf_write(itf_t itf, void* buffer, int size) {
  * or -1 on error
  */
 int swapi_itf_read(itf_t itf, void* buffer, int size) {
-	sdebug("addr=0x%x, buffer=0x%x, size=%d\n",itf, buffer,size);
 	aassert(itf);
+	sdebug("itf_id=%d, buffer=0x%x, size=%d\n",itf->id, buffer,size);
 	aassert(buffer);
 	aassert(size>=0);
 	interface_t *x = (interface_t*) itf;
@@ -194,37 +205,43 @@ int swapi_itf_status(itf_t itf) {
  *
  * See swapi_itf_create() for an introduction to swapi interfaces.
  *
- * The family of swapi_itf_ptr_* functions may be used for more efficient interface usage, since they
- * allow zero-copy packet communication. A call to swapi_itf_pkt_request() returns a pointer where the
- * user stores the samples to send to the transmitter. The size of this buffer equals the parameter
- * size passed to the swapi_itf_create() function. The user MUST ensure that no more than this size
- * is written to the buffer, otherwise the result is unexpected.
+ * The family of swapi_itf_ptr_* functions may be used for more efficient interface usage: they are designed
+ * for zero-copy packet communication. A call to swapi_itf_pkt_request() returns a pointer to a structure
+ * of type pkt_t:
  *
- * A successive call to swapi_itf_ptr_put() sends the pointer to the receiver without copying the
+ * typedef struct {
+ * 	int len;
+ * 	void *data;
+ * }pkt_t;
+ *
+ * where len indicates the packet length and data is a pointer to the packet buffer. The size of this
+ * buffer equals the parameter size passed to the swapi_itf_create() function.
+ * The user should not read/write more data from/to this buffer, otherwise the result is unexpected.
+ *
+ * ALOE uses the field len when the interface opposite side uses the functions swapi_itf_read/write.
+ * Then len should be equal to the number of useful bytes in the packet. If all modules in the waveform
+ * use the family of functions swapi_itf_pkt_* then len can have another meaning, like bits/bytes/words
+ * as soon as the transmitter and receiver agree.
+ *
+ * A successive call to swapi_itf_ptr_put() sends the packet to the receiver without copying the
  * buffer contents. The receiver will read the samples from the same buffer. Therefore, after a call
- * to swapi_itf_ptr_put() the transmitter can NOT use the buffer and may request another using
+ * to swapi_itf_ptr_put() the transmitter can NOT use the buffer and may request another packet using
  * swapi_itf_ptr_request().
  *
- * The receiver uses swapi_itf_ptr_get() to receive a buffer (if any pending in the interface).
- * After it has processed all the samples, a call to swapi_itf_ptr_release() releases the buffer,
- * which enables being used by a future call to swapi_itf_ptr_request().
+ * The receiver uses swapi_itf_ptr_get() to receive the packet (if any pending in the interface).
+ * After it has processed all the samples, a call to swapi_itf_ptr_release() releases the packet,
+ * which enables to reuse the buffer in a future call to swapi_itf_ptr_request().
  *
  * \param itf Handler returned by the swapi_itf_create() function.
- *
- * \return A non-null pointer to a buffer of size the parameter passed to swapi_itf_create() on
- * success, or a null pointer on error.
+
+ * \return A non-null pkt_t pointer on success or null on error.
  *
  */
-void* swapi_itf_ptr_request(itf_t itf) {
-	sdebug("addr=0x%x\n",itf);
+pkt_t* swapi_itf_pkt_request(itf_t itf) {
 	aassert_p(itf);
+	sdebug("itf_id=%d\n",itf->id);
 	interface_t *x = (interface_t*) itf;
-	pkt_t *pkt = hwapi_itf_request_pkt(x->hw_itf);
-	if (!pkt) {
-		return NULL;
-	}
-	sdebug("pkt=0x%x, data=0x%x\n",pkt,pkt->data);
-	return pkt->data;
+	return (pkt_t*) hwapi_itf_request_pkt(x->hw_itf);
 }
 
 
@@ -237,16 +254,15 @@ void* swapi_itf_ptr_request(itf_t itf) {
  *
  * \param itf Handler returned by the swapi_itf_create() function.
  *
- * \return Zero on success, or -1 on error.
+ * \return 1 on success, 0 if the packet could not be released, or -1 on error.
  *
  */
-int swapi_itf_ptr_release(itf_t itf, void* ptr) {
+int swapi_itf_pkt_release(itf_t itf, pkt_t *pkt) {
 	aassert(itf);
-	aassert(ptr);
+	sdebug("itf_id=%d, pkt=0x%x\n",itf->id, pkt);
+	aassert(pkt);
 	interface_t *x = (interface_t*) itf;
-	get_pkt(pkt,ptr);
-	sdebug("addr=0x%x, ptr=0x%x, pkt=0x%x, data=0x%x\n",itf, ptr,pkt,pkt->data);
-	return hwapi_itf_release_pkt(x->hw_itf, pkt);
+	return hwapi_itf_release_pkt(x->hw_itf, (h_pkt_t*) pkt);
 }
 
 
@@ -260,17 +276,15 @@ int swapi_itf_ptr_release(itf_t itf, void* ptr) {
  * \param ptr Pointer returned by swapi_itf_ptr_new()
  * \param size Number of bytes to send (and have been written to the buffer)
  *
- * \return Zero on success, or -1 on error.
+ * \return 1 on success, 0 if the packet could not be sent or -1 on error.
  *
  */
-int swapi_itf_ptr_put(itf_t itf, void* ptr, int len) {
+int swapi_itf_pkt_put(itf_t itf, pkt_t *pkt) {
 	aassert(itf);
-	aassert(ptr);
-	aassert(len>=0);
+	sdebug("itf_id=%d, pkt=0x%x\n",itf->id, pkt);
+	aassert(pkt);
 	interface_t *x = (interface_t*) itf;
-	get_pkt(pkt,ptr);
-	sdebug("addr=0x%x, ptr=0x%x, len=%d, pkt=0x%x, data=0x%x\n",itf, ptr, len, pkt,pkt->data);
-	return hwapi_itf_put_pkt(x->hw_itf, pkt);
+	return hwapi_itf_put_pkt(x->hw_itf, (h_pkt_t*) pkt);
 }
 
 
@@ -284,20 +298,12 @@ int swapi_itf_ptr_put(itf_t itf, void* ptr, int len) {
  * \param len The function stores in the integer pointed by len the length of the received packet,
  * in bytes (or number of bytes that should be read from the buffer)
  *
- * \return A non-null pointer to the received buffer or null if there is any packet pending or an
- * error
+ * \return A non-null pkt_t pointer on success or null on error.
  *
  */
-void* swapi_itf_ptr_get(itf_t itf, int *len) {
+pkt_t* swapi_itf_pkt_get(itf_t itf) {
 	aassert_p(itf);
-	aassert_p(len);
+	sdebug("itf_id=%d\n",itf->id);
 	interface_t *x = (interface_t*) itf;
-	pkt_t *pkt = hwapi_itf_get_pkt(x->hw_itf);
-	if (!pkt) {
-		/**@FIXME: distinguish between error and no packet pending */
-		return NULL;
-	}
-	sdebug("addr=0x%x, pkt=0x%x, len=%d, data=0x%x\n",itf, pkt,pkt->len, pkt->data);
-	*len = pkt->len;
-	return pkt->data;
+	return (pkt_t*) hwapi_itf_get_pkt(x->hw_itf);
 }

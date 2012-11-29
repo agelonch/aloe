@@ -17,7 +17,7 @@
  */
 
 /* debug hwapi */
-#define DEBUG_HWAPI 1
+#define DEBUG_HWAPI 0
 #define hdebug(_fmt, ...) \
 	do { if (DEBUG_HWAPI) printf("[debug-hwapi]\t[%s()]: " _fmt, __func__,__VA_ARGS__);} while(0);
 
@@ -39,7 +39,7 @@
 	do { if (DEBUG_SER) printf("[debug-serial]\t[%s()]: " _fmt, __func__,__VA_ARGS__);} while(0);
 
 /* debug manager */
-#define DEBUG_MAN 1
+#define DEBUG_MAN 0
 #define mdebug(_fmt, ...) \
 	do { if (DEBUG_MAN) printf("[debug-manager]\t[%s()]: " _fmt, __func__,__VA_ARGS__);} while(0);
 
@@ -54,7 +54,7 @@
 	do { if (DEBUG_NODE) printf("[debug-node]\t[%s()]: " _fmt, __func__,__VA_ARGS__);} while(0);
 
 /* debug swapi */
-#define DEBUG_SWAPI 0
+#define DEBUG_SWAPI 1
 #define sdebug(_fmt, ...) \
 	do { if (DEBUG_SWAPI) printf("[debug-swapi]\t[%s()]: " _fmt, __func__,__VA_ARGS__);} while(0);
 

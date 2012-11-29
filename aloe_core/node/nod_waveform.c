@@ -116,9 +116,9 @@ static int nod_waveform_force_stop(nod_waveform_t *waveform) {
 
 /** \brief uses nod_waveform_status_new() to set the status STOP
  */
-int nod_waveform_stop(nod_waveform_t *waveform, nod_module_t *module) {
+int nod_waveform_stop(nod_waveform_t *waveform) {
 	aassert(waveform);
-	ndebug("waveform_id=%d, module=0x%x\n",waveform->id, module);
+	ndebug("waveform_id=%d\n",waveform->id);
 
 	waveform_status_t status;
 	status.cur_status = STOP;
@@ -127,7 +127,7 @@ int nod_waveform_stop(nod_waveform_t *waveform, nod_module_t *module) {
 
 	if (nod_waveform_status_new(waveform, &status)) {
 		aerror("setting status stop. Forcing waveform removal\n");
-		if (nod_waveform_force_stop(module->parent.waveform)) {
+		if (nod_waveform_force_stop(waveform)) {
 			aerror("force_stop");
 		}
 	}
@@ -218,6 +218,22 @@ int nod_waveform_status_new(nod_waveform_t *waveform, waveform_status_t *new_sta
 }
 
 
+/** \brief Returns a pointer to the first module with id the second parameter
+ * \returns a non-null pointer if found or null otherwise
+ */
+nod_module_t* nod_waveform_find_module_id(nod_waveform_t *w, int module_id) {
+	mdebug("waveform=%s, module_id=%d\n",w->name, module_id);
+	int i=0;
+	while(i<w->nof_modules && w->modules[i].parent.id != module_id)
+		i++;
+	if (i==w->nof_modules) {
+		return NULL;
+	}
+	return &w->modules[i];
+}
+
+
+
 /** \brief Serializes a nod_waveform_t object to a packet.
  * \param all_module If non-zero, serializes the entire module structure. If is zero serializes
  * only the execinfo structure
@@ -293,7 +309,7 @@ int nod_waveform_unserializeTo(packet_t *pkt, nod_waveform_t *dest) {
 		}
 		if (nod_waveform_status_new(dest,&new_status)) {
 			aerror("setting new status\n");
-			if (nod_waveform_stop(dest,NULL)) {
+			if (nod_waveform_stop(dest)) {
 				aerror("stopping waveform\n");
 			}
 			return -1;

@@ -529,23 +529,32 @@ cancel_and_exit:
 }
 
 static void check_threads() {
-	if (!pthread_kill(single_timer_thread,0)) {
-		aerror("kernel timer still running, killing\n");
-		pthread_kill(single_timer_thread, TASK_TERMINATION_SIGNAL);
-	}
-	for (int i=0;i<hwapi.machine.nof_cores;i++) {
-		if (!pthread_kill(hwapi.pipelines[i].thread,0)) {
-			aerror_msg("pipeline thread %d still running, killing\n",i);
-			pthread_kill(hwapi.pipelines[i].thread, TASK_TERMINATION_SIGNAL);
+	int i;
+	hdebug("nof_cores=%d, timer=%d\n",hwapi.machine.nof_cores,single_timer_thread);
+	if (single_timer_thread) {
+		if (!pthread_kill(single_timer_thread,0)) {
+			aerror("kernel timer still running, killing\n");
+			pthread_kill(single_timer_thread, TASK_TERMINATION_SIGNAL);
 		}
 	}
+	for (i=0;i<hwapi.machine.nof_cores;i++) {
+		hdebug("thread_%d=%d\n",i,hwapi.pipelines[i].thread);
+		if (hwapi.pipelines[i].thread) {
+			if (!pthread_kill(hwapi.pipelines[i].thread,0)) {
+				aerror_msg("pipeline thread %d still running, killing\n",i);
+				pthread_kill(hwapi.pipelines[i].thread, TASK_TERMINATION_SIGNAL);
+			}
+		}
+	}
+	hdebug("i=%d\n",i);
 }
 
 static void go_out() {
+	hdebug("tslot=%d\n",hwapi_time_slot());
 	sigwait_stops = 1;
 	kernel_timer.stop = 1;
 	for (int i=0;i<hwapi.machine.nof_cores;i++) {
-		if (hwapi.machine.clock_source != MULTI_TIMER) {
+		if (hwapi.machine.clock_source == MULTI_TIMER) {
 			hwapi.pipelines[i].mytimer.stop = 1;
 		} else {
 			hwapi.pipelines[i].stop = 1;

@@ -16,10 +16,9 @@
  * along with ALOE++.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <stdio.h>
+#include <stddef.h>
 #include <stdlib.h>
-#include <signal.h>
-#include <pthread.h>
+
 #include "defs.h"
 #include "hwapi.h"
 #include "nod_waveform.h"
@@ -74,7 +73,7 @@ int _run_cycle(void* context) {
 	if (!module->changing_status && waveform->status.cur_status == RUN) {
 		/* save start time */
 		hwapi_time_get(&module->parent.execinfo.t_exec[1]);
-
+		ctx->tstamp++;
 		/* run aloe cycle */
 		if (Run(context)) {
 			sdebug("RUNERROR: module_id=%d\n",module->parent.id);
@@ -122,12 +121,16 @@ int _run_cycle(void* context) {
 
 void* _call_init(void *arg) {
 	int n;
+	swapi_context_t *ctx = arg;
 	nod_module_t *module = swapi_get_module(arg);
 	nod_waveform_t *waveform = module->parent.waveform;
 	sdebug("module_id=%d, changing_status=%d, now_is=0\n",module->parent.id,
 			module->changing_status);
 
+	ctx->tstamp++;
 	while((n=Init(arg)) == 0) {
+		ctx->tstamp++;
+		sdebug("module_id=%d sleep_for=%d\n",module->parent.id, 1);
 		hwapi_sleep(1);
 	}
 	sdebug("module_id=%d finished init. Setting status to %d\n",module->parent.id,

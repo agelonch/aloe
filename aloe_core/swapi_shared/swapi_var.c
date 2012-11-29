@@ -21,24 +21,20 @@
 #include "swapi_context.h"
 #include "nod_waveform.h"
 
-/**
- * Declares a module variable as "public". Then other modules or the manager can view and modify it.
- *
- * 1) Find if variable name exists in mymodule.variables, otherwise find an empty space and
- * fill attributes
- * 2) call hwapi.openShm() to create a shared memory area for the variable. Save pointer in
- * the variable object found in previous step
- * 3) If all ok, return the shared memory pointer, otherwise return null
+
+/**\brief Creates a new public variable with a given name. After this call size bytes of the buffer ptr may be
+ * accessible by other modules or ALOE (through the MANAPI) for either read or write.
+ * On success, swapi_var_create() returns a non-null handler which is passed as a first parameter
+ * to swapi_var_close() to close the public variable.
  */
-var_t swapi_var_create(void *context, string name, int size, void **ptr) {
+var_t swapi_var_create(void *context, string name, void *ptr, int size) {
 	swapi_context_t *ctx = context;
 	nod_module_t *module = ctx->module;
-
-	SWAPI_ASSERT_PARAM_P(module);
 	SWAPI_ASSERT_PARAM_P(name);
+	sdebug("name=%s, size=%d, ptr=0x%x\n",name,size,ptr);
+	SWAPI_ASSERT_PARAM_P(module);
 	SWAPI_ASSERT_PARAM_P(size>0);
 	SWAPI_ASSERT_PARAM_P(ptr);
-	SWAPI_ASSERT_PARAM_P(*ptr);
 
 	variable_t *variable;
 	variable = nod_module_variable_get(module, name);
@@ -48,53 +44,43 @@ var_t swapi_var_create(void *context, string name, int size, void **ptr) {
 			return NULL;
 		}
 	}
-
-	if (nod_variable_init(variable, size)) {
-		return NULL;
-	}
-
-	*ptr = variable->cur_value;
+	variable->size = size;
+	variable->cur_value = ptr;
 	return 0;
 }
 
-/**
- * Sets the initialization value of a variable to the buffer pointed by ptr
- *
- * 1) find a variable in mymodule.variables with mymodule.variables[i].name=name
- * 2) copy min(size,mymodule.variables[i].size) bytes of mymodule.variables[i].initValue to ptr
+/**\brief Sets up to size bytes of the buffer pointed by ptr to the value of the initialization
+ * parameter with name "name".
+ * On success, returns a non-negative integer indicating the number of bytes written to ptr.
  */
 int swapi_var_initialize(void *context, string name, void* ptr, int size) {
 	cast(ctx,context);
 	SWAPI_ASSERT_PARAM(name);
+	sdebug("name=%s, size=%d, ptr=0x%x\n",name,size,ptr);
+
 	SWAPI_ASSERT_PARAM(ptr);
 	SWAPI_ASSERT_PARAM(size>0);
 	int cpy_sz;
-	variable_t *variable = nod_module_variable_get((nod_module_t*) ctx->module, name);
+	nod_module_t *module = (nod_module_t*) ctx->module;
+	variable_t *variable = nod_module_variable_get(module, name);
 	if (!variable) {
 		SWAPI_SETERROR(SWAPI_ERROR_NOTFOUND);
 		return -1;
 	}
 	cpy_sz = (variable->size > size)?size:variable->size;
-	memcpy(ptr, variable->init_value, (size_t) cpy_sz);
+	memcpy(ptr, variable->init_value[module->parent.cur_mode], (size_t) cpy_sz);
 	return cpy_sz;
 }
 
-/**
- * Declares a public variable "private" so that any other module or the manager can modify it
- *
- * 1) Find a variable in mymodule.variables with mymodule.variables[i].shmPtr=ptr
- * 2) clear mymodule.variables[i] attributes
- * 3) call hwapi.closeShm(ptr);
+/**\brief Closes a variable handler. After a call to this function, ALOE can not access to
+ * this variable anymore. However, the module may still use the contents of the memory address
+ * passed as a parameter in the swapi_var_create() function.
  */
 int swapi_var_close(void *context, var_t var) {
 	cast(ctx,context);
 	variable_t *variable = (variable_t*) var;
 	SWAPI_ASSERT_PARAM(var);
-
-	if (!nod_variable_close(variable)) {
-		SWAPI_SETERROR(SWAPI_ERROR_NOTFOUND);
-		return -1;
-	}
+	variable->size = 0;
 	variable->id = 0;
 	return 0;
 }

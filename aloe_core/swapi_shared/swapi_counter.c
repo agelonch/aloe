@@ -36,9 +36,8 @@ int swapi_counter_init(void *context, swapi_counter_t *counter, string name) {
 	if (!variable) {
 		return -1;
 	}
-	if (nod_variable_init(variable,sizeof(int))) {
-		return -1;
-	}
+	variable->size = sizeof(int);
+	variable->cur_value = &counter->count[0].tv_usec;
 	sdebug("variable_id=%d, addr=0x%x\n",variable->id,variable->cur_value);
 	counter->variable = variable;
 	counter->context = ctx;
@@ -64,9 +63,9 @@ int swapi_counter_close(counter_t counter) {
 	swapi_context_t *ctx = cnt->context;
 	sdebug("context=0x%x, counter_id=%d\n",ctx,cnt->id);
 	SWAPI_ASSERT_PARAM(counter);
-	if (nod_variable_close(cnt->variable)) {
-		return -1;
-	}
+	variable_t *variable = cnt->variable;
+	variable->id = 0;
+	variable->size = 0;
 	cnt->id = 0;
 	cnt->variable = NULL;
 	return 0;
@@ -115,10 +114,5 @@ int swapi_counter_stop(counter_t counter) {
 	sdebug("context=0x%x, counter_id=%d, finish=%d:%d, count=%d, value=0x%x\n",ctx,cnt->id,
 			cnt->count[2].tv_sec,cnt->count[2].tv_usec,cnt->count[0].tv_usec,
 			variable->cur_value);
-	int *value = (int*) variable->cur_value;
-	if (!value) {
-		return -1;
-	}
-	*value = cnt->count[0].tv_usec;
 	return 0;
 }
