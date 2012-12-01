@@ -1,4 +1,6 @@
-file(GLOB_RECURSE SOURCES "*.c")
+# This configuration is for using plain module development (without skeleton)
+
+file(GLOB_RECURSE SOURCES "src/*.c")
 
 get_filename_component(module ${CMAKE_CURRENT_SOURCE_DIR} NAME) 
 add_library(${module} SHARED ${SOURCES})

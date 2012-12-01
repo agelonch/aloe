@@ -17,6 +17,8 @@ set(CMAKE_SHARED_LINKER_FLAGS "-u _run_cycle")
 
 file(GLOB modules *) 
 
+set(MODULE_REPOS_NAME "modrep_default")
+
 foreach (_module ${modules})
 	if (IS_DIRECTORY ${_module})
 		if (NOT ${_module} STREQUAL ${CMAKE_BINARY_DIR})

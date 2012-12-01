@@ -16,18 +16,21 @@
  * along with ALOE++.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef SWAPI_STATIC_H
-#define SWAPI_STATIC_H
+#include <stdio.h>
+#include <aloe/swapi.h>
+#include "template_plain.h"
 
-#include "swapi.h"
+/** Return 1 on success, 0 to be called in the next timeslot or -1 to stop the waveform */
+int Init(void *context) {
 
-int _run_cycle(void* context);
+}
 
 /** Return 0 on success or -1 to stop the waveform */
-int Run(void *context);
-/** Return 1 on success, 0 to be called in the next timeslot or -1 to stop the waveform */
-int Init(void *context);
-/* Return 0 on success or -1 on error */
-int Stop(void *context);
+int Run(void *context) {
 
-#endif
+}
+
+/* Return 0 on success or -1 on error */
+int Stop(void *context) {
+
+}

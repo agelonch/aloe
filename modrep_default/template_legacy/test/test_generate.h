@@ -16,9 +16,5 @@
  * along with ALOE++.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <stdio.h>
-#include <aloe/swapi.h>
 
-int Run(void *context) {
-	return 0;
-}
+int generate_input_signal(input_t *input, int *lengths);

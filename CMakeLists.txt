@@ -12,7 +12,7 @@ set (ALOE_PARENT_VERSION_MINOR 0)
 include_directories("${PROJECT_SOURCE_DIR}/aloe_core/swapi/include/")
 include_directories("${PROJECT_SOURCE_DIR}/aloe_core/swapi/include/aloe/")
 
-#set(ALOE_LIBRARIES ${CMAKE_BINARY_DIR}/aloe_core/swapi})
+set(MODULE_REPOS_NAME "default")
 
 add_subdirectory(aloe_core)
 add_subdirectory(modrep_default)

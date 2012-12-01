@@ -4,7 +4,6 @@
 
 #include "swapi_types.h"
 #include "swapi.h"
-#include "swapi_static.h"
 
 #include "params.h"
 #include "skeleton.h"

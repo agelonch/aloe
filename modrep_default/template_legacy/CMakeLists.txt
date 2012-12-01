@@ -1,4 +1,4 @@
-# This configuration is for the aloe++ skeleton
+# This configuration is for the aloe1.5 skeleton-legacy version
 
 # set-up the program libraries here
 set(LIBRARIES m rt)
@@ -8,21 +8,21 @@ file(GLOB_RECURSE TEST_SOURCES "test/*.c")
 
 get_filename_component(module ${CMAKE_CURRENT_SOURCE_DIR} NAME) 
 
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src/)
 
 # aloe module
 add_library(${module}-aloe SHARED ${SOURCES})
 set_target_properties(${module}-aloe PROPERTIES OUTPUT_NAME ${module})
-set_target_properties(${module}-aloe PROPERTIES COMPILE_FLAGS "-D_COMPILE_ALOE")
-target_link_libraries(${module}-aloe swapi skeleton ${LIBRARIES})
+set_target_properties(${module}-aloe PROPERTIES COMPILE_FLAGS "-D_COMPILE_ALOE -D_ALOE_OLD_SKELETON")
+target_link_libraries(${module}-aloe swapi skeleton_legacy ${LIBRARIES})
 install(TARGETS ${module}-aloe DESTINATION lib/${MODULE_REPOS_NAME}/)
 
 
 # standalone program for testing
 add_executable(${module}-bin ${SOURCES} ${TEST_SOURCES})
 set_target_properties(${module}-bin PROPERTIES OUTPUT_NAME ${module})
-set_target_properties(${module}-bin PROPERTIES COMPILE_FLAGS "-D_COMPILE_STANDALONE")
-target_link_libraries(${module}-bin standalone ${LIBRARIES})
+set_target_properties(${module}-bin PROPERTIES COMPILE_FLAGS "-D_COMPILE_STANDALONE -D_ALOE_OLD_SKELETON")
+target_link_libraries(${module}-bin standalone_legacy ${LIBRARIES})
 install(TARGETS ${module}-bin DESTINATION bin)
 
 
@@ -36,8 +36,8 @@ if(NOT $ENV{OCTAVE_INCLUDE} STREQUAL "")
 	set_target_properties(${module}-oct PROPERTIES PREFIX "am_")
 	set_target_properties(${module}-oct PROPERTIES SUFFIX .mex)
 	
-	set_target_properties(${module}-oct PROPERTIES COMPILE_FLAGS "-I$ENV{OCTAVE_INCLUDE} -D_COMPILE_MEX -Wl,-Bsymbolic -L$ENV{OCTAVE_LIBS} -loctinterp -loctave -lcruft -Wl,-Bsymbolic-functions -Wl,-z,relro")
-	target_link_libraries(${module}-oct aloe_octave ${LIBRARIES})
+	set_target_properties(${module}-oct PROPERTIES COMPILE_FLAGS "-I$ENV{OCTAVE_INCLUDE} -D_COMPILE_MEX -D_ALOE_OLD_SKELETON -Wl,-Bsymbolic -L$ENV{OCTAVE_LIBS} -loctinterp -loctave -lcruft -Wl,-Bsymbolic-functions -Wl,-z,relro")
+	target_link_libraries(${module}-oct aloe_octave_legacy ${LIBRARIES})
 	install(TARGETS ${module}-oct DESTINATION mex)
 	
 	endif()
@@ -55,8 +55,8 @@ if(NOT $ENV{MATLAB_ROOT} STREQUAL "")
 		set_target_properties(${module}-mat PROPERTIES SUFFIX .mexglx)
 	endif()
 	
-	set_target_properties(${module}-mat PROPERTIES COMPILE_FLAGS "-I$ENV{MATLAB_ROOT} -O -pthread -shared -m32 -Wl,--version-script,$ENV{MATLAB_ROOT}/extern/lib/glnx86/mexFunction.map -Wl,--no-undefined -Wl,-rpath-link,$ENV{MATLAB_ROOT}/bin/glnx86 -L$ENV{MATLAB_ROOT}/bin/glnx86 -lmx -lmex -lmat -lm -lstdc++")
-	target_link_libraries(${module}-mat aloe_matlab ${LIBRARIES})
+	set_target_properties(${module}-mat PROPERTIES COMPILE_FLAGS "-D_ALOE_OLD_SKELETON -I$ENV{MATLAB_ROOT}/ -I$ENV{MATLAB_ROOT}/extern/include/ -O -pthread -shared -m32 -Wl,--version-script,$ENV{MATLAB_ROOT}/extern/lib/glnx86/mexFunction.map -Wl,--no-undefined -Wl,-rpath-link,$ENV{MATLAB_ROOT}/bin/glnx86 -L$ENV{MATLAB_ROOT}/bin/glnx86 -lmx -lmex -lmat -lm -lstdc++")
+	target_link_libraries(${module}-mat aloe_matlab_legacy ${LIBRARIES})
 	install(TARGETS ${module}-mat DESTINATION mex)
 	
 endif()

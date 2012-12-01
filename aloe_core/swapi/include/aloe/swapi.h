@@ -21,6 +21,13 @@
 
 #include "swapi_types.h"
 
+/** Return 0 on success or -1 to stop the waveform */
+int Run(void *context);
+/** Return 1 on success, 0 to be called in the next timeslot or -1 to stop the waveform */
+int Init(void *context);
+/* Return 0 on success or -1 on error */
+int Stop(void *context);
+
 #define SWAPI_ITF_DEFAULT_MSG 10
 
 #define swapi_perror(msg) swapi_error_print(context,""); aerror(msg)
