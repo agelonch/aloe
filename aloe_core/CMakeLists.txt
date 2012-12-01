@@ -12,6 +12,9 @@ set (ALOE_VERSION_MINOR 0)
 set(CMAKE_BINARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 
+include_directories("${PROJECT_SOURCE_DIR}/swapi/include/")
+include_directories("${PROJECT_SOURCE_DIR}/swapi/include/aloe/")
+
 set(CMAKE_C_FLAGS "-Wno-format -std=gnu99 -D_GNU_SOURCE")
 
 include_directories("${ALOE_SOURCE_DIR}/hwapi_lnx/include")

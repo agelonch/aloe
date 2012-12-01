@@ -3,11 +3,16 @@ if(${CMAKE_SOURCE_DIR} STREQUAL ${CMAKE_BINARY_DIR})
 endif(${CMAKE_SOURCE_DIR} STREQUAL ${CMAKE_BINARY_DIR})
 
 cmake_minimum_required (VERSION 2.6)
-project (ALOE_parent)
+project (ALOE_PARENT)
 
 # The version number.
-set (ALOE_VERSION_MAJOR 2)
-set (ALOE_VERSION_MINOR 0)
+set (ALOE_PARENT_VERSION_MAJOR 2)
+set (ALOE_PARENT_VERSION_MINOR 0)
+
+include_directories("${PROJECT_SOURCE_DIR}/aloe_core/swapi/include/")
+include_directories("${PROJECT_SOURCE_DIR}/aloe_core/swapi/include/aloe/")
+
+#set(ALOE_LIBRARIES ${CMAKE_BINARY_DIR}/aloe_core/swapi})
 
 add_subdirectory(aloe_core)
 add_subdirectory(modrep_default)

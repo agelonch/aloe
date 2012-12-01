@@ -55,7 +55,7 @@ set_target_properties(standalone_legacy PROPERTIES COMPILE_FLAGS "-D_COMPILE_STA
 
 set(install_mex "")
 if(NOT $ENV{OCTAVE_INCLUDE} STREQUAL "") 
-	if(NOT $ENV{OCTAVE_LIB} STREQUAL "") 
+	if(NOT $ENV{OCTAVE_LIBS} STREQUAL "") 
 		# octave library
 		add_library(aloe_octave ${mex_SOURCES} ${params_SOURCES})
 		set_target_properties(aloe_octave PROPERTIES COMPILE_FLAGS "-D_COMPILE_MEX -D_FORTIFY_SOURCE=2 -fPIC -I$ENV{OCTAVE_INCLUDE} -I$ENV{OCTAVE_INCLUDE}..  -mieee-fp -g -O0 -fstack-protector --param=ssp-buffer-size=4 -Wformat -Werror=format-security -pthread -fopenmp")
@@ -82,7 +82,7 @@ endif()
 
 
 
-file(GLOB_RECURSE INCLUDE_FILES "include/*.h")
+file(GLOB_RECURSE INCLUDE_FILES "include/aloe/*.h")
 
 # install 
 install(TARGETS swapi skeleton skeleton_legacy standalone standalone_legacy ${install_mex} DESTINATION lib)

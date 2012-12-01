@@ -38,6 +38,8 @@ int get_output_max_samples();
 #ifdef _ALOE_OLD_SKELETON
 int initialize();
 int stop();
+#define in(ptr,idx) &ptr[idx*INPUT_MAX_DATA]
+#define out(ptr,idx) &ptr[idx*OUTPUT_MAX_DATA]
 #else
 int work(void **input, void **output);
 int initialize();
@@ -45,8 +47,6 @@ int stop();
 int generate_input_signal(void *input, int *input_length);
 #endif
 
-#define in(ptr,idx) &ptr[idx*INPUT_MAX_DATA]
-#define out(ptr,idx) &ptr[idx*OUTPUT_MAX_DATA]
 
 #ifdef _COMPILE_ALOE
 extern void *context;
