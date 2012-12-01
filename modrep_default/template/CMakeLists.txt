@@ -3,6 +3,11 @@
 # set-up the program libraries here
 set(LIBRARIES m rt)
 
+if (${MODULE_REPOS_NAME} STREQUAL "") 
+	set(MODULE_REPOS_NAME "default")
+endif()
+
+
 file(GLOB_RECURSE SOURCES "src/*.c")
 file(GLOB_RECURSE TEST_SOURCES "test/*.c")
 
@@ -18,13 +23,14 @@ target_link_libraries(${module}-aloe swapi skeleton ${LIBRARIES})
 install(TARGETS ${module}-aloe DESTINATION lib/${MODULE_REPOS_NAME}/)
 
 
-# standalone program for testing
-add_executable(${module}-bin ${SOURCES} ${TEST_SOURCES})
-set_target_properties(${module}-bin PROPERTIES OUTPUT_NAME ${module})
-set_target_properties(${module}-bin PROPERTIES COMPILE_FLAGS "-D_COMPILE_STANDALONE")
-target_link_libraries(${module}-bin standalone ${LIBRARIES})
-install(TARGETS ${module}-bin DESTINATION bin)
-
+if (NOT ${TEST_SOURCES} STREQUAL "")
+	# standalone program for testing
+	add_executable(${module}-bin ${SOURCES} ${TEST_SOURCES})
+	set_target_properties(${module}-bin PROPERTIES OUTPUT_NAME ${module})
+	set_target_properties(${module}-bin PROPERTIES COMPILE_FLAGS "-D_COMPILE_STANDALONE")
+	target_link_libraries(${module}-bin standalone ${LIBRARIES})
+	install(TARGETS ${module}-bin DESTINATION bin)
+endif()
 
 # octave mex file 
 set(install_mex "")
