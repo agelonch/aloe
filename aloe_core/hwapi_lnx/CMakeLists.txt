@@ -1,6 +1,5 @@
 
 include_directories("${ALOE_SOURCE_DIR}/src")
-include_directories("${ALOE_SOURCE_DIR}/core/include")
 
 file(GLOB_RECURSE hwapi_SOURCES "${ALOE_SOURCE_DIR}/hwapi_lnx/src/*.c")
 

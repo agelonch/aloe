@@ -1,14 +1,13 @@
 #include <stdlib.h>
 #include <string.h>
+#include <stdarg.h>
 
 #include "swapi_types.h"
 #include "swapi.h"
 #include "swapi_static.h"
 
 #include "params.h"
-#define _COMPILE_ALOE
 #include "skeleton.h"
-#undef _COMPILE_ALOE
 
 #define MAX_INPUTS 		10
 #define MAX_OUTPUTS 	10
@@ -40,7 +39,7 @@ pkt_t *input_pkt[MAX_INPUTS], *output_pkt[MAX_OUTPUTS];
 void *input_ptr[MAX_INPUTS], *output_ptr[MAX_OUTPUTS];
 int rcv_len[MAX_INPUTS], snd_len[MAX_OUTPUTS];
 
-#if ALOE_VERSION < 2
+#ifdef _ALOE_OLD_SKELETON
 char *input_buffer, *output_buffer;
 #endif
 
@@ -63,7 +62,7 @@ void init_memory() {
 	mlog=NULL;
 	counter=NULL;
 
-#if ALOE_VERSION < 2
+#ifdef _ALOE_OLD_SKELETON
 	input_buffer=NULL;
 	output_buffer=NULL;
 #endif
@@ -135,7 +134,7 @@ int init_interfaces(void *ctx) {
 		input_trials = 0;
 	}
 
-#if ALOE_VERSION < 2
+#ifdef _ALOE_OLD_SKELETON
 
 	input_buffer = malloc(nof_input_itf*input_max_samples*input_sample_sz);
 	if (!input_buffer) {
@@ -180,6 +179,10 @@ int init_parameters(void *ctx) {
 
 	moddebug("nof_params=%d\n",nof_params);
 
+	if (!nof_params || !user_params) {
+		return 0;
+	}
+
 	if (param_init(user_params,nof_params) < 0) {
 		moderror_msg("initializing %d params: %s\n",nof_params,param_error_str());
 		return -1;
@@ -200,7 +203,7 @@ int init_parameters(void *ctx) {
 			return -1;
 		}
 	}
-#if ALOE_VERSION < 2
+#ifdef _ALOE_OLD_SKELETON
 	if (input_buffer) {
 		free(input_buffer);
 	}
@@ -367,7 +370,7 @@ int Run(void *ctx) {
 	memset(snd_len,0,sizeof(int)*nof_input_itf);
 
 	/* for legacy aloe modules */
-#if ALOE_VERSION < 2
+#ifdef _ALOE_OLD_SKELETON
 
 	for (i=0;i<nof_input_itf;i++) {
 		if (input_pkt[i]) {
@@ -396,7 +399,7 @@ int Run(void *ctx) {
 			output_ptr[i]=output_pkt[i]->data;
 		}
 	}
-	n = work(input_pkt,output_pkt);
+	n = work(input_ptr,output_ptr);
 	if (n<0) {
 		return -1;
 	}
@@ -412,7 +415,7 @@ int Run(void *ctx) {
 		}
 	}
 
-#if ALOE_VERSION < 2
+#ifdef _ALOE_OLD_SKELETON
 	for (i=0;i<nof_output_itf;i++) {
 		if (output_pkt[i]) {
 			assert(output_pkt[i]->data);

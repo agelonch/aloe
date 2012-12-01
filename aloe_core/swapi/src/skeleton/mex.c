@@ -19,11 +19,9 @@
 #include <string.h>
 #include "mex.h"
 /*#include "matrix.h"*/
-#define SKELETON_H
-#include "../aloe/params.h"
-#define INTERFACE_CONFIG
-#include "../src/modulename.h"
-#undef INTERFACE_CONFIG
+
+#include "skeleton.h"
+#include "params.h"
 
 #define IN 	prhs[0]
 #define CTRL	prhs[1]
@@ -37,12 +35,22 @@
 #define	MIN(A, B)	((A) < (B) ? (A) : (B))
 #endif
 
+
+extern const int input_sample_sz;
+extern const int output_sample_sz;
+extern const int nof_input_itf;
+extern const int nof_output_itf;
+extern const int input_max_samples;
+extern const int output_max_samples;
+
 static int *input_len;
 static int *output_len;
 static int *array_dims;
 
-input_t *input_buffer;
-output_t *output_buffer;
+static char *input_buffer;
+static char *output_buffer;
+static void **input_ptr;
+static void **output_ptr;
 
 int *iscomplex;
 
@@ -112,8 +120,10 @@ int fill_input_lengths(const mxArray *in) {
 	}
 }
 
-void format_input_vector(input_t *buffer, const mxArray *in, int iscomplex, int len) {
+void format_input_vector(void *buffer, const mxArray *in, int iscomplex, int len) {
 	double *in_real, *in_imag;
+	float *f_buffer = buffer;
+	_Complex float *c_buffer = buffer;
 	int i;
 
 	if (!mxIsDouble(in)) {
@@ -129,12 +139,24 @@ void format_input_vector(input_t *buffer, const mxArray *in, int iscomplex, int 
 		mexErrMsgTxt("Input vector too large");
 	}
 
-	for (i=0;i<len;i++) {
-		__real__ buffer[i] = in_real[i];
+	if (input_sample_sz == sizeof(_Complex float)) {
+		for (i=0;i<len;i++) {
+			__real__ c_buffer[i] = in_real[i];
+			if (iscomplex) {
+				__imag__ c_buffer[i] = in_imag[i];
+			} else {
+				__imag__ c_buffer[i] = 0;
+			}
+		}
+	} else {
 		if (iscomplex) {
-			__imag__ buffer[i] = in_imag[i];
+			mexPrintf("Warning input interface expects complex signal\n");
+		}
+		for (i=0;i<len;i++) {
+			f_buffer[i] = (float) in_real[i];
 		}
 	}
+
 }
 
 void format_input(const mxArray *in) {
@@ -144,7 +166,7 @@ void format_input(const mxArray *in) {
 	if (mxIsCell(in)) {
 		n = mxGetNumberOfElements(in);
 		for(i=0;i<n;i++) {
-			format_input_vector(&input_buffer[i*input_max_samples],mxGetCell(in,i), iscomplex[i],
+			format_input_vector(&input_buffer[i*input_max_samples*input_sample_sz],mxGetCell(in,i), iscomplex[i],
 					input_len[i]);
 		}
 	} else {
@@ -152,9 +174,11 @@ void format_input(const mxArray *in) {
 	}
 }
 
-void save_output(mxArray **dst, output_t *src, int len) {
+void save_output(mxArray **dst, void *src, int len) {
 	double *out_real, *out_imag; /* pointers to input arguments (passed from Matlab) */
 	int i;
+	float *f_src = src;
+	_Complex float *c_src = src;
 
 	/* Create a matrix for the return argument */
 	*dst = mxCreateDoubleMatrix(1, len, output_is_complex?mxCOMPLEX:mxREAL);
@@ -163,12 +187,17 @@ void save_output(mxArray **dst, output_t *src, int len) {
     if (output_is_complex) {
         out_imag = mxGetPi(*dst);
     }
-    for (i=0;i<len;i++) {
-    	out_real[i] = __real__ src[i];
-    	if (output_is_complex) {
-			out_imag[i] = __imag__ src[i];
-		}
-	}
+    if (output_is_complex) {
+        for (i=0;i<len;i++) {
+        	out_real[i] = (double) __real__ c_src[i];
+			out_imag[i] = (double) __imag__ c_src[i];
+    	}
+    } else {
+        for (i=0;i<len;i++) {
+        	out_real[i] = f_src[i];
+			out_imag[i] = 0;
+    	}
+    }
 
 }
 
@@ -183,9 +212,15 @@ void process_control(const mxArray *ctrl) {
 	double *src;
 	int plen;
 	param_t *param;
+	int nof_parameters;
+	param_t *parameters;
 
 	if (!mxIsCell(ctrl)) {
 		help();
+	}
+	parameters = param_list(&nof_parameters);
+	if (!parameters || !nof_parameters) {
+		return;
 	}
 
 	param_init(parameters, nof_parameters);
@@ -251,6 +286,8 @@ void allocate_memory() {
 	output_len = mxCalloc(sizeof(int),nof_output_itf);
 	input_buffer = mxCalloc(input_sample_sz,nof_input_itf*input_max_samples);
 	output_buffer = mxCalloc(output_sample_sz,nof_output_itf*output_max_samples);
+	input_ptr = mxCalloc(sizeof(void*), nof_input_itf);
+	output_ptr = mxCalloc(sizeof(void*), nof_output_itf);
 	array_dims = mxCalloc(sizeof(int),nof_input_itf);
 	iscomplex = mxCalloc(sizeof(int),nof_input_itf);
 }
@@ -272,6 +309,8 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[]) {
 		return;
 	}
 
+	mexPrintf("Warning only float or _Complex float input/output interfaces are supported\n");
+
 	allocate_memory();
 
 	for (i=0;i<nof_output_itf;i++) {
@@ -285,12 +324,28 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[]) {
 		process_control(CTRL);
 	}
 
-	initialize();
+	if (initialize()<0) {
+		mexErrMsgTxt("Error in module initialize() function\n");
+	}
 
-    /* call the DSP function */
+#ifndef _ALOE_OLD_SKELETON
+	for (i=0;i<nof_input_itf;i++) {
+		input_ptr[i] = &input_buffer[i*input_max_samples*input_sample_sz];
+	}
+	for (i=0;i<nof_output_itf;i++) {
+		output_ptr[i] = &output_buffer[i*output_max_samples*output_sample_sz];
+	}
+	out_samples = work(input_ptr, output_ptr);
+#else
 	out_samples = work(input_buffer,output_buffer);
+#endif
+
 	if (out_samples < 0) {
 		mexErrMsgTxt("Error in module work() function\n");
+	}
+
+	if (stop()<0) {
+		mexErrMsgTxt("Error in module stop() function\n");
 	}
 
 	/**FIXME: Find out a better way to obtain output itf type */
@@ -306,7 +361,7 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[]) {
 		OUT = mxCreateCellArray(nof_output_itf,array_dims);
 		for (i=0;i<nof_output_itf;i++) {
 			cell = mxGetCell(OUT,i);
-			save_output(&cell,&output_buffer[i*input_max_samples],output_len[i]);
+			save_output(&cell,&output_buffer[i*output_max_samples*output_sample_sz],output_len[i]);
 		}
 	} else {
 		save_output(&OUT,&output_buffer[0],output_len[0]);

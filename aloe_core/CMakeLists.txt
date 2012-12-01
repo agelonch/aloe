@@ -15,6 +15,7 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_C_FLAGS "-Wno-format -std=gnu99 -D_GNU_SOURCE")
 
 include_directories("${ALOE_SOURCE_DIR}/hwapi_lnx/include")
+include_directories("${ALOE_SOURCE_DIR}/swapi/include")
 
-add_subdirectory(core)
+add_subdirectory(swapi)
 add_subdirectory(hwapi_lnx)

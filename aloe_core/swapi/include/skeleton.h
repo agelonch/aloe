@@ -22,31 +22,27 @@
 #include <assert.h>
 #include <stdio.h>
 
-#define USE_LOG 0
-#define MOD_DEBUG 1
-
-
-
-#ifdef _COMPILE_MEX_INCLUDE
+#ifdef _COMPILE_MEX
 #include "mex.h"
 #endif
 
+#define USE_LOG 0
+#define MOD_DEBUG 1
 
 int get_input_samples(int idx);
 void set_output_samples(int idx, int len);
 int get_input_max_samples();
 int get_output_max_samples();
 
-/* in aloe<2, these functions are defined in modulename.h */
-#if ALOE_VERSION < 2
 
+#ifdef _ALOE_OLD_SKELETON
 int initialize();
-
+int stop();
 #else
-
 int work(void **input, void **output);
 int initialize();
-
+int stop();
+int generate_input_signal(void *input, int *input_length);
 #endif
 
 #define in(ptr,idx) &ptr[idx*INPUT_MAX_DATA]
@@ -70,7 +66,7 @@ extern log_t mlog;
 #define WHEREARG  __FILE__, __LINE__
 #endif
 
-#define DEBUGPRINT2(out,...)       do {fprintf(out, __VA_ARGS__)
+#define DEBUGPRINT2(out,...)	fprintf(out,__VA_ARGS__)
 
 #ifdef _COMPILE_MEX
 #undef DEBUGPRINT2
@@ -95,10 +91,15 @@ extern log_t mlog;
 #define moderror 		aerror
 #define moderror_msg 	aerror_msg
 
+#ifdef _COMPILE_ALOE
 #define moddebug(_fmt, ...) \
 	do { if (MOD_DEBUG) printf("[mod_debug-%s]\t[%s()]: " _fmt, swapi_module_name(context),__func__,\
 			__VA_ARGS__);} while(0);
-
+#else
+#define moddebug(_fmt, ...) \
+	do { if (MOD_DEBUG) printf("[mod_debug]\t[%s()]: " _fmt, __func__,\
+			__VA_ARGS__);} while(0);
+#endif
 
 #endif
 

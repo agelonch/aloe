@@ -32,7 +32,7 @@ typedef struct {
 	int size;
 }param_t;
 
-#if ALOE_VERSION < 2
+#ifdef _ALOE_OLD_SKELETON
 enum stat_update {OFF, READ, WRITE};
 struct utils_variables {
 	char *name;

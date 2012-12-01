@@ -24,24 +24,27 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include <assert.h>
 
 #include "skeleton.h"
 #include "params.h"
-#define INTERFACE_CONFIG
-#include "modulename_interfaces.h"
-#undef INTERFACE_CONFIG
-#include "modulename_params.h"
-#include "modulename.h"
-#include "test_generate.h"
 #include "gnuplot_i.h"
 
-static input_t *input_data;
-static output_t *output_data;
+extern const int input_sample_sz;
+extern const int output_sample_sz;
+extern const int nof_input_itf;
+extern const int nof_output_itf;
+extern const int input_max_samples;
+extern const int output_max_samples;
 
 static double *plot_buff;
 
 static int *input_lengths;
 static int *output_lengths;
+
+static void **input_ptr, **output_ptr;
+
+static char *input_data, *output_data;
 
 int use_gnuplot;
 
@@ -63,14 +66,18 @@ inline int get_output_max_samples() {
 }
 
 void allocate_memory() {
-	input_data = malloc(sizeof(input_t)*input_max_samples*nof_input_itf);
+	input_data = malloc(input_sample_sz*input_max_samples*nof_input_itf);
 	assert(input_data);
-	output_data = malloc(sizeof(output_t)*output_max_samples*nof_output_itf);
+	output_data = malloc(output_sample_sz*output_max_samples*nof_output_itf);
 	assert(output_data);
 	input_lengths = malloc(sizeof(int)*nof_input_itf);
 	assert(input_lengths);
 	output_lengths = malloc(sizeof(int)*nof_output_itf);
 	assert(output_lengths);
+	input_ptr = malloc(sizeof(void*)*nof_input_itf);
+	assert(input_ptr);
+	output_ptr = malloc(sizeof(void*)*nof_output_itf);
+	assert(output_ptr);
 }
 
 void free_memory() {
@@ -110,10 +117,22 @@ int main(int argc, char **argv)
 	gnuplot_ctrl *in, *out;
 	char tmp[64];
 	int ret, i, j;
+	int nof_params;
+	param_t *user_params;
 
 	allocate_memory();
 
-	param_init(parameters,nof_parameters);
+	user_params = param_list(&nof_params);
+	if (user_params && nof_params>0) {
+		if (param_init(user_params,nof_params) < 0) {
+			printf("initializing %d params: %s\n",nof_params,param_error_str());
+			return -1;
+		}
+	} else {
+		printf("Any parameter is configured\n");
+	}
+
+	param_init(user_params,nof_params);
 
 	parse_paramters(argc, argv);
 
@@ -133,11 +152,23 @@ int main(int argc, char **argv)
 		exit(1); /* the reason for exiting should be printed out beforehand */
 	}
 
+#ifndef _ALOE_OLD_SKELETON
+	for (i=0;i<nof_input_itf;i++) {
+		input_ptr[i] = &input_data[i*input_max_samples*input_sample_sz];
+	}
+	for (i=0;i<nof_output_itf;i++) {
+		output_ptr[i] = &output_data[i*output_max_samples*output_sample_sz];
+	}
+	clock_gettime(CLOCK_MONOTONIC,&tdata[1]);
+	ret = work(input_ptr, output_ptr);
+	clock_gettime(CLOCK_MONOTONIC,&tdata[2]);
 
+#else
 
 	clock_gettime(CLOCK_MONOTONIC,&tdata[1]);
 	ret = work(input_data, output_data);
 	clock_gettime(CLOCK_MONOTONIC,&tdata[2]);
+#endif
 
 	stop();
 	if (ret == -1) {
@@ -172,7 +203,7 @@ int main(int argc, char **argv)
 	        gnuplot_plot_x(in, plot_buff,
 	        		get_input_samples(i), tmp);
 	        free(plot_buff);
-	        if (sizeof(input_t) == sizeof(_Complex float)) {
+	        if (input_sample_sz == sizeof(_Complex float)) {
 	        	plot_buff = malloc(sizeof(double)*input_lengths[i]);
 				assert(plot_buff);
 				for (j=0;j<input_lengths[i];j++) {
@@ -201,7 +232,7 @@ int main(int argc, char **argv)
 	        gnuplot_plot_x(out, plot_buff,
 	        		output_lengths[i], tmp);
 	        free(plot_buff);
-	        if (sizeof(output_t) == sizeof(_Complex float)) {
+	        if (output_sample_sz == sizeof(_Complex float)) {
 	        	plot_buff = malloc(sizeof(double)*output_lengths[i]);
 				assert(plot_buff);
 				for (j=0;j<output_lengths[i];j++) {
