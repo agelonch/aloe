@@ -16,5 +16,6 @@
  * along with ALOE++.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include "templatelegacy_interfaces.h"
 
 int generate_input_signal(input_t *input, int *lengths);

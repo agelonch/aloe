@@ -22,17 +22,31 @@
 #include <assert.h>
 #include <stdio.h>
 
-#ifdef _COMPILE_MEX
-#include "mex.h"
-#endif
-
 #define USE_LOG 0
 #define MOD_DEBUG 1
 
+
+/**\brief Returns the number of samples (of size input_sample_sz) received from the input port
+ * idx.
+ * \returns non-negative integer on success or -1 if idx is not a valid interface.
+ */
 int get_input_samples(int idx);
-void set_output_samples(int idx, int len);
-int get_input_max_samples();
-int get_output_max_samples();
+
+/**\brief Sets the number of samples (of size output_sample_sz) to send throught the output port
+ * idx.
+ * \returns 0 on success or -1 on error.
+ */
+int set_output_samples(int idx, int len);
+
+#ifdef _ALOE_OLD_SKELETON
+void* param_get_addr(char *name);
+#endif
+
+
+
+#ifdef _COMPILE_MEX
+#include "mex.h"
+#endif
 
 
 #ifdef _ALOE_OLD_SKELETON
@@ -40,6 +54,8 @@ int initialize();
 int stop();
 #define in(ptr,idx) &ptr[idx*INPUT_MAX_DATA]
 #define out(ptr,idx) &ptr[idx*OUTPUT_MAX_DATA]
+int get_input_max_samples();
+int get_output_max_samples();
 #else
 int work(void **input, void **output);
 int initialize();

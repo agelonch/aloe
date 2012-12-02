@@ -22,11 +22,9 @@
 #include <aloe/skeleton.h>
 #include <aloe/params.h>
 
-#define MODULE_CONFIG
 #include "test_tx.h"
-#undef MODULE_CONFIG
 
-int *block_length;
+pmid_t blen_id;
 int cnt=0;
 
 /*
@@ -35,18 +33,24 @@ int cnt=0;
  * @returns 0 on success, -1 on error
  */
 int initialize() {
+	int size;
+	int block_length;
 
-	block_length = param_get_addr("block_length");
-	if (!block_length) {
-		moderror_msg("Error: %s\n",param_error_str());
-		return 0;
+	blen_id = param_id("block_length");
+	if (!blen_id) {
+		moderror("Parameter block_length not found\n");
+		return -1;
+	}
+	if (!param_get_int(blen_id,&block_length)) {
+		moderror("Getting integer parameter block_length\n");
+		return -1;
 	}
 
-	modinfo_msg("Parameter block_length is %d\n",*block_length);
+	modinfo_msg("Parameter block_length is %d\n",block_length);
 
 	/* Verify control parameters */
-	if (*block_length > get_output_max_samples()) {
-		moderror_msg("Invalid block length %d\n", *block_length);
+	if (block_length > output_max_samples) {
+		moderror_msg("Invalid block length %d\n", block_length);
 		return -1;
 	}
 
@@ -76,10 +80,13 @@ int initialize() {
  *
  */
 int work(void **inp, void **out) {
-	int snd_samples = *block_length;
+	int snd_samples;
 	int i;
 	input_t *input = inp[0];
 	output_t *output = out[0];
+
+	snd_samples = 0;
+	param_get_int(blen_id, &snd_samples);
 
 	/* do DSP stuff here */
 	for (i=0;i<snd_samples;i++) {
@@ -97,9 +104,5 @@ int stop() {
 	return 0;
 }
 
-param_t *param_list(int *nof_params) {
-	*nof_params = nof_parameters;
-	return parameters;
-}
 
 

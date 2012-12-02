@@ -47,6 +47,10 @@ typedef struct {
 	h_itf_t hw_itf;
 } interface_t;
 
+typedef enum {
+	VAR_TYPE_INT, VAR_TYPE_FLOAT, VAR_TYPE_STRING
+}variable_type_t;
+
 typedef struct {
 	int id;
 	int size;
@@ -57,6 +61,7 @@ typedef struct {
 	void *init_value[MAX(modes)];
 	void *cur_value;
 	int nof_modes;
+	variable_type_t type;
 } variable_t;
 
 

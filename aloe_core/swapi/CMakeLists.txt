@@ -17,13 +17,13 @@ file(GLOB_RECURSE test_suite_SOURCES "src/test_suite/*.c")
 file(GLOB_RECURSE swapi_static_SOURCES "src/swapi_static/*.c")
 
 # skeleton sources
-file(GLOB_RECURSE skeleton_SOURCES "src/skeleton/skeleton.c")
+set(skeleton_SOURCES src/skeleton/skeleton.c)
 
 # params sources
-file(GLOB_RECURSE params_SOURCES "src/skeleton/params.c")
+set(params_SOURCES src/skeleton/params.c)
 
 # mex sources
-file(GLOB_RECURSE mex_SOURCES "src/skeleton/mex.c")
+set(mex_SOURCES src/skeleton/mex.c)
 
 # standalone sources
 file(GLOB_RECURSE standalone_SOURCES "src/standalone/*.c")
@@ -38,11 +38,11 @@ add_library(core ${common_SOURCES} ${manager_SOURCES} ${manapi_SOURCES} ${node_S
 add_library(swapi ${swapi_static_SOURCES} )
 
 # skeleton library
-add_library(skeleton ${swapi_static_SOURCES} ${skeleton_SOURCES} ${params_SOURCES})
+add_library(skeleton ${swapi_static_SOURCES} ${skeleton_SOURCES})
 set_target_properties(skeleton PROPERTIES COMPILE_FLAGS "-D_COMPILE_ALOE")
 
 # skeleton-legacy library
-add_library(skeleton_legacy ${swapi_static_SOURCES} ${skeleton_SOURCES} ${params_SOURCES})
+add_library(skeleton_legacy ${swapi_static_SOURCES} ${skeleton_SOURCES})
 set_target_properties(skeleton_legacy PROPERTIES COMPILE_FLAGS "-D_COMPILE_ALOE -D_ALOE_OLD_SKELETON")
 
 # standalone library

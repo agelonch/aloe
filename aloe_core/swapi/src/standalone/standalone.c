@@ -16,7 +16,6 @@
  * along with ALOE++.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/* Testsuite for testing DFT and IDFT */
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -48,21 +47,27 @@ static char *input_data, *output_data;
 
 int use_gnuplot;
 
+typedef struct {
+	char *name;
+	char *value;
+} saparam_t;
+
+saparam_t *parameters;
+int nof_params;
+
+
 int parse_paramters(int argc, char**argv);
 
 inline int get_input_samples(int idx) {
+	if (idx<0 || idx>nof_input_itf)
+		return -1;
 	return input_lengths[idx];
 }
 
-inline void set_output_samples(int idx, int len) {
+inline int set_output_samples(int idx, int len) {
+	if (idx<0 || idx>nof_input_itf)
+			return -1;
 	output_lengths[idx] = len;
-}
-
-inline int get_input_max_samples() {
-	return input_max_samples;
-}
-inline int get_output_max_samples() {
-	return output_max_samples;
 }
 
 void allocate_memory() {
@@ -85,6 +90,13 @@ void free_memory() {
 	free(output_data);
 	free(input_lengths);
 	free(output_lengths);
+	if (parameters) {
+		for (int i=0;i<nof_params;i++) {
+			if (parameters[i].name) free(parameters[i].name);
+			if (parameters[i].value) free(parameters[i].value);
+		}
+		free(parameters);
+	}
 }
 
 int get_time(struct timespec *x) {
@@ -118,21 +130,10 @@ int main(int argc, char **argv)
 	char tmp[64];
 	int ret, i, j;
 	int nof_params;
-	param_t *user_params;
 
 	allocate_memory();
 
-	user_params = param_list(&nof_params);
-	if (user_params && nof_params>0) {
-		if (param_init(user_params,nof_params) < 0) {
-			printf("initializing %d params: %s\n",nof_params,param_error_str());
-			return -1;
-		}
-	} else {
-		printf("Any parameter is configured\n");
-	}
-
-	param_init(user_params,nof_params);
+	parameters = NULL;
 
 	parse_paramters(argc, argv);
 
@@ -262,6 +263,80 @@ int main(int argc, char **argv)
 	return 0;
 }
 
+pmid_t param_id(char *name) {
+	int i;
+	for (i=0;i<nof_params;i++) {
+		if (!strcmp(name,parameters[i].name))
+			break;
+	}
+	if (i==nof_params) {
+		return NULL;
+	}
+	return &parameters[i];
+}
+
+int param_get(pmid_t id, void *ptr, int max_size, param_type_t *type) {
+	int itmp;
+	float ftmp;
+	saparam_t *param = (saparam_t*) id;
+
+	if (!ptr) return -1;
+	if (!max_size) return -1;
+	if (!id) return -1;
+
+
+	/**@TODO: Support comma-separated parameter values */
+
+	/* parse value */
+
+	/* float */
+	if (index(param->value,'.') || index(param->value,',')) {
+		if (sscanf(param->value,"%f",&ftmp) != 0) {
+			if (max_size < sizeof(float))
+				return -1;
+
+			*((float*) ptr) = ftmp;
+			if (type) {
+				*type = FLOAT;
+			}
+			return sizeof(float);
+		}
+		return -1;
+	}
+
+	/* is integer */
+	/* try first hexadecimal */
+	if (index(param->value,'x') || index(param->value,'X')) {
+		if (sscanf(param->value,"0x%x",&itmp) != 0) {
+			if (max_size < sizeof(int))
+				return -1;
+
+			*((int*) ptr) = itmp;
+			if (type) {
+				*type = INT;
+			}
+			return sizeof(int);
+		}
+	}
+	/* else is integer */
+	if (sscanf(param->value,"%d",&itmp) != 0) {
+		if (max_size < sizeof(int))
+			return -1;
+
+		*((int*) ptr) = itmp;
+		if (type) {
+			*type = INT;
+		}
+		return sizeof(int);
+	}
+
+	/* else assume is a string */
+	strncpy(ptr,param->value,max_size);
+	if (type) {
+		*type = STRING;
+	}
+	return strnlen(ptr,max_size);
+}
 
 
 /* Define test environment functions here */
@@ -269,48 +344,51 @@ int parse_paramters(int argc, char**argv)
 {
 	int i;
 	char *key,*value;
-	param_t *param;
-	void *dst;
+	int k;
 
 	use_gnuplot = 0;
 
 	for (i=1;i<argc;i++) {
 		if (!strcmp(argv[i],"-p")) {
 			use_gnuplot = 1;
-		} else {
-			key=argv[i];
+		}
+	}
+
+	nof_params = argc-1-use_gnuplot;
+	if (!nof_params) {
+		return 0;
+	}
+
+	parameters = calloc(sizeof(saparam_t),nof_params);
+
+	for (i=1;i<argc;i++) {
+		if (strcmp(argv[i],"-p")) {
+			key = argv[i];
 			value = index(argv[i],'=');
 			if (!value) {
 				printf("Invalid argument %s. Accepted format is key=value\n",argv[i]);
 			}
-			*value='\0';
+			*value = '\0';
 			value++;
-			param = param_get(key);
-			if (!param) {
-				return -1;
-			}
-			dst = param_get_addr(key);
-			if (!dst) {
-				return -1;
-			}
-			switch(param->type) {
-			case INT:
-				*((int*) dst) = atoi(value);
-				break;
-			case FLOAT:
-				*((float*) dst) = atof(value);
-				break;
-			case STRING:
-				strcpy(dst,value);
-				break;
-			default:
-				printf("Type %d of param %s not implemented\n",param->type,key);
-				break;
-			}
+			parameters[k].name = strdup(key);
+			parameters[k].value = strdup(value);
+			k++;
 		}
 	}
 	return 0;
 }
+
+
+#ifdef _ALOE_OLD_SKELETON
+int get_input_max_samples() {
+	return input_max_samples;
+}
+
+int get_output_max_samples() {
+	return output_max_samples;
+}
+#endif
+
 
 
 

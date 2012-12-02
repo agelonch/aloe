@@ -224,6 +224,7 @@ int variable_serialize(variable_t *src, packet_t *pkt, enum variable_serialize_d
 
 	add_i(&src->id);
 	add_i(&src->size);
+	add_i(&src->type);
 
 	switch(copy_data) {
 	case CP_INIT:
@@ -257,6 +258,8 @@ int variable_unserializeTo(packet_t *pkt, variable_t *dest,
 
 	get_i(&dest->id);
 	get_i(&dest->size);
+	get_i(&dest->type);
+
 	hdebug("var_id=%d, size=%d\n",dest->id,dest->size);
 	switch(copy_data) {
 	case CP_INIT:

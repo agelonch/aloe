@@ -20,8 +20,8 @@
 #include "mex.h"
 /*#include "matrix.h"*/
 
-#include "skeleton.h"
 #include "params.h"
+#include "skeleton.h"
 
 #define IN 	prhs[0]
 #define CTRL	prhs[1]
@@ -52,19 +52,28 @@ static char *output_buffer;
 static void **input_ptr;
 static void **output_ptr;
 
+typedef struct {
+	char *name;
+	mxArray *value;
+} mexparam_t;
+
+mexparam_t *parameters;
+int nof_params;
+
 int *iscomplex;
 
 static int output_is_complex;
 
 int get_input_samples(int idx) {
+	if (idx<0 || idx>nof_input_itf)
+		return -1;
 	return input_len[idx];
 }
-void set_output_samples(int idx, int len) {
+int set_output_samples(int idx, int len) {
+	if (idx<0 || idx>nof_input_itf)
+			return -1;
 	output_len[idx] = len;
-}
-
-int get_input_max_samples() {
-	return input_max_samples;
+	return 0;
 }
 
 
@@ -201,31 +210,22 @@ void save_output(mxArray **dst, void *src, int len) {
 
 }
 
-void process_control(const mxArray *ctrl) {
-	int nof_params;
+void parse_parameters(const mxArray *ctrl) {
 	int i,j;
 	int slen;
-	char *s;
 	void *pmem;
-	mxArray *cellparam,*cellkey,*cellvalue;
+	mxArray *cellparam,*cellkey;
 	void *dst;
 	double *src;
 	int plen;
-	param_t *param;
-	int nof_parameters;
-	param_t *parameters;
 
 	if (!mxIsCell(ctrl)) {
 		help();
 	}
-	parameters = param_list(&nof_parameters);
-	if (!parameters || !nof_parameters) {
-		return;
-	}
-
-	param_init(parameters, nof_parameters);
 
 	nof_params = mxGetNumberOfElements(ctrl);
+	parameters = mxCalloc(sizeof(mexparam_t),nof_params);
+
 	for (j=0;j<nof_params;j++) {
 		cellparam = mxGetCell(ctrl,j);
 		if (!mxIsCell(cellparam)) {
@@ -235,49 +235,15 @@ void process_control(const mxArray *ctrl) {
 			help();
 		}
 		cellkey = mxGetCell(cellparam,0);
-		cellvalue = mxGetCell(cellparam,1);
-		if (!mxIsDouble(cellvalue)) {
-			mexErrMsgTxt("Only numeric parameters are supported\n");
-		}
 		if (!mxIsChar(cellkey)) {
 			help();
 		}
 		slen = MAX(mxGetM(cellkey),mxGetN(cellkey))+1;
-		s = mxCalloc(slen, sizeof(char));
-		if (mxGetString(cellkey,s,slen)) {
+		parameters[j].name = mxCalloc(slen, sizeof(char));
+		if (mxGetString(cellkey, parameters[j].name, slen)) {
 			mexErrMsgTxt("Error reading string\n");
 		}
-		param = param_get(s);
-		if (!param) {
-			mexErrMsgTxt(param_error_str());
-		}
-		dst = param_get_addr(s);
-		if (!dst) {
-			mexErrMsgTxt(param_error_str());
-		}
-		src = mxGetPr(cellvalue);
-		plen = MAX(mxGetM(cellvalue),mxGetN(cellvalue));
-		switch(param->type) {
-		case INT:
-			for (i=0;i<plen;i++) {
-				*((int*) dst+i) = (int) src[i];
-			}
-			break;
-		case FLOAT:
-			for (i=0;i<plen;i++) {
-				*((float*) dst+i) = (float) src[i];
-			}
-			break;
-		case STRING:
-			mxGetString(cellvalue,dst,plen);
-			break;
-		default:
-			mexErrMsgTxt("Parameter type not implemented");
-			break;
-		}
-		if (mxIsComplex(cellvalue)) {
-			mexErrMsgTxt("Complex params not supported\n");
-		}
+		parameters[j].value  = mxGetCell(cellparam,1);
 	}
 }
 
@@ -321,7 +287,7 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[]) {
 	format_input(IN);
 
 	if (nrhs == 2) {
-		process_control(CTRL);
+		parse_parameters(CTRL);
 	}
 
 	if (initialize()<0) {
@@ -369,4 +335,70 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[]) {
 
     return;
 }
+
+
+pmid_t param_id(char *name) {
+	int i;
+	for (i=0;i<nof_params;i++) {
+		if (!strcmp(name,parameters[i].name))
+			break;
+	}
+	if (i==nof_params) {
+		return NULL;
+	}
+	return &parameters[i];
+}
+
+int param_get(pmid_t id, void *ptr, int max_size, param_type_t *type) {
+
+	if (!max_size) return -1;
+	if (!ptr) return -1;
+	if (!id) return -1;
+	mexparam_t *param = (mexparam_t*) id;
+
+
+	if (!mxIsNumeric(param->value)) {
+		mexPrintf("Error parsing parameter name=%d. Value must be numeric\n",param->name);
+		return -1;
+	}
+
+	/* parse value */
+
+	/* try integer */
+	if (mxIsInt32(param->value)) {
+		*((int*) ptr) = *((int*) mxGetData(param->value));
+		if (type) {
+			*type = INT;
+		}
+		return sizeof(int);
+	}
+
+	/* try double */
+	if (mxIsDouble(param->value)) {
+		*((float*) ptr) = (float) *((double*) mxGetData(param->value));
+		if (type) {
+			*type = FLOAT;
+		}
+		return sizeof(float);
+	}
+
+	mexPrintf("Error: value type of parameter name %s is not supported.\n"
+			"Only int32 and double numeric values are supported",param->name);
+	return -1;
+}
+
+
+
+#ifdef _ALOE_OLD_SKELETON
+int get_input_max_samples() {
+	return input_max_samples;
+}
+
+int get_output_max_samples() {
+	return output_max_samples;
+}
+#endif
+
+
+
 

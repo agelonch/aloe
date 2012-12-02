@@ -38,7 +38,7 @@ int initialize() {
 
 	block_length = param_get_addr("block_length");
 	if (!block_length) {
-		moderror_msg("Error: %s\n",param_error_str());
+		moderror("Error getting parameter block_length\n");
 		return 0;
 	}
 
@@ -90,6 +90,7 @@ int work(input_t *inp, output_t *out) {
 
 	/* do DSP stuff here */
 	for (i=0;i<rcv_samples;i++) {
+		printf("input[%d/%d]=%.2f+%.2fj\n",i, rcv_samples,__real__ inp[i],__imag__ inp[i]);
 		out[i]=inp[i]*2;
 	}
 	return rcv_samples;

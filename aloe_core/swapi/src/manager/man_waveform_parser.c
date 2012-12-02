@@ -70,12 +70,14 @@ static int read_variable_value(config_setting_t *value, variable_t *v, int idx) 
 		v->init_value[idx] = malloc(sizeof(int));
 		assert(v->init_value[idx]);
 		*((int*) v->init_value[idx]) = config_setting_get_int(value);
+		v->type = VAR_TYPE_INT;
 		pardebug("%s: mode=%d, int=%d\n",v->name,idx,*((int*) v->init_value[idx]));
 		break;
 	case CONFIG_TYPE_FLOAT:
 		check_and_set_size(sizeof(float));
 		v->init_value[idx] = malloc(sizeof(float));
 		assert(v->init_value[idx]);
+		v->type = VAR_TYPE_FLOAT;
 		*((float*) v->init_value[idx]) = (float) config_setting_get_float(value);
 		pardebug("%s: mode=%d, float=%.2f\n",v->name,idx,*((float*) v->init_value[idx]));
 		break;
@@ -85,6 +87,7 @@ static int read_variable_value(config_setting_t *value, variable_t *v, int idx) 
 		check_and_set_size(STR_LEN);
 		v->init_value[idx] = malloc(STR_LEN+1);
 		assert(v->init_value[idx]);
+		v->type = VAR_TYPE_STRING;
 		strncpy(v->init_value[idx],tmp,STR_LEN);
 		pardebug("%s: mode=%d, string=%s\n",v->name,idx,v->init_value[idx]);
 		break;
@@ -96,6 +99,7 @@ static int read_variable_value(config_setting_t *value, variable_t *v, int idx) 
 			check_and_set_size(n*(int) sizeof(int));
 			v->init_value[idx] = malloc((size_t) v->size);
 			iptr=v->init_value[idx];
+			v->type = VAR_TYPE_INT;
 			for (i=0;i<n;i++) {
 				iptr[i] = config_setting_get_int_elem(value,i);
 				pardebug("%s: mode=%d, int[%d]=%.2f\n",v->name,idx,i,
@@ -106,6 +110,7 @@ static int read_variable_value(config_setting_t *value, variable_t *v, int idx) 
 			check_and_set_size(n*(int) sizeof(float));
 			v->init_value[idx] = malloc((size_t) v->size);
 			fptr=v->init_value[idx];
+			v->type = VAR_TYPE_FLOAT;
 			for (i=0;i<n;i++) {
 				fptr[i] = (float) config_setting_get_float_elem(value, i);
 				pardebug("%s: mode=%d, float[%d]=%.2f\n",v->name,idx,i,

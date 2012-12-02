@@ -32,6 +32,11 @@ typedef enum {
 	ITF_READ, ITF_WRITE
 }swapi_itf_mode_t;
 
+/** must be exactly the same than variable_type_t in waveform.h */
+typedef enum {
+	VAR_INT, VAR_FLOAT, VAR_STRING
+}swapi_var_type_t;
+
 /** must be exactly the same than h_pkt_t in hwapi_types.h */
 typedef struct {
 	int len;

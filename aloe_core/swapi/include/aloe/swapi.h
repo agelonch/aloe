@@ -51,8 +51,11 @@ int swapi_itf_pkt_put(itf_t itf, pkt_t *pkt);
 pkt_t* swapi_itf_pkt_get(itf_t itf);
 
 var_t swapi_var_create(void *context, char* name, void *ptr, int size);
-int swapi_var_initialize(void *context, char* name, void* ptr, int size);
 int swapi_var_close(void *context, var_t var);
+
+var_t swapi_var_param_get(void *context, char *name);
+int swapi_var_param_value(void *context, var_t parameter, void* value, int size);
+swapi_var_type_t swapi_var_param_type(void *context, var_t parameter);
 
 counter_t swapi_counter_create(void *context, char* name);
 int swapi_counter_close(counter_t counter);

@@ -16,44 +16,34 @@
  * along with ALOE++.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/* Constants and function prototyes directly used by the DSP modules being implemented */
-
-#define PI		3.14159265359	/* pi approximation */
-#define PIx2		6.28318530718
-
-#define SIZE		1000000
-
-
 /* input and output data types */
 typedef _Complex float input_t;
 typedef _Complex float output_t;
 
-#ifdef MODULE_CONFIG
+#define OUTPUT_MAX_SAMPLES  0
+#define INPUT_MAX_SAMPLES 	14*2048
+
+#define NOF_INPUT_ITF		0
+#define NOF_OUTPUT_ITF		1
+
+
+
+
+/********* do not need to modify beyond here */
+
+
+#ifndef INCLUDE_DEFS_ONLY
 
 /* Input and output buffer sizes (in number of samples) */
-const int input_max_samples = 14*2048;
-const int output_max_samples = 0;
+const int input_max_samples = INPUT_MAX_SAMPLES;
+const int output_max_samples = OUTPUT_MAX_SAMPLES;
 
 /* leave these two lines unmodified */
 const int input_sample_sz = sizeof(input_t);
 const int output_sample_sz = sizeof(output_t);
 
 /* Number of I/O interfaces. All have the same maximum size */
-const int nof_input_itf = 1;
-const int nof_output_itf = 0;
-
-
-
-/* Configure the control variables */
-
-param_t parameters[] = {
-		{"block_length", 	/* Parameter name*/
-		  INT,			/* Parameter type (see skeleton.h) */
-		  1},			/* Number of samples (of size the type) */
-		{NULL, 0, 0} /* need to end with null name */
-};
-
-/* This number MUST be equal or greater than the number of parameters*/
-const int nof_parameters = 2;
+const int nof_input_itf = NOF_INPUT_ITF;
+const int nof_output_itf = NOF_OUTPUT_ITF;
 
 #endif

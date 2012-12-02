@@ -2,7 +2,6 @@
 #include <string.h>
 #include <stdarg.h>
 
-#include "swapi_types.h"
 #include "swapi.h"
 
 #include "params.h"
@@ -27,9 +26,6 @@ itf_t inputs[MAX_INPUTS], outputs[MAX_OUTPUTS];
 user_var_t *user_vars;
 var_t vars[MAX_VARIABLES];
 int nof_vars;
-
-param_t *user_params;
-int nof_params;
 
 log_t mlog;
 counter_t counter;
@@ -84,17 +80,15 @@ int check_configuration(void *ctx) {
 		return -1;
 	}
 
-	user_params = param_list(&nof_params);
-
-	user_vars = variables_list(&nof_vars);
-	if (nof_vars && nof_params>0) {
-		if (nof_vars > MAX_VARIABLES) {
-			moderror_msg("Maximum number of parameters is %d. The module uses %d. "
-					"Increase MAX_VARIABLES in swapi_static/skeleton/skeleton.c and recompile ALOE\n",
-					MAX_VARIABLES,nof_vars);
-			return -1;
-		}
-	}
+	/*user_vars = variables_list(&nof_vars);
+	if (nof_vars > MAX_VARIABLES) {
+		moderror_msg("Maximum number of parameters is %d. The module uses %d. "
+				"Increase MAX_VARIABLES in swapi_static/skeleton/skeleton.c and recompile ALOE\n",
+				MAX_VARIABLES,nof_vars);
+		return -1;
+	}*/
+	user_vars = NULL;
+	nof_vars = 0;
 
 	return 0;
 }
@@ -170,38 +164,6 @@ void close_interfaces(void *ctx) {
 			}
 		}
 	}
-}
-
-int init_parameters(void *ctx) {
-	int i;
-	param_t *param;
-
-	moddebug("nof_params=%d\n",nof_params);
-
-	if (!nof_params || !user_params) {
-		return 0;
-	}
-
-	if (param_init(user_params,nof_params) < 0) {
-		moderror_msg("initializing %d params: %s\n",nof_params,param_error_str());
-		return -1;
-	}
-
-	if (nof_params != param_nof()) {
-		modinfo_msg("warning: user configured %d parameters but %d where read\n",nof_params,
-				param_nof());
-	}
-
-	for (i=0;i<param_nof();i++) {
-		moddebug("param %d\n",i);
-		param = param_get_i(i);
-		assert(param);
-		if (swapi_var_initialize(ctx, param->name, param_get_addr_i(i), param_get_bsize_i(i)) == -1) {
-			swapi_perror("swapi_var_initialize\n");
-			moderror_msg("parameter name=%s size=%d\n",param->name, param_get_bsize_i(i));
-			return -1;
-		}
-	}
 #ifdef _ALOE_OLD_SKELETON
 	if (input_buffer) {
 		free(input_buffer);
@@ -210,11 +172,7 @@ int init_parameters(void *ctx) {
 		free(output_buffer);
 	}
 #endif
-	return 0;
-}
 
-void close_parameters(void *ctx) {
-	moddebug("param_nof=%d\n",param_nof());
 }
 
 int init_variables(void *ctx) {
@@ -307,10 +265,6 @@ int Init(void *ctx) {
 		return 0;
 	}
 
-	if (init_parameters(ctx)) {
-		return -1;
-	}
-
 	if (init_variables(ctx)) {
 		return -1;
 	}
@@ -333,7 +287,6 @@ int Stop(void *ctx) {
 
 	close_counter(ctx);
 	close_variables(ctx);
-	close_parameters(ctx);
 	close_interfaces(ctx);
 
 	moddebug("exit ts=%d\n",swapi_tstamp(ctx));
@@ -467,16 +420,19 @@ int Run(void *ctx) {
 
 
 int get_input_samples(int idx) {
-	assert(idx>=0 && idx<nof_input_itf);
+	if (idx<0 || idx>nof_input_itf)
+			return -1;
 	return rcv_len[idx];
 }
 
-void set_output_samples(int idx, int len) {
-	assert(idx>=0 && idx<nof_output_itf);
-	assert(len>=0);
+int set_output_samples(int idx, int len) {
+	if (idx<0 || idx>nof_input_itf)
+			return -1;
 	snd_len[idx] = len;
+	return 0;
 }
 
+#ifdef _ALOE_OLD_SKELETON
 int get_input_max_samples() {
 	return input_max_samples;
 }
@@ -484,4 +440,22 @@ int get_input_max_samples() {
 int get_output_max_samples() {
 	return output_max_samples;
 }
+
+void* param_get_addr(char *name) {
+	aerror("Warning: the function param_get_addr() is deprecated, use param_addr() instead. ");
+	return NULL;
+}
+#endif
+
+int param_get(pmid_t id, void *ptr, int max_size, param_type_t *type) {
+	if (type) {
+		*type = (param_type_t) swapi_var_param_type(context,(var_t) id);
+	}
+	return swapi_var_param_value(context, (var_t) id, ptr, max_size);
+}
+
+pmid_t param_id(char *name) {
+	return (pmid_t) swapi_var_param_get(context,name);
+}
+
 

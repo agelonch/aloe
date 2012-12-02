@@ -21,10 +21,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "params.h"
-#include "templatelegacy_interfaces.h"
-#include "templatelegacy.h"
+#include <aloe/swapi.h>
 #include "test_generate.h"
+#include "templatelegacy_interfaces.h"
 
 int offset=0;
 
@@ -57,7 +56,8 @@ int generate_input_signal(input_t *input, int *lengths)
 	lengths[0] = *block_length;
 
 	for (i=0;i<*block_length;i++) {
-		input[i]=(i+offset)%(*block_length);
+		__real__ input[i] = (i+offset)%(*block_length);
+		__imag__ input[i] = (*block_length-i-1+offset)%(*block_length);
 	}
 	offset++;
 	return 0;

@@ -17,16 +17,14 @@
  */
 
 #include <stdio.h>
-
 #include <aloe/swapi_static.h>
-#include <aloe/skeleton.h>
 #include <aloe/params.h>
+#include <aloe/skeleton.h>
 
-#define MODULE_CONFIG
 #include "template.h"
-#undef MODULE_CONFIG
 
-int *block_length;
+pmid_t blen_id;
+
 
 /*
  * Function documentation
@@ -34,18 +32,24 @@ int *block_length;
  * @returns 0 on success, -1 on error
  */
 int initialize() {
+	int size;
+	int block_length;
 
-	block_length = param_get_addr("block_length");
-	if (!block_length) {
-		moderror_msg("Error: %s\n",param_error_str());
-		return 0;
+	blen_id = param_id("block_length");
+	if (!blen_id) {
+		moderror("Parameter block_length not found\n");
+		return -1;
+	}
+	if (!param_get_int(blen_id,&block_length)) {
+		moderror("Getting integer parameter block_length\n");
+		return -1;
 	}
 
-	modinfo_msg("Parameter block_length is %d\n",*block_length);
+	modinfo_msg("Parameter block_length is %d\n",block_length);
 
 	/* Verify control parameters */
-	if (*block_length > get_input_max_samples()) {
-		moderror_msg("Invalid block length %d\n", *block_length);
+	if (block_length > input_max_samples || block_length < 0) {
+		moderror_msg("Invalid block length %d\n", block_length);
 		return -1;
 	}
 
@@ -79,14 +83,20 @@ int work(void **inp, void **out) {
 	int i;
 	input_t *input = inp[0];
 	output_t *output = out[0];
+	int block_length;
 
-	if (rcv_samples > *block_length) {
+	if (!param_get_int(blen_id,&block_length)) {
+		moderror("Getting integer parameter block_length\n");
+		return -1;
+	}
+
+	if (rcv_samples > block_length) {
 		/* ... */
 	}
 
 	/* do DSP stuff here */
 	for (i=0;i<rcv_samples;i++) {
-		printf("input[%d/%d]=%d\n",i, rcv_samples,input[i]);
+		printf("input[%d/%d]=%.2f+%.2fj\n",i, rcv_samples,__real__ input[i],__imag__ input[i]);
 		output[i]=input[i]*2;
 	}
 	return rcv_samples;
@@ -98,10 +108,4 @@ int work(void **inp, void **out) {
 int stop() {
 	return 0;
 }
-
-param_t *param_list(int *nof_params) {
-	*nof_params = nof_parameters;
-	return parameters;
-}
-
 

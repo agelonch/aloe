@@ -49,27 +49,58 @@ var_t swapi_var_create(void *context, string name, void *ptr, int size) {
 	return 0;
 }
 
-/**\brief Sets up to size bytes of the buffer pointed by ptr to the value of the initialization
- * parameter with name "name".
- * On success, returns a non-negative integer indicating the number of bytes written to ptr.
+/**\brief Sets up to size bytes of the buffer pointed by ptr to the value of the parameter
+ * returned by swapi_var_param_get()
+ * On success, returns a non-negative integer indicating the number of bytes written to value.
  */
-int swapi_var_initialize(void *context, string name, void* ptr, int size) {
-	cast(ctx,context);
-	SWAPI_ASSERT_PARAM(name);
-	sdebug("name=%s, size=%d, ptr=0x%x\n",name,size,ptr);
-
-	SWAPI_ASSERT_PARAM(ptr);
-	SWAPI_ASSERT_PARAM(size>0);
+int swapi_var_param_value(void *context, var_t parameter, void* value, int size) {
 	int cpy_sz;
+
+	cast(ctx,context);
+	sdebug("id=0x%x, size=%d, value=0x%x\n",parameter,size,value);
+
+	SWAPI_ASSERT_PARAM(parameter);
+	SWAPI_ASSERT_PARAM(value);
+	SWAPI_ASSERT_PARAM(size>0);
+
 	nod_module_t *module = (nod_module_t*) ctx->module;
-	variable_t *variable = nod_module_variable_get(module, name);
+	variable_t *variable = (variable_t*) parameter;
+
+	cpy_sz = (variable->size > size)?size:variable->size;
+	memcpy(value, variable->init_value[module->parent.cur_mode], (size_t) cpy_sz);
+	return cpy_sz;
+}
+
+
+/**\brief Returns a handler for the parameter with name "name".
+ * This handler is then used by the functions swapi_var_param_value() and swapi_var_param_type()
+ */
+var_t swapi_var_param_get(void *context, char *name) {
+	cast_p(ctx,context);
+	SWAPI_ASSERT_PARAM_P(name);
+	sdebug("name=%s\n",name);
+
+	nod_module_t *module = (nod_module_t*) ctx->module;
+	variable_t *variable = nod_module_variable_get(module,name);
 	if (!variable) {
 		SWAPI_SETERROR(SWAPI_ERROR_NOTFOUND);
-		return -1;
+		return NULL;
 	}
-	cpy_sz = (variable->size > size)?size:variable->size;
-	memcpy(ptr, variable->init_value[module->parent.cur_mode], (size_t) cpy_sz);
-	return cpy_sz;
+	return (var_t) variable;
+}
+
+/**\brief Returns the parameter variable type
+ */
+swapi_var_type_t swapi_var_param_type(void *context, var_t parameter) {
+	cast(ctx,context);
+
+	sdebug("id=0x%x, size=%d, value=0x%x\n",parameter);
+
+	SWAPI_ASSERT_PARAM(parameter);
+
+	nod_module_t *module = (nod_module_t*) ctx->module;
+	variable_t *variable = (variable_t*) parameter;
+	return (swapi_var_type_t) variable->type;
 }
 
 /**\brief Closes a variable handler. After a call to this function, ALOE can not access to
@@ -82,5 +113,6 @@ int swapi_var_close(void *context, var_t var) {
 	SWAPI_ASSERT_PARAM(var);
 	variable->size = 0;
 	variable->id = 0;
+	variable->cur_value = NULL;
 	return 0;
 }
