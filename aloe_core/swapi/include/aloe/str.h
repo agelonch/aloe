@@ -31,6 +31,7 @@
 
 #define strcpy(a,b) strncpy(a,b,STR_LEN)
 #define lstrcpy(a,b) strncpy(a,b,LSTR_LEN)
+#undef strcmp
 #define strcmp(a,b) strncmp(a,b,STR_LEN)
 #define lstrcmp(a,b) strncmp(a,b,LSTR_LEN)
 

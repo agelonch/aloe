@@ -3,6 +3,11 @@
 # set-up the program libraries here
 set(LIBRARIES m rt)
 
+# set-up program includes here
+include_directories(/usr/local/include/)
+
+############## DO NOT NEED TO MODIFY BEYOND HERE
+
 if (${MODULE_REPOS_NAME} STREQUAL "") 
 	set(MODULE_REPOS_NAME "default")
 endif()

@@ -16,28 +16,15 @@
  * along with ALOE++.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+/* input and output data types */
+typedef char input_t;
+typedef char output_t;
 
-/* Define here module interfaces */
-
-typedef _Complex float input_t;
-typedef _Complex float output_t;
-
-//#define GENERATE_COMPLEX
-
+#define INPUT_MAX_SAMPLES 	0
 #define OUTPUT_MAX_SAMPLES 	14*2048
-#define INPUT_MAX_SAMPLES 	14*2048
 
-#define NOF_INPUT_ITF		1
+#define NOF_INPUT_ITF		0
 #define NOF_OUTPUT_ITF		1
-
-
-/** Define here module constants shared with test_generate.c fie */
-#define PI			3.14159265359	/* pi approximation */
-#define PIx2		6.28318530718
-#define SIZE		1000000
-
-
-
 
 
 

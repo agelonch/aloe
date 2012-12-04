@@ -94,6 +94,12 @@ int swapi_tstamp(void *context) {
 	return ctx->tstamp;
 }
 
+int swapi_tslot_length(void *context) {
+	hwapi_machine_t machine;
+	hwapi_machine(&machine);
+	return machine.ts_len_us;
+}
+
 /** \brief A counter shall be used by a user to measure time intervals. swapi_counter_create() returns
  * a counter_t object which is passed as a first parameter to swapi_counter_start() and
  * swapi_counter_stop() functions, which start and stop the counter, respectively. A counter is

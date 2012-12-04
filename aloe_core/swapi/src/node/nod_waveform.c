@@ -169,6 +169,9 @@ static int nod_waveform_status_ok(nod_waveform_t *w) {
 			return -1;
 		}
 	}
+	if (w->status.cur_status == STEP) {
+		w->status.cur_status = PAUSE;
+	}
 
 	if (w->status.cur_status == STOP) {
 		if (nod_waveform_remove(w)) {

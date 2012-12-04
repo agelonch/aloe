@@ -34,12 +34,12 @@
 
 
 /* debug serializable */
-#define DEBUG_SER 1
+#define DEBUG_SER 0
 #define serdebug(_fmt, ...) \
 	do { if (DEBUG_SER) printf("[debug-serial]\t[%s()]: " _fmt, __func__,__VA_ARGS__);} while(0);
 
 /* debug manager */
-#define DEBUG_MAN 1
+#define DEBUG_MAN 0
 #define mdebug(_fmt, ...) \
 	do { if (DEBUG_MAN) printf("[debug-manager]\t[%s()]: " _fmt, __func__,__VA_ARGS__);} while(0);
 
@@ -49,12 +49,12 @@
 	do { if (DEBUG_PARSER) printf("[debug-parser]\t[%s()]: " _fmt, __func__,__VA_ARGS__);} while(0);
 
 /* debug node */
-#define DEBUG_NODE 1
+#define DEBUG_NODE 0
 #define ndebug(_fmt, ...) \
 	do { if (DEBUG_NODE) printf("[debug-node]\t[%s()]: " _fmt, __func__,__VA_ARGS__);} while(0);
 
 /* debug swapi */
-#define DEBUG_SWAPI 1
+#define DEBUG_SWAPI 0
 #define sdebug(_fmt, ...) \
 	do { if (DEBUG_SWAPI) printf("[debug-swapi]\t[%s()]: " _fmt, __func__,__VA_ARGS__);} while(0);
 

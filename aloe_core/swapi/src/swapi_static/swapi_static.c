@@ -59,6 +59,13 @@ int _run_cycle(void* context) {
 					aerror("calling stop\n");
 				}
 			break;
+			case STEP:
+				if (module->parent.status == RUN) {
+					module->parent.status = waveform->status.cur_status;
+				} else {
+					module->parent.status = RUN;
+				}
+				break;
 			case PAUSE:
 			case RUN:
 				/* These status does not need confirmation */
@@ -70,7 +77,7 @@ int _run_cycle(void* context) {
 		}
 	}
 
-	if (!module->changing_status && waveform->status.cur_status == RUN) {
+	if (!module->changing_status && module->parent.status == RUN) {
 		/* save start time */
 		hwapi_time_get(&module->parent.execinfo.t_exec[1]);
 		ctx->tstamp++;

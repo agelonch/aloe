@@ -317,21 +317,30 @@ int Run(void *_ctx) {
 	int n;
 
 	for (i=0;i<nof_input_itf;i++) {
-		input_pkt[i] = swapi_itf_pkt_get(inputs[i]);
-		moddebug("get: input=%d, pkt=0x%x\n",i, input_pkt[i]);
-		if (!input_pkt[i]) {
+		if (!inputs[i]) {
+			input_pkt[i] = NULL;
 			rcv_len[i] = 0;
 		} else {
-			moddebug("get: input=%d, len=%d\n",i,input_pkt[i]->len);
-			rcv_len[i] = input_pkt[i]->len/input_sample_sz;
+			input_pkt[i] = swapi_itf_pkt_get(inputs[i]);
+			moddebug("get: input=%d, pkt=0x%x\n",i, input_pkt[i]);
+			if (!input_pkt[i]) {
+				rcv_len[i] = 0;
+			} else {
+				moddebug("get: input=%d, len=%d\n",i,input_pkt[i]->len);
+				rcv_len[i] = input_pkt[i]->len/input_sample_sz;
+			}
 		}
 	}
 	for (i=0;i<nof_output_itf;i++) {
-		output_pkt[i] = swapi_itf_pkt_request(outputs[i]);
-		moddebug("request: output=%d pkt=0x%x\n",i,output_pkt[i]);
-		if (!output_pkt[i]) {
-			swapi_perror("swapi_itf_ptr_request\n");
-			return -1;
+		if (!outputs[i]) {
+			output_pkt[i] = NULL;
+		} else {
+			output_pkt[i] = swapi_itf_pkt_request(outputs[i]);
+			moddebug("request: output=%d pkt=0x%x\n",i,output_pkt[i]);
+			if (!output_pkt[i]) {
+				swapi_perror("swapi_itf_ptr_request\n");
+				return -1;
+			}
 		}
 	}
 
@@ -378,7 +387,7 @@ int Run(void *_ctx) {
 	memset(rcv_len,0,sizeof(int)*nof_input_itf);
 
 	for (i=0;i<nof_output_itf;i++) {
-		if (!snd_len[i]) {
+		if (!snd_len[i] && output_pkt[i]) {
 			snd_len[i] = n*output_sample_sz;
 		}
 	}

@@ -1,7 +1,9 @@
 # This configuration is for the aloe++ skeleton
 
 # set-up the program libraries here
-set(LIBRARIES m rt)
+set(LIBRARIES plplotd m fftw3f fftw3)
+
+include_directories(/usr/local/include/plplot)
 
 if (${MODULE_REPOS_NAME} STREQUAL "") 
 	set(MODULE_REPOS_NAME "default")

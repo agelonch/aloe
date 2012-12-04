@@ -23,7 +23,7 @@
 #include <stdio.h>
 
 #define USE_LOG 0
-#define MOD_DEBUG 1
+#define MOD_DEBUG 0
 
 
 /**\brief Returns the number of samples (of size input_sample_sz) received from the input port

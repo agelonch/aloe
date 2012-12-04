@@ -10,8 +10,13 @@ waveform_t waveform;
 
 void *run_test_suite_waveform(void *arg) {
 	int c;
+	int tslen;
+	hwapi_machine_t machine;
 	strcpy(waveform.model_file,arg);
 	strcpy(waveform.name,arg);
+
+	hwapi_machine(&machine);
+	tslen = machine.ts_len_us;
 
 	/* this will be done by the module */
 	if (nod_anode_initialize(2)) {
@@ -65,7 +70,7 @@ void *run_test_suite_waveform(void *arg) {
 			break;
 		}
 		if (new_status.cur_status != LOADED) {
-			new_status.dead_timeslot = hwapi_time_slot() + 3;
+			new_status.dead_timeslot = hwapi_time_slot()+3+100000/tslen;
 			new_status.next_timeslot = hwapi_time_slot();
 			if (waveform_status_set(&waveform,&new_status)) {
 				printf("DID NOT CHANGE!\n");

@@ -36,6 +36,7 @@ void swapi_error_print(void *context, const char *user_message);
 
 int swapi_exit(void *context);
 int swapi_tstamp(void *context);
+int swapi_tslot_length(void *context);
 
 char *swapi_module_name(void *context);
 int swapi_module_id(void *context);

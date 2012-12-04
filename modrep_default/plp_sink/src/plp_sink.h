@@ -16,29 +16,31 @@
  * along with ALOE++.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+/* input and output data types */
+typedef float input_t;
+typedef float output_t;
 
-/* Define here module interfaces */
-
-typedef _Complex float input_t;
-typedef _Complex float output_t;
-
-//#define GENERATE_COMPLEX
-
-#define OUTPUT_MAX_SAMPLES 	14*2048
 #define INPUT_MAX_SAMPLES 	14*2048
+#define OUTPUT_MAX_SAMPLES  0
 
 #define NOF_INPUT_ITF		1
-#define NOF_OUTPUT_ITF		1
+#define NOF_OUTPUT_ITF		0
+
+#define FFT_DEFAULT_SZ 128
+
+#define MAX(a,b) ((a) > (b) ? a : b)
+#define MIN(a,b) ((a) < (b) ? a : b)
 
 
-/** Define here module constants shared with test_generate.c fie */
-#define PI			3.14159265359	/* pi approximation */
-#define PIx2		6.28318530718
-#define SIZE		1000000
+#define PL_DRIVER "xcairo"		/** this is the prettier, but slower and memory leakage */
+//#define PL_DRIVER "xwin"		/** this is the fastest */
 
+#define EXEC_MIN_INTERVAL_MS	100
 
-
-
+#define MODE_SILENT		0
+#define MODE_PRINT		1
+#define MODE_SCOPE		2
+#define MODE_FFT		3
 
 
 

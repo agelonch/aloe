@@ -22,16 +22,15 @@
 #include <aloe/skeleton.h>
 #include <aloe/params.h>
 
-#include "test_tx.h"
+#include "source.h"
+#include "generators.h"
 
-pmid_t blen_id;
+pmid_t blen_id, gen_id;
 int cnt=0;
+static int last_type;
+static int last_block_length;
 
-/*
- * Function documentation
- *
- * @returns 0 on success, -1 on error
- */
+
 int initialize() {
 	int size;
 	int block_length;
@@ -41,6 +40,7 @@ int initialize() {
 		moderror("Parameter block_length not found\n");
 		return -1;
 	}
+
 	if (param_get_int(blen_id,&block_length) != 1) {
 		moderror("Getting integer parameter block_length\n");
 		return -1;
@@ -48,52 +48,60 @@ int initialize() {
 
 	modinfo_msg("Parameter block_length is %d\n",block_length);
 
-	/* Verify control parameters */
-	if (block_length > output_max_samples) {
-		moderror_msg("Invalid block length %d\n", block_length);
+	gen_id = param_id("generator");
+	if (!gen_id) {
+		moderror("Parameter type not found\n");
 		return -1;
 	}
 
-
-	/* do some other initialization stuff */
+	last_type = -1;
 
 	return 0;
 }
 
-
-
-/**
- * @brief Function documentation
- *
- * @param inp Input interface buffers. Data from other interfaces is stacked in the buffer.
- * Use in(ptr,idx) to access the address. To obtain the number of received samples use the function
- * int get_input_samples(int idx) where idx is the interface index.
- *
- * @param out Input interface buffers. Data to other interfaces must be stacked in the buffer.
- * Use out(ptr,idx) to access the address.
- *
- * @return On success, returns a non-negative number indicating the output
- * samples that should be transmitted through all output interface. To specify a different length
- * for certain interface, use the function set_output_samples(int idx, int len)
- * On error returns -1.
- *
- *
- */
 int work(void **inp, void **out) {
+	int block_length, type;
+	int i,j;
 	int snd_samples;
-	int i;
-	input_t *input = inp[0];
-	output_t *output = out[0];
 
-	snd_samples = 0;
-	param_get_int(blen_id, &snd_samples);
-
-	/* do DSP stuff here */
-	for (i=0;i<snd_samples;i++) {
-		__real__ output[i]=i+cnt;
-		__imag__ output[i]=snd_samples-i+cnt;
+	block_length = 0;
+	if (param_get_int(blen_id,&block_length) != 1) {
+		moderror("Getting integer parameter block_length\n");
+		return -1;
 	}
-	cnt++;
+	type = 0;
+	if (param_get_int(gen_id,&type) != 1) {
+		moderror("Getting integer parameter type\n");
+		return -1;
+	}
+
+	for(i=0;i<NOF_GENERATORS;i++) {
+		if (generators[i].key == type) {
+			break;
+		}
+	}
+	if (i == NOF_GENERATORS) {
+		moderror_msg("Generator type %d not implemented\n", type);
+		return -1;
+	}
+	if (type != last_type) {
+		modinfo_msg("Select generator: %s\n",generators[i].desc);
+		last_type = type;
+	}
+
+	if (block_length > OUTPUT_MAX_SAMPLES/generators[i].samp_sz) {
+		moderror_msg("block_length %d too large. Maximum is %d for this generator\n",block_length,
+				OUTPUT_MAX_SAMPLES/generators[i].samp_sz);
+		return -1;
+	}
+
+	if (block_length != last_block_length) {
+		modinfo_msg("Select block_length: block_length=%d\n",block_length);
+		last_block_length = block_length;
+	}
+
+	snd_samples = generators[i].work(out,block_length);
+
 	return snd_samples;
 }
 

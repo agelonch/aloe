@@ -133,7 +133,8 @@ static int waveform_status_is_valid(waveform_t *waveform, waveform_status_t *new
 		else
 			return 0;
 	case STEP:
-		if (waveform->status.cur_status == RUN || waveform->status.cur_status == INIT)
+		if (waveform->status.cur_status == RUN || waveform->status.cur_status == INIT
+				|| waveform->status.cur_status == PAUSE || waveform->status.cur_status == STEP)
 			return 1;
 		else
 			return 0;
