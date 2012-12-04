@@ -30,7 +30,7 @@ int Stop(void *context);
 
 #define SWAPI_ITF_DEFAULT_MSG 10
 
-#define swapi_perror(msg) swapi_error_print(context,""); aerror(msg)
+#define swapi_perror(msg) swapi_error_print(ctx,""); aerror(msg)
 int swapi_error_code(void *ctx);
 void swapi_error_print(void *context, const char *user_message);
 

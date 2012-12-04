@@ -60,8 +60,8 @@ itf_t swapi_itf_create(void *context, int port_idx, swapi_itf_mode_t mode,
 		int size) {
 	swapi_context_t *ctx = context;
 	nod_module_t *module = ctx->module;
-	sdebug("context=0x%x, module_id=%d, port_idx=%d, mode=%d, size=%d\n",context,module->parent.id,
-			port_idx, mode, size);
+	sdebug("context=0x%x, module_id=%d, port_idx=%d, mode=%d, size=%d inputs=%d outputs=%d\n",context,module->parent.id,
+			port_idx, mode, size,module->parent.nof_inputs,module->parent.nof_outputs);
 	h_itf_t hwapi_itf;
 	interface_t *nod_itf = NULL;
 
@@ -69,14 +69,18 @@ itf_t swapi_itf_create(void *context, int port_idx, swapi_itf_mode_t mode,
 	SWAPI_ASSERT_PARAM_P(port_idx>=0);
 
 	if (mode == ITF_WRITE) {
-		SWAPI_ASSERT_PARAM_P(port_idx < module->parent.nof_outputs);
+		if (port_idx >= module->parent.nof_outputs) {
+			SWAPI_SETERROR(SWAPI_ERROR_NOTFOUND);
+			return NULL;
+		}
 		nod_itf = &module->parent.outputs[port_idx];
 	} else {
-		SWAPI_ASSERT_PARAM_P(port_idx < module->parent.nof_inputs);
+		if (port_idx >= module->parent.nof_inputs) {
+			SWAPI_SETERROR(SWAPI_ERROR_NOTFOUND);
+			return NULL;
+		}
 		nod_itf = &module->parent.inputs[port_idx];
 	}
-
-	sdebug("physic itf=%d\n",nod_itf->physic_itf_id);
 
 	if (nod_itf->physic_itf_id != 0) {
 		/* is external */
@@ -100,7 +104,7 @@ itf_t swapi_itf_create(void *context, int port_idx, swapi_itf_mode_t mode,
 			nod_module_t *remote = nod_waveform_find_module_id(waveform,
 					nod_itf->remote_module_id);
 			if (!remote) {
-				SWAPI_SETERROR(SWAPI_ERROR_NOTFOUND);
+				SWAPI_SETERROR(SWAPI_ERROR_MODNOTFOUND);
 				return NULL;
 			}
 			sdebug("remote found\n",0);

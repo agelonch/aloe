@@ -143,7 +143,9 @@ int variable_alloc(variable_t *variable, int nof_modes) {
 	int i;
 	if (!variable) return -1;
 	for (i=0;i<nof_modes;i++) {
-		if (variable->init_value[i]) return -1;
+		if (variable->init_value[i]) {
+			aerror("already initialized???\n");
+		}
 		variable->init_value[i] = pool_alloc(1,(size_t) variable->size);
 		if (!variable->init_value[i]) return -1;
 	}

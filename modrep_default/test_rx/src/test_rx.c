@@ -24,34 +24,12 @@
 
 #include "test_rx.h"
 
-pmid_t blen_id;
-
 /*
  * Function documentation
  *
  * @returns 0 on success, -1 on error
  */
 int initialize() {
-	int size;
-	int block_length;
-
-	blen_id = param_id("block_length");
-	if (!blen_id) {
-		moderror("Parameter block_length not found\n");
-		return -1;
-	}
-	if (!param_get_int(blen_id,&block_length)) {
-		moderror("Getting integer parameter block_length\n");
-		return -1;
-	}
-
-	modinfo_msg("Parameter block_length is %d\n",block_length);
-
-	/* Verify control parameters */
-	if (block_length > input_max_samples) {
-		moderror_msg("Invalid block length %d\n", block_length);
-		return -1;
-	}
 
 
 	/* do some other initialization stuff */
@@ -83,7 +61,6 @@ int work(void **inp, void **out) {
 	int i;
 	input_t *input = inp[0];
 	output_t *output = out[0];
-
 
 	/* do DSP stuff here */
 	for (i=0;i<rcv_samples;i++) {

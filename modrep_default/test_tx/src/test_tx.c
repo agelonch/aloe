@@ -41,7 +41,7 @@ int initialize() {
 		moderror("Parameter block_length not found\n");
 		return -1;
 	}
-	if (!param_get_int(blen_id,&block_length)) {
+	if (param_get_int(blen_id,&block_length) != 1) {
 		moderror("Getting integer parameter block_length\n");
 		return -1;
 	}
@@ -90,8 +90,8 @@ int work(void **inp, void **out) {
 
 	/* do DSP stuff here */
 	for (i=0;i<snd_samples;i++) {
-		__real__ input[i]=i+cnt;
-		__imag__ input[i]=snd_samples-i+cnt;
+		__real__ output[i]=i+cnt;
+		__imag__ output[i]=snd_samples-i+cnt;
 	}
 	cnt++;
 	return snd_samples;

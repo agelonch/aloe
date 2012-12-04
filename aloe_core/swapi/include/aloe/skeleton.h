@@ -65,7 +65,7 @@ int generate_input_signal(void *input, int *input_length);
 
 
 #ifdef _COMPILE_ALOE
-extern void *context;
+extern void *ctx;
 extern log_t mlog;
 #define INTERFACE_CONFIG
 #endif
@@ -76,7 +76,7 @@ extern log_t mlog;
 
 #ifdef _COMPILE_ALOE
 #define WHERESTR  "%s, line %d]: "
-#define WHEREARG  swapi_module_name(context), __LINE__
+#define WHEREARG  swapi_module_name(ctx), __LINE__
 #else
 #define WHERESTR  "file %s, line %d]: "
 #define WHEREARG  __FILE__, __LINE__
@@ -109,7 +109,7 @@ extern log_t mlog;
 
 #ifdef _COMPILE_ALOE
 #define moddebug(_fmt, ...) \
-	do { if (MOD_DEBUG) printf("[mod_debug-%s]\t[%s()]: " _fmt, swapi_module_name(context),__func__,\
+	do { if (MOD_DEBUG) printf("[mod_debug-%s]\t[%s()]: " _fmt, swapi_module_name(ctx),__func__,\
 			__VA_ARGS__);} while(0);
 #else
 #define moddebug(_fmt, ...) \

@@ -60,12 +60,12 @@ int waveform_serialize(waveform_t *src, packet_t *pkt, int loading_node_id,
 				nof_modules++;
 			}
 		}
-		hdebug("nof_modules=%d\n",nof_modules);
+		serdebug("nof_modules=%d\n",nof_modules);
 		add_i(&nof_modules);
 		for (i=0;i<src->nof_modules;i++) {
 			man_node_t *node = src->modules[i].node;
 			if (loading_node_id == node->id) {
-				hdebug("serialize module %d\n",i);
+				serdebug("serialize module %d\n",i);
 				if (module_serialize(&src->modules[i],pkt,copy_data))
 					return -1;
 			}
@@ -95,7 +95,7 @@ int waveform_unserializeTo(packet_t *pkt, waveform_t *dest,
 	aassert(pkt);
 	get_i(&all_module);
 	get_i(&nof_modules);
-	hdebug("nof_modules=%d, all_module=%d\n",nof_modules, all_module);
+	serdebug("nof_modules=%d, all_module=%d\n",nof_modules, all_module);
 	if (waveform_alloc(dest,nof_modules)) return -1;
 	for (j=0;j<nof_modules;j++) {
 		get_i(&module_id);
@@ -106,7 +106,7 @@ int waveform_unserializeTo(packet_t *pkt, waveform_t *dest,
 			return -1;
 		}
 		dest->modules[i].waveform = dest;
-		hdebug("unserialize module %d\n",i);
+		serdebug("unserialize module %d\n",i);
 		if (all_module) {
 			if (module_unserializeTo(pkt,&dest->modules[i],copy_data))
 				return -1;
@@ -119,7 +119,7 @@ int waveform_unserializeTo(packet_t *pkt, waveform_t *dest,
 }
 
 int waveform_mode_serialize(waveform_mode_t *src, packet_t *pkt) {
-	hdebug("src=0x%x, pkt=0x%x\n",src,pkt);
+	serdebug("src=0x%x, pkt=0x%x\n",src,pkt);
 	if (packet_add_data(pkt, src, sizeof(waveform_mode_t))) {
 		return -1;
 	}
@@ -128,7 +128,7 @@ int waveform_mode_serialize(waveform_mode_t *src, packet_t *pkt) {
 
 
 int waveform_mode_unserializeTo(packet_t *pkt, waveform_mode_t *dest) {
-	hdebug("dest=0x%x, pkt=0x%x\n",dest,pkt);
+	serdebug("dest=0x%x, pkt=0x%x\n",dest,pkt);
 	if (packet_get_data(pkt, dest, sizeof(waveform_mode_t))) {
 		return -1;
 	}
@@ -156,7 +156,7 @@ int module_serialize(module_t *src, packet_t *pkt, enum variable_serialize_data 
 	add_i(&src->nof_variables);
 	add_i(&src->nof_inputs);
 	add_i(&src->nof_outputs);
-	hdebug("nof_inputs=%d, nof_outputs=%d, nof_variables=%d\n",src->nof_inputs,src->nof_outputs,
+	serdebug("nof_inputs=%d, nof_outputs=%d, nof_variables=%d\n",src->nof_inputs,src->nof_outputs,
 			src->nof_variables);
 	for (i=0;i<src->nof_variables;i++) {
 		if (variable_serialize(&src->variables[i],pkt,copy_data,src->nof_modes)) return -1;
@@ -175,7 +175,7 @@ int module_serialize(module_t *src, packet_t *pkt, enum variable_serialize_data 
  */
 int module_unserializeTo(packet_t *pkt, module_t *dest, enum variable_serialize_data copy_data) {
 	int i,nof_variables,nof_inputs,nof_outputs;
-	serdebug("dest=0x%x, pkt=0x%x, copy_data=%d, module_id=%d\n",dest,pkt, copy_data);
+	serdebug("dest=0x%x, pkt=0x%x, copy_data=%d\n",dest,pkt, copy_data);
 
 	aassert(dest);
 	aassert(pkt);
@@ -190,7 +190,7 @@ int module_unserializeTo(packet_t *pkt, module_t *dest, enum variable_serialize_
 	get_i(&nof_variables);
 	get_i(&nof_inputs);
 	get_i(&nof_outputs);
-	hdebug("module_id=%d, nof_inputs=%d, nof_outputs=%d, nof_variables=%d\n",dest->id,nof_inputs,
+	serdebug("module_id=%d, nof_inputs=%d, nof_outputs=%d, nof_variables=%d\n",dest->id,nof_inputs,
 			nof_outputs, nof_variables);
 	if (module_alloc(dest,nof_inputs,nof_outputs,nof_variables)) {
 		return -1;
@@ -260,10 +260,10 @@ int variable_unserializeTo(packet_t *pkt, variable_t *dest,
 	get_i(&dest->size);
 	get_i(&dest->type);
 
-	hdebug("var_id=%d, size=%d\n",dest->id,dest->size);
 	switch(copy_data) {
 	case CP_INIT:
 		if (packet_get_data(pkt,dest->name,STR_LEN)) return -1;
+		serdebug("var_id=%d, size=%d, type=%d, name=%s\n",dest->id,dest->size,dest->type,dest->name);
 		for (i=0;i<nof_modes;i++) {
 			if (packet_get_data(pkt,dest->init_value[i],dest->size)) return -1;
 		}
@@ -280,7 +280,7 @@ int variable_unserializeTo(packet_t *pkt, variable_t *dest,
 }
 
 int execinfo_serialize(execinfo_t *src, packet_t *pkt) {
-	hdebug("src=0x%x, pkt=0x%x\n",src,pkt)
+	serdebug("src=0x%x, pkt=0x%x\n",src,pkt)
 	aassert(src);
 	aassert(pkt);
 	if (packet_add_data(pkt, src, sizeof(execinfo_t))) {
@@ -290,7 +290,7 @@ int execinfo_serialize(execinfo_t *src, packet_t *pkt) {
 }
 
 int execinfo_unserializeTo(packet_t *pkt, execinfo_t *dest) {
-	hdebug("dest=0x%x, pkt=0x%x\n",dest,pkt)
+	serdebug("dest=0x%x, pkt=0x%x\n",dest,pkt)
 
 	aassert(dest);
 	aassert(pkt);
@@ -302,7 +302,7 @@ int execinfo_unserializeTo(packet_t *pkt, execinfo_t *dest) {
 
 
 int interface_serialize(interface_t *src, packet_t *pkt) {
-	hdebug("src=0x%x, pkt=0x%x\n",src,pkt)
+	serdebug("src=0x%x, pkt=0x%x\n",src,pkt)
 	aassert(src);
 	aassert(pkt);
 	if (packet_add_data(pkt, src, sizeof(interface_t))) {
@@ -312,7 +312,7 @@ int interface_serialize(interface_t *src, packet_t *pkt) {
 }
 
 int interface_unserializeTo(packet_t *pkt, interface_t *dest) {
-	hdebug("dest=0x%x, pkt=0x%x\n",dest,pkt)
+	serdebug("dest=0x%x, pkt=0x%x\n",dest,pkt)
 	aassert(dest);
 	aassert(pkt);
 	if (packet_get_data(pkt, dest, sizeof(interface_t))) {

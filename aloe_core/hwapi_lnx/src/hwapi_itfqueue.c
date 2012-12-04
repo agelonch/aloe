@@ -68,7 +68,18 @@ int hwapi_itfqueue_init(hwapi_itfqueue_t *obj) {
 int hwapi_itfqueue_remove(h_itf_t obj) {
 	HWAPI_ASSERT_PARAM(obj);
 	hwapi_itfqueue_t *itf = (hwapi_itfqueue_t*) obj;
-	free(itf->data);
+	if (itf->data) {
+		free(itf->data);
+		itf->data = NULL;
+	}
+	if (itf->packets) {
+		free(itf->packets);
+		itf->packets = NULL;
+	}
+	itf->max_msg = 0;
+	itf->max_msg_sz = 0;
+	itf->parent.id = 0;
+
 	return 0;
 }
 

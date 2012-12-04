@@ -28,14 +28,12 @@ set(mex_SOURCES src/skeleton/mex.c)
 # standalone sources
 file(GLOB_RECURSE standalone_SOURCES "src/standalone/*.c")
 
-
-
-
 # aloe core library
-add_library(core ${common_SOURCES} ${manager_SOURCES} ${manapi_SOURCES} ${node_SOURCES} ${swapi_shared_SOURCES} ${test_suite_SOURCES})
+add_library(core ${swapi_shared_SOURCES} ${common_SOURCES} ${manager_SOURCES} ${manapi_SOURCES} ${node_SOURCES} ${test_suite_SOURCES})
+set_target_properties(core PROPERTIES LINK_FLAGS "-Wl,-export-dynamic")
 
 # swapi library
-add_library(swapi ${swapi_static_SOURCES} )
+add_library(swapi ${swapi_static_SOURCES} ${params_SOURCES})
 
 # skeleton library
 add_library(skeleton ${swapi_static_SOURCES} ${skeleton_SOURCES})

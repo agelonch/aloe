@@ -34,7 +34,8 @@ typedef struct {
 	h_proc_t process;
 	void *context;
 	int changing_status;
-	h_task_t status_task;
+	h_task_t status_init_task;
+	h_task_t status_stop_task;
 } nod_module_t;
 
 typedef struct {

@@ -21,8 +21,8 @@
 
 #include "debug.h"
 
-#define WHERESTR  "[file %s, line %d]: "
-#define WHEREARG  __FILE__, __LINE__
+#define WHERESTR  "[%s():%d]: "
+#define WHEREARG  __func__, __LINE__
 #define DEBUGPRINT2(...)       fprintf(stderr, __VA_ARGS__)
 #define aerror_msg(_fmt, ...)  DEBUGPRINT2(WHERESTR _fmt, WHEREARG, __VA_ARGS__)
 #define aerror(a)  DEBUGPRINT2(WHERESTR a "\n", WHEREARG)

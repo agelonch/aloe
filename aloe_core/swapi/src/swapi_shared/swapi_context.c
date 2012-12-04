@@ -148,7 +148,6 @@ log_t swapi_log_create(void *context, string name) {
 		SWAPI_SETERROR(SWAPI_ERROR_NOSPACE);
 		return NULL;
 	}
-	sdebug("log_pos=%d\n",i);
 	if (swapi_log_init(ctx, &ctx->logs[i], name)) {
 		return NULL;
 	}

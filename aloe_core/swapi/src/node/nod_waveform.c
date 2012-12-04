@@ -87,7 +87,9 @@ int nod_waveform_remove(nod_waveform_t *w) {
 	aassert(w);
 	int i;
 	for (i=0;i<w->nof_modules;i++) {
+		ndebug("removing module_id=%d\n",w->modules[i].parent.id);
 		if (nod_module_remove(&w->modules[i])) {
+			aerror_msg("removing module_id=%d\n",w->modules[i].parent.id);
 			return -1;
 		}
 	}
@@ -154,7 +156,8 @@ static int nod_waveform_status_ok(nod_waveform_t *w) {
 	/* kill status tasks first */
 	for (i=0;i<w->nof_modules;i++) {
 		if (w->modules[i].changing_status) {
-			if (w->modules[i].status_task) {
+			if (w->modules[i].status_init_task
+					|| w->modules[i].status_stop_task) {
 				nod_module_kill_status_task(&w->modules[i]);
 			}
 		}

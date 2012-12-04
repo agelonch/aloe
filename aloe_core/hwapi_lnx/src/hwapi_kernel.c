@@ -56,6 +56,7 @@ static pid_t kernel_pid;
 static pthread_t single_timer_thread;
 static char UNUSED(sigmsg[1024]);
 static int *core_mapping;
+static int signal_received = 0;
 
 static void go_out();
 static void thread_signal_handler(int signum, siginfo_t *info, void *ctx);
@@ -119,6 +120,10 @@ inline void kernel_tslot_run() {
 	hwapi_time_ts_inc();
 
 	hdebug("tslot=%d\n",hwapi_time_slot());
+
+	if (signal_received) {
+		signal_received = 0;
+	}
 
 	kernel_tslot_run_rt_control();
 
@@ -474,6 +479,8 @@ static void thread_signal_handler(int signum, siginfo_t *info, void *ctx) {
 	free(msg);
 #endif
 
+	signal_received++;
+
 	/* try to find the thread that caused the signal */
 
 	/** todo: Caution!! is pthread_self() safe in the handler?
@@ -506,6 +513,8 @@ static void thread_signal_handler(int signum, siginfo_t *info, void *ctx) {
 			hdebug("timer thread=%d\n",thisthread);
 			thread_id = -1;
 		} else {
+			/* @TODO: check if it is a status or init thread of any module */
+
 			hdebug("other thread=%d\n",thisthread);
 			goto cancel_and_exit;
 		}

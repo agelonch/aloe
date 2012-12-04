@@ -38,7 +38,7 @@ int rcv_len[MAX_INPUTS], snd_len[MAX_OUTPUTS];
 char *input_buffer, *output_buffer;
 #endif
 
-void *context;
+void *ctx;
 
 void init_memory() {
 	memset(inputs,0,sizeof(itf_t)*MAX_INPUTS);
@@ -97,7 +97,6 @@ int init_interfaces(void *ctx) {
 	int i;
 
 	for (i=0;i<nof_input_itf;i++) {
-		moddebug("input %d\n",i);
 		inputs[i] = swapi_itf_create(ctx, i, ITF_READ, input_max_samples*input_sample_sz);
 		if (inputs[i] == NULL) {
 			if (swapi_error_code(ctx) == SWAPI_ERROR_NOTREADY) {
@@ -114,15 +113,22 @@ int init_interfaces(void *ctx) {
 				swapi_perror("swapi_itf_create\n");
 				return -1;
 			}
+		} else {
+			moddebug("input_%d=0x%x\n",i,inputs[i]);
 		}
 	}
 
 	for (i=0;i<nof_output_itf;i++) {
-		moddebug("output %d\n",i);
 		outputs[i] = swapi_itf_create(ctx, i, ITF_WRITE, output_max_samples*output_sample_sz);
 		if (outputs[i] == NULL) {
+			if (swapi_error_code(ctx) == SWAPI_ERROR_NOTFOUND) {
+				moderror_msg("Output port %d does not exists. Please check waveform .app file\n",i);
+				return -1;
+			}
 			swapi_perror("swapi_itf_create\n");
 			return -1;
+		} else {
+			moddebug("output_%d=0x%x\n",i,outputs[i]);
 		}
 		input_trials = 0;
 	}
@@ -151,6 +157,7 @@ void close_interfaces(void *ctx) {
 	moddebug("nof_input=%d, nof_output=%d\n",nof_input_itf,nof_output_itf);
 
 	for (i=0;i<nof_input_itf;i++) {
+		moddebug("input_%d=0x%x\n",i,inputs[i]);
 		if (inputs[i]) {
 			if (swapi_itf_close(inputs[i])) {
 				swapi_perror("swapi_itf_close");
@@ -158,6 +165,7 @@ void close_interfaces(void *ctx) {
 		}
 	}
 	for (i=0;i<nof_output_itf;i++) {
+		moddebug("output_%d=0x%x\n",i,outputs[i]);
 		if (outputs[i]) {
 			if (swapi_itf_close(outputs[i])) {
 				swapi_perror("swapi_itf_close");
@@ -240,9 +248,9 @@ void close_counter(void *ctx) {
 	}
 }
 
-int Init(void *ctx) {
+int Init(void *_ctx) {
 	int n;
-	context = ctx;
+	ctx = _ctx;
 
 	moddebug("enter ts=%d\n",swapi_tstamp(ctx));
 
@@ -276,14 +284,21 @@ int Init(void *ctx) {
 	moddebug("calling initialize, ts=%d\n",swapi_tstamp(ctx));
 
 	/* this is the module initialize function */
-	initialize();
+	if (initialize()) {
+		moddebug("error initializing module\n",swapi_tstamp(ctx));
+		return -1;
+	}
 
 	moddebug("exit ts=%d\n",swapi_tstamp(ctx));
 	return 1;
 }
 
-int Stop(void *ctx) {
+int Stop(void *_ctx) {
+	ctx = _ctx;
+
 	moddebug("enter ts=%d\n",swapi_tstamp(ctx));
+
+	stop();
 
 	close_counter(ctx);
 	close_variables(ctx);
@@ -295,7 +310,8 @@ int Stop(void *ctx) {
 }
 
 
-int Run(void *ctx) {
+int Run(void *_ctx) {
+	ctx = _ctx;
 	moddebug("enter ts=%d\n",swapi_tstamp(ctx));
 	int i;
 	int n;
@@ -333,7 +349,7 @@ int Run(void *ctx) {
 	}
 
 	/* This is the module DSP function */
-	moddebug("work ts=%d\n",swapi_tstamp(context));
+	moddebug("work ts=%d\n",swapi_tstamp(ctx));
 	n = work(input_buffer,output_buffer);
 	if (n<0) {
 		return -1;
@@ -363,7 +379,7 @@ int Run(void *ctx) {
 
 	for (i=0;i<nof_output_itf;i++) {
 		if (!snd_len[i]) {
-			snd_len[i] = n;
+			snd_len[i] = n*output_sample_sz;
 		}
 	}
 
@@ -372,7 +388,7 @@ int Run(void *ctx) {
 		if (output_pkt[i]) {
 			assert(output_pkt[i]->data);
 			memcpy(output_pkt[i]->data,&output_buffer[i*output_max_samples*output_sample_sz],
-					snd_len[i]*output_sample_sz);
+					snd_len[i]);
 		}
 	}
 
@@ -449,13 +465,13 @@ void* param_get_addr(char *name) {
 
 int param_get(pmid_t id, void *ptr, int max_size, param_type_t *type) {
 	if (type) {
-		*type = (param_type_t) swapi_var_param_type(context,(var_t) id);
+		*type = (param_type_t) swapi_var_param_type(ctx,(var_t) id);
 	}
-	return swapi_var_param_value(context, (var_t) id, ptr, max_size);
+	return swapi_var_param_value(ctx, (var_t) id, ptr, max_size);
 }
 
 pmid_t param_id(char *name) {
-	return (pmid_t) swapi_var_param_get(context,name);
+	return (pmid_t) swapi_var_param_get(ctx,name);
 }
 
 

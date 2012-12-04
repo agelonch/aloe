@@ -23,8 +23,8 @@
 
 #include "template.h"
 
-pmid_t blen_id;
-
+pmid_t gain_id;
+int block_length;
 
 /*
  * Function documentation
@@ -33,16 +33,11 @@ pmid_t blen_id;
  */
 int initialize() {
 	int size;
-	int block_length;
 
-	blen_id = param_id("block_length");
-	if (!blen_id) {
-		moderror("Parameter block_length not found\n");
-		return -1;
-	}
-	if (!param_get_int(blen_id,&block_length)) {
-		moderror("Getting integer parameter block_length\n");
-		return -1;
+	gain_id = param_id("gain");
+
+	if (!param_get_int_name("block_length", &block_length)) {
+		block_length=0;
 	}
 
 	modinfo_msg("Parameter block_length is %d\n",block_length);
@@ -83,21 +78,17 @@ int work(void **inp, void **out) {
 	int i;
 	input_t *input = inp[0];
 	output_t *output = out[0];
-	int block_length;
+	float gain;
 
-	if (!param_get_int(blen_id,&block_length)) {
-		moderror("Getting integer parameter block_length\n");
-		return -1;
-	}
-
-	if (rcv_samples > block_length) {
-		/* ... */
+	if (param_get_float(gain_id,&gain)) {
+		gain = 2.0;
+	} else {
+		modinfo_msg("gain is %.2f\n",gain);
 	}
 
 	/* do DSP stuff here */
 	for (i=0;i<rcv_samples;i++) {
-		printf("input[%d/%d]=%.2f+%.2fj\n",i, rcv_samples,__real__ input[i],__imag__ input[i]);
-		output[i]=input[i]*2;
+		output[i]=input[i]*gain;
 	}
 	return rcv_samples;
 }

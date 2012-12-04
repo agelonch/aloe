@@ -34,12 +34,12 @@
 
 
 /* debug serializable */
-#define DEBUG_SER 0
+#define DEBUG_SER 1
 #define serdebug(_fmt, ...) \
 	do { if (DEBUG_SER) printf("[debug-serial]\t[%s()]: " _fmt, __func__,__VA_ARGS__);} while(0);
 
 /* debug manager */
-#define DEBUG_MAN 0
+#define DEBUG_MAN 1
 #define mdebug(_fmt, ...) \
 	do { if (DEBUG_MAN) printf("[debug-manager]\t[%s()]: " _fmt, __func__,__VA_ARGS__);} while(0);
 

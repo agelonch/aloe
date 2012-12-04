@@ -139,13 +139,17 @@ void* _call_init(void *arg) {
 		module->changing_status = 0;
 		module->parent.status = waveform->status.cur_status;
 	}
-	module->status_task = 0;
+	module->status_init_task = 0;
 	return NULL;
 }
 
 int call_init(void *arg) {
 	nod_module_t *module = swapi_get_module(arg);
-	return hwapi_task_new(&module->status_task,_call_init,arg);
+	if (module->status_init_task) {
+		aerror_msg("module_id=%d already trying to initiate\n",module->parent.id);
+		return -1;
+	}
+	return hwapi_task_new(&module->status_init_task,_call_init,arg);
 }
 
 void* _call_stop(void *arg) {
@@ -155,7 +159,8 @@ void* _call_stop(void *arg) {
 	nod_waveform_t *waveform = module->parent.waveform;
 
 	if (Stop(arg)) {
-		module->status_task = 0;
+		module->status_stop_task = 0;
+		sdebug("module_id=%d failed stop\n",module->parent.id);
 		return NULL;
 	}
 	sdebug("module_id=%d finished stop. Setting status to %d\n",module->parent.id,
@@ -163,13 +168,17 @@ void* _call_stop(void *arg) {
 
 	module->changing_status = 0;
 	module->parent.status = waveform->status.cur_status;
-	module->status_task = 0;
+	module->status_stop_task = 0;
 	return NULL;
 }
 
 
 int call_stop(void *arg) {
 	nod_module_t *module = swapi_get_module(arg);
-		return hwapi_task_new(&module->status_task,_call_stop,arg);
+	if (module->status_stop_task) {
+		aerror_msg("module_id=%d already trying to stop\n",module->parent.id);
+		return -1;
+	}
+	return hwapi_task_new(&module->status_stop_task,_call_stop,arg);
 }
 

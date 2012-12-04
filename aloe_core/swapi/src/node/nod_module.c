@@ -139,15 +139,28 @@ int nod_module_run(nod_module_t *module) {
 }
 
 void nod_module_kill_status_task(nod_module_t *module) {
-	ndebug("module_id=%d killing=%d\n",module->parent.id,module->status_task);
-	if (hwapi_task_kill(module->status_task)) {
-		aerror("hwapi_task_kill");
+	ndebug("module_id=%d killing=%d\n",module->parent.id,module->status_init_task);
+	if (module->status_init_task) {
+		if (hwapi_task_kill(module->status_init_task)) {
+			aerror("hwapi_task_kill");
+		}
+		ndebug("module_id=%d waiting_init=%d\n",module->parent.id,module->status_init_task);
+		if (hwapi_task_wait(module->status_init_task,NULL)) {
+			module->status_init_task = 0;
+		}
+		ndebug("module_id=%d status_init_task terminated\n",module->parent.id);
 	}
-	ndebug("module_id=%d waiting=%d\n",module->parent.id,module->status_task);
-	if (hwapi_task_wait(module->status_task,NULL)) {
-		module->status_task = 0;
+	if (module->status_stop_task) {
+		if (hwapi_task_kill(module->status_stop_task)) {
+			aerror("hwapi_task_kill");
+		}
+		ndebug("module_id=%d waiting_stop=%d\n",module->parent.id,module->status_stop_task);
+		if (hwapi_task_wait(module->status_stop_task,NULL)) {
+			module->status_stop_task = 0;
+		}
+		ndebug("module_id=%d status_stop_task terminated\n",module->parent.id);
 	}
-	ndebug("module_id=%d status_task terminated\n",module->parent.id);
+
 }
 
 /** \brief Removes the module's from the hwapi pipeline. Calls module_free() to dealloc
@@ -159,7 +172,7 @@ int nod_module_remove(nod_module_t *module) {
 	aassert(module);
 
 	/* before killing process, make sure there is any thread still running */
-	if (module->status_task) {
+	if (module->status_init_task || module->status_stop_task) {
 		nod_module_kill_status_task(module);
 	}
 
@@ -195,12 +208,12 @@ int nod_module_status_ok(nod_module_t *module, waveform_status_enum w_status) {
 	if (module->parent.status != w_status) {
 		return -1;
 	}
-	if (module->status_task) {
-		ndebug("status_task=0x%x, waiting\n",module->status_task);
-		if (hwapi_task_wait(module->status_task,NULL)) {
-			module->status_task = 0;
+	if (module->status_init_task) {
+		ndebug("status_task=0x%x, waiting\n",module->status_init_task);
+		if (hwapi_task_wait(module->status_init_task,NULL)) {
+			module->status_init_task = 0;
 		}
-		module->status_task = 0;
+		module->status_init_task = 0;
 	}
 	return 0;
 }
@@ -215,8 +228,10 @@ variable_t* nod_module_variable_get(nod_module_t *module, string name) {
 	aassert_p(name);
 	int i;
 	i=0;
-	while(i < module->parent.nof_variables && strcmp(name,module->parent.variables[i].name))
+	while(i < module->parent.nof_variables && strcmp(name,module->parent.variables[i].name)) {
 		i++;
+		ndebug("compare %s==%s\n", name,module->parent.variables[i].name);
+	}
 	if (i == module->parent.nof_variables) {
 		return NULL;
 	}
@@ -234,7 +249,7 @@ variable_t* nod_module_variable_create(nod_module_t *module, string name) {
 		return NULL;
 	}
 	i=0;
-	while(i < module->parent.nof_variables && !module->parent.variables[i].id)
+	while(i < module->parent.nof_variables && module->parent.variables[i].id)
 		i++;
 	if (i == module->parent.nof_variables) {
 		ndebug("calling realloc for %d more variables\n",5);

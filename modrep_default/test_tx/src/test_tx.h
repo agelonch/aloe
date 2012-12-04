@@ -20,8 +20,8 @@
 typedef _Complex float input_t;
 typedef _Complex float output_t;
 
-#define OUTPUT_MAX_SAMPLES 	14*2048
 #define INPUT_MAX_SAMPLES 	0
+#define OUTPUT_MAX_SAMPLES 	14*2048
 
 #define NOF_INPUT_ITF		0
 #define NOF_OUTPUT_ITF		1

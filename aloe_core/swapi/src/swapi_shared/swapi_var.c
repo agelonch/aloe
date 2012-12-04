@@ -57,7 +57,6 @@ int swapi_var_param_value(void *context, var_t parameter, void* value, int size)
 	int cpy_sz;
 
 	cast(ctx,context);
-	sdebug("id=0x%x, size=%d, value=0x%x\n",parameter,size,value);
 
 	SWAPI_ASSERT_PARAM(parameter);
 	SWAPI_ASSERT_PARAM(value);
@@ -66,8 +65,11 @@ int swapi_var_param_value(void *context, var_t parameter, void* value, int size)
 	nod_module_t *module = (nod_module_t*) ctx->module;
 	variable_t *variable = (variable_t*) parameter;
 
+	sdebug("id=0x%x, size=%d, value=0x%x, cur_mode=%d\n",parameter,size,value,module->parent.cur_mode);
+
 	cpy_sz = (variable->size > size)?size:variable->size;
 	memcpy(value, variable->init_value[module->parent.cur_mode], (size_t) cpy_sz);
+	sdebug("id=0x%x, copied=%d\n", parameter, cpy_sz);
 	return cpy_sz;
 }
 
@@ -94,7 +96,7 @@ var_t swapi_var_param_get(void *context, char *name) {
 swapi_var_type_t swapi_var_param_type(void *context, var_t parameter) {
 	cast(ctx,context);
 
-	sdebug("id=0x%x, size=%d, value=0x%x\n",parameter);
+	sdebug("id=0x%x\n",parameter);
 
 	SWAPI_ASSERT_PARAM(parameter);
 

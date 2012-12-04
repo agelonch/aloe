@@ -65,8 +65,8 @@ void *run_test_suite_waveform(void *arg) {
 			break;
 		}
 		if (new_status.cur_status != LOADED) {
-			new_status.dead_timeslot = hwapi_time_slot() + 5;
-			new_status.next_timeslot = hwapi_time_slot() + 2;
+			new_status.dead_timeslot = hwapi_time_slot() + 3;
+			new_status.next_timeslot = hwapi_time_slot();
 			if (waveform_status_set(&waveform,&new_status)) {
 				printf("DID NOT CHANGE!\n");
 			} else {
@@ -75,16 +75,6 @@ void *run_test_suite_waveform(void *arg) {
 		}
 	} while(1);
 	/* status init */
-
-	/* status run */
-	printf("Going run\n");
-	new_status.cur_status = RUN;
-	new_status.dead_timeslot = hwapi_time_slot() + 5;
-	new_status.next_timeslot = hwapi_time_slot() + 2;
-	if (waveform_status_set(&waveform,&new_status)) {
-		aerror("setting status\n");
-		return NULL;
-	}
 
 	/* pause o sleep o return */
 

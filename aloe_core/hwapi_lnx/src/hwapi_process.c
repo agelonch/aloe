@@ -37,8 +37,7 @@ int hwapi_process_launch(hwapi_process_t *obj) {
 	HWAPI_ASSERT_PARAM(obj);
 	char *error;
 
-	snprintf(tmp,LSTR_LEN,"%s/%s/Debug/lib%s.so",MODULES_PATH,obj->attributes.binary_path,
-			obj->attributes.binary_path);
+	snprintf(tmp,LSTR_LEN,"/usr/local/lib/%s",obj->attributes.binary_path);
 	obj->dl_handle = dlopen(tmp, RTLD_NOW);
 
 	if (!obj->dl_handle) {
