@@ -33,7 +33,7 @@
  * Creates a new thread with normal priority, that is, no real-time priority. The thread is detachable, meaning that runs the function pointed by the first parameter and then is destroyed, ignoring the returned value.
  */
 int hwapi_task_new(h_task_t *task, void *(*fnc)(void*), void *arg) {
-	return hwapi_task_new_prio(task, fnc, arg, TASK_DEFAULT_PRIORITY, TASK_DEFAULT_CPUID);
+	return hwapi_task_new_prio(task, fnc, arg, 40, -1);
 }
 
 int hwapi_task_kill(h_task_t task) {
@@ -114,6 +114,31 @@ int hwapi_task_new_thread(pthread_t *thread, void *(*fnc)(void*), void *arg,
 		}
 	}
 
+	s = pthread_attr_setinheritsched(&attr, PTHREAD_EXPLICIT_SCHED);
+	if (s) {
+		HWAPI_POSERROR(s, "pthread_attr_setinheritsched");
+		goto destroy_attr;
+	}
+	s = pthread_attr_setschedpolicy(&attr, SCHED_FIFO);
+	if (s == EPERM) {
+		awarn("Not enough privileges to set scheduler\n");
+	} else if (s) {
+		HWAPI_POSERROR(s, "pthread_attr_setschedpolicy");
+		goto destroy_attr;
+	}
+
+	printf("launching with prio %d\n",prio);
+
+	param.sched_priority = prio;
+	s = pthread_attr_setschedparam(&attr, &param);
+	if (s == EPERM) {
+		awarn("Not enough privileges to set task priority\n");
+	} else if (s) {
+		HWAPI_POSERROR(s, "pthread_attr_setschedparam");
+		goto destroy_attr;
+	}
+
+
 	s = pthread_create(thread, &attr, fnc, arg);
 	if (s) {
 		if (s == EPERM) {
@@ -123,17 +148,7 @@ int hwapi_task_new_thread(pthread_t *thread, void *(*fnc)(void*), void *arg,
 			goto destroy_attr;
 		}
 	}
-	/* try to set priority *AFTER* set creation */
-	if (prio != 0) {
-		param.sched_priority = prio;
-		s = pthread_setschedparam(*thread, SCHED_RR, &param);
-		if (s == EPERM) {
-			awarn("Not enough privileges to set task priority\n");
-		} else if (s) {
-			HWAPI_POSERROR(s, "pthread_attr_setschedpolicy");
-			goto destroy_attr;
-		}
-	}
+
 
 	ret=0;
 

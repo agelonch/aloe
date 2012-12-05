@@ -3,7 +3,7 @@ if(${CMAKE_SOURCE_DIR} STREQUAL ${CMAKE_BINARY_DIR})
 endif(${CMAKE_SOURCE_DIR} STREQUAL ${CMAKE_BINARY_DIR})
 
 cmake_minimum_required (VERSION 2.6)
-project (modrep_default)
+project (modrep_ofdm)
 
 # The version number.
 set (MODREP_DEFAULT_VERSION_MAJOR 1)
@@ -17,7 +17,7 @@ set(CMAKE_SHARED_LINKER_FLAGS "-u _run_cycle")
 
 file(GLOB modules *) 
 
-set(MODULE_REPOS_NAME "modrep_default")
+set(MODULE_REPOS_NAME "modrep_ofdm")
 
 foreach (_module ${modules})
 	if (IS_DIRECTORY ${_module})

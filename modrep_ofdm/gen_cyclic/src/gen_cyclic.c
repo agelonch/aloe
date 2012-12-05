@@ -93,18 +93,22 @@ int work(void **inp, void **out) {
 
 		nof_ofdm_symb = get_input_samples(i) / ofdm_symbol_sz;
 
-		for (j=0;j<nof_ofdm_symb;j++) {
-			if (!j) {
-				cpy = first_cyclic_prefix_sz;
-			} else {
-				cpy = cyclic_prefix_sz;
+		if (nof_ofdm_symb) {
+			for (j=0;j<nof_ofdm_symb;j++) {
+				if (!j) {
+					cpy = first_cyclic_prefix_sz;
+				} else {
+					cpy = cyclic_prefix_sz;
+				}
+				memcpy(output,&input[ofdm_symbol_sz-cpy],sizeof(input_t)*cpy);
+				memcpy(&output[cpy],input,sizeof(input_t)*ofdm_symbol_sz);
+				input += ofdm_symbol_sz;
+				output += ofdm_symbol_sz+cpy;
 			}
-			memcpy(output,&input[ofdm_symbol_sz-cpy],sizeof(input_t)*cpy);
-			memcpy(&output[cpy],input,sizeof(input_t)*ofdm_symbol_sz);
-		}
 
-		set_output_samples(i, ofdm_symbol_sz + first_cyclic_prefix_sz +
-							 (ofdm_symbol_sz + cyclic_prefix_sz) * (nof_ofdm_symb - 1));
+			set_output_samples(i, ofdm_symbol_sz + first_cyclic_prefix_sz +
+								 (ofdm_symbol_sz + cyclic_prefix_sz) * (nof_ofdm_symb - 1));
+		}
 	}
 	return 0;
 }

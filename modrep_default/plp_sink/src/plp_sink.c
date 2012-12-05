@@ -66,6 +66,7 @@ int initialize() {
 			return -1;
 		}
 		if (mode == MODE_SCOPE || mode == MODE_FFT) {
+			modinfo("Initiating plplot...\n");
 			if (plp_init(PL_DRIVER,"",is_complex)) {
 				return -1;
 			}
@@ -83,13 +84,15 @@ int initialize() {
 			return -1;
 		}
 	}
-	if (fft_init(fft_size, is_complex)) {
-		moderror_msg("Initiating FFT for size %d\n",fft_size);
-		return -1;
-	} else {
-		modinfo_msg("Initiated FFT for size %d\n",fft_size);
+	if (mode == MODE_FFT) {
+		if (fft_init(fft_size, is_complex)) {
+			moderror_msg("Initiating FFT for size %d\n",fft_size);
+			return -1;
+		} else {
+			modinfo_msg("Initiated FFT for size %d\n",fft_size);
+		}
+		fft_initiated = 1;
 	}
-	fft_initiated = 1;
 
 
 #ifdef _COMPILE_ALOE
@@ -159,7 +162,7 @@ int work(void **inp, void **out) {
 			set_legend(r_legends,NOF_INPUT_ITF);
 		}
 		set_labels(xlabel,"amp");
-		reset_axis();
+		//reset_axis();
 		for (n=0;n<NOF_INPUT_ITF;n++) {
 			if (inp[n]) {
 				if (is_complex) {

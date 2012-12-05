@@ -46,12 +46,14 @@ int work(void **inp, void **out) {
 	for (i=0;i<NOF_INPUT_ITF;i++) {
 		input = inp[i];
 		output = out[i];
-		out_len = RATE*get_input_samples(i)+TOTALTAIL;
-		turbo_coder(input,output,get_input_samples(i));
-		for (j=0;j<padding;j++) {
-			output[out_len+j] = 0;
+		if (get_input_samples(i)) {
+			out_len = RATE*get_input_samples(i)+TOTALTAIL;
+			turbo_coder(input,output,get_input_samples(i));
+			for (j=0;j<padding;j++) {
+				output[out_len+j] = 0;
+			}
+			set_output_samples(i,out_len+padding);
 		}
-		set_output_samples(i,out_len+padding);
 	}
 	return 0;
 }

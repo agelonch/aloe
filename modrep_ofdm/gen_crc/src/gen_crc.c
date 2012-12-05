@@ -64,14 +64,16 @@ int work(void **inp, void **out) {
 	if (long_crc_id) param_get_int(long_crc_id, &long_crc);
 
 	for (i=0;i<NOF_INPUT_ITF;i++) {
-		memcpy(out[i],inp[i],sizeof(input_t)*get_input_samples(i));
-		input = out[i];
-		n = icrc(0, input, get_input_samples(i), long_crc, poly, mode == MODE_ADD);
-		if (n == -1) {
-			moderror("Running icrc\n");
-			return -1;
+		if (get_input_samples(i)) {
+			memcpy(out[i],inp[i],sizeof(input_t)*get_input_samples(i));
+			input = out[i];
+			n = icrc(0, input, get_input_samples(i), long_crc, poly, mode == MODE_ADD);
+			if (n == -1) {
+				moderror("Running icrc\n");
+				return -1;
+			}
+			set_output_samples(i,get_input_samples(i)+long_crc);
 		}
-		set_output_samples(i,get_input_samples(i)+long_crc);
 	}
 	return 0;
 }

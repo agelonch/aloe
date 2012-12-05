@@ -57,11 +57,13 @@ int work(void **inp, void **out) {
 		input = inp[i];
 		output = out[i];
 
-		out_len = modulate(input,output,get_input_samples(i));
-		if (out_len == -1) {
-			return -1;
+		if (get_input_samples(i)) {
+			out_len = modulate(input,output,get_input_samples(i));
+			if (out_len == -1) {
+				return -1;
+			}
+			set_output_samples(i,out_len);
 		}
-		set_output_samples(i,out_len);
 	}
 	return 0;
 }

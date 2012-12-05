@@ -46,8 +46,10 @@ int initialize() {
 		data_type = DATA_TYPE_COMPLEX;
 	}
 
+
 	input_sample_sz = get_input_sample_sz(data_type);
 	output_sample_sz = input_sample_sz;
+	modinfo_msg("Chosed data type %d sample_sz=%d\n",data_type, input_sample_sz);
 
 	pre_padding_id = param_id("pre_padding");
 	if (!pre_padding_id) {
@@ -95,13 +97,15 @@ int work(void **inp, void **out) {
 		in_pkt_len = get_input_samples(i) / nof_packets;
 		out_pkt_len = in_pkt_len + pre_padding+post_padding;
 
-		for (j=0;j<nof_packets;j++) {
-			memset(outaddr(0),0,input_sample_sz*pre_padding);
-			memcpy(outaddr(pre_padding),inaddr(0),input_sample_sz*in_pkt_len);
-			memset(outaddr(pre_padding+in_pkt_len),0,input_sample_sz*post_padding);
+		if (in_pkt_len) {
+			for (j=0;j<nof_packets;j++) {
+				memset(outaddr(0),0,input_sample_sz*pre_padding);
+				memcpy(outaddr(pre_padding),inaddr(0),input_sample_sz*in_pkt_len);
+				memset(outaddr(pre_padding+in_pkt_len),0,input_sample_sz*post_padding);
+			}
+			set_output_samples(i,out_pkt_len*nof_packets);
 		}
 
-		set_output_samples(i,out_pkt_len*nof_packets);
 	}
 	return 0;
 }

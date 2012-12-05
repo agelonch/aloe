@@ -54,7 +54,7 @@
 	do { if (DEBUG_NODE) printf("[debug-node]\t[%s()]: " _fmt, __func__,__VA_ARGS__);} while(0);
 
 /* debug swapi */
-#define DEBUG_SWAPI 0
+#define DEBUG_SWAPI 1
 #define sdebug(_fmt, ...) \
 	do { if (DEBUG_SWAPI) printf("[debug-swapi]\t[%s()]: " _fmt, __func__,__VA_ARGS__);} while(0);
 

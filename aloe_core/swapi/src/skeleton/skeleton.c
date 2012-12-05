@@ -19,7 +19,7 @@ extern const int input_max_samples;
 extern const int output_max_samples;
 
 int input_trials = 0;
-#define MAX_INPUT_TRIALS 5
+#define MAX_INPUT_TRIALS 30
 
 itf_t inputs[MAX_INPUTS], outputs[MAX_OUTPUTS];
 
@@ -453,7 +453,7 @@ int get_input_samples(int idx) {
 int set_output_samples(int idx, int len) {
 	if (idx<0 || idx>nof_input_itf)
 			return -1;
-	snd_len[idx] = len;
+	snd_len[idx] = len*output_sample_sz;
 	return 0;
 }
 
