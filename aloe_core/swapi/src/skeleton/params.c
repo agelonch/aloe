@@ -52,15 +52,19 @@ int param_get_float_name(char *name, float *value) {
 int param_get_int(pmid_t id, int *value) {
 	param_type_t type;
 	int size;
+	int tmp = *value;
 	int max_size = sizeof(int);
 
 	if ((size = param_get(id,value,max_size,&type)) == -1) {
+		*value = tmp;
 		return -1;
 	}
 	if (size != max_size) {
+		*value = tmp;
 		return 0;
 	}
 	if (type != INT) {
+		*value = tmp;
 		return 0;
 	}
 	return 1;

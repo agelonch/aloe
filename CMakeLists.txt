@@ -16,3 +16,4 @@ set(MODULE_REPOS_NAME "default")
 
 add_subdirectory(aloe_core)
 add_subdirectory(modrep_default)
+add_subdirectory(modrep_ofdm)
