@@ -132,6 +132,13 @@ inline static void pipeline_run_time_slot(pipeline_t *obj) {
 
 void pipeline_run_from_timer(void *arg, struct timespec *time) {
 	pipeline_t *obj = (pipeline_t*) arg;
+	time_t realtime;
+#ifdef KERNEL_DEB_TIME
+	hwapi_time_get(&realtime);
+	hdebug("now is %d:%d\n",realtime.tv_sec,realtime.tv_usec);
+#else
+	hdebug("now is %d:%d\n",time->tv_sec,time->tv_nsec);
+#endif
 
 	if (!timer_first_cycle && time) {
 		hwapi_time_reset_realtime(time);
@@ -191,6 +198,7 @@ int pipeline_recover_thread(pipeline_t *obj) {
 /** \brief Called when there is an rtfault in the pipeline
  */
 int pipeline_rt_fault(pipeline_t *obj) {
+#ifdef KILL_RT_FAULT
 	hdebug("pipeline_id=%d, process_idx=%d\n",obj->id,obj->running_process_idx,obj->running_process_idx);
 	obj->finished = 1;
 	aerror_msg("RT-Fault detected at pipeline %d, process %d\n",obj->id,
@@ -202,6 +210,11 @@ int pipeline_rt_fault(pipeline_t *obj) {
 			return -1;
 		}
 	}
+#else
+	obj->finished = 1;
+	printf("+++ RT-Fault: Process %d/%d still running in pipeline %d\n",
+			obj->running_process_idx, obj->nof_processes, obj->id);
+#endif
 	return 0;
 }
 

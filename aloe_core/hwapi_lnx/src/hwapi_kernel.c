@@ -26,10 +26,10 @@
 #include <sys/types.h>
 #include <sys/mman.h>
 
+#include "hwapi_kernel.h"
 #include "str.h"
 #include "defs.h"
 #include "hwapi_time.h"
-#include "hwapi_kernel.h"
 #include "hwapi_process.h"
 #include "hwapi_context.h"
 #include "hwapi_task.h"
@@ -62,6 +62,13 @@ static void go_out();
 static void thread_signal_handler(int signum, siginfo_t *info, void *ctx);
 static void print_license();
 
+FILE *trace_buffer;
+char *debug_trace_addr;
+size_t debug_trace_sz;
+FILE *debug_trace_file;
+
+
+
 /**
  * A real-time fault has been detected. if hwapi.machine.rtFaultKill, calls
  * procThread.restoreThread() to kill the runningModule and restore the execution.
@@ -81,7 +88,8 @@ inline static void kernel_tslot_run_rt_control() {
 	hdebug("tslot=%d\n",hwapi_time_slot());
 	if (hwapi.machine.rt_fault_opts == RT_FAULT_OPTS_HARD) {
 		for (int i=0;i<hwapi.machine.nof_cores;i++) {
-			if (!hwapi.pipelines[i].finished && hwapi.pipelines[i].running_process) {
+			if (!hwapi.pipelines[i].finished
+					&& hwapi.pipelines[i].running_process) {
 				if (pipeline_rt_fault(&hwapi.pipelines[i])) {
 					aerror("Couldn't kill pipeline after an rt-fault, "
 							"going out\n");
@@ -558,7 +566,35 @@ static void check_threads() {
 	hdebug("i=%d\n",i);
 }
 
+
+void open_debug_trace() {
+	trace_buffer = open_memstream(&debug_trace_addr, &debug_trace_sz);
+	if (!trace_buffer) {
+		perror("opening debug_trace\n");
+	}
+	debug_trace_file = fopen("./out.trace","w");
+	if (debug_trace_file) {
+		perror("fopen");
+	}
+}
+
+void write_debug_trace() {
+	if (trace_buffer) {
+		fclose(trace_buffer);
+		trace_buffer = NULL;
+	}
+	if (debug_trace_addr == NULL) {
+		return;
+	}
+	if (fwrite(debug_trace_addr,1,debug_trace_sz,debug_trace_file) == -1) {
+		perror("fwrite");
+	}
+	debug_trace_addr = NULL;
+}
+
+
 static void go_out() {
+	write_debug_trace();
 	hdebug("tslot=%d\n",hwapi_time_slot());
 	sigwait_stops = 1;
 	kernel_timer.stop = 1;
@@ -651,6 +687,11 @@ int main(int argc, char **argv) {
 		printf("Usage: %s ts_us nof_cores path_to_waveform_model [-s]\n",argv[0]);
 		return -1;
 	}
+
+#ifdef DEBUG_TRACE
+	open_debug_trace();
+	atexit(write_debug_trace);
+#endif
 
 	mlockall(MCL_CURRENT | MCL_FUTURE);
 

@@ -19,7 +19,7 @@
 #ifndef HWAPI_KERNEL_H
 #define HWAPI_KERNEL_H
 
-#define THREADED_CPU
+#define KERNEL_DEB_TIME
 
 #define ALOE_VERSION "ALOE++-0.1"
 #define ALOE_YEAR 2012

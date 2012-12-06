@@ -16,46 +16,60 @@
  * along with ALOE++.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+
+#define DEBUG_TRACE
+
+
+#ifdef DEBUG_TRACE
+#ifndef _DEBUG_TRACE
+#define _DEBUG_TRACE
+extern FILE *trace_buffer;
+#endif
+#define debug_buffer trace_buffer
+#else
+#define debug_buffer stdout
+#endif
+
 /* debug hwapi */
-#define DEBUG_HWAPI 0
+#define DEBUG_HWAPI 1
 #define hdebug(_fmt, ...) \
-	do { if (DEBUG_HWAPI) printf("[debug-hwapi]\t[%s()]: " _fmt, __func__,__VA_ARGS__);} while(0);
+	do { if (DEBUG_HWAPI) fprintf(debug_buffer,"[debug-hwapi]\t[%s()]: " _fmt, __func__,__VA_ARGS__);} while(0);
 
 /* debug memory */
 #define DEBUG_POOL 0
 #define memdebug(_fmt, ...) \
-	do { if (DEBUG_POOL) printf("[debug-mempool]\t[%s()]: " _fmt, __func__,__VA_ARGS__);} while(0);
+	do { if (DEBUG_POOL) fprintf(debug_buffer,"[debug-mempool]\t[%s()]: " _fmt, __func__,__VA_ARGS__);} while(0);
 
 
 /* debug packet */
 #define DEBUG_PKT 0
 #define pktdebug(_fmt, ...) \
-	do { if (DEBUG_PKT) printf("[debug-packet]\t[%s()]: pkt=0x%x " _fmt, __func__,pkt,__VA_ARGS__);} while(0);
+	do { if (DEBUG_PKT) fprintf(debug_buffer,"[debug-packet]\t[%s()]: pkt=0x%x " _fmt, __func__,pkt,__VA_ARGS__);} while(0);
 
 
 /* debug serializable */
 #define DEBUG_SER 0
 #define serdebug(_fmt, ...) \
-	do { if (DEBUG_SER) printf("[debug-serial]\t[%s()]: " _fmt, __func__,__VA_ARGS__);} while(0);
+	do { if (DEBUG_SER) fprintf(debug_buffer,"[debug-serial]\t[%s()]: " _fmt, __func__,__VA_ARGS__);} while(0);
 
 /* debug manager */
 #define DEBUG_MAN 0
 #define mdebug(_fmt, ...) \
-	do { if (DEBUG_MAN) printf("[debug-manager]\t[%s()]: " _fmt, __func__,__VA_ARGS__);} while(0);
+	do { if (DEBUG_MAN) fprintf(debug_buffer,"[debug-manager]\t[%s()]: " _fmt, __func__,__VA_ARGS__);} while(0);
 
 /* debug parse */
 #define DEBUG_PARSER 0
 #define pardebug(_fmt, ...) \
-	do { if (DEBUG_PARSER) printf("[debug-parser]\t[%s()]: " _fmt, __func__,__VA_ARGS__);} while(0);
+	do { if (DEBUG_PARSER) fprintf(debug_buffer,"[debug-parser]\t[%s()]: " _fmt, __func__,__VA_ARGS__);} while(0);
 
 /* debug node */
 #define DEBUG_NODE 0
 #define ndebug(_fmt, ...) \
-	do { if (DEBUG_NODE) printf("[debug-node]\t[%s()]: " _fmt, __func__,__VA_ARGS__);} while(0);
+	do { if (DEBUG_NODE) fprintf(debug_buffer,"[debug-node]\t[%s()]: " _fmt, __func__,__VA_ARGS__);} while(0);
 
 /* debug swapi */
-#define DEBUG_SWAPI 1
+#define DEBUG_SWAPI 0
 #define sdebug(_fmt, ...) \
-	do { if (DEBUG_SWAPI) printf("[debug-swapi]\t[%s()]: " _fmt, __func__,__VA_ARGS__);} while(0);
+	do { if (DEBUG_SWAPI) fprintf(debug_buffer,"[debug-swapi]\t[%s()]: " _fmt, __func__,__VA_ARGS__);} while(0);
 
 

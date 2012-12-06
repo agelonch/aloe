@@ -18,6 +18,7 @@
 
 #include <stddef.h>
 #include <stdlib.h>
+#include <pthread.h>
 
 #include "defs.h"
 #include "hwapi.h"
@@ -128,18 +129,23 @@ int _run_cycle(void* context) {
 
 void* _call_init(void *arg) {
 	int n;
+	struct sched_param param;
 	swapi_context_t *ctx = arg;
 	nod_module_t *module = swapi_get_module(arg);
 	nod_waveform_t *waveform = module->parent.waveform;
 	sdebug("module_id=%d, changing_status=%d, now_is=0\n",module->parent.id,
 			module->changing_status);
 
+	param.__sched_priority = 40;
+	n = pthread_setschedparam(pthread_self(), SCHED_RR ,&param);
+
 	ctx->tstamp++;
-	while((n=Init(arg)) == 0) {
+	while((n = Init(arg)) == 0) {
 		ctx->tstamp++;
 		sdebug("module_id=%d sleep_for=%d\n",module->parent.id, 1);
-		hwapi_sleep(1);
+		hwapi_sleep(module->parent.id);
 	}
+
 	sdebug("module_id=%d finished init. Setting status to %d\n",module->parent.id,
 			waveform->status.cur_status);
 	if (n > 0) {

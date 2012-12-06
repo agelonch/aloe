@@ -40,6 +40,7 @@ static double pl_signals[2*NOF_INPUT_ITF*INPUT_MAX_SAMPLES];
 static int plp_initiated=0;
 static int fft_initiated=0;
 static int interval_ts, last_tstamp;
+static int print_not_received;
 
 static int is_complex;
 
@@ -56,6 +57,11 @@ int initialize() {
 		moderror("Error getting parameter is_complex\n");
 		return -1;
 	}
+
+	if (param_get_int(param_id("print_not_received"),&print_not_received)!=1) {
+		print_not_received = 0;
+	}
+	modinfo_msg("print_not_received=%d\n",print_not_received);
 
 	mode_id = param_id("mode");
 	if (mode_id == NULL) {
@@ -137,6 +143,14 @@ int work(void **inp, void **out) {
 			signal_lengths[2*n+1] = signal_lengths[2*n];
 		} else {
 			signal_lengths[n] = get_input_samples(n);
+		}
+	}
+
+	if (print_not_received) {
+		for (n=0;n<NOF_INPUT_ITF;n++) {
+			if (!get_input_samples(n)) {
+				modinfo_msg("Data not received from interface %d\n",n);
+			}
 		}
 	}
 

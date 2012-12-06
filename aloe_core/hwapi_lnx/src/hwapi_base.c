@@ -196,6 +196,7 @@ int hwapi_sleep(int nof_slots) {
 	HWAPI_ASSERT_PARAM(nof_slots>=0);
 	hdebug("sleep_for=%d\n",nof_slots);
 	if (usleep((useconds_t) (nof_slots*context->machine.ts_len_us/5))) {
+		aerror("error sleep\n");
 		return -1;
 	}
 	hdebug("waking up at %d\n",hwapi_time_slot());
