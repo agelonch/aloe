@@ -18,8 +18,7 @@ extern const int nof_output_itf;
 extern const int input_max_samples;
 extern const int output_max_samples;
 
-int input_trials = 0;
-#define MAX_INPUT_TRIALS 30
+static int mem_ok=0, log_ok=0, check_ok=0;
 
 itf_t inputs[MAX_INPUTS], outputs[MAX_OUTPUTS];
 
@@ -97,53 +96,52 @@ int init_interfaces(void *ctx) {
 	int i;
 
 	for (i=0;i<nof_input_itf;i++) {
-		inputs[i] = swapi_itf_create(ctx, i, ITF_READ, input_max_samples*input_sample_sz);
 		if (inputs[i] == NULL) {
-			if (swapi_error_code(ctx) == SWAPI_ERROR_NOTREADY) {
-				moddebug("input_trials=%d\n",input_trials);
-				modinfo_msg("input port %d not yet configured. Trying again %d/%d...\n",i,
-						input_trials,MAX_INPUT_TRIALS);
-				input_trials++;
-				if (input_trials == MAX_INPUT_TRIALS) {
-					moderror_msg("input port %d not connected after %d trials\n",MAX_INPUT_TRIALS);
+			inputs[i] = swapi_itf_create(ctx, i, ITF_READ, input_max_samples*input_sample_sz);
+			if (inputs[i] == NULL) {
+				if (swapi_error_code(ctx) == SWAPI_ERROR_NOTREADY) {
+					return 0;
+				} else {
+					swapi_perror("swapi_itf_create\n");
 					return -1;
 				}
-				return 0;
 			} else {
-				swapi_perror("swapi_itf_create\n");
-				return -1;
+				moddebug("input_%d=0x%x\n",i,inputs[i]);
 			}
-		} else {
-			moddebug("input_%d=0x%x\n",i,inputs[i]);
 		}
 	}
 
 	for (i=0;i<nof_output_itf;i++) {
-		outputs[i] = swapi_itf_create(ctx, i, ITF_WRITE, output_max_samples*output_sample_sz);
 		if (outputs[i] == NULL) {
-			if (swapi_error_code(ctx) == SWAPI_ERROR_NOTFOUND) {
-				moderror_msg("Output port %d does not exists. Please check waveform .app file\n",i);
+			outputs[i] = swapi_itf_create(ctx, i, ITF_WRITE, output_max_samples*output_sample_sz);
+			if (outputs[i] == NULL) {
+				if (swapi_error_code(ctx) == SWAPI_ERROR_NOTFOUND) {
+					moderror_msg("Output port %d does not exists. Please check waveform .app file\n",i);
+					return -1;
+				}
+				swapi_perror("swapi_itf_create\n");
 				return -1;
+			} else {
+				moddebug("output_%d=0x%x\n",i,outputs[i]);
 			}
-			swapi_perror("swapi_itf_create\n");
-			return -1;
-		} else {
-			moddebug("output_%d=0x%x\n",i,outputs[i]);
 		}
-		input_trials = 0;
 	}
 
 #ifdef _ALOE_OLD_SKELETON
 
-	input_buffer = malloc(nof_input_itf*input_max_samples*input_sample_sz);
 	if (!input_buffer) {
-		perror("malloc");
-		return -1;
+		input_buffer = malloc(nof_input_itf*input_max_samples*input_sample_sz);
+		if (!input_buffer) {
+			perror("malloc");
+			return -1;
+		}
 	}
-	output_buffer = malloc(nof_output_itf*output_max_samples*output_sample_sz);
 	if (!output_buffer) {
-		perror("malloc");
-		return -1;
+		output_buffer = malloc(nof_output_itf*output_max_samples*output_sample_sz);
+		if (!output_buffer) {
+			perror("malloc");
+			return -1;
+		}
 	}
 
 #endif
@@ -254,18 +252,28 @@ int Init(void *_ctx) {
 
 	moddebug("enter ts=%d\n",swapi_tstamp(ctx));
 
-	init_memory();
+	if (!mem_ok) {
+		init_memory();
+		mem_ok = 1;
+	}
 
-	mlog = NULL;
-	if (USE_LOG) {
-		if (init_log(ctx)) {
+	if (!log_ok) {
+		mlog = NULL;
+		if (USE_LOG) {
+			if (init_log(ctx)) {
+				return -1;
+			}
+		}
+		log_ok = 1;
+	}
+
+	if (!check_ok) {
+		if (check_configuration(ctx)) {
 			return -1;
 		}
+		check_ok = 1;
 	}
 
-	if (check_configuration(ctx)) {
-		return -1;
-	}
 	n = init_interfaces(ctx);
 	if (n == -1) {
 		return -1;
@@ -299,6 +307,8 @@ int Stop(void *_ctx) {
 	moddebug("enter ts=%d\n",swapi_tstamp(ctx));
 
 	stop();
+
+	moddebug("module stoped ok ts=%d\n",swapi_tstamp(ctx));
 
 	close_counter(ctx);
 	close_variables(ctx);
@@ -359,7 +369,10 @@ int Run(void *_ctx) {
 
 	/* This is the module DSP function */
 	moddebug("work ts=%d\n",swapi_tstamp(ctx));
+	swapi_counter_start(counter);
 	n = work(input_buffer,output_buffer);
+	swapi_counter_stop(counter);
+	moddebug("work exec time: %d us\n",swapi_counter_usec(counter));
 	if (n<0) {
 		return -1;
 	}
@@ -376,13 +389,19 @@ int Run(void *_ctx) {
 			output_ptr[i]=output_pkt[i]->data;
 		}
 	}
+#ifdef MOD_DEBUG
+	swapi_counter_start(counter);
+#endif
 	n = work(input_ptr,output_ptr);
+#ifdef MOD_DEBUG
+	swapi_counter_stop(counter);
+	moddebug("work exec time: %d us\n",swapi_counter_usec(counter));
+#endif
 	if (n<0) {
 		return -1;
 	}
 
 #endif
-
 
 	memset(rcv_len,0,sizeof(int)*nof_input_itf);
 

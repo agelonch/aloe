@@ -159,6 +159,7 @@ int plp_draw(double *signal, int *signal_lengths, int ylog_scale) {
 			return -1;
 		}
 	}
+
 	xmax=0;
 	for(i=0;i<2*NOF_INPUT_ITF;i++) {
 		xmax = (PLFLT) MAX(xmax,signal_lengths[i]);

@@ -19,7 +19,6 @@
 
 #define DEBUG_TRACE
 
-
 #ifdef DEBUG_TRACE
 #ifndef _DEBUG_TRACE
 #define _DEBUG_TRACE
@@ -31,7 +30,7 @@ extern FILE *trace_buffer;
 #endif
 
 /* debug hwapi */
-#define DEBUG_HWAPI 1
+#define DEBUG_HWAPI 0
 #define hdebug(_fmt, ...) \
 	do { if (DEBUG_HWAPI) fprintf(debug_buffer,"[debug-hwapi]\t[%s()]: " _fmt, __func__,__VA_ARGS__);} while(0);
 

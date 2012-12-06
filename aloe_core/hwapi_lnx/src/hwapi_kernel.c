@@ -45,6 +45,9 @@ const int thread_specific_signals[N_THREAD_SPECIFIC_SIGNALS] =
 	{SIGSEGV, SIGBUS, SIGILL, SIGFPE, TASK_TERMINATION_SIGNAL, SIGUSR1};
 
 
+int *core_mapping;
+int nof_cores;
+
 static hwapi_context_t hwapi;
 static hwapi_timer_t kernel_timer;
 static long int timeslot_us;
@@ -55,14 +58,13 @@ static int multi_timer_futex;
 static pid_t kernel_pid;
 static pthread_t single_timer_thread;
 static char UNUSED(sigmsg[1024]);
-static int *core_mapping;
 static int signal_received = 0;
 
 static void go_out();
 static void thread_signal_handler(int signum, siginfo_t *info, void *ctx);
 static void print_license();
 
-FILE *trace_buffer;
+FILE *trace_buffer = NULL;
 char *debug_trace_addr;
 size_t debug_trace_sz;
 FILE *debug_trace_file;
@@ -114,16 +116,6 @@ static inline void kernel_tslot_run_periodic_callbacks() {
 	}
 }
 
-static inline void kernel_tslot_run_sleep() {
-	if (hwapi.wake_tslot) {
-		hdebug("wake at %d\n",hwapi.wake_tslot);
-		if (hwapi_time_slot()>=hwapi.wake_tslot) {
-			hdebug("waking up %d\n",hwapi.wake_tslot);
-			sem_post(&hwapi.sleep_semaphore);
-		}
-	}
-}
-
 inline void kernel_tslot_run() {
 	hwapi_time_ts_inc();
 
@@ -136,8 +128,6 @@ inline void kernel_tslot_run() {
 	kernel_tslot_run_rt_control();
 
 	kernel_tslot_run_periodic_callbacks();
-
-	kernel_tslot_run_sleep();
 }
 
 static int first_cycle = 0;
@@ -252,23 +242,6 @@ inline static int kernel_initialize_create_pipelines() {
 }
 
 /**
- * Creates kernel resources
- */
-inline static int kernel_initialize_create_resources() {
-
-	/* initialize shared memory for time sharing with the manager.
-	 * hwapi.time structure should then be a pointer to a shared
-	 * memory area.
-	 * */
-	if (sem_init(&hwapi.sleep_semaphore, 0, 0)) {
-		poserror(errno, "sem_init");
-		return -1;
-	}
-
-	return 0;
-}
-
-/**
  * Block all signals except (SIGSEGV,SIGILL,SIGFPE,SIGBUS),
  * which sigwaited by the sigwait_thread
  */
@@ -343,11 +316,6 @@ static int kernel_initialize(void) {
 	hwapi.machine.kernel_prio = 50;
 	hwapi.machine.rt_fault_opts = RT_FAULT_OPTS_HARD;
 	hwapi_initialize_node(&hwapi, NULL, NULL);
-
-	/* create kernel resources */
-	if (kernel_initialize_create_resources()) {
-		return -1;
-	}
 
 	/* Set self priority to hwapi.machine.kernel_prio */
 	if (kernel_initialize_set_kernel_priority()) {
@@ -488,6 +456,8 @@ static void thread_signal_handler(int signum, siginfo_t *info, void *ctx) {
 #endif
 
 	signal_received++;
+
+	hdebug("signal %d received\n",signum);
 
 	/* try to find the thread that caused the signal */
 
@@ -703,6 +673,7 @@ int main(int argc, char **argv) {
 		exit(0);
 	}
 	hwapi.machine.nof_cores = parse_cores(argv[2]);
+	nof_cores = hwapi.machine.nof_cores;
 	if (hwapi.machine.nof_cores <= 0) {
 		printf("Error invalid cores %s\n",argv[2]);
 		exit(0);

@@ -52,6 +52,7 @@ int nod_waveform_free(nod_waveform_t *w) {
 /* \brief nod_waveform_load() calls nod_module_load() for each module in the waveform
  */
 int nod_waveform_load(nod_waveform_t *w) {
+	time_t t;
 	ndebug("waveform_id=%d, nof_modules=%d\n",w->id, w->nof_modules);
 	aassert(w);
 	int i;
@@ -60,17 +61,31 @@ int nod_waveform_load(nod_waveform_t *w) {
 			return -1;
 		}
 	}
+	if (nod_waveform_run(w,1)) {
+		ndebug("error running waveform %s. Removing\n",w->name);
+		return -1;
+	}
+
+	t.tv_sec = 2;
+	t.tv_usec = 0;
+	hwapi_sleep(&t);
+	for (i=0;i<w->nof_modules;i++) {
+		if (w->modules[i].parent.status != LOADED) {
+			aerror_msg("module_id=%d did not load correctly\n",w->modules[i].parent.id);
+			return -1;
+		}
+	}
 	return 0;
 }
 
 /* \brief nod_waveform_run() calls nod_module_run() for each module in the waveform
  */
-int nod_waveform_run(nod_waveform_t *w) {
+int nod_waveform_run(nod_waveform_t *w, int runnable) {
 	ndebug("waveform_id=%d, nof_modules=%d\n",w->id, w->nof_modules);
 	aassert(w);
 	int i;
 	for (i=0;i<w->nof_modules;i++) {
-		if (nod_module_run(&w->modules[i])) {
+		if (nod_module_run(&w->modules[i], runnable)) {
 			return -1;
 		}
 	}
@@ -88,9 +103,11 @@ int nod_waveform_remove(nod_waveform_t *w) {
 	int i;
 	for (i=0;i<w->nof_modules;i++) {
 		ndebug("removing module_id=%d\n",w->modules[i].parent.id);
-		if (nod_module_remove(&w->modules[i])) {
-			aerror_msg("removing module_id=%d\n",w->modules[i].parent.id);
-			return -1;
+		if (w->modules[i].parent.id) {
+			if (nod_module_remove(&w->modules[i])) {
+				aerror_msg("removing module_id=%d\n",w->modules[i].parent.id);
+				return -1;
+			}
 		}
 	}
 	if (nod_waveform_free(w)) {
@@ -101,80 +118,150 @@ int nod_waveform_remove(nod_waveform_t *w) {
 	return 0;
 }
 
-/** \brief Stop all waveform modules in the node and tell the manager there was an error
- * with the waveform.
- */
-static int nod_waveform_force_stop(nod_waveform_t *waveform) {
-	aassert(waveform);
-	ndebug("waveform_id=%d\n",waveform->id);
-	/**@TODO Use probeItf to tell the manager about this. He will stop the waveform */
-	aerror_msg("Caution: killing waveform %s: Possibly some resources remain opened\n",
-			waveform->name);
-	if (nod_waveform_remove(waveform)) {
-		aerror("nod_waveform_remove");
-	}
-	return 0;
-}
-
-/** \brief uses nod_waveform_status_new() to set the status STOP
- */
-int nod_waveform_stop(nod_waveform_t *waveform) {
-	aassert(waveform);
-	ndebug("waveform_id=%d\n",waveform->id);
-
-	waveform_status_t status;
-	status.cur_status = STOP;
-	status.next_timeslot = hwapi_time_slot();
-	status.dead_timeslot = hwapi_time_slot()+STOP_TSLOT_DEAD;
-
-	if (nod_waveform_status_new(waveform, &status)) {
-		aerror("setting status stop. Forcing waveform removal\n");
-		if (nod_waveform_force_stop(waveform)) {
-			aerror("force_stop");
-		}
-	}
-	return 0;
-}
-
-
-/** \brief Verifies that the status has been changed correctly. Sets the caller thread to a
- * waiting state until w->status.dead_timeslot. When it wakes, it calls nod_module_status_ok()
- * for each module.
- * \returns 0 if the status changed correctly, or -1 if any module did not change the status
- */
-static int nod_waveform_status_ok(nod_waveform_t *w) {
-	aassert(w);
-	ndebug("waveform_id=%d, nof_modules=%d, status=%d\n",w->id, w->nof_modules,
-				w->status.cur_status);
+static void* nod_waveform_status_stop_thread(void *arg) {
 	int i;
-	aassert(w);
-	ndebug("sleep until=%d\n",w->status.dead_timeslot);
-	if (hwapi_sleep_to(w->status.dead_timeslot)) {
-		return -1;
+
+	nod_waveform_t* waveform = arg;
+	ndebug("waveform_id=%d\n",waveform->id);
+
+	if (DEBUG_NODE) {
+		hwapi_task_print_sched();
 	}
-	ndebug("wake up ts=%d\n",hwapi_time_slot());
-	/* kill status tasks first */
-	for (i=0;i<w->nof_modules;i++) {
-		if (w->modules[i].changing_status) {
-			if (w->modules[i].status_init_task
-					|| w->modules[i].status_stop_task) {
-				nod_module_kill_status_task(&w->modules[i]);
+
+	for (i=0;i<waveform->nof_modules;i++) {
+		if (waveform->modules[i].parent.status != STOP) {
+			if (nod_module_stop(&waveform->modules[i])) {
+				aerror_msg("stopping module %s of waveform %s\n",waveform->modules[i].parent.name,
+						waveform->name);
+				return NULL;
 			}
 		}
 	}
-	for (i=0;i<w->nof_modules;i++) {
-		if (nod_module_status_ok(&w->modules[i], w->status.cur_status)) {
-			aerror_msg("Module %s did not change status.\n",
-					w->modules[i].parent.name);
-			return -1;
-		}
-	}
-	if (w->status.cur_status == STEP) {
-		w->status.cur_status = PAUSE;
+	return (void*) 1;
+}
+
+/** \brief goes through all the modules and calls nod_module_stop();
+ */
+int nod_waveform_status_stop(nod_waveform_t *waveform) {
+	aassert(waveform);
+	ndebug("waveform_id=%d\n",waveform->id);
+	int i;
+	h_task_t task;
+	void *ret_val;
+	time_t t;
+	int n;
+
+	waveform->status.cur_status = STOP;
+
+	if (nod_waveform_run(waveform,0)) {
+		aerror("stopping waveform\n");
 	}
 
-	if (w->status.cur_status == STOP) {
-		if (nod_waveform_remove(w)) {
+	if (hwapi_task_new(&task,nod_waveform_status_stop_thread,waveform)) {
+		aerror("creating task\n");
+		return -1;
+	}
+
+	t.tv_sec = 0;
+	t.tv_usec = 500000;
+	if (hwapi_sleep(&t)) {
+		hwapi_error_print("hwapi_sleep");
+		return -1;
+	}
+
+	n = hwapi_task_wait_nb(task,&ret_val);
+	if (n == -1) {
+		hwapi_error_print("hwapi_task_wait");
+		return -1;
+	} else if (n == 0) {
+		aerror_msg("Stopping task did not finish (waveform %s)\n", waveform->name);
+	} else {
+		if (ret_val == NULL) {
+			aerror_msg("Waveform %s did not stop correctly. Some resources may remain open\n",
+					waveform->name);
+		}
+	}
+
+	if (nod_waveform_remove(waveform)) {
+		aerror("nod_waveform_remove");
+		return -1;
+	}
+
+	ainfo("Waveform %s was cleanly removed from the system.\n",waveform->name);
+	return 0;
+
+}
+
+
+void* nod_waveform_status_init_thread(void *arg) {
+	int i;
+	int n;
+	int nof_trials, nof_initiated;
+	nod_waveform_t *waveform = arg;
+
+	if (DEBUG_NODE) {
+		hwapi_task_print_sched();
+	}
+
+	i = nof_trials = nof_initiated = 0;
+	while(nof_initiated < waveform->nof_modules) {
+		if (waveform->modules[i].parent.status != INIT) {
+			n = nod_module_init(&waveform->modules[i]);
+			if (n < 0) {
+				aerror_msg("initiating module %s\n",waveform->modules[i].parent.name);
+				return NULL;
+			} else if (n > 0) {
+				nof_initiated++;
+			}
+		}
+		i++;
+		if (i == waveform->nof_modules) {
+			i = 0;
+			nof_trials++;
+			if (nof_trials == waveform->nof_modules) {
+				aerror_msg("Waveform could not initiate after %d trials\n", waveform->nof_modules);
+				return NULL;
+			}
+		}
+	}
+	return (void*) 1;
+}
+
+/** \brief goes through all the modules and calls nod_module_init().
+ * Since nod_module_init() may return 0 if the module goes to sleep for one timeslot,
+ * we have to pass through all modules several times.
+ */
+int nod_waveform_status_init(nod_waveform_t *waveform) {
+	time_t t;
+	int n;
+	h_task_t task;
+	void *ret_val;
+
+	waveform->status.cur_status = INIT;
+
+	if (hwapi_task_new(&task,nod_waveform_status_init_thread,waveform)) {
+		aerror("creating task\n");
+		return -1;
+	}
+
+	t.tv_sec = 2;
+	t.tv_usec = 0;
+	if (hwapi_sleep(&t)) {
+		hwapi_error_print("hwapi_sleep");
+		return -1;
+	}
+
+	n = hwapi_task_wait_nb(task,&ret_val);
+	if (n == -1) {
+		hwapi_error_print("hwapi_task_wait");
+		return -1;
+	} else if (n == 0) {
+		aerror_msg("Init task did not finish (waveform %s)\n", waveform->name);
+	} else {
+		if (ret_val == NULL) {
+			aerror_msg("Waveform %s did not init correctly. Stopping\n",
+					waveform->name);
+			nod_waveform_status_stop(waveform);
 			return -1;
 		}
 	}
@@ -191,35 +278,52 @@ int nod_waveform_status_new(nod_waveform_t *waveform, waveform_status_t *new_sta
 	aassert(waveform);
 	aassert(new_status);
 	int i;
-	ndebug("waveform_id=%d, new_status=%d, next_ts=%d, dead_ts=%d\n",waveform->id,
-			new_status->cur_status, new_status->next_timeslot, new_status->dead_timeslot);
+	ndebug("waveform_id=%d, new_status=%d, next_ts=%d\n",waveform->id,
+			new_status->cur_status, new_status->next_timeslot);
 
 	if (!new_status->next_timeslot) {
 		new_status->next_timeslot = hwapi_time_slot();
 	}
-	if (!new_status->dead_timeslot) {
-		new_status->dead_timeslot = new_status->next_timeslot + 2;
-	}
 
-	memcpy(&waveform->status,new_status,sizeof(waveform_status_t));
-
-	/* Make sure all modules are running and are not still changing the status.
-	 */
-	for (i=0;i<waveform->nof_modules;i++) {
-		if (hwapi_process_run(waveform->modules[i].process)) {
-			aerror("hwapi_process_run\n");
-		}
-		if (waveform->modules[i].changing_status) {
-			aerror_msg("Caution module %s was still changing the status\n",
-					waveform->modules[i].parent.name);
-			waveform->modules[i].changing_status = 0;
-		}
-	}
-	if (waveform->status.cur_status != RUN) {
-		if (nod_waveform_status_ok(waveform)) {
+	switch(new_status->cur_status) {
+	case INIT:
+		if (nod_waveform_run(waveform,0)) { /** stop running modules in pipeline */
 			return -1;
 		}
+		if (nod_waveform_status_init(waveform)) {
+			return -1;
+		}
+		break;
+	case STOP:
+		if (nod_waveform_run(waveform,0)) {
+			return -1;
+		}
+		if (nod_waveform_status_stop(waveform)) {
+			return -1;
+		}
+		break;
+	default:
+		if (waveform->status.cur_status == STEP) {
+			for (i=0;i<waveform->nof_modules;i++) {
+				if (waveform->modules[i].parent.status != STEP) {
+					aerror_msg("Caution module %s did not step correctly\n",
+							waveform->modules[i].parent.name);
+				}
+				waveform->modules[i].parent.status = PAUSE;
+				waveform->modules[i].changing_status = 0;
+			}
+		}
+		nod_waveform_run(waveform,1);/* let modules run in pipeline */
+		memcpy(&waveform->status,new_status,sizeof(waveform_status_t));
+		for (i=0;i<waveform->nof_modules;i++) {
+			if (waveform->modules[i].changing_status) {
+				aerror_msg("Caution module %s was still changing the status\n",
+						waveform->modules[i].parent.name);
+				waveform->modules[i].changing_status = 0;
+			}
+		}
 	}
+
 	return 0;
 }
 
@@ -307,6 +411,7 @@ int nod_waveform_unserializeTo(packet_t *pkt, nod_waveform_t *dest) {
 			if (module_unserializeTo(pkt,&dest->modules[i].parent, copy_data))
 				return -1;
 		}
+		dest->status.cur_status = LOADED;
 	} else {
 		waveform_status_t new_status;
 
@@ -315,7 +420,7 @@ int nod_waveform_unserializeTo(packet_t *pkt, nod_waveform_t *dest) {
 		}
 		if (nod_waveform_status_new(dest,&new_status)) {
 			aerror("setting new status\n");
-			if (nod_waveform_stop(dest)) {
+			if (nod_waveform_status_stop(dest)) {
 				aerror("stopping waveform\n");
 			}
 			return -1;

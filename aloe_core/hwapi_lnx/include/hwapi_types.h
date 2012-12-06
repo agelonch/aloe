@@ -38,6 +38,7 @@ struct hwapi_process_attr {
 	strdef(binary_path);
 	int pipeline_id;
 	int exec_position;
+	int waveform_id;
 	void* (*finish_callback)(void*);
 };
 

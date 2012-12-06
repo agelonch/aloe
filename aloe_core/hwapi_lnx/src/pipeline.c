@@ -36,6 +36,8 @@ static int num_pipelines;
 static int is_first_in_cycle_count;
 
 
+int waveforms_notified_failure[MAX_WAVEFORMS];
+
 void pipeline_initialize(int _num_pipelines) {
 	hdebug("num_pipelines=%d\n",_num_pipelines);
 	num_pipelines = _num_pipelines;
@@ -64,13 +66,14 @@ inline static void pipeline_run_thread_run_module(pipeline_t *pipe,
 inline static void pipeline_run_thread_check_status(pipeline_t *pipe,
 		hwapi_process_t *proc) {
 
-	hdebug("pipeid=%d, pid=%d, run=%d, code=%d, aborted=%d\n",pipe->id,proc->pid,
-			proc->runnable,proc->finish_code, proc->notified);
-	if (!proc->runnable && proc->finish_code != FINISH_OK && !proc->notified) {
+	hdebug("pipeid=%d, pid=%d, run=%d, code=%d, waveform_notify=%d\n",pipe->id,proc->pid,
+			proc->runnable,proc->finish_code, waveforms_notified_failure[proc->attributes.waveform_id]);
+	if (proc->runnable && proc->finish_code != FINISH_OK &&
+			!waveforms_notified_failure[proc->attributes.waveform_id]) {
 		if (proc->attributes.finish_callback) {
 			hdebug("calling finish 0x%x arg=0x%x\n",proc->attributes.finish_callback,
 					proc->arg);
-			proc->notified=1;
+			waveforms_notified_failure[proc->attributes.waveform_id] = 1;
 			hwapi_task_new(NULL, proc->attributes.finish_callback,proc->arg);
 		} else {
 			aerror_msg("Abnormal pid=%d termination but no callback was defined\n",
@@ -119,8 +122,8 @@ inline static void pipeline_run_time_slot(pipeline_t *obj) {
 			kill(getpid(),SIGTERM);
 			pthread_exit(NULL);
 		}
-		pipeline_run_thread_run_module(obj,run_proc, idx);
 		pipeline_run_thread_check_status(obj,run_proc);
+		pipeline_run_thread_run_module(obj,run_proc, idx);
 		run_proc = run_proc->next;
 		idx++;
 	}
@@ -161,6 +164,10 @@ void *pipeline_run_thread(void *self) {
 	pipeline_t *obj = (pipeline_t*) self;
 	assert(obj->id>=0);
 
+	if (DEBUG_HWAPI) {
+		hwapi_task_print_sched();
+	}
+
 	hdebug("pipeid=%d waiting\n",obj->id);
 
 	obj->stop = 0;
@@ -180,12 +187,8 @@ void *pipeline_run_thread(void *self) {
 int pipeline_recover_thread(pipeline_t *obj) {
 	hdebug("pipeline_id=%d\n",obj->id);
 	obj->finished = 1;
-	if (hwapi_process_seterror((h_proc_t) obj->running_process,SIG_RECV)) {
+	if (hwapi_process_seterror((h_proc_t) obj->running_process, SIG_RECV)) {
 		aerror("setting process error\n");
-		return -1;
-	}
-	if (hwapi_process_stop((h_proc_t) obj->running_process)) {
-		aerror("stopping process\n");
 		return -1;
 	}
 	if (kernel_initialize_create_pipeline(obj, NULL)) {

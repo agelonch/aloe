@@ -28,6 +28,9 @@
 #include "hwapi_error.h"
 #include "hwapi_kernel.h"
 
+extern int *core_mapping;
+extern int nof_cores;
+
 
 /**
  * Creates a new thread with normal priority, that is, no real-time priority. The thread is detachable, meaning that runs the function pointed by the first parameter and then is destroyed, ignoring the returned value.
@@ -46,12 +49,27 @@ int hwapi_task_kill(h_task_t task) {
 }
 
 int hwapi_task_wait(h_task_t task, void **retval) {
+	hdebug("task=%d\n",task);
 	int s = pthread_join((pthread_t) task,retval);
 	if (s != 0) {
 		HWAPI_POSERROR(s, "pthread_join");
 		return -1;
 	}
 	return 0;
+}
+
+int hwapi_task_wait_nb(h_task_t task, void **retval) {
+	hdebug("task=%d\n",task);
+	int s = pthread_tryjoin_np((pthread_t) task,retval);
+	if (s != 0) {
+		if (s == EBUSY) {
+			return 0;
+		} else {
+			HWAPI_POSERROR(s, "pthread_join");
+			return -1;
+		}
+	}
+	return 1;
 }
 
 /**
@@ -87,6 +105,7 @@ int hwapi_task_new_thread(pthread_t *thread, void *(*fnc)(void*), void *arg,
 	int s,ret;
 	struct sched_param param;
 	cpu_set_t cpuset;
+	int i;
 
 	ret = -1;
 
@@ -96,21 +115,57 @@ int hwapi_task_new_thread(pthread_t *thread, void *(*fnc)(void*), void *arg,
 		goto destroy_attr;
 	}
 
-	if (type == DETACHABLE) {
-	       s = pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_DETACHED);
-	       if (s) {
-		       HWAPI_POSERROR(s, "pthread_attr_setdetachstate");
-		       goto destroy_attr;
-	       }
+	s = pthread_attr_setinheritsched(&attr,PTHREAD_EXPLICIT_SCHED);
+	if (s) {
+		HWAPI_POSERROR(s,"pthread_attr_setinheritsched");
+		goto destroy_attr;
+	}
+
+	s = pthread_attr_setdetachstate(&attr,
+			(type == DETACHABLE)?PTHREAD_CREATE_DETACHED:PTHREAD_CREATE_JOINABLE);
+	if (s) {
+	   HWAPI_POSERROR(s, "pthread_attr_setdetachstate");
+	   goto destroy_attr;
 	}
 
 	if (cpu != -1) {
 		CPU_ZERO(&cpuset);
 		CPU_SET((size_t) cpu,&cpuset);
-		s =  pthread_attr_setaffinity_np(&attr, sizeof(cpu_set_t), &cpuset);
+	} else {
+		CPU_ZERO(&cpuset);
+		for (i=0;i<nof_cores;i++) {
+			CPU_SET((size_t) core_mapping[i],&cpuset);
+		}
+	}
+	s =  pthread_attr_setaffinity_np(&attr, sizeof(cpu_set_t), &cpuset);
+	if (s) {
+		HWAPI_POSERROR(s, "pthread_attr_setaffinity_np");
+		goto destroy_attr;
+	}
+
+	if (!getuid()) {
+		s = pthread_attr_setschedpolicy(&attr, (prio==TASK_DEFAULT_PRIORITY)?SCHED_RR:SCHED_FIFO);
 		if (s) {
-			HWAPI_POSERROR(s, "pthread_attr_setaffinity_np");
-			goto destroy_attr;
+			if (s == EPERM) {
+				awarn("Not enough privileges to set task scheduling\n");
+			} else {
+				HWAPI_POSERROR(s,"pthread_attr_setschedpolicy");
+				goto destroy_attr;
+			}
+		}
+	}
+
+	if (!getuid()) {
+		param.sched_priority = prio;
+		s = pthread_attr_setschedparam(&attr, &param);
+		if (s) {
+			if (s == EPERM) {
+				awarn("Not enough privileges to set task priority\n");
+			} else {
+				printf("prio=%d\n",prio);
+				HWAPI_POSERROR(s,"pthread_attr_setschedparam");
+				goto destroy_attr;
+			}
 		}
 	}
 
@@ -123,21 +178,52 @@ int hwapi_task_new_thread(pthread_t *thread, void *(*fnc)(void*), void *arg,
 			goto destroy_attr;
 		}
 	}
-	/* try to set priority *AFTER* set creation */
-	if (prio != 0) {
-		param.sched_priority = prio;
-		s = pthread_setschedparam(*thread, SCHED_RR, &param);
-		if (s == EPERM) {
-			awarn("Not enough privileges to set task priority\n");
-		} else if (s) {
-			HWAPI_POSERROR(s, "pthread_attr_setschedpolicy");
-			goto destroy_attr;
-		}
-	}
 
 	ret=0;
 
 destroy_attr:
 	pthread_attr_destroy(&attr);
 	return ret;
+}
+
+void hwapi_task_print_sched() {
+	pthread_t thread;
+	cpu_set_t cpuset;
+	struct sched_param param;
+	int policy;
+	const char *p;
+	int s,j;
+	int detachstate;
+
+	thread = pthread_self();
+
+	s = pthread_getaffinity_np(thread, sizeof(cpu_set_t), &cpuset);
+	if (s != 0) {
+		printf("error pthread_getaffinity_np: %s\n",strerror(s));
+	}
+
+	printf("Set returned by pthread_getaffinity_np() contained:\n");
+	for (j = 0; j < CPU_SETSIZE; j++)
+		if (CPU_ISSET(j, &cpuset))
+			printf("    CPU %d\n", j);
+
+	s = pthread_getschedparam(thread, &policy, &param);
+	if (s != 0) {
+		printf("error pthread_getaffinity_np: %s\n",strerror(s));
+	}
+
+	switch(policy) {
+	case SCHED_FIFO:
+		p = "SCHED_FIFO";
+		break;
+	case SCHED_RR:
+		p = "SCHED_RR";
+		break;
+	default:
+		p = "Other";
+		break;
+	}
+
+	printf("Sched policy is %s. Priority is %d\n",p,param.sched_priority);
+
 }

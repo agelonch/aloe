@@ -96,7 +96,6 @@ typedef struct {
 typedef struct {
 	waveform_status_enum cur_status;
 	int next_timeslot;
-	int dead_timeslot;
 } waveform_status_t;
 
 typedef struct {

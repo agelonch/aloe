@@ -5,6 +5,7 @@
 #include "waveform.h"
 #include "nod_waveform.h"
 #include "mempool.h"
+#include "hwapi.h"
 
 waveform_t waveform;
 
@@ -17,6 +18,8 @@ void *run_test_suite_waveform(void *arg) {
 
 	hwapi_machine(&machine);
 	tslen = machine.ts_len_us;
+
+	hwapi_task_print_sched();
 
 	/* this will be done by the module */
 	if (nod_anode_initialize(2)) {
@@ -38,14 +41,17 @@ void *run_test_suite_waveform(void *arg) {
 	waveform_status_t new_status;
 	do {
 		fflush(stdout);
-		printf("\n\nType the new status ('l'=Load, 'i'=Init, 'r'=Run, 'p'=Pause, 't'=Step, 's'=Stop) or Ctrl+C to exit\n");
+		if (c != '\n') {
+			printf("\n\nType the new status "
+					"('l'=Load, 'i'=Init, 'r'=Run, 'p'=Pause, 't'=Step, 's'=Stop) or Ctrl+C to exit\n");
+		}
 		c = getchar();
 		new_status.cur_status = LOADED;
 		switch((char) c) {
 		case 'l':
 			if (waveform_load(&waveform)) {
 				aerror("loading waveform\n");
-				return NULL;
+				break;
 			}
 			fflush(stdout);
 			printf("Waveform LOADED!\n");
@@ -65,12 +71,13 @@ void *run_test_suite_waveform(void *arg) {
 		case 's':
 			new_status.cur_status=STOP;
 			break;
+		case '\n':
+			break;
 		default:
 			printf("Unknown command %c\n",(char) c);
 			break;
 		}
 		if (new_status.cur_status != LOADED) {
-			new_status.dead_timeslot = hwapi_time_slot()+3+3000000/tslen;
 			new_status.next_timeslot = hwapi_time_slot();
 			if (waveform_status_set(&waveform,&new_status)) {
 				printf("DID NOT CHANGE!\n");

@@ -26,6 +26,7 @@
 
 #include "defs.h"
 #include "hwapi_timer.h"
+#include "hwapi.h"
 #include "futex.h"
 
 /***
@@ -107,6 +108,10 @@ inline int timer_wait_period (hwapi_timer_t *info)
 
 void* timer_run_thread(void* x) {
 	hwapi_timer_t *obj = (hwapi_timer_t*) x;
+
+	if (DEBUG_HWAPI) {
+		hwapi_task_print_sched();
+	}
 
 	switch(obj->mode) {
 	case NANOSLEEP:

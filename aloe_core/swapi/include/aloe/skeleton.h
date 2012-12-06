@@ -25,6 +25,9 @@
 #define USE_LOG 0
 #define MOD_DEBUG 0
 
+/*#define DEBUG_TRACE
+*/
+
 
 /**\brief Returns the number of samples (of size input_sample_sz) received from the input port
  * idx.
@@ -70,6 +73,24 @@ extern log_t mlog;
 #define INTERFACE_CONFIG
 #endif
 
+
+
+#ifdef DEBUG_TRACE
+	#define _DEBUG_TRACE
+	#ifdef _COMPILE_ALOE
+		extern FILE *trace_buffer;
+	#else
+		#define trace_buffer stdout
+	#endif
+
+	#define debug_buffer (trace_buffer?trace_buffer:stdout)
+#else
+	#define debug_buffer stdout
+#endif
+
+
+
+
 /* Info and error messages print */
 #define INFOSTR "[info at "
 #define ERRSTR "[error at "
@@ -96,11 +117,11 @@ extern log_t mlog;
 #endif
 
 
-#define aerror_msg(_fmt, ...)  DEBUGPRINT2(stderr,ERRSTR WHERESTR _fmt, WHEREARG, __VA_ARGS__)
+#define aerror_msg(_fmt, ...)  DEBUGPRINT2(debug_buffer,ERRSTR WHERESTR _fmt, WHEREARG, __VA_ARGS__)
 #define aerror(a)  DEBUGPRINT2(stderr, ERRSTR WHERESTR a, WHEREARG)
 
 #define ainfo(a) DEBUGPRINT2(stdout, INFOSTR WHERESTR a, WHEREARG)
-#define ainfo_msg(_fmt, ...)  DEBUGPRINT2(stdout,INFOSTR WHERESTR _fmt, WHEREARG, __VA_ARGS__)
+#define ainfo_msg(_fmt, ...)  DEBUGPRINT2(debug_buffer,INFOSTR WHERESTR _fmt, WHEREARG, __VA_ARGS__)
 
 #define modinfo 		ainfo
 #define modinfo_msg 	ainfo_msg
@@ -109,11 +130,11 @@ extern log_t mlog;
 
 #ifdef _COMPILE_ALOE
 #define moddebug(_fmt, ...) \
-	do { if (MOD_DEBUG) printf("[mod_debug-%s]\t[%s()]: " _fmt, swapi_module_name(ctx),__func__,\
+	do { if (MOD_DEBUG) fprintf(debug_buffer,"[mod_debug-%s]\t[%s()]: " _fmt, swapi_module_name(ctx),__func__,\
 			__VA_ARGS__);} while(0);
 #else
 #define moddebug(_fmt, ...) \
-	do { if (MOD_DEBUG) printf("[mod_debug]\t[%s()]: " _fmt, __func__,\
+	do { if (MOD_DEBUG) fprintf(debug_buffer,"[mod_debug]\t[%s()]: " _fmt, __func__,\
 			__VA_ARGS__);} while(0);
 #endif
 

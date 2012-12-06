@@ -22,6 +22,7 @@
 
 #include "defs.h"
 #include "str.h"
+#include "hwapi_kernel.h"
 #include "objects_max.h"
 #include "hwapi_context.h"
 #include "hwapi_time.h"
@@ -30,6 +31,7 @@
 #include "hwapi.h"
 
 static hwapi_context_t *context;
+extern int waveforms_notified_failure[MAX_WAVEFORMS];
 
 
 
@@ -164,41 +166,22 @@ int hwapi_periodic_remove(void (*callback)(void)) {
 	return 0;
 }
 
-/**
- * Blocks the caller until the time slot wake_tslot. The function can not be called
- * again until it returs to the original caller.
- *
- * @param wake_tslot positive integer indicating the time slot to wake up
- * @return 0 on success, -1 on error
- *
+/** \brief sleep the calling thread for the time specified by the time_t structure.
  */
-int hwapi_sleep_to(int wake_tslot) {
+int hwapi_sleep(time_t *t) {
 	assert(context);
-	HWAPI_ASSERT_PARAM(wake_tslot>=0);
+	HWAPI_ASSERT_PARAM(t);
+	hdebug("sleep_for=%d:%d\n",t->tv_sec,t->tv_usec);
+	struct timespec sleep;
 
-	if (context->wake_tslot > 0) {
-		HWAPI_ERROR("Already being blocked");
+	sleep.tv_sec = t->tv_sec;
+	sleep.tv_nsec = t->tv_usec*1000;
+
+	if (clock_nanosleep(CLOCK_MONOTONIC,0,&sleep,NULL)) {
+		HWAPI_SYSERROR("clock_nanosleep");
 		return -1;
 	}
-	hdebug("wake_tslot=%d\n",wake_tslot);
-	context->wake_tslot = wake_tslot;
-	sem_wait(&context->sleep_semaphore);
-	context->wake_tslot = 0;
-	hdebug("waking up at %d\n",hwapi_time_slot());
-	return 0;
-}
 
-/** \brief sleep the calling thread for approximately nof_slots slots
- * This function uses the clock_nanosleep() system call with absolute timing.
- */
-int hwapi_sleep(int nof_slots) {
-	assert(context);
-	HWAPI_ASSERT_PARAM(nof_slots>=0);
-	hdebug("sleep_for=%d\n",nof_slots);
-	if (usleep((useconds_t) (nof_slots*context->machine.ts_len_us/5))) {
-		aerror("error sleep\n");
-		return -1;
-	}
 	hdebug("waking up at %d\n",hwapi_time_slot());
 	return 0;
 }
@@ -332,6 +315,18 @@ h_proc_t hwapi_process_new(struct hwapi_process_attr *attr, void *arg) {
 		HWAPI_SETERROR(HWAPI_ERROR_NOSPACE);
 		return NULL;
 	}
+
+	if (attr->waveform_id > MAX_WAVEFORMS) {
+		HWAPI_SETERROR(HWAPI_ERROR_NOSPACE);
+		return NULL;
+	}
+
+	if (attr->waveform_id < 0) {
+		HWAPI_SETERROR(HWAPI_ERROR_INVAL);
+		return NULL;
+	}
+
+	waveforms_notified_failure[attr->waveform_id] = 0;
 	memset(&context->processes[i],0,sizeof(hwapi_process_t));
 	context->processes[i].pid=i+1;
 

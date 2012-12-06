@@ -69,8 +69,12 @@ int nod_module_free(nod_module_t *module) {
 void *nod_module_finish_callback(void *context) {
 	nod_module_t *module = swapi_get_module(context);
 	nod_waveform_t *waveform = module->parent.waveform;
-	ndebug("module_id=%d, error_code=%d, finishing=%d\n",module->parent.id,
+	ndebug("module_id=%d, error_code=%d, finishing=%d, runnable=%d\n",module->parent.id,
 			hwapi_process_geterror(module->process), waveform->finishing);
+
+	if(DEBUG_NODE) {
+		hwapi_task_print_sched();
+	}
 
 	switch(hwapi_process_geterror(module->process)) {
 	case FINISH_OK:
@@ -82,18 +86,10 @@ void *nod_module_finish_callback(void *context) {
 		aerror_msg("Module %s terminated abnormally. Trying a clean stop\n",
 						module->parent.name);
 
-		/**@FIXME: Should use a MUTEX here */
-		if (waveform->status.cur_status == STOP) {
-			ndebug("waveform stopping, module_id=%d\n",module->parent.id);
-			if (hwapi_process_run(module->process)) {
-				aerror("run\n");
-			}
-		} else {
-			if (nod_waveform_stop(waveform)) {
-				aerror("stopping waveform\n");
-			}
+		if (nod_waveform_status_stop(waveform)) {
+			aerror("stopping waveform\n");
 		}
-		return NULL;
+		break;
 	}
 	return NULL;
 }
@@ -117,6 +113,12 @@ int nod_module_load(nod_module_t *module) {
 	attr.pipeline_id = module->parent.processor_idx;
 	attr.finish_callback = nod_module_finish_callback;
 
+	nod_waveform_t *waveform = module->parent.waveform;
+	attr.waveform_id = waveform->id;
+
+	module->init = NULL;
+	module->stop = NULL;
+
 	module->process = hwapi_process_new(&attr, module->context);
 	if (module->process == NULL) {
 		hwapi_perror("hwapi_process_new");
@@ -128,40 +130,23 @@ int nod_module_load(nod_module_t *module) {
 /** \brief Sets the module's process as runnable
  *
  */
-int nod_module_run(nod_module_t *module) {
+int nod_module_run(nod_module_t *module, int runnable) {
 	ndebug("module_id=%d\n",module->parent.id);
 	aassert(module);
-	if (hwapi_process_run(module->process)) {
-		hwapi_perror("hwapi_process_run");
-		return -1;
+	if (runnable) {
+		if (hwapi_process_run(module->process)) {
+			hwapi_perror("hwapi_process_run");
+			return -1;
+		}
+	} else {
+		if (hwapi_process_stop(module->process)) {
+			hwapi_perror("hwapi_process_run");
+			return -1;
+		}
 	}
 	return 0;
 }
 
-void nod_module_kill_status_task(nod_module_t *module) {
-	ndebug("module_id=%d killing=%d\n",module->parent.id,module->status_init_task);
-	if (module->status_init_task) {
-		if (hwapi_task_kill(module->status_init_task)) {
-			aerror("hwapi_task_kill");
-		}
-		ndebug("module_id=%d waiting_init=%d\n",module->parent.id,module->status_init_task);
-		if (hwapi_task_wait(module->status_init_task,NULL)) {
-			module->status_init_task = 0;
-		}
-		ndebug("module_id=%d status_init_task terminated\n",module->parent.id);
-	}
-	if (module->status_stop_task) {
-		if (hwapi_task_kill(module->status_stop_task)) {
-			aerror("hwapi_task_kill");
-		}
-		ndebug("module_id=%d waiting_stop=%d\n",module->parent.id,module->status_stop_task);
-		if (hwapi_task_wait(module->status_stop_task,NULL)) {
-			module->status_stop_task = 0;
-		}
-		ndebug("module_id=%d status_stop_task terminated\n",module->parent.id);
-	}
-
-}
 
 /** \brief Removes the module's from the hwapi pipeline. Calls module_free() to dealloc
  * the interfaces/variables memory and then nod_module_free() to dealloc the swapi context memory.
@@ -170,11 +155,6 @@ void nod_module_kill_status_task(nod_module_t *module) {
 int nod_module_remove(nod_module_t *module) {
 	ndebug("module_id=%d\n",module->parent.id);
 	aassert(module);
-
-	/* before killing process, make sure there is any thread still running */
-	if (module->status_init_task || module->status_stop_task) {
-		nod_module_kill_status_task(module);
-	}
 
 	if (module->process) {
 		if (hwapi_process_remove(module->process)) {
@@ -193,30 +173,32 @@ int nod_module_remove(nod_module_t *module) {
 	return 0;
 }
 
-/** \brief Returns 0 if the module changed its status correctly, -1 otherwise.
- *
- */
-int nod_module_status_ok(nod_module_t *module, waveform_status_enum w_status) {
-	ndebug("module_id=%d, changing_status=%d, module_status=%d, waveform_status=%d\n",
-			module->parent.id, module->changing_status, module->parent.status, w_status);
-	aassert(module);
 
-	if (module->changing_status) {
+int nod_module_init(nod_module_t *module) {
+	ndebug("module_id=%d status=%d\n",module->parent.id,module->parent.status);
+	if (!module->init) {
+		aerror_msg("Init function unregistered for module_id=%d\n",module->parent.id);
 		return -1;
 	}
-
-	if (module->parent.status != w_status) {
-		return -1;
-	}
-	if (module->status_init_task) {
-		ndebug("status_task=0x%x, waiting\n",module->status_init_task);
-		if (hwapi_task_wait(module->status_init_task,NULL)) {
-			module->status_init_task = 0;
-		}
-		module->status_init_task = 0;
-	}
-	return 0;
+	return module->init(module);
 }
+
+int nod_module_stop(nod_module_t *module) {
+	ndebug("module_id=%d status=%d\n",module->parent.id,module->parent.status);
+	if (!module->stop) {
+		aerror_msg("Stop function unregistered for module_id=%d\n",module->parent.id);
+		return -1;
+	}
+	if (module->stop(module)) {
+		aerror_msg("stopping module_id=%d\n",module->parent.id);
+		return -1;
+	}
+	if (nod_module_remove(module)) {
+		aerror_msg("removing module_id=%d\n",module->parent.id);
+		return -1;
+	}
+}
+
 
 /** \brief Returns a pointer to the first module's variable with name equal to the second parameter
  *

@@ -85,10 +85,10 @@ int swapi_counter_close(counter_t counter) {
 int swapi_counter_start(counter_t counter) {
 	swapi_counter_t *cnt = (swapi_counter_t*) counter;
 	swapi_context_t *ctx = cnt->context;
-	sdebug("context=0x%x, counter_id=%d, start=%d:%d\n",ctx,cnt->id,
-			cnt->count[1].tv_sec,cnt->count[1].tv_usec);
 	SWAPI_ASSERT_PARAM(counter);
 	hwapi_time_get(&cnt->count[1]);
+	sdebug("context=0x%x, counter_id=%d, start=%d:%d\n",ctx,cnt->id,
+			cnt->count[1].tv_sec,cnt->count[1].tv_usec);
 	return -1;
 }
 
@@ -115,4 +115,13 @@ int swapi_counter_stop(counter_t counter) {
 			cnt->count[2].tv_sec,cnt->count[2].tv_usec,cnt->count[0].tv_usec,
 			variable->cur_value);
 	return 0;
+}
+
+int swapi_counter_usec(counter_t counter) {
+	swapi_counter_t *cnt = (swapi_counter_t*) counter;
+	swapi_context_t *ctx = cnt->context;
+	SWAPI_ASSERT_PARAM(counter);
+	variable_t *variable = cnt->variable;
+
+	return cnt->count[0].tv_usec;
 }

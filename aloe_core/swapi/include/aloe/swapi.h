@@ -62,6 +62,7 @@ counter_t swapi_counter_create(void *context, char* name);
 int swapi_counter_close(counter_t counter);
 int swapi_counter_start(counter_t counter);
 int swapi_counter_stop(counter_t counter);
+int swapi_counter_usec(counter_t counter);
 
 log_t swapi_log_create(void *context, char* name);
 int swapi_log_close(log_t log);

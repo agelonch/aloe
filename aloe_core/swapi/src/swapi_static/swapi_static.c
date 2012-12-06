@@ -18,7 +18,6 @@
 
 #include <stddef.h>
 #include <stdlib.h>
-#include <pthread.h>
 
 #include "defs.h"
 #include "hwapi.h"
@@ -26,9 +25,8 @@
 #include "swapi_static.h"
 #include "swapi_context.h"
 
-int call_init(void *arg);
-int call_stop(void *arg);
-void* _call_stop(void *arg);
+int _call_init(void *module);
+int _call_stop(void *module);
 
 int _run_cycle(void* context) {
 	swapi_context_t *ctx = (swapi_context_t*) context;
@@ -38,7 +36,11 @@ int _run_cycle(void* context) {
 			module->parent.id, module->changing_status, module->parent.status, waveform->status.cur_status);
 
 	if (waveform->status.cur_status == LOADED && module->parent.status == PARSED) {
+		/* ack we have successfully been loaded */
 		module->parent.status = LOADED;
+		/* register init and stop functions */
+		module->init = _call_init;
+		module->stop = _call_stop;
 	}
 
 	/* Change only if finished previous status change */
@@ -48,17 +50,7 @@ int _run_cycle(void* context) {
 		if (hwapi_time_slot() >= waveform->status.next_timeslot) {
 			switch(waveform->status.cur_status) {
 			case INIT:
-				module->changing_status = 1;
-				if (call_init(ctx)) {
-					aerror("calling init\n");
-				}
-			break;
 			case STOP:
-				hwapi_process_seterror(module->process,FINISH_OK);
-				module->changing_status = 1;
-				if (call_stop(ctx)) {
-					aerror("calling stop\n");
-				}
 			break;
 			case STEP:
 				if (module->parent.status == RUN) {
@@ -82,6 +74,7 @@ int _run_cycle(void* context) {
 		/* save start time */
 		hwapi_time_get(&module->parent.execinfo.t_exec[1]);
 		ctx->tstamp++;
+
 		/* run aloe cycle */
 		if (Run(context)) {
 			sdebug("RUNERROR: module_id=%d\n",module->parent.id);
@@ -90,15 +83,13 @@ int _run_cycle(void* context) {
 			if (hwapi_process_seterror(module->process,RUNERROR)) {
 				aerror("hwapi_process_seterror");
 			}
-
-			/* and stop thread. hwapi will notify finish_callback() process function */
-			if (hwapi_process_stop(module->process)) {
-				aerror("hwapi_process_stop");
-			}
 		}
 
 		/* save end time */
 		hwapi_time_get(&module->parent.execinfo.t_exec[2]);
+		hwapi_time_interval(module->parent.execinfo.t_exec);
+		sdebug("module_id=%d exec_time=%d us\n",module->parent.id,
+				module->parent.execinfo.t_exec[0].tv_usec);
 
 		/* compute execution time, exponential average, max, etc. and save data to mymodule.execinfo */
 #ifdef kk
@@ -127,71 +118,51 @@ int _run_cycle(void* context) {
 }
 
 
-void* _call_init(void *arg) {
+int _call_init(void *_module) {
 	int n;
-	struct sched_param param;
-	swapi_context_t *ctx = arg;
-	nod_module_t *module = swapi_get_module(arg);
+	nod_module_t *module = (nod_module_t*) _module;
+	swapi_context_t *ctx = module->context;
 	nod_waveform_t *waveform = module->parent.waveform;
 	sdebug("module_id=%d, changing_status=%d, now_is=0\n",module->parent.id,
 			module->changing_status);
-
-	param.__sched_priority = 40;
-	n = pthread_setschedparam(pthread_self(), SCHED_RR ,&param);
 
 	ctx->tstamp++;
-	while((n = Init(arg)) == 0) {
-		ctx->tstamp++;
-		sdebug("module_id=%d sleep_for=%d\n",module->parent.id, 1);
-		hwapi_sleep(module->parent.id);
+	module->changing_status = 1;
+
+	n = Init(module->context);
+	if (n < 0) {
+		return -1;
+	} else if (n == 0) {
+		return 0;
 	}
 
-	sdebug("module_id=%d finished init. Setting status to %d\n",module->parent.id,
-			waveform->status.cur_status);
+	sdebug("module_id=%d finished init. Setting status to INIT\n",module->parent.id);
 	if (n > 0) {
 		module->changing_status = 0;
-		module->parent.status = waveform->status.cur_status;
+		module->parent.status = INIT;
 	}
-	module->status_init_task = 0;
-	return NULL;
+
+	return 1;
 }
 
-int call_init(void *arg) {
-	nod_module_t *module = swapi_get_module(arg);
-	if (module->status_init_task) {
-		aerror_msg("module_id=%d already trying to initiate\n",module->parent.id);
-		return -1;
-	}
-	return hwapi_task_new(&module->status_init_task,_call_init,arg);
-}
-
-void* _call_stop(void *arg) {
-	nod_module_t *module = swapi_get_module(arg);
-	sdebug("module_id=%d, changing_status=%d, now_is=0\n",module->parent.id,
+int _call_stop(void *_module) {
+	nod_module_t *module = (nod_module_t*) _module;
+	sdebug("module_id=%d, changing_status=%d\n",module->parent.id,
 			module->changing_status);
 	nod_waveform_t *waveform = module->parent.waveform;
 
-	if (Stop(arg)) {
-		module->status_stop_task = 0;
+	module->changing_status = 1;
+
+	if (Stop(module->context)) {
 		sdebug("module_id=%d failed stop\n",module->parent.id);
-		return NULL;
-	}
-	sdebug("module_id=%d finished stop. Setting status to %d\n",module->parent.id,
-			waveform->status.cur_status);
-
-	module->changing_status = 0;
-	module->parent.status = waveform->status.cur_status;
-	module->status_stop_task = 0;
-	return NULL;
-}
-
-
-int call_stop(void *arg) {
-	nod_module_t *module = swapi_get_module(arg);
-	if (module->status_stop_task) {
-		aerror_msg("module_id=%d already trying to stop\n",module->parent.id);
 		return -1;
 	}
-	return hwapi_task_new(&module->status_stop_task,_call_stop,arg);
+
+	sdebug("module_id=%d finished stop. Setting status to STOP\n",module->parent.id);
+
+	module->changing_status = 0;
+	module->parent.status = STOP;
+
+	return 0;
 }
 

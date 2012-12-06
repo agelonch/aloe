@@ -19,8 +19,8 @@
 #ifndef HWAPI_TASK_H_
 #define HWAPI_TASK_H_
 
-#define TASK_DEFAULT_PRIORITY 0
-#define TASK_DEFAULT_CPUID 0
+#define TASK_DEFAULT_PRIORITY 10
+#define TASK_DEFAULT_CPUID -1
 
 enum hwapi_task_type {
 	DETACHABLE, JOINABLE
@@ -28,5 +28,6 @@ enum hwapi_task_type {
 
 int hwapi_task_new_thread(pthread_t *thread, void *(*fnc)(void*), void *arg, \
 		enum hwapi_task_type type, int prio, int cpu, int unblock_signals);
+
 
 #endif

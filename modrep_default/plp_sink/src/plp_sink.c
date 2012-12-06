@@ -43,6 +43,7 @@ static int interval_ts, last_tstamp;
 static int print_not_received;
 
 static int is_complex;
+static int fft_size;
 
 void setup_legends();
 
@@ -50,7 +51,6 @@ int initialize() {
 	int i;
 	int mode;
 	int tslen;
-	int fft_size;
 
 	setup_legends();
 	if (param_get_int(param_id("is_complex"),&is_complex) != 1) {
@@ -146,13 +146,20 @@ int work(void **inp, void **out) {
 		}
 	}
 
+#ifdef _COMPILE_ALOE
 	if (print_not_received) {
 		for (n=0;n<NOF_INPUT_ITF;n++) {
-			if (!get_input_samples(n)) {
-				modinfo_msg("Data not received from interface %d\n",n);
+			if (MOD_DEBUG) {
+				ainfo_msg("ts=%d, rcv_len=%d\n",swapi_tstamp(ctx),get_input_samples(n));
 			}
+			if (!get_input_samples(n)) {
+				modinfo_msg("ts=%d. Data not received from interface %d\n",swapi_tstamp(ctx),n);
+			}
+
 		}
 	}
+#endif
+
 
 	switch(mode) {
 	case MODE_SILENT:
@@ -205,20 +212,18 @@ int work(void **inp, void **out) {
 #endif
 
 		set_labels(xlabel,"PSD (dB/Hz)");
-		reset_axis();
+
 		set_legend(fft_legends,NOF_INPUT_ITF);
 
 		fft_execute(inp,pl_signals,signal_lengths);
-		if (!is_complex) {
-			for (i=0;i<NOF_INPUT_ITF;i++) {
-				signal_lengths[2*i] /= 2;
+		memset(signal_lengths,0,sizeof(int)*2*NOF_INPUT_ITF);
+		for (i=0;i<NOF_INPUT_ITF;i++) {
+			if (!is_complex) {
+				signal_lengths[i] = fft_size/2;
+			} else {
+				signal_lengths[i] = fft_size;
 			}
 		}
-
-		for (i=1;i<NOF_INPUT_ITF;i++) {
-			signal_lengths[2*i-1] = signal_lengths[2*i];
-		}
-		signal_lengths[2*i-1] = 0;
 		plp_draw(pl_signals,signal_lengths,0);
 
 	break;
@@ -232,9 +237,11 @@ int work(void **inp, void **out) {
 
 int stop() {
 	if (plp_initiated) {
+		moddebug("destoying plp %d\n",1);
 		plp_destroy();
 	}
 	if (fft_initiated) {
+		moddebug("destoying fft %d\n",1);
 		fft_destroy();
 	}
 	return 0;

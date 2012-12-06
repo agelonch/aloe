@@ -40,7 +40,6 @@ struct _hwapi_process_t {
 	void* dl_handle;
 	int (*run_point)(void*);
 	void (*abort_point)(void*);
-	int notified;
 	int runnable;
 	hwapi_processerrors_t finish_code;
 	strdef(error_msg);

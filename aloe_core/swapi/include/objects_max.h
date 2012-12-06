@@ -20,7 +20,7 @@
 #define MAX(a) a##_MAX
 
 
-#define nodes_MAX	10
+#define nodes_MAX		10
 #define processors_MAX	10
 #define man_probehandlers_MAX 5
 

@@ -140,3 +140,10 @@ hwapi_processerrors_t hwapi_process_geterror(h_proc_t proc) {
 	hdebug("pid=%d, code=%d\n",obj->pid,(int)obj->finish_code);
 	return obj->finish_code;
 }
+
+int hwapi_process_isrunning(h_proc_t proc) {
+	HWAPI_ASSERT_PARAM(proc);
+	hwapi_process_t *obj = (hwapi_process_t*) proc;
+	hdebug("pid=%d, running=%d\n",obj->pid,obj->runnable);
+	return obj->runnable;
+}

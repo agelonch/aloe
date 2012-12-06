@@ -48,7 +48,6 @@ typedef struct {
 	hwapi_process_t processes[MAX(hwapi_process)];
 	hwapi_dac_t dacs[MAX(hwapi_dac)];
 	hwapi_itfphysic_t physic_itfs[MAX(hwapi_itfphysic)];
-	sem_t sleep_semaphore;
 	int wake_tslot;
 } hwapi_context_t;
 
