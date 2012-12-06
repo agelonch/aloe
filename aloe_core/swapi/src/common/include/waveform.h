@@ -118,7 +118,7 @@ typedef struct {
 	waveform_mode_t modes[MAX(modes)];
 	int last_update_ts;
 	int status_timestamp_delay;
-	int modules_x_node[MAX(processors)];
+	int modules_x_node[MAX(nodes)];
 	float *c;
 	float **b;
 	int nof_modules;

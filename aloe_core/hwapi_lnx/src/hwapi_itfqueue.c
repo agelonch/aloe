@@ -156,15 +156,25 @@ int hwapi_itfqueue_get_blocking(h_itf_t obj) {
 h_pkt_t* hwapi_itfqueue_request_pkt(h_itf_t obj) {
 	HWAPI_ASSERT_PARAM_P(obj);
 	hwapi_itfqueue_t *itf = (hwapi_itfqueue_t*) obj;
+	h_pkt_t* pkt;
 
-	return (h_pkt_t*) queue_get(&itf->q_pkts);
+	pkt = queue_get(&itf->q_pkts, 0);
+	if (!pkt) {
+		aerror("no more packets\n");
+		HWAPI_SETERROR(HWAPI_ERROR_NOSPACE);
+		return NULL;
+	}
+	return pkt;
 }
 
 int hwapi_itfqueue_put_pkt(h_itf_t obj, h_pkt_t* pkt) {
 	HWAPI_ASSERT_PARAM(obj);
 	hwapi_itfqueue_t *itf = (hwapi_itfqueue_t*) obj;
 
+	pkt->tstamp = hwapi_time_slot();
+
 	if (queue_put(&itf->q_tx, pkt)) {
+		HWAPI_SETERROR(HWAPI_ERROR_NOSPACE);
 		return 0;
 	}
 
@@ -175,7 +185,13 @@ h_pkt_t* hwapi_itfqueue_get_pkt(h_itf_t obj) {
 	HWAPI_ASSERT_PARAM_P(obj);
 	hwapi_itfqueue_t *itf = (hwapi_itfqueue_t*) obj;
 
-	return queue_get(&itf->q_tx);
+	h_pkt_t* pkt;
+
+	pkt = queue_get(&itf->q_tx,hwapi_time_slot());
+	if (!pkt) {
+		return NULL;
+	}
+	return pkt;
 }
 
 int hwapi_itfqueue_release_pkt(h_itf_t obj, h_pkt_t *pkt) {
@@ -183,6 +199,8 @@ int hwapi_itfqueue_release_pkt(h_itf_t obj, h_pkt_t *pkt) {
 	hwapi_itfqueue_t *itf = (hwapi_itfqueue_t*) obj;
 
 	if (queue_put(&itf->q_pkts, pkt)) {
+		aerror("can't release packet\n");
+		HWAPI_SETERROR(HWAPI_ERROR_NOSPACE);
 		return 0;
 	}
 

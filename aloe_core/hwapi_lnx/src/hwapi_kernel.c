@@ -87,11 +87,13 @@ FILE *debug_trace_file;
 
 
 inline static void kernel_tslot_run_rt_control() {
-	hdebug("tslot=%d\n",hwapi_time_slot());
 	if (hwapi.machine.rt_fault_opts == RT_FAULT_OPTS_HARD) {
 		for (int i=0;i<hwapi.machine.nof_cores;i++) {
+			hdebug("tslot=%d, pipeline=%d, ts_counter=%d, finished=%d\n",hwapi_time_slot(),
+					hwapi.pipelines[i].id,hwapi.pipelines[i].ts_counter, hwapi.pipelines[i].finished);
 			if (!hwapi.pipelines[i].finished
-					&& hwapi.pipelines[i].running_process) {
+					&& hwapi.pipelines[i].running_process
+					&& hwapi.pipelines[i].ts_counter < hwapi_time_slot()-1) {
 				if (pipeline_rt_fault(&hwapi.pipelines[i])) {
 					aerror("Couldn't kill pipeline after an rt-fault, "
 							"going out\n");

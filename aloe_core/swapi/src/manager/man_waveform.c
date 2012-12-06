@@ -36,7 +36,7 @@ static int waveform_send(waveform_t *waveform, packet_command_t cmd) {
 	packet_dest_t dest;
 	man_platform_t *platform = man_platform_get_context();
 	int i;
-	for (i=0;i<MAX(processors);i++) {
+	for (i=0;i<MAX(nodes);i++) {
 		if (waveform->modules_x_node[i]) {
 			mdebug("sending %d modules to node_id=%d\n",map.modules_x_node[i],
 					platform->nodes[i].id);
@@ -85,7 +85,8 @@ int waveform_load(waveform_t *waveform) {
 		return -1;
 	}
 	/* save map.modules_x_node vector before calling waveform_send */
-	memcpy(waveform->modules_x_node, map.modules_x_node,MAX(processors)*sizeof(int));
+	memcpy(waveform->modules_x_node,
+			map.modules_x_node,MAX(nodes)*sizeof(int));
 
 	if (waveform_send(waveform, CMD_LOAD)) {
 		return -1;
@@ -95,18 +96,23 @@ int waveform_load(waveform_t *waveform) {
 }
 
 /**
- * updates the module's objects with the distributed modules in the platform
- * 1) Verify Status.isLoaded()
- * 2) Iterate through the mapped_nodes_id array
- *   2.1) set transferring_node_id=node_id
- *   2.2) send command Cmd.GET to the man_platform_node_id(mapped_nodes_id[i]) with
- * dest(waveform.Id,0,0)
- *   2.3) unserializeTo the received packet to the local waveform object
- * 4) set lastUpdateTS to current timeslot
+ @TODO update from each node
  */
-int waveform_update(waveform_t *obj) {
-	aerror("Not yet implemented");
-	return -1;
+int waveform_update(waveform_t *waveform) {
+	packet_dest_t dest;
+	man_platform_t *platform = man_platform_get_context();
+	packet_set_cmd(&platform->packet, CMD_GET);
+	dest.module_id = 0;
+	dest.node = &platform->nodes[0];
+	dest.variable_id = 0;
+	dest.waveform_id = waveform->id;
+	packet_clear(&platform->packet);
+	if (packet_sendto(&platform->packet,&dest)) {
+		return -1;
+	}
+	if (waveform_unserializeTo(&platform->packet, waveform,NONE)) {
+		return -1;
+	}
 }
 
 

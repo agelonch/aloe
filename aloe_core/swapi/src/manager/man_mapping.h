@@ -32,7 +32,7 @@
 
 typedef struct {
 	int *p_res;
-	int modules_x_node[MAX(processors)];
+	int modules_x_node[MAX(nodes)];
 	float cost;
 	int algorithm;
 	int options;

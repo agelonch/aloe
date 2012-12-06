@@ -77,6 +77,7 @@ int initialize() {
 				return -1;
 			}
 			plp_initiated = 1;
+			reset_axis();
 		}
 	}
 
@@ -183,7 +184,7 @@ int work(void **inp, void **out) {
 			set_legend(r_legends,NOF_INPUT_ITF);
 		}
 		set_labels(xlabel,"amp");
-		//reset_axis();
+
 		for (n=0;n<NOF_INPUT_ITF;n++) {
 			if (inp[n]) {
 				if (is_complex) {
@@ -216,13 +217,17 @@ int work(void **inp, void **out) {
 		set_legend(fft_legends,NOF_INPUT_ITF);
 
 		fft_execute(inp,pl_signals,signal_lengths);
-		memset(signal_lengths,0,sizeof(int)*2*NOF_INPUT_ITF);
 		for (i=0;i<NOF_INPUT_ITF;i++) {
-			if (!is_complex) {
-				signal_lengths[i] = fft_size/2;
-			} else {
-				signal_lengths[i] = fft_size;
+			if (signal_lengths[i]) {
+				if (!is_complex) {
+					signal_lengths[i] = fft_size/2;
+				} else {
+					signal_lengths[i] = fft_size;
+				}
 			}
+		}
+		for (i=NOF_INPUT_ITF;i<2*NOF_INPUT_ITF;i++) {
+			signal_lengths[i] = 0;
 		}
 		plp_draw(pl_signals,signal_lengths,0);
 

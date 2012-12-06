@@ -96,7 +96,10 @@ int waveform_unserializeTo(packet_t *pkt, waveform_t *dest,
 	get_i(&all_module);
 	get_i(&nof_modules);
 	serdebug("nof_modules=%d, all_module=%d\n",nof_modules, all_module);
-	if (waveform_alloc(dest,nof_modules)) return -1;
+	if (!dest->nof_modules) {
+		if (waveform_alloc(dest,nof_modules))
+			return -1;
+	}
 	for (j=0;j<nof_modules;j++) {
 		get_i(&module_id);
 		i=0;

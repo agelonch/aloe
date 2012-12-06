@@ -40,6 +40,7 @@ typedef enum {
 
 /** must be exactly the same than h_pkt_t in hwapi_types.h */
 typedef struct {
+	int tstamp;
 	int len;
 	void *data;
 }pkt_t;

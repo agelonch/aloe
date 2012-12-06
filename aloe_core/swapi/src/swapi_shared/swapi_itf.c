@@ -17,6 +17,7 @@
  */
 
 #include <stddef.h>
+#include <assert.h>
 #include "defs.h"
 #include "swapi.h"
 #include "str.h"
@@ -137,7 +138,7 @@ itf_t swapi_itf_create(void *context, int port_idx, swapi_itf_mode_t mode,
  *
  */
 int swapi_itf_close(itf_t itf) {
-	aassert(itf);
+	assert(itf);
 	sdebug("itf_id=%d\n",itf->id);
 	interface_t *x = (interface_t*) itf;
 	return hwapi_itf_remove(x->hw_itf);
@@ -159,10 +160,10 @@ int swapi_itf_close(itf_t itf) {
  *
  */
 int swapi_itf_write(itf_t itf, void* buffer, int size) {
-	aassert(itf);
+	assert(itf);
 	sdebug("itf_id=%d, buffer=0x%x, size=%d\n",itf->id, buffer,size);
-	aassert(buffer);
-	aassert(size>=0);
+	assert(buffer);
+	assert(size>=0);
 	interface_t *x = (interface_t*) itf;
 	return hwapi_itf_send(x->hw_itf,buffer,size);
 }
@@ -181,10 +182,10 @@ int swapi_itf_write(itf_t itf, void* buffer, int size) {
  * or -1 on error
  */
 int swapi_itf_read(itf_t itf, void* buffer, int size) {
-	aassert(itf);
+	assert(itf);
 	sdebug("itf_id=%d, buffer=0x%x, size=%d\n",itf->id, buffer,size);
-	aassert(buffer);
-	aassert(size>=0);
+	assert(buffer);
+	assert(size>=0);
 	interface_t *x = (interface_t*) itf;
 	return hwapi_itf_recv(x->hw_itf,buffer,size);
 }
@@ -242,7 +243,7 @@ int swapi_itf_status(itf_t itf) {
  *
  */
 pkt_t* swapi_itf_pkt_request(itf_t itf) {
-	aassert_p(itf);
+	assert(itf);
 	sdebug("itf_id=%d\n",itf->id);
 	interface_t *x = (interface_t*) itf;
 	return (pkt_t*) hwapi_itf_request_pkt(x->hw_itf);
@@ -262,9 +263,9 @@ pkt_t* swapi_itf_pkt_request(itf_t itf) {
  *
  */
 int swapi_itf_pkt_release(itf_t itf, pkt_t *pkt) {
-	aassert(itf);
+	assert(itf);
 	sdebug("itf_id=%d, pkt=0x%x\n",itf->id, pkt);
-	aassert(pkt);
+	assert(pkt);
 	interface_t *x = (interface_t*) itf;
 	return hwapi_itf_release_pkt(x->hw_itf, (h_pkt_t*) pkt);
 }
@@ -284,9 +285,9 @@ int swapi_itf_pkt_release(itf_t itf, pkt_t *pkt) {
  *
  */
 int swapi_itf_pkt_put(itf_t itf, pkt_t *pkt) {
-	aassert(itf);
+	assert(itf);
 	sdebug("itf_id=%d, pkt=0x%x\n",itf->id, pkt);
-	aassert(pkt);
+	assert(pkt);
 	interface_t *x = (interface_t*) itf;
 	return hwapi_itf_put_pkt(x->hw_itf, (h_pkt_t*) pkt);
 }
@@ -306,7 +307,7 @@ int swapi_itf_pkt_put(itf_t itf, pkt_t *pkt) {
  *
  */
 pkt_t* swapi_itf_pkt_get(itf_t itf) {
-	aassert_p(itf);
+	assert(itf);
 	sdebug("itf_id=%d\n",itf->id);
 	interface_t *x = (interface_t*) itf;
 	return (pkt_t*) hwapi_itf_get_pkt(x->hw_itf);

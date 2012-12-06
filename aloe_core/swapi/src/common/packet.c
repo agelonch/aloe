@@ -95,7 +95,7 @@ int packet_add_data(packet_t *pkt, void* data, int len) {
 	assert_init;
 	aassert(pkt);
 	aassert(data);
-	aassert(len>0);
+	aassert(len>=0);
 	if (pkt->w_ptr + len > pkt->size) {
 		return -1;
 	}
@@ -176,25 +176,30 @@ packet_dest_t *packet_get_dest(packet_t *pkt) {
  * \returns 0 on success or -1 on error
  */
 int packet_sendto(packet_t *pkt, packet_dest_t *dest) {
+	int ack;
 	pktdebug("node=0x%x, dest=(%d,%d,%d)\n",dest->node,dest->waveform_id,
 			dest->module_id, dest->variable_id);
 	assert_init;
 	aassert(pkt);
 	aassert(dest);
-	if (pkt == man_packet) {
-		packet_set_cmd(node_packet, pkt->cmd);
-		memcpy(&node_packet->dest, dest, sizeof(packet_dest_t));
-		if (packet_add_data(node_packet, pkt->buffer, packet_total_size(pkt)))
-			return -1;
-	} else {
-		packet_set_cmd(man_packet, pkt->cmd);
-		memcpy(&man_packet->dest, dest, sizeof(packet_dest_t));
-		if (packet_add_data(man_packet, pkt->buffer, packet_total_size(pkt)))
-			return -1;
-	}
+
+	packet_clear(node_packet);
+
+	packet_set_cmd(node_packet, pkt->cmd);
+	memcpy(&node_packet->dest, dest, sizeof(packet_dest_t));
+	if (packet_add_data(node_packet, pkt->buffer, packet_total_size(pkt)))
+		return -1;
+
 	/**@TODO: In multi-platform mode, this should wait for the packet reception
 	 */
-	pkt->ack = nod_anode_cmd_recv();
+	ack = nod_anode_cmd_recv();
+
+	pkt->ack = ack;
+
+	/* copy the packet back */
+	if (packet_add_data(pkt, node_packet->buffer, packet_total_size(node_packet)))
+		return -1;
+
 	return 0;
 }
 

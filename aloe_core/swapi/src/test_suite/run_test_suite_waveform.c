@@ -9,6 +9,27 @@
 
 waveform_t waveform;
 
+int print_execinfo(waveform_t *waveform, int tslot_us) {
+	int i;
+	const char *t;
+	int total_cpu=0;
+	printf("\t=========== Execinfo: %s =========\n",waveform->name);
+	printf("\tName\t\t   Exec (us)\tRelinq. (us)\n");
+	for (i=0;i<waveform->nof_modules;i++) {
+		if (strlen(waveform->modules[i].name)>8) {
+			t="\t";
+		} else {
+			t="\t\t";
+		}
+		printf("\t%s%s%11d\t%11d\n",waveform->modules[i].name,t,waveform->modules[i].execinfo.t_exec[0].tv_usec,
+				waveform->modules[i].execinfo.t_exec[2].tv_usec % tslot_us);
+		total_cpu += waveform->modules[i].execinfo.t_exec[0].tv_usec;
+	}
+	printf("\tTotal\t\t%11d (%.2f%%)\n",total_cpu, (float) 100*total_cpu/tslot_us);
+	return 0;
+}
+
+
 void *run_test_suite_waveform(void *arg) {
 	int c;
 	int tslen;
@@ -42,8 +63,15 @@ void *run_test_suite_waveform(void *arg) {
 	do {
 		fflush(stdout);
 		if (c != '\n') {
-			printf("\n\nType the new status "
-					"('l'=Load, 'i'=Init, 'r'=Run, 'p'=Pause, 't'=Step, 's'=Stop) or Ctrl+C to exit\n");
+			printf("\n\nType new command:\n"
+					"\t<l>\tLoad waveform\n"
+					"\t<i>\tSet INIT\n"
+					"\t<r>\tSet RUN\n"
+					"\t<p>\tSet PAUSE\n"
+					"\t<t>\tSet STEP\n"
+					"\t<s>\tStop waveform\n"
+					"\t<e>\tView execution time\n"
+					"\n<Ctr+C>\tExit\n");
 		}
 		c = getchar();
 		new_status.cur_status = LOADED;
@@ -70,6 +98,16 @@ void *run_test_suite_waveform(void *arg) {
 			break;
 		case 's':
 			new_status.cur_status=STOP;
+			break;
+		case 'e':
+			if (waveform_update(&waveform)) {
+				aerror("updating waveform\n");
+				break;
+			}
+			if (print_execinfo(&waveform,tslen)) {
+				aerror("printing execinfo\n");
+				break;
+			}
 			break;
 		case '\n':
 			break;

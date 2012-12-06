@@ -15,7 +15,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with ALOE++.  If not, see <http://www.gnu.org/licenses/>.
  */
-
+#include <pthread.h>
 #include <stddef.h>
 #include "queue.h"
 
@@ -23,6 +23,9 @@ void queue_init(queue_t *q) {
 	q->count = 0;
 	q->front = 0;
 	q->rear = -1;
+	if (pthread_mutex_init(&q->mutex, NULL)) {
+		printf("error initiating mutex\n");
+	}
 }
 
 int queue_is_empty(queue_t *q) {
@@ -34,7 +37,9 @@ int queue_is_full(queue_t *q) {
 }
 
 int queue_put(queue_t *q, void *value) {
+	pthread_mutex_lock(&q->mutex);
 	if (queue_is_full(q)) {
+		pthread_mutex_unlock(&q->mutex);
 		return -1;
 	}
 	q->count++;
@@ -43,19 +48,32 @@ int queue_put(queue_t *q, void *value) {
 		q->rear = 0;
 	}
 	q->items[q->rear] = value;
+	pthread_mutex_unlock(&q->mutex);
 	return 0;
 }
 
-void *queue_get(queue_t *q) {
-	void *x;
+void *queue_get(queue_t *q, int tstamp) {
+	int *x;
+	pthread_mutex_lock(&q->mutex);
 	if (queue_is_empty(q)) {
+		pthread_mutex_unlock(&q->mutex);
 		return NULL;
 	}
+	x = q->items[q->count-1];
+	if (tstamp) {
+		if (tstamp < *x ) {
+			printf("massa dora. pkt %d, tstamp=%d\n",*x,tstamp);
+			pthread_mutex_unlock(&q->mutex);
+			return NULL;
+		}
+	}
+
 	q->count--;
 	x = q->items[q->count];
 	q->front++;
 	if (q->front == MAX_QUEUE_SZ) {
 		q->front = 0;
 	}
+	pthread_mutex_unlock(&q->mutex);
 	return x;
 }

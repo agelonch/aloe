@@ -151,6 +151,7 @@ int plp_draw(double *signal, int *signal_lengths, int ylog_scale) {
 	int count;
 	int i,j;
 	int col;
+	int dowind;
 
 	for (i=0;i<2*NOF_INPUT_ITF;i++) {
 		if (signal_lengths[i] > INPUT_MAX_SAMPLES) {
@@ -160,13 +161,24 @@ int plp_draw(double *signal, int *signal_lengths, int ylog_scale) {
 		}
 	}
 
-	xmax=0;
+	dowind=0;
+	xmax=-1;
 	for(i=0;i<2*NOF_INPUT_ITF;i++) {
-		xmax = (PLFLT) MAX(xmax,signal_lengths[i]);
-		for (j=0;j<signal_lengths[i];j++) {
-			ymin = (PLFLT) MIN(ymin,signal[i*INPUT_MAX_SAMPLES+j]);
-			ymax = (PLFLT) MAX(ymax,signal[i*INPUT_MAX_SAMPLES+j]);
+		if (signal_lengths[i]) {
+			dowind=1;
+			xmax = (PLFLT) MAX(xmax,signal_lengths[i]);
+			for (j=0;j<signal_lengths[i];j++) {
+				ymin = (PLFLT) MIN(ymin,signal[i*INPUT_MAX_SAMPLES+j]);
+				ymax = (PLFLT) MAX(ymax,signal[i*INPUT_MAX_SAMPLES+j]);
+			}
 		}
+	}
+
+	if (!dowind) {
+		xmin=0;
+		xmax=100;
+		ymin=-1;
+		ymax=1;
 	}
 
 	plclear();
@@ -175,6 +187,7 @@ int plp_draw(double *signal, int *signal_lengths, int ylog_scale) {
 	plvsta();
 	plwid(1);
 	plwind(xmin, xmax, ymin*1.1, ymax*1.1);
+
 	plcol0(1);
 	if (ylog_scale) {
 		plbox(logaxis_x, 0., 0, logaxis_y, 0., 0);

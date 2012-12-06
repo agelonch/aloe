@@ -73,7 +73,7 @@ inline static const char *print_error_string(int code) {
 	case HWAPI_ERROR_INVAL:
 		return "Invalid parameter. ";
 	case HWAPI_ERROR_NOSPACE:
-		return "Not enough space in structure array. ";
+		return "Run out of space. ";
 	case HWAPI_ERROR_LARGE:
 		return "Too large. ";
 	case HWAPI_ERROR_DL:

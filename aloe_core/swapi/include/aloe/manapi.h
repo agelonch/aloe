@@ -45,6 +45,7 @@ int variable_report_start(variable_t *var, void (*callback)(void), int period, i
 int variable_report_stop(variable_t *var);
 
 int waveform_load(waveform_t* waveform);
+int waveform_update(waveform_t *waveform);
 int waveform_parse(waveform_t* waveform);
 
 int waveform_status_set(waveform_t *waveform, waveform_status_t *new_status);

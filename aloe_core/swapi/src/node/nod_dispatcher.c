@@ -118,19 +118,57 @@ static int nod_dispatcher_set(packet_t *pkt) {
 }
 
 /**
- * 1) Use processing_packet.getDest() to get the destination object
- * 2) If waveformId=0, serialize() node and return OK
- * 3) Find waveformId
- * 4) If moduleId=0, serialize() waveform and return OK
- * 5) Find moduleId
- * 6) If variableId=0 serialize() waveform.module.execInfo and return OK
- * 7) Find variableId, serialize() waveform.module.variable and return OK
- *
- * If at any stage, the Id is not found, return ERR
+ * @TODO
  */
 static int nod_dispatcher_get(packet_t *pkt) {
-	aerror("Not yet implemented");
-	return -1;
+	packet_dest_t *dest = packet_get_dest(pkt);
+	int wi,mi,vi;
+	ndebug("dest=(%d,%d,%d)\n",dest->waveform_id,dest->module_id,dest->variable_id);
+	if (!dest->waveform_id) {
+		return -1;
+	}
+	for (wi=0;wi<anode.max_waveforms;wi++) {
+		if (anode.loaded_waveforms[wi].id == dest->waveform_id)
+			break;
+	}
+	if (wi == anode.max_waveforms) {
+		return -1;
+	}
+	ndebug("found wi=%d\n",wi);
+	if (!dest->module_id && !dest->variable_id) {
+		if (nod_waveform_serialize(&anode.loaded_waveforms[wi],pkt, 0, NONE)) {
+			return -1;
+		}
+		return 0;
+	}
+	if (!dest->module_id) {
+		return -1;
+	}
+	for (mi=0;mi<anode.loaded_waveforms[mi].nof_modules;mi++) {
+		if (anode.loaded_waveforms[wi].modules[mi].parent.id == dest->module_id)
+			break;
+	}
+	if (mi == anode.loaded_waveforms[wi].nof_modules) {
+		return -1;
+	}
+	ndebug("found mi=%d\n",mi);
+	if (!dest->variable_id) {
+		aerror("Not implemented\n");
+		return -1;
+	}
+	for (vi=0;vi<anode.loaded_waveforms[mi].modules[mi].parent.nof_variables;vi++) {
+		if (anode.loaded_waveforms[wi].modules[mi].parent.variables[vi].id ==
+				dest->variable_id)
+			break;
+	}
+	if (vi == anode.loaded_waveforms[mi].modules[mi].parent.nof_variables) {
+		return -1;
+	}
+	if (variable_serialize(&anode.loaded_waveforms[wi].modules[mi].parent.variables[vi], pkt,
+			CP_VALUE,anode.loaded_waveforms[mi].nof_modes)) {
+		return -1;
+	}
+	return 0;
 }
 
 /**
@@ -160,22 +198,33 @@ int nod_dispatcher_hwinfo(packet_t *pkt) {
 /** \brief Processes a packet. Calls one of the processing functions depending on the command
  */
 int nod_anode_dispatch(packet_t *pkt) {
+	int n;
 	ndebug("pkt=0x%x, cmd=%d\n",pkt,packet_get_cmd(pkt));
 	switch(packet_get_cmd(pkt)) {
 	case CMD_LOAD:
-		return nod_dispatcher_load(pkt);
+		n = nod_dispatcher_load(pkt);
+		packet_clear(pkt);
+		break;
 	case CMD_SET:
-		return nod_dispatcher_set(pkt);
+		n =  nod_dispatcher_set(pkt);
+		packet_clear(pkt);
+		break;
 	case CMD_GET:
-		return nod_dispatcher_get(pkt);
+		n =  nod_dispatcher_get(pkt);
+		break;
 	case CMD_CONNECT:
-		return nod_dispatcher_connect_node(pkt);
+		n =  nod_dispatcher_connect_node(pkt);
+		break;
 	case CMD_DISCONNECT:
-		return nod_dispatcher_disconnect_node(pkt);
+		n =  nod_dispatcher_disconnect_node(pkt);
+		break;
 	case CMD_HWINFO:
-		return nod_dispatcher_hwinfo(pkt);
+		n =  nod_dispatcher_hwinfo(pkt);
+		break;
 	default:
 		aerror_msg("Unknown command %d\n", (int) packet_get_cmd(pkt));
-		return -1;
+		n =  -1;
+		break;
 	}
+	return n;
 }

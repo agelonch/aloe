@@ -27,7 +27,7 @@ static int mapping_alloc(mapping_t *m, int nof_modules) {
 	if (m->p_res) return -1;
 	m->p_res = (int*) pool_alloc(nof_modules,sizeof(int));
 	if (!m->p_res) return -1;
-	memset(m->modules_x_node,0,sizeof(int)*MAX(processors));
+	memset(m->modules_x_node,0,sizeof(int)*MAX(nodes));
 	return 0;
 }
 
@@ -55,14 +55,8 @@ int generate_model(mapping_t *m) {
 /** USES MANAPI_ERROR to describe any mapping error */
 int call_algorithm(mapping_t *m, waveform_t *waveform, man_platform_t *platform) {
 	int i;
-	if (waveform->nof_modules == platform->nof_processors) {
-		for (i=0;i<waveform->nof_modules;i++) {
-			m->p_res[i]=i;
-		}
-	} else {
-		for (i=0;i<waveform->nof_modules;i++) {
-			m->p_res[i]=0;
-		}
+	for (i=0;i<waveform->nof_modules;i++) {
+		m->p_res[i]=i%platform->nof_processors;
 	}
 	return 0;
 }
@@ -82,6 +76,7 @@ int mapping_map(mapping_t *m, waveform_t *waveform) {
 	int i;
 	int ret=-1;
 	man_platform_t *platform = man_platform_get_context();
+	man_node_t *node;
 	if (!platform) {
 		aerror("MANAPI not initialized\n");
 		return -1;
@@ -98,7 +93,7 @@ int mapping_map(mapping_t *m, waveform_t *waveform) {
 	if (call_algorithm(m,waveform, platform)) {
 		goto free;
 	}
-	memset(m->modules_x_node,0,sizeof(int)*MAX(processors));
+	memset(m->modules_x_node,0,sizeof(int)*MAX(nodes));
 	for (i=0;i<waveform->nof_modules;i++) {
 		if (m->p_res[i] >= platform->nof_processors) {
 			aerror_msg("Module %d mapped to processor %d, but platform has %d processors only\n",
@@ -109,7 +104,8 @@ int mapping_map(mapping_t *m, waveform_t *waveform) {
 		waveform->modules[i].node = p->node;
 		waveform->modules[i].processor_idx = p->idx_in_node;
 		waveform->modules[i].exec_position = waveform->nof_modules-i-1;
-		m->modules_x_node[m->p_res[i]]++;
+		node = p->node,
+		m->modules_x_node[node->id]++;
 	}
 	ret = 0;
 free:

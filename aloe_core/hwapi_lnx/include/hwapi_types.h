@@ -44,6 +44,7 @@ struct hwapi_process_attr {
 
 
 typedef struct {
+	int tstamp;
 	int len;
 	void *data;
 }h_pkt_t;

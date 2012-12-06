@@ -348,7 +348,7 @@ int Run(void *_ctx) {
 			output_pkt[i] = swapi_itf_pkt_request(outputs[i]);
 			moddebug("request: output=%d pkt=0x%x\n",i,output_pkt[i]);
 			if (!output_pkt[i]) {
-				swapi_perror("swapi_itf_ptr_request\n");
+				swapi_perror("swapi_itf_pkt_request\n");
 				return -1;
 			}
 		}
@@ -495,7 +495,14 @@ int param_get(pmid_t id, void *ptr, int max_size, param_type_t *type) {
 	if (type) {
 		*type = (param_type_t) swapi_var_param_type(ctx,(var_t) id);
 	}
-	return swapi_var_param_value(ctx, (var_t) id, ptr, max_size);
+	int n = swapi_var_param_value(ctx, (var_t) id, ptr, max_size);
+	if (n == -1) {
+		/* keep quiet in this case */
+		if (swapi_error_code(ctx) != SWAPI_ERROR_INVAL) {
+			swapi_perror("swapi_var_param_value\n");
+		}
+	}
+	return n;
 }
 
 pmid_t param_id(char *name) {

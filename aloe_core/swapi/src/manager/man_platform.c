@@ -109,7 +109,7 @@ int man_platform_config(man_platform_t *_platform, string config_file) {
 		platform->processors[i] = &platform->nodes[0].processors[i];
 		platform->nodes[0].processors[i].idx_in_node = i;
 	}
-	platform->nodes[0].id = 1;
+	platform->nodes[0].id = 0;
 	platform->nodes[0].platform = platform;
 
 	return 0;

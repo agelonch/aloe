@@ -218,8 +218,8 @@ void* nod_waveform_status_init_thread(void *arg) {
 		if (i == waveform->nof_modules) {
 			i = 0;
 			nof_trials++;
-			if (nof_trials == waveform->nof_modules) {
-				aerror_msg("Waveform could not initiate after %d trials\n", waveform->nof_modules);
+			if (nof_trials == 2*waveform->nof_modules) {
+				aerror_msg("Waveform could not initiate after %d trials\n", 2*waveform->nof_modules);
 				return NULL;
 			}
 		}
@@ -314,7 +314,6 @@ int nod_waveform_status_new(nod_waveform_t *waveform, waveform_status_t *new_sta
 			}
 		}
 		nod_waveform_run(waveform,1);/* let modules run in pipeline */
-		memcpy(&waveform->status,new_status,sizeof(waveform_status_t));
 		for (i=0;i<waveform->nof_modules;i++) {
 			if (waveform->modules[i].changing_status) {
 				aerror_msg("Caution module %s was still changing the status\n",
@@ -322,6 +321,7 @@ int nod_waveform_status_new(nod_waveform_t *waveform, waveform_status_t *new_sta
 				waveform->modules[i].changing_status = 0;
 			}
 		}
+		memcpy(&waveform->status,new_status,sizeof(waveform_status_t));
 	}
 
 	return 0;
