@@ -14,6 +14,15 @@ include_directories("${PROJECT_SOURCE_DIR}/aloe_core/swapi/include/aloe/")
 
 set(MODULE_REPOS_NAME "default")
 
-add_subdirectory(aloe_core)
+set(CMAKE_C_FLAGS "-Wno-format -std=gnu99 -D_GNU_SOURCE -fPIC")
+set(CMAKE_BINARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
+
+include_directories("${ALOE_SOURCE_DIR}/hwapi_lnx/include")
+include_directories("${ALOE_SOURCE_DIR}/swapi/include")
+
+
+add_subdirectory(alcore_lnx)
+add_subdirectory(oecore)
 add_subdirectory(modrep_default)
 add_subdirectory(modrep_ofdm)
