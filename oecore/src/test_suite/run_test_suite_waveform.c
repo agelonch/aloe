@@ -7,6 +7,9 @@
 #include "mempool.h"
 #include "hwapi.h"
 
+/* in a multi-processing environment, this file wont be included */
+#include "nod_anode.h"
+
 waveform_t waveform;
 
 int print_execinfo(waveform_t *waveform, int tslot_us) {
@@ -30,7 +33,7 @@ int print_execinfo(waveform_t *waveform, int tslot_us) {
 }
 
 
-void *run_test_suite_waveform(void *arg) {
+void *_run_main(void *arg) {
 	int c;
 	int tslen;
 	hwapi_machine_t machine;

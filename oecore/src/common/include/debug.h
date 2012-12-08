@@ -24,15 +24,10 @@
 #define _DEBUG_TRACE
 extern FILE *trace_buffer;
 #endif
-#define debug_buffer trace_buffer
+#define debug_buffer (trace_buffer?trace_buffer:stdout)
 #else
 #define debug_buffer stdout
 #endif
-
-/* debug hwapi */
-#define DEBUG_HWAPI 0
-#define hdebug(_fmt, ...) \
-	do { if (DEBUG_HWAPI) fprintf(debug_buffer,"[debug-hwapi]\t[%s()]: " _fmt, __func__,__VA_ARGS__);} while(0);
 
 /* debug memory */
 #define DEBUG_POOL 0

@@ -130,6 +130,10 @@ static void* nod_waveform_status_stop_thread(void *arg) {
 
 	for (i=0;i<waveform->nof_modules;i++) {
 		if (waveform->modules[i].parent.status != STOP) {
+			if (hwapi_process_isrunning(waveform->modules[i].process)) {
+				aerror_msg("module %s is still running\n",waveform->modules[i].parent.name);
+				return NULL;
+			}
 			if (nod_module_stop(&waveform->modules[i])) {
 				aerror_msg("stopping module %s of waveform %s\n",waveform->modules[i].parent.name,
 						waveform->name);
@@ -153,16 +157,12 @@ int nod_waveform_status_stop(nod_waveform_t *waveform) {
 
 	waveform->status.cur_status = STOP;
 
-	if (nod_waveform_run(waveform,0)) {
-		aerror("stopping waveform\n");
-	}
-
 	if (hwapi_task_new(&task,nod_waveform_status_stop_thread,waveform)) {
 		aerror("creating task\n");
 		return -1;
 	}
 
-	t.tv_sec = 0;
+	t.tv_sec = 1;
 	t.tv_usec = 500000;
 	if (hwapi_sleep(&t)) {
 		hwapi_error_print("hwapi_sleep");
@@ -173,13 +173,14 @@ int nod_waveform_status_stop(nod_waveform_t *waveform) {
 	if (n == -1) {
 		hwapi_error_print("hwapi_task_wait");
 		return -1;
-	} else if (n == 0) {
-		aerror_msg("Stopping task did not finish (waveform %s)\n", waveform->name);
-	} else {
-		if (ret_val == NULL) {
-			aerror_msg("Waveform %s did not stop correctly. Some resources may remain open\n",
-					waveform->name);
+	} else if (n == 0 || (n == 1 && ret_val == NULL)){
+		if (n == 0) {
+			aerror_msg("Stopping task did not finish (waveform %s)\n", waveform->name);
 		}
+		aerror_msg("Waveform %s did not stop correctly. Some resources may remain open\n",
+					waveform->name);
+	} else {
+		ainfo("Waveform %s was cleanly removed from the system.\n",waveform->name);
 	}
 
 	if (nod_waveform_remove(waveform)) {
@@ -187,7 +188,6 @@ int nod_waveform_status_stop(nod_waveform_t *waveform) {
 		return -1;
 	}
 
-	ainfo("Waveform %s was cleanly removed from the system.\n",waveform->name);
 	return 0;
 
 }

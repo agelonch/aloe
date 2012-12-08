@@ -17,9 +17,9 @@
  */
 
 #include <stdio.h>
-#include <aloe/swapi.h>
-#include <aloe/params.h>
-#include <aloe/skeleton.h>
+#include <swapi.h>
+#include <params.h>
+#include <skeleton.h>
 
 #include "gen_modulator.h"
 #include "modulator.h"

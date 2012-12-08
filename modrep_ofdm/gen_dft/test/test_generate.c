@@ -21,11 +21,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include <aloe/skeleton.h>
-#include <aloe/params.h>
+#include <skeleton.h>
+#include <params.h>
 
 #define INCLUDE_DEFS_ONLY
-#include "gen_fft.h"
+#include "gen_dft.h"
 
 int offset=0;
 

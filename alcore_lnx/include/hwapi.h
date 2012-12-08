@@ -33,6 +33,8 @@ typedef enum {
 	FINISH_OK, RTFAULT, SIG_RECV, RUNERROR
 }hwapi_processerrors_t;
 
+void *_run_main(void *arg);
+
 void hwapi_machine(hwapi_machine_t *machine);
 
 int hwapi_sleep(time_t *t);

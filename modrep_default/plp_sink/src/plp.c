@@ -20,8 +20,8 @@
 #include <stdlib.h>
 #include <float.h>
 
-#include <aloe/swapi.h>
-#include <aloe/skeleton.h>
+#include <swapi.h>
+#include <skeleton.h>
 #include "plplot.h"
 #include "plevent.h"
 #include "plp.h"

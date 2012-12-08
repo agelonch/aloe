@@ -1,9 +1,32 @@
+if(${CMAKE_SOURCE_DIR} STREQUAL ${CMAKE_BINARY_DIR})
+    message(FATAL_ERROR "Prevented in-tree build. This is bad practice.")
+endif(${CMAKE_SOURCE_DIR} STREQUAL ${CMAKE_BINARY_DIR})
 
+
+if( CMAKE_SOURCE_DIR STREQUAL CMAKE_CURRENT_SOURCE_DIR )
+	cmake_minimum_required (VERSION 2.6)
+	project (oecore)
+
+	# The version number.
+	set (OECORE_VERSION_MAJOR 1)
+	set (OECORE_VERSION_MINOR 0)
+	
+	#TODO: If building as standalone, should include hwapi headers here. 
+	
+	
+else()
+	include_directories(${ALCORE_INCLUDE})
+endif()
 
 include_directories("${CMAKE_CURRENT_SOURCE_DIR}/src/common/include")
 include_directories("${CMAKE_CURRENT_SOURCE_DIR}/src/manager/include")
 include_directories("${CMAKE_CURRENT_SOURCE_DIR}/src/node/include")
 include_directories("${CMAKE_CURRENT_SOURCE_DIR}/src/swapi_shared")
+include_directories("${CMAKE_CURRENT_SOURCE_DIR}/include")
+
+#remove in the multiprocessing environment
+include_directories("${CMAKE_CURRENT_SOURCE_DIR}/src/node")
+
 
 # core sources
 file(GLOB_RECURSE common_SOURCES "src/common/*.c")
@@ -29,8 +52,8 @@ set(mex_SOURCES src/skeleton/mex.c)
 file(GLOB_RECURSE standalone_SOURCES "src/standalone/*.c")
 
 # aloe core library
-add_library(core ${swapi_shared_SOURCES} ${common_SOURCES} ${manager_SOURCES} ${manapi_SOURCES} ${node_SOURCES} ${test_suite_SOURCES})
-set_target_properties(core PROPERTIES LINK_FLAGS "-Wl,-export-dynamic")
+add_library(oecore ${swapi_shared_SOURCES} ${common_SOURCES} ${manager_SOURCES} ${manapi_SOURCES} ${node_SOURCES} ${test_suite_SOURCES})
+set_target_properties(oecore PROPERTIES LINK_FLAGS "-Wl,-export-dynamic -u _run_main")
 
 # swapi library
 add_library(swapi ${swapi_static_SOURCES} ${params_SOURCES})
@@ -80,7 +103,7 @@ endif()
 
 
 
-file(GLOB_RECURSE INCLUDE_FILES "include/aloe/*.h")
+file(GLOB_RECURSE INCLUDE_FILES "include/*.h")
 
 # install 
 install(TARGETS swapi skeleton skeleton_legacy standalone standalone_legacy ${install_mex} DESTINATION lib)

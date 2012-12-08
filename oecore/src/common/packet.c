@@ -23,11 +23,17 @@
 #include "packet.h"
 #include "defs.h"
 
+/* in a multi-processing environment, this file wont be included */
+#include "nod_anode.h"
+
+
 extern packet_t *man_packet;
 extern packet_t *node_packet;
 
 #define assert_init if (!pkt->buffer) return -1
 #define assert_init_p if (!pkt->buffer) return NULL
+
+
 
 /** \brief Creates a packet of size bytes length
  * \returns 0 on success, -1 on error

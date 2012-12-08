@@ -18,12 +18,12 @@
 
 #include <stdio.h>
 #include <string.h>
-#include <aloe/swapi.h>
-#include <aloe/params.h>
-#include <aloe/skeleton.h>
+#include <swapi.h>
+#include <params.h>
+#include <skeleton.h>
 
 #include "dft.h"
-#include "gen_fft.h"
+#include "gen_dft.h"
 
 /** List of dft lengths to precompute a plan during init */
 const int precomputed_dft_len[] = {128,256,512,1024,2048};

@@ -18,9 +18,9 @@
 
 #include <stdio.h>
 #include <string.h>
-#include <aloe/swapi.h>
-#include <aloe/params.h>
-#include <aloe/skeleton.h>
+#include <swapi.h>
+#include <params.h>
+#include <skeleton.h>
 
 #include "gen_crc.h"
 #include "crc.h"

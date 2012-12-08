@@ -145,5 +145,5 @@ int hwapi_process_isrunning(h_proc_t proc) {
 	HWAPI_ASSERT_PARAM(proc);
 	hwapi_process_t *obj = (hwapi_process_t*) proc;
 	hdebug("pid=%d, running=%d\n",obj->pid,obj->runnable);
-	return obj->runnable;
+	return obj->is_running;
 }

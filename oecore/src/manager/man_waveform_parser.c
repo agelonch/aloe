@@ -217,15 +217,27 @@ static int read_variables(config_setting_t *cfg, module_t *mod, char *module_nam
 }
 
 static int read_interface_pair(config_setting_t *cfg, const char **name, int *idx) {
-	if (config_setting_length(cfg) != 2) {
+	if (config_setting_length(cfg) == 0) {
+		*name = config_setting_get_string(cfg);
+		if (!*name) {
+			return 0;
+		}
+		*idx = 0;
+		return 1;
+	} else if (config_setting_length(cfg) <= 2) {
+		*name = config_setting_get_string_elem(cfg,0);
+		if (!*name) {
+			return 0;
+		}
+		if (config_setting_length(cfg) == 2) {
+			*idx = config_setting_get_int_elem(cfg,1);
+		} else {
+			*idx = 0;
+		}
+		return 1;
+	} else {
 		return 0;
 	}
-	*name = config_setting_get_string_elem(cfg,0);
-	if (!*name) {
-		return 0;
-	}
-	*idx = config_setting_get_int_elem(cfg,1);
-	return 1;
 }
 
 static int read_interface_mod_itf(config_setting_t *cfg, waveform_t *w,

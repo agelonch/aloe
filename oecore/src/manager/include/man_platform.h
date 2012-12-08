@@ -59,7 +59,7 @@ typedef struct {
 
 	void *platform;
 	man_processor_t processors[MAX(processors)];
-	man_dataitf_t man_dataitfs[MAX(hwapi_itfphysic)];
+	man_dataitf_t man_dataitfs[MAX(node_itfphysic)];
 	man_probelistener_t probe_listener;
 	h_itf_t* ctr_itf;
 	h_itf_t* probe_itf;

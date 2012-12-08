@@ -18,10 +18,10 @@
 
 #include <stdlib.h>
 
-#include <aloe/swapi_static.h>
-#include <aloe/skeleton.h>
-#include <aloe/params.h>
-#include <aloe/str.h>
+#include <swapi.h>
+#include <skeleton.h>
+#include <params.h>
+#include <str.h>
 
 #include "plp_sink.h"
 #include "plp.h"
@@ -78,6 +78,7 @@ int initialize() {
 			}
 			plp_initiated = 1;
 			reset_axis();
+			modinfo("-- Warning --: plplot crashes at stop. Restart ALOE after stopping the waveform.\n");
 		}
 	}
 

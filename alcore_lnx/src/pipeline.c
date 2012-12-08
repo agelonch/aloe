@@ -54,11 +54,14 @@ inline static void pipeline_run_thread_run_module(pipeline_t *pipe,
 	if (proc->runnable) {
 		pipe->running_process = proc;
 		pipe->running_process_idx = idx;
+		proc->is_running = 1;
 		if (proc->run_point(proc->arg)) {
 			aerror_msg("Error running module %d:%d\n",
 					pipe->id,pipe->running_process_idx);
 			pipeline_remove(pipe,proc);
+			proc->is_running = 0;
 		}
+		proc->is_running = 0;
 	}
 }
 

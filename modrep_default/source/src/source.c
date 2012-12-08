@@ -18,9 +18,9 @@
 
 #include <stdio.h>
 
-#include <aloe/swapi_static.h>
-#include <aloe/skeleton.h>
-#include <aloe/params.h>
+#include <swapi.h>
+#include <skeleton.h>
+#include <params.h>
 
 #include "source.h"
 #include "generators.h"

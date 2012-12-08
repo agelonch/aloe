@@ -27,7 +27,6 @@ typedef struct {
 	int count;
 	int front;
 	int rear;
-	pthread_mutex_t mutex;
 	void *items[MAX_QUEUE_SZ];
 }queue_t;
 

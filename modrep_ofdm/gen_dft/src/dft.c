@@ -22,7 +22,6 @@
 #include <string.h>
 
 #include "dft.h"
-#include "defs.h"
 
 #define div(a,b) ((a-1)/b+1)
 
@@ -41,7 +40,6 @@ int dft_plan_multi(const int *dft_points, dft_mode_t *modes, dft_dir_t *dirs,
 int dft_plan_multi_c2c(const int *dft_points, dft_dir_t dir, int nof_plans, dft_plan_t *plans) {
 	int i;
 	for (i=0;i<nof_plans;i++) {
-		printf("init plan %d/%d\n",i,nof_plans);
 		if (dft_plan(dft_points[i],COMPLEX_2_COMPLEX,dir,&plans[i])) {
 			return -1;
 		}

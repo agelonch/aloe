@@ -22,6 +22,9 @@
 #define TASK_DEFAULT_PRIORITY 10
 #define TASK_DEFAULT_CPUID -1
 
+#include <pthread.h>
+#include "hwapi.h"
+
 enum hwapi_task_type {
 	DETACHABLE, JOINABLE
 };

@@ -16,29 +16,17 @@
  * along with ALOE++.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef NOD_ANODE_H
-#define NOD_ANODE_H
 
-#include "hwapi.h"
-#include "nod_waveform.h"
-#include "objects_max.h"
+#define MAX(a) a##_MAX
 
-/**
- * This is the class that processes the commands coming from the ALOE-Manager.
- * 
- * The HWAPI runs a background process and creates an object of this class. The HWAPI is responsible to periodically check for incoming messages from the control interface and call the process_cmd() function
- */
-typedef struct {
-	nod_waveform_t *loaded_waveforms;
-	int max_waveforms;
-	packet_t packet;
-	h_itf_t sync_itf;
-	h_itf_t ctr_itf;
-	h_itf_t probe_itf;
-	h_itf_t slaves_itf[MAX(node_itfphysic)];
-} nod_anode_t;
 
-int nod_anode_initialize();
-int nod_anode_cmd_recv();
+#define hwapi_process_MAX 	100
+#define hwapi_itfqueue_MAX 	50
+#define hwapi_itfphysic_MAX 5
+#define hwapi_periodic_MAX 	10
+#define pipeline_MAX		5
+#define hwapi_dac_MAX		2
+#define dac_channel_MAX		2
 
-#endif
+
+

@@ -37,8 +37,6 @@
 #include "hwapi_timer.h"
 #include "futex.h"
 
-#include "run_test_suite_waveform.h"
-
 #define KERNEL_SIG_THREAD_SPECIFIC SIGRTMIN
 #define N_THREAD_SPECIFIC_SIGNALS 6
 const int thread_specific_signals[N_THREAD_SPECIFIC_SIGNALS] =
@@ -701,7 +699,7 @@ int main(int argc, char **argv) {
 		goto clean_and_exit;
 	}
 
-	if (hwapi_task_new(NULL,run_test_suite_waveform,argv[3])) {
+	if (hwapi_task_new(NULL,_run_main,argv[3])) {
 		hwapi_perror("hwapi_task_new");
 		goto clean_and_exit;
 	}

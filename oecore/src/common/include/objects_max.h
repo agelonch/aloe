@@ -20,22 +20,16 @@
 #define MAX(a) a##_MAX
 
 
-#define nodes_MAX		10
-#define processors_MAX	10
-#define man_probehandlers_MAX 5
+#define nodes_MAX				10
+#define processors_MAX			10
+#define man_probehandlers_MAX 	5
 
-#define modes_MAX		25
+#define node_itfphysic_MAX 		5
 
-#define hwapi_process_MAX 	100
-#define hwapi_itfqueue_MAX 	50
-#define hwapi_itfphysic_MAX 	5
-#define hwapi_periodic_MAX 	10
-#define pipeline_MAX		5
-#define hwapi_dac_MAX		2
-#define dac_channel_MAX		2
+#define modes_MAX				25
 
-#define swapi_counter_MAX	5
-#define swapi_log_MAX 		5
+#define swapi_counter_MAX		5
+#define swapi_log_MAX 			5
 
 
 
