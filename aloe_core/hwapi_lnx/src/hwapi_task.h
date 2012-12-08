@@ -28,6 +28,6 @@ enum hwapi_task_type {
 
 int hwapi_task_new_thread(pthread_t *thread, void *(*fnc)(void*), void *arg, \
 		enum hwapi_task_type type, int prio, int cpu, int unblock_signals);
-
+int hwapi_task_new_prio(h_task_t *task, void *(*fnc)(void*), void* arg, int prio, int cpu);
 
 #endif
