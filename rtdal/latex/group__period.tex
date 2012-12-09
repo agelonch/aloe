@@ -1,0 +1,69 @@
+\hypertarget{group__period}{\section{Periodic low-\/priority tasks functions}
+\label{group__period}\index{Periodic low-\/priority tasks functions@{Periodic low-\/priority tasks functions}}
+}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+int \hyperlink{group__period_ga4cabb39c9b910f46cbc27b26a5e577b8}{rtdal\-\_\-periodic\-\_\-add} (void($\ast$fnc)(void), int period)
+\item 
+int \hyperlink{group__period_gaa7d670c916d527839e1d72db60bfeb4c}{rtdal\-\_\-periodic\-\_\-remove} (void($\ast$fnc)(void))
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+\subsection{Function Documentation}
+\hypertarget{group__period_ga4cabb39c9b910f46cbc27b26a5e577b8}{\index{Periodic low-\/priority tasks functions@{Periodic low-\/priority tasks functions}!rtdal\-\_\-periodic\-\_\-add@{rtdal\-\_\-periodic\-\_\-add}}
+\index{rtdal\-\_\-periodic\-\_\-add@{rtdal\-\_\-periodic\-\_\-add}!Periodic low-priority tasks functions@{Periodic low-\/priority tasks functions}}
+\subsubsection[{rtdal\-\_\-periodic\-\_\-add}]{\setlength{\rightskip}{0pt plus 5cm}int rtdal\-\_\-periodic\-\_\-add (
+\begin{DoxyParamCaption}
+\item[{void($\ast$)(void)}]{callback, }
+\item[{int}]{period}
+\end{DoxyParamCaption}
+)}}\label{group__period_ga4cabb39c9b910f46cbc27b26a5e577b8}
+Adds the function callback to the kernel periodic callback functions. If \hyperlink{group__period_ga4cabb39c9b910f46cbc27b26a5e577b8}{rtdal\-\_\-periodic\-\_\-add()} successes, the function callback will be called every period timeslots with Kernel Priority.
+
+
+\begin{DoxyParams}{Parameters}
+{\em callback} & Pointer to the periodic function \\
+\hline
+{\em period} & Positive integer, in time slots \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+zero on success, -\/1 on error 
+\end{DoxyReturn}
+
+
+Definition at line 119 of file rtdal\-\_\-base.\-c.
+
+
+
+References rtdal\-\_\-periodic\-\_\-t\-::callback, rtdal\-\_\-periodic\-\_\-t\-::counter, hdebug, M\-A\-X, rtdal\-\_\-context\-\_\-t\-::mutex, rtdal\-\_\-periodic\-\_\-t\-::period, rtdal\-\_\-context\-\_\-t\-::periodic, R\-T\-D\-A\-L\-\_\-\-A\-S\-S\-E\-R\-T\-\_\-\-P\-A\-R\-A\-M, R\-T\-D\-A\-L\-\_\-\-E\-R\-R\-O\-R\-\_\-\-N\-O\-S\-P\-A\-C\-E, and R\-T\-D\-A\-L\-\_\-\-S\-E\-T\-E\-R\-R\-O\-R.
+
+\hypertarget{group__period_gaa7d670c916d527839e1d72db60bfeb4c}{\index{Periodic low-\/priority tasks functions@{Periodic low-\/priority tasks functions}!rtdal\-\_\-periodic\-\_\-remove@{rtdal\-\_\-periodic\-\_\-remove}}
+\index{rtdal\-\_\-periodic\-\_\-remove@{rtdal\-\_\-periodic\-\_\-remove}!Periodic low-priority tasks functions@{Periodic low-\/priority tasks functions}}
+\subsubsection[{rtdal\-\_\-periodic\-\_\-remove}]{\setlength{\rightskip}{0pt plus 5cm}int rtdal\-\_\-periodic\-\_\-remove (
+\begin{DoxyParamCaption}
+\item[{void($\ast$)(void)}]{callback}
+\end{DoxyParamCaption}
+)}}\label{group__period_gaa7d670c916d527839e1d72db60bfeb4c}
+Removes the function pointed by callback from the kernel periodic callback functions, previously added with \hyperlink{group__period_ga4cabb39c9b910f46cbc27b26a5e577b8}{rtdal\-\_\-periodic\-\_\-add()}.
+
+
+\begin{DoxyParams}{Parameters}
+{\em callback} & Pointer to the periodic function \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+zero on success, -\/1 on error 
+\end{DoxyReturn}
+
+
+Definition at line 152 of file rtdal\-\_\-base.\-c.
+
+
+
+References rtdal\-\_\-periodic\-\_\-t\-::callback, rtdal\-\_\-periodic\-\_\-t\-::counter, hdebug, M\-A\-X, rtdal\-\_\-context\-\_\-t\-::mutex, rtdal\-\_\-periodic\-\_\-t\-::period, rtdal\-\_\-context\-\_\-t\-::periodic, R\-T\-D\-A\-L\-\_\-\-A\-S\-S\-E\-R\-T\-\_\-\-P\-A\-R\-A\-M, R\-T\-D\-A\-L\-\_\-\-E\-R\-R\-O\-R\-\_\-\-N\-O\-T\-F\-O\-U\-N\-D, and R\-T\-D\-A\-L\-\_\-\-S\-E\-T\-E\-R\-R\-O\-R.
+

@@ -1,0 +1,220 @@
+\hypertarget{group__process}{\section{Pipeline processes functions}
+\label{group__process}\index{Pipeline processes functions@{Pipeline processes functions}}
+}
+\subsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{group__process_ga825233f1e8a1bd1e1eb99e1301f36a57}{rtdal\-\_\-processerrors\-\_\-t} \{ \hyperlink{group__process_gga825233f1e8a1bd1e1eb99e1301f36a57a19307143c8bf8a95177f618b079e6f89}{F\-I\-N\-I\-S\-H\-\_\-\-O\-K}, 
+\hyperlink{group__process_gga825233f1e8a1bd1e1eb99e1301f36a57a6be012806ba282ac6ae296d79a7693ea}{R\-T\-F\-A\-U\-L\-T}, 
+\hyperlink{group__process_gga825233f1e8a1bd1e1eb99e1301f36a57a8b02f36385bd2fd5c4ce9efb7cbbb3a6}{S\-I\-G\-\_\-\-R\-E\-C\-V}, 
+\hyperlink{group__process_gga825233f1e8a1bd1e1eb99e1301f36a57a0a0794af19e3059b3f02ca0eaca785d3}{R\-U\-N\-E\-R\-R\-O\-R}
+ \}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{rtdal__types_8h_a9a6d36a76828ee198254e7084107ca38}{r\-\_\-proc\-\_\-t} \hyperlink{group__process_gaac39f57d3d63eca01423a7ffd95026e1}{rtdal\-\_\-process\-\_\-new} (struct \hyperlink{structrtdal__process__attr}{rtdal\-\_\-process\-\_\-attr} $\ast$attr, void $\ast$arg)
+\item 
+int \hyperlink{group__process_ga07991d97b2fdf23217553f20237fd1e3}{rtdal\-\_\-process\-\_\-remove} (\hyperlink{rtdal__types_8h_a9a6d36a76828ee198254e7084107ca38}{r\-\_\-proc\-\_\-t} proc)
+\item 
+int \hyperlink{group__process_ga5c4d6fda8cbcf1f0721e894fde223173}{rtdal\-\_\-process\-\_\-run} (\hyperlink{rtdal__types_8h_a9a6d36a76828ee198254e7084107ca38}{r\-\_\-proc\-\_\-t} proc)
+\item 
+int \hyperlink{group__process_gace4d20da04ac45fbc04974ad0345f18b}{rtdal\-\_\-process\-\_\-stop} (\hyperlink{rtdal__types_8h_a9a6d36a76828ee198254e7084107ca38}{r\-\_\-proc\-\_\-t} process)
+\item 
+int \hyperlink{group__process_ga62e8e5fe2fcbd59cfaf533663588e220}{rtdal\-\_\-process\-\_\-seterror} (\hyperlink{rtdal__types_8h_a9a6d36a76828ee198254e7084107ca38}{r\-\_\-proc\-\_\-t} proc, \hyperlink{group__process_ga825233f1e8a1bd1e1eb99e1301f36a57}{rtdal\-\_\-processerrors\-\_\-t} code)
+\item 
+\hyperlink{group__process_ga825233f1e8a1bd1e1eb99e1301f36a57}{rtdal\-\_\-processerrors\-\_\-t} \hyperlink{group__process_ga7d0ff5bc88da30e358e83fcf8485ea45}{rtdal\-\_\-process\-\_\-geterror} (\hyperlink{rtdal__types_8h_a9a6d36a76828ee198254e7084107ca38}{r\-\_\-proc\-\_\-t} proc)
+\item 
+int \hyperlink{group__process_ga7aea1116fc59481d09d02adad13ec5db}{rtdal\-\_\-process\-\_\-isrunning} (\hyperlink{rtdal__types_8h_a9a6d36a76828ee198254e7084107ca38}{r\-\_\-proc\-\_\-t} proc)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+\subsection{Enumeration Type Documentation}
+\hypertarget{group__process_ga825233f1e8a1bd1e1eb99e1301f36a57}{\index{Pipeline processes functions@{Pipeline processes functions}!rtdal\-\_\-processerrors\-\_\-t@{rtdal\-\_\-processerrors\-\_\-t}}
+\index{rtdal\-\_\-processerrors\-\_\-t@{rtdal\-\_\-processerrors\-\_\-t}!Pipeline processes functions@{Pipeline processes functions}}
+\subsubsection[{rtdal\-\_\-processerrors\-\_\-t}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf rtdal\-\_\-processerrors\-\_\-t}}}\label{group__process_ga825233f1e8a1bd1e1eb99e1301f36a57}
+\begin{Desc}
+\item[Enumerator\-: ]\par
+\begin{description}
+\index{F\-I\-N\-I\-S\-H\-\_\-\-O\-K@{F\-I\-N\-I\-S\-H\-\_\-\-O\-K}!Pipeline processes functions@{Pipeline processes functions}}\index{Pipeline processes functions@{Pipeline processes functions}!F\-I\-N\-I\-S\-H\-\_\-\-O\-K@{F\-I\-N\-I\-S\-H\-\_\-\-O\-K}}\item[{\em 
+\hypertarget{group__process_gga825233f1e8a1bd1e1eb99e1301f36a57a19307143c8bf8a95177f618b079e6f89}{F\-I\-N\-I\-S\-H\-\_\-\-O\-K}\label{group__process_gga825233f1e8a1bd1e1eb99e1301f36a57a19307143c8bf8a95177f618b079e6f89}
+}]The process is running or finished successfully \index{R\-T\-F\-A\-U\-L\-T@{R\-T\-F\-A\-U\-L\-T}!Pipeline processes functions@{Pipeline processes functions}}\index{Pipeline processes functions@{Pipeline processes functions}!R\-T\-F\-A\-U\-L\-T@{R\-T\-F\-A\-U\-L\-T}}\item[{\em 
+\hypertarget{group__process_gga825233f1e8a1bd1e1eb99e1301f36a57a6be012806ba282ac6ae296d79a7693ea}{R\-T\-F\-A\-U\-L\-T}\label{group__process_gga825233f1e8a1bd1e1eb99e1301f36a57a6be012806ba282ac6ae296d79a7693ea}
+}]The process missed the defined real-\/time deadline \index{S\-I\-G\-\_\-\-R\-E\-C\-V@{S\-I\-G\-\_\-\-R\-E\-C\-V}!Pipeline processes functions@{Pipeline processes functions}}\index{Pipeline processes functions@{Pipeline processes functions}!S\-I\-G\-\_\-\-R\-E\-C\-V@{S\-I\-G\-\_\-\-R\-E\-C\-V}}\item[{\em 
+\hypertarget{group__process_gga825233f1e8a1bd1e1eb99e1301f36a57a8b02f36385bd2fd5c4ce9efb7cbbb3a6}{S\-I\-G\-\_\-\-R\-E\-C\-V}\label{group__process_gga825233f1e8a1bd1e1eb99e1301f36a57a8b02f36385bd2fd5c4ce9efb7cbbb3a6}
+}]The process received a thread-\/specific signal (S\-I\-G\-S\-E\-G\-V, S\-I\-G\-I\-L\-L, S\-I\-G\-B\-U\-F or S\-I\-G\-F\-P\-E) \index{R\-U\-N\-E\-R\-R\-O\-R@{R\-U\-N\-E\-R\-R\-O\-R}!Pipeline processes functions@{Pipeline processes functions}}\index{Pipeline processes functions@{Pipeline processes functions}!R\-U\-N\-E\-R\-R\-O\-R@{R\-U\-N\-E\-R\-R\-O\-R}}\item[{\em 
+\hypertarget{group__process_gga825233f1e8a1bd1e1eb99e1301f36a57a0a0794af19e3059b3f02ca0eaca785d3}{R\-U\-N\-E\-R\-R\-O\-R}\label{group__process_gga825233f1e8a1bd1e1eb99e1301f36a57a0a0794af19e3059b3f02ca0eaca785d3}
+}]An error occured during process execution. This error is set manually using \hyperlink{group__process_ga62e8e5fe2fcbd59cfaf533663588e220}{rtdal\-\_\-process\-\_\-seterror()} \end{description}
+\end{Desc}
+
+
+
+Definition at line 49 of file rtdal.\-h.
+
+
+
+\subsection{Function Documentation}
+\hypertarget{group__process_ga7d0ff5bc88da30e358e83fcf8485ea45}{\index{Pipeline processes functions@{Pipeline processes functions}!rtdal\-\_\-process\-\_\-geterror@{rtdal\-\_\-process\-\_\-geterror}}
+\index{rtdal\-\_\-process\-\_\-geterror@{rtdal\-\_\-process\-\_\-geterror}!Pipeline processes functions@{Pipeline processes functions}}
+\subsubsection[{rtdal\-\_\-process\-\_\-geterror}]{\setlength{\rightskip}{0pt plus 5cm}{\bf rtdal\-\_\-processerrors\-\_\-t} rtdal\-\_\-process\-\_\-geterror (
+\begin{DoxyParamCaption}
+\item[{{\bf r\-\_\-proc\-\_\-t}}]{proc}
+\end{DoxyParamCaption}
+)}}\label{group__process_ga7d0ff5bc88da30e358e83fcf8485ea45}
+
+
+Definition at line 137 of file rtdal\-\_\-process.\-c.
+
+
+
+References \-\_\-rtdal\-\_\-process\-\_\-t\-::finish\-\_\-code, hdebug, \-\_\-rtdal\-\_\-process\-\_\-t\-::pid, and R\-T\-D\-A\-L\-\_\-\-A\-S\-S\-E\-R\-T\-\_\-\-P\-A\-R\-A\-M.
+
+\hypertarget{group__process_ga7aea1116fc59481d09d02adad13ec5db}{\index{Pipeline processes functions@{Pipeline processes functions}!rtdal\-\_\-process\-\_\-isrunning@{rtdal\-\_\-process\-\_\-isrunning}}
+\index{rtdal\-\_\-process\-\_\-isrunning@{rtdal\-\_\-process\-\_\-isrunning}!Pipeline processes functions@{Pipeline processes functions}}
+\subsubsection[{rtdal\-\_\-process\-\_\-isrunning}]{\setlength{\rightskip}{0pt plus 5cm}int rtdal\-\_\-process\-\_\-isrunning (
+\begin{DoxyParamCaption}
+\item[{{\bf r\-\_\-proc\-\_\-t}}]{proc}
+\end{DoxyParamCaption}
+)}}\label{group__process_ga7aea1116fc59481d09d02adad13ec5db}
+
+
+Definition at line 144 of file rtdal\-\_\-process.\-c.
+
+
+
+References hdebug, \-\_\-rtdal\-\_\-process\-\_\-t\-::is\-\_\-running, \-\_\-rtdal\-\_\-process\-\_\-t\-::pid, R\-T\-D\-A\-L\-\_\-\-A\-S\-S\-E\-R\-T\-\_\-\-P\-A\-R\-A\-M, and \-\_\-rtdal\-\_\-process\-\_\-t\-::runnable.
+
+\hypertarget{group__process_gaac39f57d3d63eca01423a7ffd95026e1}{\index{Pipeline processes functions@{Pipeline processes functions}!rtdal\-\_\-process\-\_\-new@{rtdal\-\_\-process\-\_\-new}}
+\index{rtdal\-\_\-process\-\_\-new@{rtdal\-\_\-process\-\_\-new}!Pipeline processes functions@{Pipeline processes functions}}
+\subsubsection[{rtdal\-\_\-process\-\_\-new}]{\setlength{\rightskip}{0pt plus 5cm}{\bf r\-\_\-proc\-\_\-t} rtdal\-\_\-process\-\_\-new (
+\begin{DoxyParamCaption}
+\item[{struct {\bf rtdal\-\_\-process\-\_\-attr} $\ast$}]{attr, }
+\item[{void $\ast$}]{arg}
+\end{DoxyParamCaption}
+)}}\label{group__process_gaac39f57d3d63eca01423a7ffd95026e1}
+Creates a new process to be executed in one of the kernel pipelines. The structure pointed by attr has the following options\-:
+\begin{DoxyItemize}
+\item binary\-\_\-path\-: Path to the shared library where the program code resides
+\item pipeline\-\_\-id\-: If the machine has more than one pipeline (e.\-g. in a multi-\/core system, it indicates to which the process will be loaded).
+\item exec\-\_\-position\-: Indicates the execution position in the pipeline.
+\item finish\-\_\-callback\-: If non-\/null, the kernel will call this function when the process finishes (normally or due to an error) its execution.
+\end{DoxyItemize}
+
+\hyperlink{group__process_gaac39f57d3d63eca01423a7ffd95026e1}{rtdal\-\_\-process\-\_\-new()} configures the process parameters and loads it into the pipeline. The process won't execute until a success call to \hyperlink{group__process_ga5c4d6fda8cbcf1f0721e894fde223173}{rtdal\-\_\-process\-\_\-run()} is performed.
+
+The address pointed by arg will be passed to the process as a parameter.
+
+Notes\-: The shared library must conform with the rtdal\-\_\-process\-\_\-t requirements.
+
+
+\begin{DoxyParams}{Parameters}
+{\em attr} & Configures the process attributes \\
+\hline
+{\em arg} & Argument to pass to the process each execution cycle \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+non-\/null value on success, zero on error 
+\end{DoxyReturn}
+
+
+Definition at line 318 of file rtdal\-\_\-base.\-c.
+
+
+
+References \-\_\-rtdal\-\_\-process\-\_\-t\-::arg, \-\_\-rtdal\-\_\-process\-\_\-t\-::attributes, rtdal\-\_\-process\-\_\-attr\-::exec\-\_\-position, rtdal\-\_\-process\-\_\-attr\-::finish\-\_\-callback, \-\_\-rtdal\-\_\-process\-\_\-t\-::finish\-\_\-code, F\-I\-N\-I\-S\-H\-\_\-\-O\-K, hdebug, M\-A\-X, M\-A\-X\-\_\-\-W\-A\-V\-E\-F\-O\-R\-M\-S, rtdal\-\_\-context\-\_\-t\-::mutex, \-\_\-rtdal\-\_\-process\-\_\-t\-::pid, pipeline\-\_\-add(), rtdal\-\_\-process\-\_\-attr\-::pipeline\-\_\-id, pipeline\-\_\-remove(), rtdal\-\_\-context\-\_\-t\-::pipelines, rtdal\-\_\-context\-\_\-t\-::processes, R\-T\-D\-A\-L\-\_\-\-A\-S\-S\-E\-R\-T\-\_\-\-P\-A\-R\-A\-M\-\_\-\-P, R\-T\-D\-A\-L\-\_\-\-E\-R\-R\-O\-R\-\_\-\-I\-N\-V\-A\-L, R\-T\-D\-A\-L\-\_\-\-E\-R\-R\-O\-R\-\_\-\-N\-O\-S\-P\-A\-C\-E, rtdal\-\_\-process\-\_\-launch(), R\-T\-D\-A\-L\-\_\-\-S\-E\-T\-E\-R\-R\-O\-R, rtdal\-\_\-process\-\_\-attr\-::waveform\-\_\-id, and waveforms\-\_\-notified\-\_\-failure.
+
+\hypertarget{group__process_ga07991d97b2fdf23217553f20237fd1e3}{\index{Pipeline processes functions@{Pipeline processes functions}!rtdal\-\_\-process\-\_\-remove@{rtdal\-\_\-process\-\_\-remove}}
+\index{rtdal\-\_\-process\-\_\-remove@{rtdal\-\_\-process\-\_\-remove}!Pipeline processes functions@{Pipeline processes functions}}
+\subsubsection[{rtdal\-\_\-process\-\_\-remove}]{\setlength{\rightskip}{0pt plus 5cm}int rtdal\-\_\-process\-\_\-remove (
+\begin{DoxyParamCaption}
+\item[{{\bf r\-\_\-proc\-\_\-t}}]{process}
+\end{DoxyParamCaption}
+)}}\label{group__process_ga07991d97b2fdf23217553f20237fd1e3}
+Removes a process from the system, previously loaded using \hyperlink{group__process_gaac39f57d3d63eca01423a7ffd95026e1}{rtdal\-\_\-process\-\_\-new()}. \hyperlink{group__process_ga07991d97b2fdf23217553f20237fd1e3}{rtdal\-\_\-process\-\_\-remove()} removes the process from the allocated pipeline and then unloads the program code from memory. After, if a finish\-\_\-callback function was provided in the process attributes during \hyperlink{group__process_gaac39f57d3d63eca01423a7ffd95026e1}{rtdal\-\_\-process\-\_\-new()}, it is now called.
+
+
+\begin{DoxyParams}{Parameters}
+{\em obj} & Pointer to the rtdal\-\_\-process\-\_\-t object. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Zero on success, -\/1 on error.
+\end{DoxyReturn}
+1) Call rtdal\-\_\-pipeline\-\_\-remove(self-\/$>$pipeline,self); 2) Call to dlclose(handle) 3) Set pid=0 4) if finish\-Callback!=null, call the function 
+
+Definition at line 73 of file rtdal\-\_\-process.\-c.
+
+
+
+References \-\_\-rtdal\-\_\-process\-\_\-t\-::dl\-\_\-handle, hdebug, \-\_\-rtdal\-\_\-process\-\_\-t\-::pid, \-\_\-rtdal\-\_\-process\-\_\-t\-::pipeline, pipeline\-\_\-remove(), and R\-T\-D\-A\-L\-\_\-\-A\-S\-S\-E\-R\-T\-\_\-\-P\-A\-R\-A\-M.
+
+\hypertarget{group__process_ga5c4d6fda8cbcf1f0721e894fde223173}{\index{Pipeline processes functions@{Pipeline processes functions}!rtdal\-\_\-process\-\_\-run@{rtdal\-\_\-process\-\_\-run}}
+\index{rtdal\-\_\-process\-\_\-run@{rtdal\-\_\-process\-\_\-run}!Pipeline processes functions@{Pipeline processes functions}}
+\subsubsection[{rtdal\-\_\-process\-\_\-run}]{\setlength{\rightskip}{0pt plus 5cm}int rtdal\-\_\-process\-\_\-run (
+\begin{DoxyParamCaption}
+\item[{{\bf r\-\_\-proc\-\_\-t}}]{process}
+\end{DoxyParamCaption}
+)}}\label{group__process_ga5c4d6fda8cbcf1f0721e894fde223173}
+Enables the execution of the process identified by the first argument. The process must have been previously loaded using \hyperlink{group__process_gaac39f57d3d63eca01423a7ffd95026e1}{rtdal\-\_\-process\-\_\-new()}. 
+\begin{DoxyParams}{Parameters}
+{\em process} & Handler to the process \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+zero on success, -\/1 on error 
+\end{DoxyReturn}
+
+
+Definition at line 107 of file rtdal\-\_\-process.\-c.
+
+
+
+References hdebug, \-\_\-rtdal\-\_\-process\-\_\-t\-::pid, R\-T\-D\-A\-L\-\_\-\-A\-S\-S\-E\-R\-T\-\_\-\-P\-A\-R\-A\-M, and \-\_\-rtdal\-\_\-process\-\_\-t\-::runnable.
+
+\hypertarget{group__process_ga62e8e5fe2fcbd59cfaf533663588e220}{\index{Pipeline processes functions@{Pipeline processes functions}!rtdal\-\_\-process\-\_\-seterror@{rtdal\-\_\-process\-\_\-seterror}}
+\index{rtdal\-\_\-process\-\_\-seterror@{rtdal\-\_\-process\-\_\-seterror}!Pipeline processes functions@{Pipeline processes functions}}
+\subsubsection[{rtdal\-\_\-process\-\_\-seterror}]{\setlength{\rightskip}{0pt plus 5cm}int rtdal\-\_\-process\-\_\-seterror (
+\begin{DoxyParamCaption}
+\item[{{\bf r\-\_\-proc\-\_\-t}}]{proc, }
+\item[{{\bf rtdal\-\_\-processerrors\-\_\-t}}]{code}
+\end{DoxyParamCaption}
+)}}\label{group__process_ga62e8e5fe2fcbd59cfaf533663588e220}
+
+
+Definition at line 129 of file rtdal\-\_\-process.\-c.
+
+
+
+References \-\_\-rtdal\-\_\-process\-\_\-t\-::finish\-\_\-code, hdebug, \-\_\-rtdal\-\_\-process\-\_\-t\-::pid, and R\-T\-D\-A\-L\-\_\-\-A\-S\-S\-E\-R\-T\-\_\-\-P\-A\-R\-A\-M.
+
+
+
+Referenced by pipeline\-\_\-recover\-\_\-thread().
+
+\hypertarget{group__process_gace4d20da04ac45fbc04974ad0345f18b}{\index{Pipeline processes functions@{Pipeline processes functions}!rtdal\-\_\-process\-\_\-stop@{rtdal\-\_\-process\-\_\-stop}}
+\index{rtdal\-\_\-process\-\_\-stop@{rtdal\-\_\-process\-\_\-stop}!Pipeline processes functions@{Pipeline processes functions}}
+\subsubsection[{rtdal\-\_\-process\-\_\-stop}]{\setlength{\rightskip}{0pt plus 5cm}int rtdal\-\_\-process\-\_\-stop (
+\begin{DoxyParamCaption}
+\item[{{\bf r\-\_\-proc\-\_\-t}}]{process}
+\end{DoxyParamCaption}
+)}}\label{group__process_gace4d20da04ac45fbc04974ad0345f18b}
+Disables the execution of the process identified by the first argument. The process must have been previously loaded using \hyperlink{group__process_gaac39f57d3d63eca01423a7ffd95026e1}{rtdal\-\_\-process\-\_\-new()}. 
+\begin{DoxyParams}{Parameters}
+{\em process} & Handler to the process \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+zero on success, -\/1 on error 
+\end{DoxyReturn}
+
+
+Definition at line 121 of file rtdal\-\_\-process.\-c.
+
+
+
+References hdebug, \-\_\-rtdal\-\_\-process\-\_\-t\-::pid, R\-T\-D\-A\-L\-\_\-\-A\-S\-S\-E\-R\-T\-\_\-\-P\-A\-R\-A\-M, and \-\_\-rtdal\-\_\-process\-\_\-t\-::runnable.
+

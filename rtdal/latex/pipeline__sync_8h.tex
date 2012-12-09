@@ -1,0 +1,101 @@
+\hypertarget{pipeline__sync_8h}{\section{/home/ismael/aloe\-\_\-ws/aloe\-\_\-git/rtdal\-\_\-lnx/src/pipeline\-\_\-sync.h File Reference}
+\label{pipeline__sync_8h}\index{/home/ismael/aloe\-\_\-ws/aloe\-\_\-git/rtdal\-\_\-lnx/src/pipeline\-\_\-sync.\-h@{/home/ismael/aloe\-\_\-ws/aloe\-\_\-git/rtdal\-\_\-lnx/src/pipeline\-\_\-sync.\-h}}
+}
+{\ttfamily \#include $<$pthread.\-h$>$}\\*
+{\ttfamily \#include $<$semaphore.\-h$>$}\\*
+{\ttfamily \#include \char`\"{}futex.\-h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}objects\-\_\-max.\-h\char`\"{}}\\*
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{pipeline__sync_8h_ade0b131dfc1356dc7bb032c5593709c0}{S\-E\-M}~1
+\item 
+\#define \hyperlink{pipeline__sync_8h_a82192e5816ace2191e7d678cd2e2c697}{F\-U\-T\-E\-X}~2
+\item 
+\#define \hyperlink{pipeline__sync_8h_abd39f207af925a92f1d11dd1880bb196}{B\-A\-R\-R\-I\-E\-R}~3
+\item 
+\#define \hyperlink{pipeline__sync_8h_acfd0dd1c7f3b9f986834441b4f06e70b}{P\-I\-P\-E\-L\-I\-N\-E\-S\-Y\-N\-C\-\_\-\-M\-U\-T\-E\-X\-\_\-\-T\-Y\-P\-E}~3
+\item 
+\#define \hyperlink{pipeline__sync_8h_a1f1d4f00bb4b2286c05e59854f53b6bd}{pipeline\-\_\-sync\-\_\-initialize\-\_\-}
+\item 
+\#define \hyperlink{pipeline__sync_8h_ad5159ca5b3cedcbb86e32ab3b278bcb9}{pipeline\-\_\-sync\-\_\-thread\-\_\-waits}(idx)~pthread\-\_\-barrier\-\_\-wait(\&barrier)
+\item 
+\#define \hyperlink{pipeline__sync_8h_a282cc7f3098c2e0dd3186218a7948203}{pipeline\-\_\-sync\-\_\-threads\-\_\-wake}()~pthread\-\_\-barrier\-\_\-wait(\&barrier)
+\end{DoxyCompactItemize}
+
+
+\subsection{Macro Definition Documentation}
+\hypertarget{pipeline__sync_8h_abd39f207af925a92f1d11dd1880bb196}{\index{pipeline\-\_\-sync.\-h@{pipeline\-\_\-sync.\-h}!B\-A\-R\-R\-I\-E\-R@{B\-A\-R\-R\-I\-E\-R}}
+\index{B\-A\-R\-R\-I\-E\-R@{B\-A\-R\-R\-I\-E\-R}!pipeline_sync.h@{pipeline\-\_\-sync.\-h}}
+\subsubsection[{B\-A\-R\-R\-I\-E\-R}]{\setlength{\rightskip}{0pt plus 5cm}\#define B\-A\-R\-R\-I\-E\-R~3}}\label{pipeline__sync_8h_abd39f207af925a92f1d11dd1880bb196}
+
+
+Definition at line 29 of file pipeline\-\_\-sync.\-h.
+
+\hypertarget{pipeline__sync_8h_a82192e5816ace2191e7d678cd2e2c697}{\index{pipeline\-\_\-sync.\-h@{pipeline\-\_\-sync.\-h}!F\-U\-T\-E\-X@{F\-U\-T\-E\-X}}
+\index{F\-U\-T\-E\-X@{F\-U\-T\-E\-X}!pipeline_sync.h@{pipeline\-\_\-sync.\-h}}
+\subsubsection[{F\-U\-T\-E\-X}]{\setlength{\rightskip}{0pt plus 5cm}\#define F\-U\-T\-E\-X~2}}\label{pipeline__sync_8h_a82192e5816ace2191e7d678cd2e2c697}
+
+
+Definition at line 28 of file pipeline\-\_\-sync.\-h.
+
+\hypertarget{pipeline__sync_8h_a1f1d4f00bb4b2286c05e59854f53b6bd}{\index{pipeline\-\_\-sync.\-h@{pipeline\-\_\-sync.\-h}!pipeline\-\_\-sync\-\_\-initialize\-\_\-@{pipeline\-\_\-sync\-\_\-initialize\-\_\-}}
+\index{pipeline\-\_\-sync\-\_\-initialize\-\_\-@{pipeline\-\_\-sync\-\_\-initialize\-\_\-}!pipeline_sync.h@{pipeline\-\_\-sync.\-h}}
+\subsubsection[{pipeline\-\_\-sync\-\_\-initialize\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}\#define pipeline\-\_\-sync\-\_\-initialize\-\_\-}}\label{pipeline__sync_8h_a1f1d4f00bb4b2286c05e59854f53b6bd}
+{\bfseries Value\-:}
+\begin{DoxyCode}
+pthread\_barrier\_init(&barrier, NULL, \(\backslash\)
+                (\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int}) num\_pipelines+1)
+\end{DoxyCode}
+
+
+Definition at line 52 of file pipeline\-\_\-sync.\-h.
+
+
+
+Referenced by pipeline\-\_\-initialize().
+
+\hypertarget{pipeline__sync_8h_ad5159ca5b3cedcbb86e32ab3b278bcb9}{\index{pipeline\-\_\-sync.\-h@{pipeline\-\_\-sync.\-h}!pipeline\-\_\-sync\-\_\-thread\-\_\-waits@{pipeline\-\_\-sync\-\_\-thread\-\_\-waits}}
+\index{pipeline\-\_\-sync\-\_\-thread\-\_\-waits@{pipeline\-\_\-sync\-\_\-thread\-\_\-waits}!pipeline_sync.h@{pipeline\-\_\-sync.\-h}}
+\subsubsection[{pipeline\-\_\-sync\-\_\-thread\-\_\-waits}]{\setlength{\rightskip}{0pt plus 5cm}\#define pipeline\-\_\-sync\-\_\-thread\-\_\-waits(
+\begin{DoxyParamCaption}
+\item[{}]{idx}
+\end{DoxyParamCaption}
+)~pthread\-\_\-barrier\-\_\-wait(\&barrier)}}\label{pipeline__sync_8h_ad5159ca5b3cedcbb86e32ab3b278bcb9}
+
+
+Definition at line 54 of file pipeline\-\_\-sync.\-h.
+
+
+
+Referenced by pipeline\-\_\-run\-\_\-thread().
+
+\hypertarget{pipeline__sync_8h_a282cc7f3098c2e0dd3186218a7948203}{\index{pipeline\-\_\-sync.\-h@{pipeline\-\_\-sync.\-h}!pipeline\-\_\-sync\-\_\-threads\-\_\-wake@{pipeline\-\_\-sync\-\_\-threads\-\_\-wake}}
+\index{pipeline\-\_\-sync\-\_\-threads\-\_\-wake@{pipeline\-\_\-sync\-\_\-threads\-\_\-wake}!pipeline_sync.h@{pipeline\-\_\-sync.\-h}}
+\subsubsection[{pipeline\-\_\-sync\-\_\-threads\-\_\-wake}]{\setlength{\rightskip}{0pt plus 5cm}\#define pipeline\-\_\-sync\-\_\-threads\-\_\-wake(
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)~pthread\-\_\-barrier\-\_\-wait(\&barrier)}}\label{pipeline__sync_8h_a282cc7f3098c2e0dd3186218a7948203}
+
+
+Definition at line 55 of file pipeline\-\_\-sync.\-h.
+
+
+
+Referenced by pipeline\-\_\-sync\-\_\-threads().
+
+\hypertarget{pipeline__sync_8h_acfd0dd1c7f3b9f986834441b4f06e70b}{\index{pipeline\-\_\-sync.\-h@{pipeline\-\_\-sync.\-h}!P\-I\-P\-E\-L\-I\-N\-E\-S\-Y\-N\-C\-\_\-\-M\-U\-T\-E\-X\-\_\-\-T\-Y\-P\-E@{P\-I\-P\-E\-L\-I\-N\-E\-S\-Y\-N\-C\-\_\-\-M\-U\-T\-E\-X\-\_\-\-T\-Y\-P\-E}}
+\index{P\-I\-P\-E\-L\-I\-N\-E\-S\-Y\-N\-C\-\_\-\-M\-U\-T\-E\-X\-\_\-\-T\-Y\-P\-E@{P\-I\-P\-E\-L\-I\-N\-E\-S\-Y\-N\-C\-\_\-\-M\-U\-T\-E\-X\-\_\-\-T\-Y\-P\-E}!pipeline_sync.h@{pipeline\-\_\-sync.\-h}}
+\subsubsection[{P\-I\-P\-E\-L\-I\-N\-E\-S\-Y\-N\-C\-\_\-\-M\-U\-T\-E\-X\-\_\-\-T\-Y\-P\-E}]{\setlength{\rightskip}{0pt plus 5cm}\#define P\-I\-P\-E\-L\-I\-N\-E\-S\-Y\-N\-C\-\_\-\-M\-U\-T\-E\-X\-\_\-\-T\-Y\-P\-E~3}}\label{pipeline__sync_8h_acfd0dd1c7f3b9f986834441b4f06e70b}
+
+
+Definition at line 30 of file pipeline\-\_\-sync.\-h.
+
+\hypertarget{pipeline__sync_8h_ade0b131dfc1356dc7bb032c5593709c0}{\index{pipeline\-\_\-sync.\-h@{pipeline\-\_\-sync.\-h}!S\-E\-M@{S\-E\-M}}
+\index{S\-E\-M@{S\-E\-M}!pipeline_sync.h@{pipeline\-\_\-sync.\-h}}
+\subsubsection[{S\-E\-M}]{\setlength{\rightskip}{0pt plus 5cm}\#define S\-E\-M~1}}\label{pipeline__sync_8h_ade0b131dfc1356dc7bb032c5593709c0}
+
+
+Definition at line 27 of file pipeline\-\_\-sync.\-h.
+

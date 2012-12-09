@@ -1,0 +1,61 @@
+\hypertarget{rtdal__itf_8c}{\section{/home/ismael/aloe\-\_\-ws/aloe\-\_\-git/rtdal\-\_\-lnx/src/rtdal\-\_\-itf.c File Reference}
+\label{rtdal__itf_8c}\index{/home/ismael/aloe\-\_\-ws/aloe\-\_\-git/rtdal\-\_\-lnx/src/rtdal\-\_\-itf.\-c@{/home/ismael/aloe\-\_\-ws/aloe\-\_\-git/rtdal\-\_\-lnx/src/rtdal\-\_\-itf.\-c}}
+}
+{\ttfamily \#include $<$stddef.\-h$>$}\\*
+{\ttfamily \#include \char`\"{}defs.\-h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}str.\-h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}rtdal\-\_\-itf.\-h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}rtdal\-\_\-itfspscq.\-h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}rtdal\-\_\-itfphysic.\-h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}rtdal.\-h\char`\"{}}\\*
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{rtdal__itf_8c_a999a3b1308afeedbcb5d414255bc4dc2}{call}(a,...)~if (obj-\/$>$is\-\_\-external) return rtdal\-\_\-itfphysic\-\_\-\#\#a(\-\_\-\-\_\-\-V\-A\-\_\-\-A\-R\-G\-S\-\_\-\-\_\-); else return rtdal\-\_\-itfspscq\-\_\-\#\#a(\-\_\-\-\_\-\-V\-A\-\_\-\-A\-R\-G\-S\-\_\-\-\_\-)
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+int \hyperlink{group__itf_gafb140bf855934bd721b7c9c2eafa53c7}{rtdal\-\_\-itf\-\_\-remove} (\hyperlink{rtdal__types_8h_a95fa1c8ca0f279eeb420f2083f6bee5d}{r\-\_\-itf\-\_\-t} obj)
+\item 
+int \hyperlink{group__itf_ga7013c5b24cc019f3112b341207f3d1ae}{rtdal\-\_\-itf\-\_\-recv} (\hyperlink{rtdal__types_8h_a95fa1c8ca0f279eeb420f2083f6bee5d}{r\-\_\-itf\-\_\-t} obj, void $\ast$buffer, int len)
+\begin{DoxyCompactList}\small\item\em Receives up to len bytes from the interface and stores the data in the memory pointed by buffer. \end{DoxyCompactList}\item 
+int \hyperlink{group__itf_ga2a6d148b7ab1e2de028d2ed9ff1eeced}{rtdal\-\_\-itf\-\_\-send} (\hyperlink{rtdal__types_8h_a95fa1c8ca0f279eeb420f2083f6bee5d}{r\-\_\-itf\-\_\-t} obj, void $\ast$buffer, int len)
+\begin{DoxyCompactList}\small\item\em Sends len bytes from the memory pointed by buffer through the interface After \hyperlink{rtdal__itfspscq_8c_acf2650b9b3bdd719c7a058252a0c5a97}{rtdal\-\_\-itfspscq\-\_\-send()} returns, the user may reuse the buffer. \end{DoxyCompactList}\item 
+int \hyperlink{group__itf_gabd0a2a54a5bc12226a90930ddccbc146}{rtdal\-\_\-itf\-\_\-set\-\_\-blocking} (\hyperlink{rtdal__types_8h_a95fa1c8ca0f279eeb420f2083f6bee5d}{r\-\_\-itf\-\_\-t} obj, int block)
+\item 
+int \hyperlink{group__itf_gaf0367f49b66b46e0b22af3ca9f30f34f}{rtdal\-\_\-itf\-\_\-get\-\_\-blocking} (\hyperlink{rtdal__types_8h_a95fa1c8ca0f279eeb420f2083f6bee5d}{r\-\_\-itf\-\_\-t} obj)
+\item 
+int \hyperlink{group__itf_ga1b5c9027dcbcd0a7c4940f95be94c8a2}{rtdal\-\_\-itf\-\_\-request} (\hyperlink{rtdal__types_8h_a95fa1c8ca0f279eeb420f2083f6bee5d}{r\-\_\-itf\-\_\-t} obj, void $\ast$$\ast$ptr)
+\begin{DoxyCompactList}\small\item\em Saves in ptr the address of the buffer that will be transmitted in a subsequent call to \hyperlink{rtdal__itfspscq_8c_a39616560d2408c77062a0b5b99a1a666}{rtdal\-\_\-itfspscq\-\_\-push()}. Two consecutive calls to \hyperlink{rtdal__itfspscq_8c_ad993aed16e1a3468f2cfc9de52a0b8ce}{rtdal\-\_\-itfspscq\-\_\-request()} return the same address until \hyperlink{rtdal__itfspscq_8c_a39616560d2408c77062a0b5b99a1a666}{rtdal\-\_\-itfspscq\-\_\-push()} is called. \end{DoxyCompactList}\item 
+int \hyperlink{group__itf_ga0f4987e78ffc6c4aae88f3c11fc0c99c}{rtdal\-\_\-itf\-\_\-release} (\hyperlink{rtdal__types_8h_a95fa1c8ca0f279eeb420f2083f6bee5d}{r\-\_\-itf\-\_\-t} obj)
+\begin{DoxyCompactList}\small\item\em Releases the packet received by \hyperlink{rtdal__itfspscq_8c_ac4327e041f6c5f07cfb5f53f726c1be2}{rtdal\-\_\-itfspscq\-\_\-pop()} after the contents have been processed. The buffer then will be reused by the producer. \end{DoxyCompactList}\item 
+int \hyperlink{group__itf_gab87fe53e0cb855f2633c07079721464e}{rtdal\-\_\-itf\-\_\-push} (\hyperlink{rtdal__types_8h_a95fa1c8ca0f279eeb420f2083f6bee5d}{r\-\_\-itf\-\_\-t} obj, int len)
+\begin{DoxyCompactList}\small\item\em Pushes the current packet to the interface. The contents of the packet are modified using the pointer returned by \hyperlink{rtdal__itfspscq_8c_ad993aed16e1a3468f2cfc9de52a0b8ce}{rtdal\-\_\-itfspscq\-\_\-request()}. \end{DoxyCompactList}\item 
+int \hyperlink{group__itf_ga2a083a0b484685e86b520381e394da8c}{rtdal\-\_\-itf\-\_\-pop} (\hyperlink{rtdal__types_8h_a95fa1c8ca0f279eeb420f2083f6bee5d}{r\-\_\-itf\-\_\-t} obj, void $\ast$$\ast$ptr, int $\ast$len)
+\begin{DoxyCompactList}\small\item\em Pops a packet from the interface. The address of the packet contents are saved in the ptr pointer and the useful number of bytes is saved in len. A packet will be received if the timestamp at transmission plus the interface delay is lower or equal to the current timestamp. \end{DoxyCompactList}\item 
+int \hyperlink{group__itf_ga61bc95f47b787b54c314ed1971739cdd}{rtdal\-\_\-itf\-\_\-set\-\_\-callback} (\hyperlink{rtdal__types_8h_a95fa1c8ca0f279eeb420f2083f6bee5d}{r\-\_\-itf\-\_\-t} obj, void($\ast$fnc)(void), int prio)
+\item 
+int \hyperlink{group__itf_gaca1f751874efdd55b1a3533a68bc0c9e}{rtdal\-\_\-itf\-\_\-set\-\_\-delay} (\hyperlink{rtdal__types_8h_a95fa1c8ca0f279eeb420f2083f6bee5d}{r\-\_\-itf\-\_\-t} obj, int delay)
+\item 
+int \hyperlink{group__itf_ga0875c6b0930d9522abf938d9fd90079d}{rtdal\-\_\-itf\-\_\-get\-\_\-delay} (\hyperlink{rtdal__types_8h_a95fa1c8ca0f279eeb420f2083f6bee5d}{r\-\_\-itf\-\_\-t} obj)
+\end{DoxyCompactItemize}
+
+
+\subsection{Macro Definition Documentation}
+\hypertarget{rtdal__itf_8c_a999a3b1308afeedbcb5d414255bc4dc2}{\index{rtdal\-\_\-itf.\-c@{rtdal\-\_\-itf.\-c}!call@{call}}
+\index{call@{call}!rtdal_itf.c@{rtdal\-\_\-itf.\-c}}
+\subsubsection[{call}]{\setlength{\rightskip}{0pt plus 5cm}\#define call(
+\begin{DoxyParamCaption}
+\item[{}]{a, }
+\item[{}]{...}
+\end{DoxyParamCaption}
+)~if (obj-\/$>$is\-\_\-external) return rtdal\-\_\-itfphysic\-\_\-\#\#a(\-\_\-\-\_\-\-V\-A\-\_\-\-A\-R\-G\-S\-\_\-\-\_\-); else return rtdal\-\_\-itfspscq\-\_\-\#\#a(\-\_\-\-\_\-\-V\-A\-\_\-\-A\-R\-G\-S\-\_\-\-\_\-)}}\label{rtdal__itf_8c_a999a3b1308afeedbcb5d414255bc4dc2}
+
+
+Definition at line 27 of file rtdal\-\_\-itf.\-c.
+
+
+
+Referenced by rtdal\-\_\-itf\-\_\-get\-\_\-blocking(), rtdal\-\_\-itf\-\_\-get\-\_\-delay(), rtdal\-\_\-itf\-\_\-pop(), rtdal\-\_\-itf\-\_\-push(), rtdal\-\_\-itf\-\_\-recv(), rtdal\-\_\-itf\-\_\-release(), rtdal\-\_\-itf\-\_\-remove(), rtdal\-\_\-itf\-\_\-request(), rtdal\-\_\-itf\-\_\-send(), rtdal\-\_\-itf\-\_\-set\-\_\-blocking(), rtdal\-\_\-itf\-\_\-set\-\_\-callback(), and rtdal\-\_\-itf\-\_\-set\-\_\-delay().
+

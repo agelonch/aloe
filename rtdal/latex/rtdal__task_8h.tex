@@ -1,0 +1,122 @@
+\hypertarget{rtdal__task_8h}{\section{/home/ismael/aloe\-\_\-ws/aloe\-\_\-git/rtdal\-\_\-lnx/src/rtdal\-\_\-task.h File Reference}
+\label{rtdal__task_8h}\index{/home/ismael/aloe\-\_\-ws/aloe\-\_\-git/rtdal\-\_\-lnx/src/rtdal\-\_\-task.\-h@{/home/ismael/aloe\-\_\-ws/aloe\-\_\-git/rtdal\-\_\-lnx/src/rtdal\-\_\-task.\-h}}
+}
+{\ttfamily \#include $<$pthread.\-h$>$}\\*
+{\ttfamily \#include \char`\"{}rtdal.\-h\char`\"{}}\\*
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{rtdal__task_8h_aa94dab58a5ddaf832246d88d0d0e4283}{T\-A\-S\-K\-\_\-\-D\-E\-F\-A\-U\-L\-T\-\_\-\-P\-R\-I\-O\-R\-I\-T\-Y}~10
+\item 
+\#define \hyperlink{rtdal__task_8h_a0ed3c98ba91b172573aab5dc9e46d5e7}{T\-A\-S\-K\-\_\-\-D\-E\-F\-A\-U\-L\-T\-\_\-\-C\-P\-U\-I\-D}~-\/1
+\end{DoxyCompactItemize}
+\subsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{rtdal__task_8h_aaf59da5bf3d7171c755ef30ea8c37f7e}{rtdal\-\_\-task\-\_\-type} \{ \hyperlink{rtdal__task_8h_aaf59da5bf3d7171c755ef30ea8c37f7ead63d498957ccccbaf0293fafc885da75}{D\-E\-T\-A\-C\-H\-A\-B\-L\-E}, 
+\hyperlink{rtdal__task_8h_aaf59da5bf3d7171c755ef30ea8c37f7ea95e3221d7fa874623eb789940f39c932}{J\-O\-I\-N\-A\-B\-L\-E}
+ \}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+int \hyperlink{rtdal__task_8h_ad3b58671016cbe5119ebc37c0ba17700}{rtdal\-\_\-task\-\_\-new\-\_\-thread} (pthread\-\_\-t $\ast$thread, void $\ast$($\ast$fnc)(void $\ast$), void $\ast$arg, enum \hyperlink{rtdal__task_8h_aaf59da5bf3d7171c755ef30ea8c37f7e}{rtdal\-\_\-task\-\_\-type} type, int prio, int cpu, int unblock\-\_\-signals)
+\item 
+int \hyperlink{rtdal__task_8h_a20caf9c9982694cab8848c98a3f1131b}{rtdal\-\_\-task\-\_\-new\-\_\-prio} (\hyperlink{rtdal__types_8h_a30e668fd84aa9b5dacaa84e2bcfde194}{r\-\_\-task\-\_\-t} $\ast$task, void $\ast$($\ast$fnc)(void $\ast$), void $\ast$arg, int prio, int cpu)
+\end{DoxyCompactItemize}
+
+
+\subsection{Macro Definition Documentation}
+\hypertarget{rtdal__task_8h_a0ed3c98ba91b172573aab5dc9e46d5e7}{\index{rtdal\-\_\-task.\-h@{rtdal\-\_\-task.\-h}!T\-A\-S\-K\-\_\-\-D\-E\-F\-A\-U\-L\-T\-\_\-\-C\-P\-U\-I\-D@{T\-A\-S\-K\-\_\-\-D\-E\-F\-A\-U\-L\-T\-\_\-\-C\-P\-U\-I\-D}}
+\index{T\-A\-S\-K\-\_\-\-D\-E\-F\-A\-U\-L\-T\-\_\-\-C\-P\-U\-I\-D@{T\-A\-S\-K\-\_\-\-D\-E\-F\-A\-U\-L\-T\-\_\-\-C\-P\-U\-I\-D}!rtdal_task.h@{rtdal\-\_\-task.\-h}}
+\subsubsection[{T\-A\-S\-K\-\_\-\-D\-E\-F\-A\-U\-L\-T\-\_\-\-C\-P\-U\-I\-D}]{\setlength{\rightskip}{0pt plus 5cm}\#define T\-A\-S\-K\-\_\-\-D\-E\-F\-A\-U\-L\-T\-\_\-\-C\-P\-U\-I\-D~-\/1}}\label{rtdal__task_8h_a0ed3c98ba91b172573aab5dc9e46d5e7}
+
+
+Definition at line 23 of file rtdal\-\_\-task.\-h.
+
+
+
+Referenced by rtdal\-\_\-task\-\_\-new().
+
+\hypertarget{rtdal__task_8h_aa94dab58a5ddaf832246d88d0d0e4283}{\index{rtdal\-\_\-task.\-h@{rtdal\-\_\-task.\-h}!T\-A\-S\-K\-\_\-\-D\-E\-F\-A\-U\-L\-T\-\_\-\-P\-R\-I\-O\-R\-I\-T\-Y@{T\-A\-S\-K\-\_\-\-D\-E\-F\-A\-U\-L\-T\-\_\-\-P\-R\-I\-O\-R\-I\-T\-Y}}
+\index{T\-A\-S\-K\-\_\-\-D\-E\-F\-A\-U\-L\-T\-\_\-\-P\-R\-I\-O\-R\-I\-T\-Y@{T\-A\-S\-K\-\_\-\-D\-E\-F\-A\-U\-L\-T\-\_\-\-P\-R\-I\-O\-R\-I\-T\-Y}!rtdal_task.h@{rtdal\-\_\-task.\-h}}
+\subsubsection[{T\-A\-S\-K\-\_\-\-D\-E\-F\-A\-U\-L\-T\-\_\-\-P\-R\-I\-O\-R\-I\-T\-Y}]{\setlength{\rightskip}{0pt plus 5cm}\#define T\-A\-S\-K\-\_\-\-D\-E\-F\-A\-U\-L\-T\-\_\-\-P\-R\-I\-O\-R\-I\-T\-Y~10}}\label{rtdal__task_8h_aa94dab58a5ddaf832246d88d0d0e4283}
+
+
+Definition at line 22 of file rtdal\-\_\-task.\-h.
+
+
+
+Referenced by rtdal\-\_\-task\-\_\-new(), and rtdal\-\_\-task\-\_\-new\-\_\-thread().
+
+
+
+\subsection{Enumeration Type Documentation}
+\hypertarget{rtdal__task_8h_aaf59da5bf3d7171c755ef30ea8c37f7e}{\index{rtdal\-\_\-task.\-h@{rtdal\-\_\-task.\-h}!rtdal\-\_\-task\-\_\-type@{rtdal\-\_\-task\-\_\-type}}
+\index{rtdal\-\_\-task\-\_\-type@{rtdal\-\_\-task\-\_\-type}!rtdal_task.h@{rtdal\-\_\-task.\-h}}
+\subsubsection[{rtdal\-\_\-task\-\_\-type}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf rtdal\-\_\-task\-\_\-type}}}\label{rtdal__task_8h_aaf59da5bf3d7171c755ef30ea8c37f7e}
+\begin{Desc}
+\item[Enumerator\-: ]\par
+\begin{description}
+\index{D\-E\-T\-A\-C\-H\-A\-B\-L\-E@{D\-E\-T\-A\-C\-H\-A\-B\-L\-E}!rtdal\-\_\-task.\-h@{rtdal\-\_\-task.\-h}}\index{rtdal\-\_\-task.\-h@{rtdal\-\_\-task.\-h}!D\-E\-T\-A\-C\-H\-A\-B\-L\-E@{D\-E\-T\-A\-C\-H\-A\-B\-L\-E}}\item[{\em 
+\hypertarget{rtdal__task_8h_aaf59da5bf3d7171c755ef30ea8c37f7ead63d498957ccccbaf0293fafc885da75}{D\-E\-T\-A\-C\-H\-A\-B\-L\-E}\label{rtdal__task_8h_aaf59da5bf3d7171c755ef30ea8c37f7ead63d498957ccccbaf0293fafc885da75}
+}]\index{J\-O\-I\-N\-A\-B\-L\-E@{J\-O\-I\-N\-A\-B\-L\-E}!rtdal\-\_\-task.\-h@{rtdal\-\_\-task.\-h}}\index{rtdal\-\_\-task.\-h@{rtdal\-\_\-task.\-h}!J\-O\-I\-N\-A\-B\-L\-E@{J\-O\-I\-N\-A\-B\-L\-E}}\item[{\em 
+\hypertarget{rtdal__task_8h_aaf59da5bf3d7171c755ef30ea8c37f7ea95e3221d7fa874623eb789940f39c932}{J\-O\-I\-N\-A\-B\-L\-E}\label{rtdal__task_8h_aaf59da5bf3d7171c755ef30ea8c37f7ea95e3221d7fa874623eb789940f39c932}
+}]\end{description}
+\end{Desc}
+
+
+
+Definition at line 28 of file rtdal\-\_\-task.\-h.
+
+
+
+\subsection{Function Documentation}
+\hypertarget{rtdal__task_8h_a20caf9c9982694cab8848c98a3f1131b}{\index{rtdal\-\_\-task.\-h@{rtdal\-\_\-task.\-h}!rtdal\-\_\-task\-\_\-new\-\_\-prio@{rtdal\-\_\-task\-\_\-new\-\_\-prio}}
+\index{rtdal\-\_\-task\-\_\-new\-\_\-prio@{rtdal\-\_\-task\-\_\-new\-\_\-prio}!rtdal_task.h@{rtdal\-\_\-task.\-h}}
+\subsubsection[{rtdal\-\_\-task\-\_\-new\-\_\-prio}]{\setlength{\rightskip}{0pt plus 5cm}int rtdal\-\_\-task\-\_\-new\-\_\-prio (
+\begin{DoxyParamCaption}
+\item[{{\bf r\-\_\-task\-\_\-t} $\ast$}]{task, }
+\item[{void $\ast$($\ast$)(void $\ast$)}]{fnc, }
+\item[{void $\ast$}]{arg, }
+\item[{int}]{prio, }
+\item[{int}]{cpu}
+\end{DoxyParamCaption}
+)}}\label{rtdal__task_8h_a20caf9c9982694cab8848c98a3f1131b}
+All threads are created with detachable state. 
+
+Definition at line 78 of file rtdal\-\_\-task.\-c.
+
+
+
+References D\-E\-T\-A\-C\-H\-A\-B\-L\-E, J\-O\-I\-N\-A\-B\-L\-E, and rtdal\-\_\-task\-\_\-new\-\_\-thread().
+
+
+
+Referenced by rtdal\-\_\-task\-\_\-new().
+
+\hypertarget{rtdal__task_8h_ad3b58671016cbe5119ebc37c0ba17700}{\index{rtdal\-\_\-task.\-h@{rtdal\-\_\-task.\-h}!rtdal\-\_\-task\-\_\-new\-\_\-thread@{rtdal\-\_\-task\-\_\-new\-\_\-thread}}
+\index{rtdal\-\_\-task\-\_\-new\-\_\-thread@{rtdal\-\_\-task\-\_\-new\-\_\-thread}!rtdal_task.h@{rtdal\-\_\-task.\-h}}
+\subsubsection[{rtdal\-\_\-task\-\_\-new\-\_\-thread}]{\setlength{\rightskip}{0pt plus 5cm}int rtdal\-\_\-task\-\_\-new\-\_\-thread (
+\begin{DoxyParamCaption}
+\item[{pthread\-\_\-t $\ast$}]{thread, }
+\item[{void $\ast$($\ast$)(void $\ast$)}]{fnc, }
+\item[{void $\ast$}]{arg, }
+\item[{enum {\bf rtdal\-\_\-task\-\_\-type}}]{type, }
+\item[{int}]{prio, }
+\item[{int}]{cpu, }
+\item[{int}]{unblock\-\_\-signals}
+\end{DoxyParamCaption}
+)}}\label{rtdal__task_8h_ad3b58671016cbe5119ebc37c0ba17700}
+
+
+Definition at line 95 of file rtdal\-\_\-task.\-c.
+
+
+
+References awarn, core\-\_\-mapping, D\-E\-T\-A\-C\-H\-A\-B\-L\-E, hdebug, nof\-\_\-cores, R\-T\-D\-A\-L\-\_\-\-A\-S\-S\-E\-R\-T\-\_\-\-P\-A\-R\-A\-M, R\-T\-D\-A\-L\-\_\-\-P\-O\-S\-E\-R\-R\-O\-R, and T\-A\-S\-K\-\_\-\-D\-E\-F\-A\-U\-L\-T\-\_\-\-P\-R\-I\-O\-R\-I\-T\-Y.
+
+
+
+Referenced by kernel\-\_\-initialize\-\_\-create\-\_\-pipeline(), and rtdal\-\_\-task\-\_\-new\-\_\-prio().
+

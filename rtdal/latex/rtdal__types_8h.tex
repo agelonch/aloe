@@ -1,0 +1,78 @@
+\hypertarget{rtdal__types_8h}{\section{/home/ismael/aloe\-\_\-ws/aloe\-\_\-git/rtdal\-\_\-lnx/include/rtdal\-\_\-types.h File Reference}
+\label{rtdal__types_8h}\index{/home/ismael/aloe\-\_\-ws/aloe\-\_\-git/rtdal\-\_\-lnx/include/rtdal\-\_\-types.\-h@{/home/ismael/aloe\-\_\-ws/aloe\-\_\-git/rtdal\-\_\-lnx/include/rtdal\-\_\-types.\-h}}
+}
+{\ttfamily \#include $<$pthread.\-h$>$}\\*
+{\ttfamily \#include $<$sys/time.\-h$>$}\\*
+{\ttfamily \#include \char`\"{}str.\-h\char`\"{}}\\*
+\subsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structh__proc__}{h\-\_\-proc\-\_\-}
+\item 
+struct \hyperlink{structrtdal__process__attr}{rtdal\-\_\-process\-\_\-attr}
+\item 
+struct \hyperlink{structh__itf__}{h\-\_\-itf\-\_\-}
+\item 
+struct \hyperlink{structh__dac__}{h\-\_\-dac\-\_\-}
+\end{DoxyCompactItemize}
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{rtdal__types_8h_a7157cbb87d46be33f7f913fa09144900}{time\-\_\-t}~struct timeval
+\end{DoxyCompactItemize}
+\subsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef struct \hyperlink{structh__proc__}{h\-\_\-proc\-\_\-} $\ast$ \hyperlink{rtdal__types_8h_a9a6d36a76828ee198254e7084107ca38}{r\-\_\-proc\-\_\-t}
+\item 
+typedef struct \hyperlink{structh__itf__}{h\-\_\-itf\-\_\-} $\ast$ \hyperlink{rtdal__types_8h_a95fa1c8ca0f279eeb420f2083f6bee5d}{r\-\_\-itf\-\_\-t}
+\item 
+typedef struct \hyperlink{structh__dac__}{h\-\_\-dac\-\_\-} $\ast$ \hyperlink{rtdal__types_8h_aa78f7bbd07935ad587fc182f06d4314c}{r\-\_\-dac\-\_\-t}
+\item 
+typedef pthread\-\_\-t \hyperlink{rtdal__types_8h_a30e668fd84aa9b5dacaa84e2bcfde194}{r\-\_\-task\-\_\-t}
+\end{DoxyCompactItemize}
+
+
+\subsection{Macro Definition Documentation}
+\hypertarget{rtdal__types_8h_a7157cbb87d46be33f7f913fa09144900}{\index{rtdal\-\_\-types.\-h@{rtdal\-\_\-types.\-h}!time\-\_\-t@{time\-\_\-t}}
+\index{time\-\_\-t@{time\-\_\-t}!rtdal_types.h@{rtdal\-\_\-types.\-h}}
+\subsubsection[{time\-\_\-t}]{\setlength{\rightskip}{0pt plus 5cm}\#define time\-\_\-t~struct timeval}}\label{rtdal__types_8h_a7157cbb87d46be33f7f913fa09144900}
+
+
+Definition at line 24 of file rtdal\-\_\-types.\-h.
+
+
+
+Referenced by pipeline\-\_\-run\-\_\-from\-\_\-timer(), rtdal\-\_\-time\-\_\-get(), and rtdal\-\_\-time\-\_\-set().
+
+
+
+\subsection{Typedef Documentation}
+\hypertarget{rtdal__types_8h_aa78f7bbd07935ad587fc182f06d4314c}{\index{rtdal\-\_\-types.\-h@{rtdal\-\_\-types.\-h}!r\-\_\-dac\-\_\-t@{r\-\_\-dac\-\_\-t}}
+\index{r\-\_\-dac\-\_\-t@{r\-\_\-dac\-\_\-t}!rtdal_types.h@{rtdal\-\_\-types.\-h}}
+\subsubsection[{r\-\_\-dac\-\_\-t}]{\setlength{\rightskip}{0pt plus 5cm}typedef struct {\bf h\-\_\-dac\-\_\-}$\ast$ {\bf r\-\_\-dac\-\_\-t}}}\label{rtdal__types_8h_aa78f7bbd07935ad587fc182f06d4314c}
+
+
+Definition at line 54 of file rtdal\-\_\-types.\-h.
+
+\hypertarget{rtdal__types_8h_a95fa1c8ca0f279eeb420f2083f6bee5d}{\index{rtdal\-\_\-types.\-h@{rtdal\-\_\-types.\-h}!r\-\_\-itf\-\_\-t@{r\-\_\-itf\-\_\-t}}
+\index{r\-\_\-itf\-\_\-t@{r\-\_\-itf\-\_\-t}!rtdal_types.h@{rtdal\-\_\-types.\-h}}
+\subsubsection[{r\-\_\-itf\-\_\-t}]{\setlength{\rightskip}{0pt plus 5cm}typedef struct {\bf h\-\_\-itf\-\_\-}$\ast$ {\bf r\-\_\-itf\-\_\-t}}}\label{rtdal__types_8h_a95fa1c8ca0f279eeb420f2083f6bee5d}
+
+
+Definition at line 48 of file rtdal\-\_\-types.\-h.
+
+\hypertarget{rtdal__types_8h_a9a6d36a76828ee198254e7084107ca38}{\index{rtdal\-\_\-types.\-h@{rtdal\-\_\-types.\-h}!r\-\_\-proc\-\_\-t@{r\-\_\-proc\-\_\-t}}
+\index{r\-\_\-proc\-\_\-t@{r\-\_\-proc\-\_\-t}!rtdal_types.h@{rtdal\-\_\-types.\-h}}
+\subsubsection[{r\-\_\-proc\-\_\-t}]{\setlength{\rightskip}{0pt plus 5cm}typedef struct {\bf h\-\_\-proc\-\_\-}$\ast$ {\bf r\-\_\-proc\-\_\-t}}}\label{rtdal__types_8h_a9a6d36a76828ee198254e7084107ca38}
+
+
+Definition at line 31 of file rtdal\-\_\-types.\-h.
+
+\hypertarget{rtdal__types_8h_a30e668fd84aa9b5dacaa84e2bcfde194}{\index{rtdal\-\_\-types.\-h@{rtdal\-\_\-types.\-h}!r\-\_\-task\-\_\-t@{r\-\_\-task\-\_\-t}}
+\index{r\-\_\-task\-\_\-t@{r\-\_\-task\-\_\-t}!rtdal_types.h@{rtdal\-\_\-types.\-h}}
+\subsubsection[{r\-\_\-task\-\_\-t}]{\setlength{\rightskip}{0pt plus 5cm}typedef pthread\-\_\-t {\bf r\-\_\-task\-\_\-t}}}\label{rtdal__types_8h_a30e668fd84aa9b5dacaa84e2bcfde194}
+
+
+Definition at line 56 of file rtdal\-\_\-types.\-h.
+

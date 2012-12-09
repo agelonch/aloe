@@ -1,0 +1,61 @@
+\hypertarget{rtdal__process_8h}{\section{/home/ismael/aloe\-\_\-ws/aloe\-\_\-git/rtdal\-\_\-lnx/src/rtdal\-\_\-process.h File Reference}
+\label{rtdal__process_8h}\index{/home/ismael/aloe\-\_\-ws/aloe\-\_\-git/rtdal\-\_\-lnx/src/rtdal\-\_\-process.\-h@{/home/ismael/aloe\-\_\-ws/aloe\-\_\-git/rtdal\-\_\-lnx/src/rtdal\-\_\-process.\-h}}
+}
+{\ttfamily \#include \char`\"{}str.\-h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}rtdal\-\_\-types.\-h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}rtdal.\-h\char`\"{}}\\*
+\subsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{struct__rtdal__process__t}{\-\_\-rtdal\-\_\-process\-\_\-t}
+\end{DoxyCompactItemize}
+\subsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef struct \hyperlink{struct__rtdal__process__t}{\-\_\-rtdal\-\_\-process\-\_\-t} \hyperlink{rtdal__process_8h_aae6bdd48dcdbb9e74bbfb3dd6cd72b2a}{rtdal\-\_\-process\-\_\-t}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+int \hyperlink{rtdal__process_8h_a4cc9b7fc25c32f035e1779e47fb3b308}{rtdal\-\_\-process\-\_\-launch} (\hyperlink{rtdal__process_8h_aae6bdd48dcdbb9e74bbfb3dd6cd72b2a}{rtdal\-\_\-process\-\_\-t} $\ast$proc)
+\end{DoxyCompactItemize}
+
+
+\subsection{Typedef Documentation}
+\hypertarget{rtdal__process_8h_aae6bdd48dcdbb9e74bbfb3dd6cd72b2a}{\index{rtdal\-\_\-process.\-h@{rtdal\-\_\-process.\-h}!rtdal\-\_\-process\-\_\-t@{rtdal\-\_\-process\-\_\-t}}
+\index{rtdal\-\_\-process\-\_\-t@{rtdal\-\_\-process\-\_\-t}!rtdal_process.h@{rtdal\-\_\-process.\-h}}
+\subsubsection[{rtdal\-\_\-process\-\_\-t}]{\setlength{\rightskip}{0pt plus 5cm}typedef struct {\bf \-\_\-rtdal\-\_\-process\-\_\-t} {\bf rtdal\-\_\-process\-\_\-t}}}\label{rtdal__process_8h_aae6bdd48dcdbb9e74bbfb3dd6cd72b2a}
+
+
+Definition at line 50 of file rtdal\-\_\-process.\-h.
+
+
+
+\subsection{Function Documentation}
+\hypertarget{rtdal__process_8h_a4cc9b7fc25c32f035e1779e47fb3b308}{\index{rtdal\-\_\-process.\-h@{rtdal\-\_\-process.\-h}!rtdal\-\_\-process\-\_\-launch@{rtdal\-\_\-process\-\_\-launch}}
+\index{rtdal\-\_\-process\-\_\-launch@{rtdal\-\_\-process\-\_\-launch}!rtdal_process.h@{rtdal\-\_\-process.\-h}}
+\subsubsection[{rtdal\-\_\-process\-\_\-launch}]{\setlength{\rightskip}{0pt plus 5cm}int rtdal\-\_\-process\-\_\-launch (
+\begin{DoxyParamCaption}
+\item[{{\bf rtdal\-\_\-process\-\_\-t} $\ast$}]{obj}
+\end{DoxyParamCaption}
+)}}\label{rtdal__process_8h_a4cc9b7fc25c32f035e1779e47fb3b308}
+Loads a process binary into memory. The process must have been created using \hyperlink{group__process_gaac39f57d3d63eca01423a7ffd95026e1}{rtdal\-\_\-process\-\_\-new()}. This function loads the library defined in the process attributes during the call to \hyperlink{group__process_gaac39f57d3d63eca01423a7ffd95026e1}{rtdal\-\_\-process\-\_\-new()}. 
+\begin{DoxyParams}{Parameters}
+{\em obj} & Pointer to the rtdal\-\_\-process\-\_\-t object. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Zero on success, -\/1 on error. 
+\end{DoxyReturn}
+
+
+Definition at line 35 of file rtdal\-\_\-process.\-c.
+
+
+
+References \-\_\-rtdal\-\_\-process\-\_\-t\-::attributes, \-\_\-rtdal\-\_\-process\-\_\-t\-::dl\-\_\-handle, hdebug, L\-S\-T\-R\-\_\-\-L\-E\-N, R\-T\-D\-A\-L\-\_\-\-A\-S\-S\-E\-R\-T\-\_\-\-P\-A\-R\-A\-M, R\-T\-D\-A\-L\-\_\-\-D\-L\-E\-R\-R\-O\-R, and \-\_\-rtdal\-\_\-process\-\_\-t\-::run\-\_\-point.
+
+
+
+Referenced by rtdal\-\_\-process\-\_\-new().
+

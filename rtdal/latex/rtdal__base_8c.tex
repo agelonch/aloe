@@ -1,0 +1,96 @@
+\hypertarget{rtdal__base_8c}{\section{/home/ismael/aloe\-\_\-ws/aloe\-\_\-git/rtdal\-\_\-lnx/src/rtdal\-\_\-base.c File Reference}
+\label{rtdal__base_8c}\index{/home/ismael/aloe\-\_\-ws/aloe\-\_\-git/rtdal\-\_\-lnx/src/rtdal\-\_\-base.\-c@{/home/ismael/aloe\-\_\-ws/aloe\-\_\-git/rtdal\-\_\-lnx/src/rtdal\-\_\-base.\-c}}
+}
+{\ttfamily \#include $<$stddef.\-h$>$}\\*
+{\ttfamily \#include $<$unistd.\-h$>$}\\*
+{\ttfamily \#include $<$time.\-h$>$}\\*
+{\ttfamily \#include \char`\"{}defs.\-h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}str.\-h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}rtdal\-\_\-kernel.\-h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}objects\-\_\-max.\-h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}rtdal\-\_\-context.\-h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}rtdal\-\_\-time.\-h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}rtdal\-\_\-file.\-h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}rtdal\-\_\-error.\-h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}rtdal.\-h\char`\"{}}\\*
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{group__other_gad4464c3f3b8bfd7988e04fbcfd4b1a7e}{rtdal\-\_\-machine} (\hyperlink{structrtdal__machine__t}{rtdal\-\_\-machine\-\_\-t} $\ast$machine)
+\begin{DoxyCompactList}\small\item\em Writes the machine structure into the buffer pointed by $\ast$machine. \end{DoxyCompactList}\item 
+int \hyperlink{rtdal__base_8c_acf471993b90b562066b9e1100406d1c6}{rtdal\-\_\-initialize\-\_\-node} (\hyperlink{structrtdal__context__t}{rtdal\-\_\-context\-\_\-t} $\ast$\-\_\-context, \hyperlink{str_8h_a25093e36e9fb377b246945a84745823f}{string} config\-\_\-file, void($\ast$ts\-\_\-begin\-\_\-fnc)(void))
+\item 
+int \hyperlink{rtdal__base_8c_ac463f8bb697321e0d970ad0f7908291a}{rtdal\-\_\-start\-\_\-manager\-\_\-interfaces} (\hyperlink{str_8h_a25093e36e9fb377b246945a84745823f}{string} config\-\_\-file)
+\item 
+int \hyperlink{group__period_ga4cabb39c9b910f46cbc27b26a5e577b8}{rtdal\-\_\-periodic\-\_\-add} (void($\ast$callback)(void), int period)
+\item 
+int \hyperlink{group__period_gaa7d670c916d527839e1d72db60bfeb4c}{rtdal\-\_\-periodic\-\_\-remove} (void($\ast$callback)(void))
+\item 
+int \hyperlink{group__other_ga3aa3576db287b77dbbcb8e49095ee0a2}{rtdal\-\_\-sleep} (\hyperlink{rtdal__types_8h_a7157cbb87d46be33f7f913fa09144900}{time\-\_\-t} $\ast$t)
+\begin{DoxyCompactList}\small\item\em sleep the calling thread for the time specified by the time\-\_\-t structure. \end{DoxyCompactList}\item 
+\hyperlink{rtdal__types_8h_a95fa1c8ca0f279eeb420f2083f6bee5d}{r\-\_\-itf\-\_\-t} \hyperlink{group__itf_ga8ce98b18d4dd61b0d5a93c18a53083a9}{rtdal\-\_\-itfphysic\-\_\-get} (\hyperlink{str_8h_a25093e36e9fb377b246945a84745823f}{string} name)
+\item 
+\hyperlink{rtdal__types_8h_a95fa1c8ca0f279eeb420f2083f6bee5d}{r\-\_\-itf\-\_\-t} \hyperlink{group__itf_ga99c8d3aaa646fd2933e3ff680c57f8db}{rtdal\-\_\-itfphysic\-\_\-get\-\_\-id} (int id)
+\item 
+\hyperlink{rtdal__types_8h_a95fa1c8ca0f279eeb420f2083f6bee5d}{r\-\_\-itf\-\_\-t} \hyperlink{group__itf_gae52e652cce22bfb7993040dc10c1c922}{rtdal\-\_\-itfspscq\-\_\-new} (int max\-\_\-msg, int max\-\_\-msg\-\_\-sz)
+\item 
+\hyperlink{rtdal__types_8h_aa78f7bbd07935ad587fc182f06d4314c}{r\-\_\-dac\-\_\-t} \hyperlink{group__dac_gaff5e7e1792a4758afbda926040eac76e}{rtdal\-\_\-dac\-\_\-get} (\hyperlink{str_8h_a25093e36e9fb377b246945a84745823f}{string} address)
+\item 
+\hyperlink{rtdal__types_8h_a9a6d36a76828ee198254e7084107ca38}{r\-\_\-proc\-\_\-t} \hyperlink{group__process_gaac39f57d3d63eca01423a7ffd95026e1}{rtdal\-\_\-process\-\_\-new} (struct \hyperlink{structrtdal__process__attr}{rtdal\-\_\-process\-\_\-attr} $\ast$attr, void $\ast$arg)
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+int \hyperlink{rtdal__base_8c_a095300387faf6c941bf15eebbb9a857d}{waveforms\-\_\-notified\-\_\-failure} \mbox{[}\hyperlink{rtdal__kernel_8h_a773bdf5491daa0c62f84ea2fc8627731}{M\-A\-X\-\_\-\-W\-A\-V\-E\-F\-O\-R\-M\-S}\mbox{]}
+\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\hypertarget{rtdal__base_8c_acf471993b90b562066b9e1100406d1c6}{\index{rtdal\-\_\-base.\-c@{rtdal\-\_\-base.\-c}!rtdal\-\_\-initialize\-\_\-node@{rtdal\-\_\-initialize\-\_\-node}}
+\index{rtdal\-\_\-initialize\-\_\-node@{rtdal\-\_\-initialize\-\_\-node}!rtdal_base.c@{rtdal\-\_\-base.\-c}}
+\subsubsection[{rtdal\-\_\-initialize\-\_\-node}]{\setlength{\rightskip}{0pt plus 5cm}int rtdal\-\_\-initialize\-\_\-node (
+\begin{DoxyParamCaption}
+\item[{{\bf rtdal\-\_\-context\-\_\-t} $\ast$}]{\-\_\-context, }
+\item[{{\bf string}}]{config\-\_\-file, }
+\item[{void($\ast$)(void)}]{ts\-\_\-begin\-\_\-fnc}
+\end{DoxyParamCaption}
+)}}\label{rtdal__base_8c_acf471993b90b562066b9e1100406d1c6}
+Must be called before any other function.
+
+1) Parse configuration file and fill +machine attributes 2) Create interfaces. Call -\/create\-Node\-Interfaces() 3) Setup synchronization\-:   3.\-1) If I am the synchronization master, set machine.\-clock\-Source=C\-L\-O\-C\-K\-S\-R\-C\-\_\-\-T\-I\-M\-E\-R if source=\char`\"{}timer\char`\"{} or machine.\-clock\-Source=C\-L\-O\-C\-K\-S\-R\-C\-\_\-\-D\-A\-C if source=\char`\"{}dac\-:/\char`\"{}   3.\-2) If I am an slave node, set machine.\-clock\-Source=C\-L\-O\-C\-K\-S\-R\-C\-\_\-\-T\-I\-M\-E\-R if continuous\-\_\-mode=F\-A\-L\-S\-E or machine.\-clock\-Source=C\-L\-O\-C\-K\-S\-R\-C\-\_\-\-S\-Y\-N\-C if continuous\-\_\-mode=T\-R\-U\-E   3.\-3) Set machine.\-sync\-Continuous boolean if continuous\-\_\-mode=T\-R\-U\-E   3.\-4) Set machine.\-sync\-Master boolean if I am the synchronization master reference   3.\-5) Set machine.\-sync\-Period to the synchronization period 4) setup D\-A\-C (if my node has a D\-A\-C). For each D\-A\-C, create an instance of the D\-A\-C type and\-:   4.\-1) Call D\-A\-C.\-open\-D\-A\-C(address,options,null) if machine.\-clock\-Source!=C\-L\-O\-C\-K\-S\-R\-C\-\_\-\-D\-A\-C   4.\-2) Call D\-A\-C.\-set\-Scheduler(ts\-Begin\-Fnc, machine.\-kernel\-Prio) if machine.\-clock\-Source==C\-L\-O\-C\-K\-S\-R\-C\-\_\-\-D\-A\-C 5) create max\-\_\-spscqs\-\_\-x\-\_\-node +spscqs and max\-\_\-modules\-\_\-x\-\_\-node +procs objects 
+
+Definition at line 62 of file rtdal\-\_\-base.\-c.
+
+
+
+References rtdal\-\_\-context\-\_\-t\-::error, rtdal\-\_\-context\-\_\-t\-::machine, rtdal\-\_\-error\-\_\-set\-\_\-context(), rtdal\-\_\-time\-\_\-reset(), rtdal\-\_\-time\-\_\-set\-\_\-context(), rtdal\-\_\-context\-\_\-t\-::time, rtdal\-\_\-time\-\_\-t\-::ts\-\_\-len\-\_\-us, and rtdal\-\_\-machine\-\_\-t\-::ts\-\_\-len\-\_\-us.
+
+\hypertarget{rtdal__base_8c_ac463f8bb697321e0d970ad0f7908291a}{\index{rtdal\-\_\-base.\-c@{rtdal\-\_\-base.\-c}!rtdal\-\_\-start\-\_\-manager\-\_\-interfaces@{rtdal\-\_\-start\-\_\-manager\-\_\-interfaces}}
+\index{rtdal\-\_\-start\-\_\-manager\-\_\-interfaces@{rtdal\-\_\-start\-\_\-manager\-\_\-interfaces}!rtdal_base.c@{rtdal\-\_\-base.\-c}}
+\subsubsection[{rtdal\-\_\-start\-\_\-manager\-\_\-interfaces}]{\setlength{\rightskip}{0pt plus 5cm}int rtdal\-\_\-start\-\_\-manager\-\_\-interfaces (
+\begin{DoxyParamCaption}
+\item[{{\bf string}}]{config\-\_\-file}
+\end{DoxyParamCaption}
+)}}\label{rtdal__base_8c_ac463f8bb697321e0d970ad0f7908291a}
+Configures the control, probe and sync interfaces for the manager 1) For each node, create an interface with name ctrl\-\_\-nodename 2) For each node, create an interface with name probe\-\_\-nodename 3) if clock\-Local create the sync interface to the sync master, with name \char`\"{}sync\char`\"{} 
+
+Definition at line 98 of file rtdal\-\_\-base.\-c.
+
+
+
+References aerror.
+
+
+
+\subsection{Variable Documentation}
+\hypertarget{rtdal__base_8c_a095300387faf6c941bf15eebbb9a857d}{\index{rtdal\-\_\-base.\-c@{rtdal\-\_\-base.\-c}!waveforms\-\_\-notified\-\_\-failure@{waveforms\-\_\-notified\-\_\-failure}}
+\index{waveforms\-\_\-notified\-\_\-failure@{waveforms\-\_\-notified\-\_\-failure}!rtdal_base.c@{rtdal\-\_\-base.\-c}}
+\subsubsection[{waveforms\-\_\-notified\-\_\-failure}]{\setlength{\rightskip}{0pt plus 5cm}int waveforms\-\_\-notified\-\_\-failure\mbox{[}{\bf M\-A\-X\-\_\-\-W\-A\-V\-E\-F\-O\-R\-M\-S}\mbox{]}}}\label{rtdal__base_8c_a095300387faf6c941bf15eebbb9a857d}
+
+
+Definition at line 39 of file pipeline.\-c.
+
+
+
+Referenced by rtdal\-\_\-process\-\_\-new().
+
