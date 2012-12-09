@@ -112,8 +112,8 @@ extern log_t mlog;
 
 #ifdef _COMPILE_ALOE
 #undef DEBUGPRINT2
-#define DEBUGPRINT2(out,...)       do {if (mlog && USE_LOG) { swapi_log_printf(mlog,__VA_ARGS__); }\
-					else {fprintf(out, __VA_ARGS__); } } while(0)
+#define DEBUGPRINT2(out,...)       if (mlog && USE_LOG) { swapi_log_printf(mlog,__VA_ARGS__); }\
+					else {fprintf(out, __VA_ARGS__); }
 #endif
 
 

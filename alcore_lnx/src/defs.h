@@ -38,6 +38,12 @@ extern FILE *trace_buffer;
 	do { if (DEBUG_HWAPI) fprintf(debug_buffer,"[debug-hwapi]\t[%s()]: " _fmt, __func__,__VA_ARGS__);} while(0);
 
 
+/* debug queue */
+#define DEBUG_QUEUE 0
+#define qdebug(_fmt, ...) \
+	do { if (DEBUG_QUEUE) fprintf(debug_buffer,"[debug-queue-%d][ts=%d]\t[%s()]: " _fmt, q->id,hwapi_time_slot(),__func__,__VA_ARGS__);} while(0);
+
+
 #define WHERESTR  "[%s():%d]: "
 #define WHEREARG  __func__, __LINE__
 #define DEBUGPRINT2(...)       fprintf(stderr, __VA_ARGS__)

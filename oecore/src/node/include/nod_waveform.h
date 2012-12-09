@@ -26,8 +26,7 @@
 #include "packet.h"
 #include "hwapi_types.h"
 
-#define LOAD_TSLOT_DEAD 2
-#define STOP_TSLOT_DEAD 5
+#define RELINQUISH_DO_MOD
 
 typedef struct {
 	module_t parent;
@@ -70,7 +69,7 @@ void nod_module_kill_status_task(nod_module_t *module);
 variable_t* nod_module_variable_get(nod_module_t *module, string name);
 variable_t* nod_module_variable_create(nod_module_t *module, string name);
 
-int nod_module_execinfo_add_sample(execinfo_t *execinfo, int cpu, int relinquish);
+int nod_module_execinfo_add_sample(execinfo_t *execinfo);
 
 int nod_variable_init(variable_t *variable, int size);
 int nod_variable_close(variable_t *variable);

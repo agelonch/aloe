@@ -317,6 +317,8 @@ static int kernel_initialize(void) {
 	hwapi.machine.rt_fault_opts = RT_FAULT_OPTS_HARD;
 	hwapi_initialize_node(&hwapi, NULL, NULL);
 
+	pthread_mutex_init(&hwapi.mutex,NULL);
+
 	/* Set self priority to hwapi.machine.kernel_prio */
 	if (kernel_initialize_set_kernel_priority()) {
 		return -1;

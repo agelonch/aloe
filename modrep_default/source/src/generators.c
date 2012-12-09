@@ -36,7 +36,7 @@ void random_sequence(int *x, int len) {
 		len = OUTPUT_MAX_SAMPLES/8;
 	}
 	for (i=0;i<len;i++) {
-		x[i] = rand();
+		x[i] = i;//rand();
 	}
 }
 

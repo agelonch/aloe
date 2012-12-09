@@ -19,7 +19,7 @@
 #ifndef HWAPI_CONTEXT_H
 #define HWAPI_CONTEXT_H
 
-#include <semaphore.h>
+#include <pthread.h>
 
 #include "hwapi_itfqueue.h"
 #include "hwapi_itfphysic.h"
@@ -49,6 +49,7 @@ typedef struct {
 	hwapi_dac_t dacs[MAX(hwapi_dac)];
 	hwapi_itfphysic_t physic_itfs[MAX(hwapi_itfphysic)];
 	int wake_tslot;
+	pthread_mutex_t mutex;
 } hwapi_context_t;
 
 int hwapi_initialize_node(hwapi_context_t *context, string config_file, void (*ts_begin_fnc)(void));

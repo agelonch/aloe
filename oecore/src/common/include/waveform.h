@@ -26,14 +26,17 @@
 typedef struct {
 	int module_ts;
 	int node_ts;
-	int mean_exec_us;
+	float mean_exec_us;
 	int max_exec_us;
-	int mean_rel_us;
+	float mean_rel_us;
 	int max_rel_us;
+	float mean_start_us;
+	int max_start_us;
 	float mean_mopts;
 	float max_mopts;
 	time_t t_exec[3];
 	int last_update_ts;
+	int start_ts;
 } execinfo_t;
 
 typedef struct {

@@ -15,7 +15,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with ALOE++.  If not, see <http://www.gnu.org/licenses/>.
  */
-
+#include <string.h>
 #include "defs.h"
 #include "packet.h"
 #include "hwapi.h"
@@ -39,7 +39,7 @@ int nod_module_alloc(nod_module_t *module) {
 	if (swapi_context_init(module->context, module)) {
 		return -1;
 	}
-
+	memset(&module->parent.execinfo,0,sizeof(execinfo_t));
 	return 0;
 }
 
@@ -250,9 +250,36 @@ variable_t* nod_module_variable_create(nod_module_t *module, string name) {
 }
 
 
-int nod_module_execinfo_add_sample(execinfo_t *obj, int cpu, int relinquish) {
-	aerror("Not yet implemented");
-	return -1;
+int nod_module_execinfo_add_sample(execinfo_t *obj) {
+	int tstamp = hwapi_time_slot();
+	int cpu = obj->t_exec[0].tv_usec;
+	int relinquish = obj->t_exec[2].tv_usec;
+	int start = obj->t_exec[1].tv_usec;
+
+#ifdef RELINQUISH_DO_MOD
+	hwapi_machine_t machine;
+	hwapi_machine(&machine);
+	relinquish = relinquish % machine.ts_len_us;
+	start = start % machine.ts_len_us;
+#endif
+
+	if (!obj->start_ts) {
+		obj->start_ts = tstamp;
+	}
+	obj->max_exec_us = cpu > obj->max_exec_us ? cpu : obj->max_exec_us;
+	obj->module_ts = tstamp;
+	obj->max_rel_us = relinquish > obj->max_rel_us ? relinquish : obj->max_rel_us;
+	obj->max_start_us = start > obj->max_start_us ? start : obj->max_start_us;
+
+	if (tstamp - obj->start_ts + 1 > 0) {
+		obj->mean_exec_us = (float) obj->mean_exec_us +
+				(float) (cpu - obj->mean_exec_us)/(tstamp - obj->start_ts + 1);
+		obj->mean_rel_us = (float) obj->mean_rel_us +
+				(float) (relinquish - obj->mean_rel_us)/(tstamp - obj->start_ts + 1);
+		obj->mean_start_us = (float) obj->mean_start_us +
+				(float) (start - obj->mean_start_us)/(tstamp - obj->start_ts + 1);
+	}
+	return 0;
 }
 
 

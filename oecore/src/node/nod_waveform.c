@@ -23,7 +23,8 @@
 #include "mempool.h"
 #include "swapi_context.h"
 
-
+#define DEFAULT_SLEEP_US	50000
+#define DEFAULT_TIMEOUT		200
 
 /** \brief Allocates resources for nof_modules in a nod_waveform_t waveform.
  * Does NOT call allocate interfaces/variables for each module.
@@ -53,9 +54,10 @@ int nod_waveform_free(nod_waveform_t *w) {
  */
 int nod_waveform_load(nod_waveform_t *w) {
 	time_t t;
+	int trial;
 	ndebug("waveform_id=%d, nof_modules=%d\n",w->id, w->nof_modules);
 	aassert(w);
-	int i;
+	int i, j;
 	for (i=0;i<w->nof_modules;i++) {
 		if (nod_module_load(&w->modules[i])) {
 			return -1;
@@ -66,15 +68,26 @@ int nod_waveform_load(nod_waveform_t *w) {
 		return -1;
 	}
 
-	t.tv_sec = 2;
-	t.tv_usec = 0;
-	hwapi_sleep(&t);
-	for (i=0;i<w->nof_modules;i++) {
-		if (w->modules[i].parent.status != LOADED) {
-			aerror_msg("module_id=%d did not load correctly\n",w->modules[i].parent.id);
-			return -1;
+	trial = 0;
+	do {
+		ndebug("trial=%d\n",trial);
+		t.tv_sec = 0;
+		t.tv_usec = DEFAULT_SLEEP_US;
+		hwapi_sleep(&t);
+		j = -1;
+		for (i=0;i<w->nof_modules;i++) {
+			if (w->modules[i].parent.status != LOADED) {
+				j = i;
+			}
 		}
+		trial++;
+	} while (trial < DEFAULT_TIMEOUT && j > -1);
+
+	if (j >= 0) {
+		aerror_msg("module_id=%d did not load correctly\n",w->modules[j].parent.id);
+		return -1;
 	}
+
 	return 0;
 }
 
@@ -153,6 +166,7 @@ int nod_waveform_status_stop(nod_waveform_t *waveform) {
 	h_task_t task;
 	void *ret_val;
 	time_t t;
+	int trials=0;
 	int n;
 
 	waveform->status.cur_status = STOP;
@@ -162,25 +176,28 @@ int nod_waveform_status_stop(nod_waveform_t *waveform) {
 		return -1;
 	}
 
-	t.tv_sec = 1;
-	t.tv_usec = 500000;
-	if (hwapi_sleep(&t)) {
-		hwapi_error_print("hwapi_sleep");
-		return -1;
-	}
+	do {
+		ndebug("trial=%d\n",trials);
+		t.tv_sec = 0;
+		t.tv_usec = DEFAULT_SLEEP_US;
+		if (hwapi_sleep(&t)) {
+			hwapi_error_print("hwapi_sleep");
+			return -1;
+		}
 
-	n = hwapi_task_wait_nb(task,&ret_val);
+		n = hwapi_task_wait_nb(task,&ret_val);
+		trials++;
+	} while(trials < DEFAULT_TIMEOUT && n == 0);
+
 	if (n == -1) {
 		hwapi_error_print("hwapi_task_wait");
-		return -1;
-	} else if (n == 0 || (n == 1 && ret_val == NULL)){
-		if (n == 0) {
-			aerror_msg("Stopping task did not finish (waveform %s)\n", waveform->name);
-		}
-		aerror_msg("Waveform %s did not stop correctly. Some resources may remain open\n",
-					waveform->name);
 	} else {
-		ainfo("Waveform %s was cleanly removed from the system.\n",waveform->name);
+		if (ret_val == NULL) {
+			aerror_msg("Waveform %s did not stop correctly. Some resources may remain open\n",
+						waveform->name);
+		} else {
+			ainfo("Waveform %s was cleanly removed from the system.\n",waveform->name);
+		}
 	}
 
 	if (nod_waveform_remove(waveform)) {
@@ -235,6 +252,7 @@ int nod_waveform_status_init(nod_waveform_t *waveform) {
 	time_t t;
 	int n;
 	h_task_t task;
+	int trials = 0;
 	void *ret_val;
 
 	waveform->status.cur_status = INIT;
@@ -244,14 +262,18 @@ int nod_waveform_status_init(nod_waveform_t *waveform) {
 		return -1;
 	}
 
-	t.tv_sec = 2;
-	t.tv_usec = 0;
-	if (hwapi_sleep(&t)) {
-		hwapi_error_print("hwapi_sleep");
-		return -1;
-	}
+	do {
+		ndebug("trial=%d\n",trials);
+		t.tv_sec = 0;
+		t.tv_usec = DEFAULT_SLEEP_US;
+		if (hwapi_sleep(&t)) {
+			hwapi_error_print("hwapi_sleep");
+			return -1;
+		}
 
-	n = hwapi_task_wait_nb(task,&ret_val);
+		n = hwapi_task_wait_nb(task,&ret_val);
+		trials++;
+	} while(trials < DEFAULT_TIMEOUT && n == 0);
 	if (n == -1) {
 		hwapi_error_print("hwapi_task_wait");
 		return -1;

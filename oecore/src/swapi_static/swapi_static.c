@@ -73,7 +73,7 @@ int _run_cycle(void* context) {
 	if (!module->changing_status && module->parent.status == RUN) {
 		/* save start time */
 		hwapi_time_get(&module->parent.execinfo.t_exec[1]);
-		ctx->tstamp++;
+
 
 		/* run aloe cycle */
 		if (Run(context)) {
@@ -84,10 +84,11 @@ int _run_cycle(void* context) {
 				aerror("hwapi_process_seterror");
 			}
 		}
-
+		ctx->tstamp++;
 		/* save end time */
 		hwapi_time_get(&module->parent.execinfo.t_exec[2]);
 		hwapi_time_interval(module->parent.execinfo.t_exec);
+		nod_module_execinfo_add_sample(&module->parent.execinfo);
 		sdebug("module_id=%d exec_time=%d us\n",module->parent.id,
 				module->parent.execinfo.t_exec[0].tv_usec);
 
@@ -126,7 +127,6 @@ int _call_init(void *_module) {
 	sdebug("module_id=%d, changing_status=%d, now_is=0\n",module->parent.id,
 			module->changing_status);
 
-	ctx->tstamp++;
 	module->changing_status = 1;
 
 	n = Init(module->context);

@@ -27,7 +27,7 @@
 #define SEM 		1
 #define FUTEX 		2
 #define BARRIER		3
-#define PIPELINESYNC_MUTEX_TYPE	FUTEX
+#define PIPELINESYNC_MUTEX_TYPE	3
 
 #if PIPELINESYNC_MUTEX_TYPE == SEM
 #define pipeline_sync_initialize_ for (int i=0;i<num_pipelines;i++) {\
@@ -37,7 +37,7 @@
 	sem_post(&semaphores[i]); }
 
 static int num_pipelines;
-static sem_t semaphores[MAX(processors)];
+static sem_t semaphores[10];
 #endif
 
 #if PIPELINESYNC_MUTEX_TYPE == FUTEX

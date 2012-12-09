@@ -121,6 +121,8 @@ int hwapi_periodic_add(void (*callback)(void), int period) {
 	HWAPI_ASSERT_PARAM(callback);
 	HWAPI_ASSERT_PARAM(period>0);
 
+	pthread_mutex_lock(&context->mutex);
+
 	int i;
 
 	for (i=0;i<MAX(hwapi_periodic);i++) {
@@ -129,11 +131,13 @@ int hwapi_periodic_add(void (*callback)(void), int period) {
 	}
 	if (i == MAX(hwapi_periodic)) {
 		HWAPI_SETERROR(HWAPI_ERROR_NOSPACE);
+		pthread_mutex_unlock(&context->mutex);
 		return -1;
 	}
 	context->periodic[i].counter = 0;
 	context->periodic[i].period = period;
 	context->periodic[i].callback = callback;
+	pthread_mutex_unlock(&context->mutex);
 	hdebug("i=%d, period=%d, callback=0x%x\n",i,period,callback);
 	return 0;
 }
@@ -150,11 +154,12 @@ int hwapi_periodic_remove(void (*callback)(void)) {
 	HWAPI_ASSERT_PARAM(callback);
 
 	int i;
-
+	pthread_mutex_lock(&context->mutex);
 	for (i=0;i<MAX(hwapi_periodic);i++) {
 		if (context->periodic[i].callback == callback)
 			break;
 	}
+
 	if (i == MAX(hwapi_periodic)) {
 		HWAPI_SETERROR(HWAPI_ERROR_NOTFOUND);
 		return -1;
@@ -162,6 +167,7 @@ int hwapi_periodic_remove(void (*callback)(void)) {
 	context->periodic[i].counter = 0;
 	context->periodic[i].period = 0;
 	context->periodic[i].callback = NULL;
+	pthread_mutex_unlock(&context->mutex);
 	hdebug("i=%d\n",i);
 	return 0;
 }
@@ -195,12 +201,14 @@ h_itf_t hwapi_itfphysic_get(string name) {
 	hdebug("name=%s\n",name);
 	assert(context);
 	HWAPI_ASSERT_PARAM_P(name);
+
 	int i;
 	for (i=0;i<MAX(hwapi_itfphysic);i++) {
 		if (!strcmp(context->physic_itfs[i].parent.name, name))
 			break;
 	}
 	hdebug("i=%d\n",i);
+
 	if (i == MAX(hwapi_itfphysic)) {
 		HWAPI_SETERROR(HWAPI_ERROR_NOTFOUND);
 		return NULL;
@@ -222,11 +230,13 @@ h_itf_t hwapi_itfphysic_get_id(int id) {
 		if (context->physic_itfs[i].parent.id == id)
 			break;
 	}
+
 	hdebug("i=%d\n",i);
 	if (i == MAX(hwapi_itfphysic)) {
 		HWAPI_SETERROR(HWAPI_ERROR_NOTFOUND);
 		return NULL;
 	}
+
 	return (h_itf_t) &context->physic_itfs[i];
 }
 
@@ -244,6 +254,8 @@ h_itf_t hwapi_itfqueue_new(int max_msg, int max_msg_sz) {
 	HWAPI_ASSERT_PARAM_P(max_msg_sz>=0);
 	int i;
 
+
+	pthread_mutex_lock(&context->mutex);
 	for (i=0;i<MAX(hwapi_itfqueue);i++) {
 		if (!context->queues[i].parent.id)
 			break;
@@ -256,11 +268,15 @@ h_itf_t hwapi_itfqueue_new(int max_msg, int max_msg_sz) {
 	context->queues[i].max_msg = max_msg;
 	context->queues[i].max_msg_sz = max_msg_sz;
 
+	context->queues[i].parent.id = i+1;
+
 	if (hwapi_itfqueue_init(&context->queues[i])) {
+		context->queues[i].parent.id = 0;
+		pthread_mutex_unlock(&context->mutex);
 		return NULL;
 	}
 
-	context->queues[i].parent.id = i+1;
+	pthread_mutex_unlock(&context->mutex);
 	return (h_itf_t) &context->queues[i];
 }
 
@@ -305,25 +321,28 @@ h_proc_t hwapi_process_new(struct hwapi_process_attr *attr, void *arg) {
 	assert(context);
 	HWAPI_ASSERT_PARAM_P(attr);
 	HWAPI_ASSERT_PARAM_P(arg);
+
+	pthread_mutex_lock(&context->mutex);
 	int i=0;
 	/* find empty space on process db */
 	for (i=0;i<MAX(hwapi_process);i++) {
 		if (!context->processes[i].pid)
 			break;
 	}
+
 	if (i == MAX(hwapi_process)) {
 		HWAPI_SETERROR(HWAPI_ERROR_NOSPACE);
-		return NULL;
+		goto out;
 	}
 
 	if (attr->waveform_id > MAX_WAVEFORMS) {
 		HWAPI_SETERROR(HWAPI_ERROR_NOSPACE);
-		return NULL;
+		goto out;
 	}
 
 	if (attr->waveform_id < 0) {
 		HWAPI_SETERROR(HWAPI_ERROR_INVAL);
-		return NULL;
+		goto out;
 	}
 
 	waveforms_notified_failure[attr->waveform_id] = 0;
@@ -339,14 +358,19 @@ h_proc_t hwapi_process_new(struct hwapi_process_attr *attr, void *arg) {
 
 	if (pipeline_add(&context->pipelines[attr->pipeline_id],
 			&context->processes[i]) == -1) {
-		return NULL;
+		goto out;
 	}
 
 	if (hwapi_process_launch(&context->processes[i])) {
 		pipeline_remove(&context->pipelines[attr->pipeline_id],
 				&context->processes[i]);
-		return NULL;
+		goto out;
 	}
+
+	pthread_mutex_unlock(&context->mutex);
 	return (h_proc_t) &context->processes[i];
+out:
+	pthread_mutex_unlock(&context->mutex);
+	return NULL;
 }
 

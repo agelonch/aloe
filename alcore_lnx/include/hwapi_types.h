@@ -24,7 +24,6 @@
 #define time_t struct timeval
 
 #include "str.h"
-#include "hwapi_types.h"
 
 struct h_proc_ {
 	int id;
@@ -44,6 +43,7 @@ struct hwapi_process_attr {
 
 
 typedef struct {
+	int valid;
 	int tstamp;
 	int len;
 	void *data;

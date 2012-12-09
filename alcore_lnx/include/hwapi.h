@@ -28,20 +28,37 @@
 #define BINARIES_BASE_DIR "../modules/"
 #define BINARIES_MODULE_DIR "../lib/"
 
+/** \mainpage ALOE++ Abstraction Layer Core (alcore)
+ *
+ * alcore is a framework for distributed processing...
+ */
+
+/**@defgroup runmain _run_main() function
+ * @{
+ */
+void *_run_main(void *arg);
+/**@} */
+
+/**@defgroup other Other functions
+ * @{
+ */
+void hwapi_machine(hwapi_machine_t *machine);
+int hwapi_sleep(time_t *t);
+/**@} */
+
+
+/** @defgroup process Pipeline processes functions
+ * @{
+ */
 
 typedef enum {
-	FINISH_OK, RTFAULT, SIG_RECV, RUNERROR
+	FINISH_OK, 	/**< The process is running or finished successfully */
+	RTFAULT, 	/**< The process missed the defined real-time deadline */
+	SIG_RECV, 	/**< The process received a thread-specific signal (SIGSEGV, SIGILL, SIGBUF or SIGFPE) */
+	RUNERROR	/**< An error occured during process execution.
+	This error is set manually using hwapi_process_seterror() */
 }hwapi_processerrors_t;
 
-void *_run_main(void *arg);
-
-void hwapi_machine(hwapi_machine_t *machine);
-
-int hwapi_sleep(time_t *t);
-
-char* hwapi_error_string();
-int hwapi_error_code();
-void hwapi_error_print(const char *user_message);
 
 h_proc_t hwapi_process_new(struct hwapi_process_attr *attr, void *arg);
 int hwapi_process_remove(h_proc_t proc);
@@ -51,26 +68,47 @@ int hwapi_process_seterror(h_proc_t proc, hwapi_processerrors_t code);
 hwapi_processerrors_t hwapi_process_geterror(h_proc_t proc);
 int hwapi_process_isrunning(h_proc_t proc);
 
+/**@}
+ */
+
+/**@defgroup task Low-priority task functions
+ * @{ */
 int hwapi_task_new(h_task_t *task, void *(*fnc)(void*), void* arg);
 int hwapi_task_kill(h_task_t task);
 int hwapi_task_wait(h_task_t task, void **retval);
 int hwapi_task_wait_nb(h_task_t task, void **retval);
 void hwapi_task_print_sched();
+/**@} */
 
+/**@defgroup period Periodic low-priority tasks functions
+ *@{
+ */
 int hwapi_periodic_add(void (*fnc)(void), int period);
 int hwapi_periodic_remove(void (*fnc)(void));
+/**@} */
 
+/**@defgroup time Time functions
+ * @{
+ */
 int hwapi_time_set(time_t *time);
 int hwapi_time_get(time_t *time);
 int hwapi_time_slot();
 void hwapi_time_interval(time_t * tdata);
 int hwapi_time_attach_local();
+/**@} */
 
+/**@defgroup file Filesystem I/O functions
+ * @{
+ */
 int hwapi_file_open(string name);
 int hwapi_file_close(int fd);
 int hwapi_file_write(int fd, void* buf, int size);
 int hwapi_file_read(int fd, void* buf, int size);
+/**@} */
 
+/**@defgroup itf Interfaces functions
+ * @{
+ */
 h_itf_t hwapi_itfphysic_get(string name);
 h_itf_t hwapi_itfphysic_get_id(int id);
 int hwapi_itfphysic_create(h_itf_t obj, string address);
@@ -91,8 +129,11 @@ h_pkt_t* hwapi_itf_get_pkt(h_itf_t obj);
 int hwapi_itf_release_pkt(h_itf_t obj, h_pkt_t* ptr);
 int hwapi_itf_set_delay(h_itf_t obj, int delay);
 int hwapi_itf_get_delay(h_itf_t obj);
+/**@} */
 
-
+/**@defgroup dac AD/DA functions
+ * @{
+ */
 h_dac_t hwapi_dac_get(string address);
 int hwapi_dac_set_scheduler(h_dac_t obj, void (*ts_begin_fnc)(void), int thread_prio);
 int hwapi_dac_start(h_dac_t obj);
@@ -102,14 +143,15 @@ int hwapi_dac_set_block_len(h_dac_t obj, int len);
 int hwapi_dac_set_sample_type(h_dac_t obj, int type);
 int hwapi_dac_set_buffer_size(h_dac_t obj, int in, int out);
 h_itf_t hwapi_dac_channel(h_dac_t obj, int int_ch);
+/**@} */
 
 
-#define PROC_ERRCODE_OK 	1
-#define PROC_ERRCODE_RUN 	2
-
-
-/* Called from outside API. Prints hwapi error in one line and current file/line plus message in another */
+/** @defgroup error Error functions
+ * @{
+ */
+char* hwapi_error_string();
+int hwapi_error_code();
+void hwapi_error_print(const char *user_message);
 #define hwapi_perror(msg) hwapi_error_print(""); aerror(msg)
-
-
+/** @} */
 #endif

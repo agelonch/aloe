@@ -31,11 +31,7 @@ typedef struct {
 	int max_msg;
 	int max_msg_sz;
 
-	queue_t q_tx;
-	queue_t q_pkts;
-
-	h_pkt_t *packets;
-	void *data;
+	queue_t queue;
 }hwapi_itfqueue_t;
 
 int hwapi_itfqueue_init(hwapi_itfqueue_t *obj);

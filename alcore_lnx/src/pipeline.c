@@ -167,10 +167,6 @@ void *pipeline_run_thread(void *self) {
 	pipeline_t *obj = (pipeline_t*) self;
 	assert(obj->id>=0);
 
-	if (DEBUG_HWAPI) {
-		hwapi_task_print_sched();
-	}
-
 	hdebug("pipeid=%d waiting\n",obj->id);
 
 	obj->stop = 0;
@@ -218,8 +214,8 @@ int pipeline_rt_fault(pipeline_t *obj) {
 	}
 #else
 	obj->finished = 1;
-	printf("+++ RT-Fault: Process %d/%d still running in pipeline %d\n",
-			obj->running_process_idx, obj->nof_processes, obj->id);
+	printf("+++[ts=%d]+++ RT-Fault: Process %d/%d still running in pipeline %d\n",
+			obj->ts_counter, obj->running_process_idx, obj->nof_processes, obj->id);
 #endif
 	return 0;
 }

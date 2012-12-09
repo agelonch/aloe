@@ -34,33 +34,9 @@ int hwapi_itfqueue_init(hwapi_itfqueue_t *obj) {
 	int i;
 	char *x;
 
-	if (obj->max_msg > MAX_QUEUE_SZ) {
-		HWAPI_SETERROR(HWAPI_ERROR_LARGE);
-		return -1;
-	}
-
-	/** todo: use static memory allocation */
-	obj->data = malloc((size_t) obj->max_msg * (size_t) obj->max_msg_sz);
-	if (!obj->data) {
-		HWAPI_SYSERROR("malloc");
-		return -1;
-	}
-	obj->packets = malloc(sizeof(h_pkt_t)*(size_t) obj->max_msg);
-	if (!obj->packets) {
-		HWAPI_SYSERROR("malloc");
-		return -1;
-	}
 	obj->parent.is_external = 0;
-
-	queue_init(&obj->q_tx);
-	queue_init(&obj->q_pkts);
-
-	x = obj->data;
-	for (i=0;i<obj->max_msg;i++) {
-		obj->packets[i].data = &x[obj->max_msg_sz*i];
-		obj->packets[i].len = 0;
-		queue_put(&obj->q_pkts, &obj->packets[i]);
-	}
+	queue_init(&obj->queue,obj->max_msg_sz,obj->max_msg);
+	obj->queue.id = obj->parent.id;
 
 	return 0;
 }
@@ -68,14 +44,7 @@ int hwapi_itfqueue_init(hwapi_itfqueue_t *obj) {
 int hwapi_itfqueue_remove(h_itf_t obj) {
 	HWAPI_ASSERT_PARAM(obj);
 	hwapi_itfqueue_t *itf = (hwapi_itfqueue_t*) obj;
-	if (itf->data) {
-		free(itf->data);
-		itf->data = NULL;
-	}
-	if (itf->packets) {
-		free(itf->packets);
-		itf->packets = NULL;
-	}
+	queue_free(&itf->queue);
 	itf->max_msg = 0;
 	itf->max_msg_sz = 0;
 	itf->parent.id = 0;
@@ -158,7 +127,7 @@ h_pkt_t* hwapi_itfqueue_request_pkt(h_itf_t obj) {
 	hwapi_itfqueue_t *itf = (hwapi_itfqueue_t*) obj;
 	h_pkt_t* pkt;
 
-	pkt = queue_get(&itf->q_pkts, 0);
+	pkt = queue_request(&itf->queue);
 	if (!pkt) {
 		aerror("no more packets\n");
 		HWAPI_SETERROR(HWAPI_ERROR_NOSPACE);
@@ -171,9 +140,9 @@ int hwapi_itfqueue_put_pkt(h_itf_t obj, h_pkt_t* pkt) {
 	HWAPI_ASSERT_PARAM(obj);
 	hwapi_itfqueue_t *itf = (hwapi_itfqueue_t*) obj;
 
-	pkt->tstamp = hwapi_time_slot();
+	pkt->tstamp = hwapi_time_slot()+1;
 
-	if (queue_put(&itf->q_tx, pkt)) {
+	if (queue_push(&itf->queue)) {
 		HWAPI_SETERROR(HWAPI_ERROR_NOSPACE);
 		return 0;
 	}
@@ -187,7 +156,7 @@ h_pkt_t* hwapi_itfqueue_get_pkt(h_itf_t obj) {
 
 	h_pkt_t* pkt;
 
-	pkt = queue_get(&itf->q_tx,hwapi_time_slot());
+	pkt = queue_pop(&itf->queue,hwapi_time_slot());
 	if (!pkt) {
 		return NULL;
 	}
@@ -198,7 +167,7 @@ int hwapi_itfqueue_release_pkt(h_itf_t obj, h_pkt_t *pkt) {
 	HWAPI_ASSERT_PARAM(obj);
 	hwapi_itfqueue_t *itf = (hwapi_itfqueue_t*) obj;
 
-	if (queue_put(&itf->q_pkts, pkt)) {
+	if (queue_release(&itf->queue)) {
 		aerror("can't release packet\n");
 		HWAPI_SETERROR(HWAPI_ERROR_NOSPACE);
 		return 0;

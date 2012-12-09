@@ -116,20 +116,12 @@ int initialize() {
 
 	return 0;
 }
-
 int work(void **inp, void **out) {
 	int n,i;
 	int mode;
 	float *r_input;
 	_Complex float *c_input;
 	strdef(xlabel);
-
-#ifdef _COMPILE_ALOE
-	if (swapi_tstamp(ctx)-last_tstamp < interval_ts) {
-		return 0;
-	}
-#endif
-	last_tstamp = interval_ts;
 
 	if (mode_id != NULL) {
 		if (param_get_int(mode_id,&mode) != 1) {
@@ -155,11 +147,19 @@ int work(void **inp, void **out) {
 				ainfo_msg("ts=%d, rcv_len=%d\n",swapi_tstamp(ctx),get_input_samples(n));
 			}
 			if (!get_input_samples(n)) {
-				modinfo_msg("ts=%d. Data not received from interface %d\n",swapi_tstamp(ctx),n);
+				printf("ts=%d. Data not received from interface %d\n",swapi_tstamp(ctx),n);
 			}
 
 		}
 	}
+#endif
+
+
+#ifdef _COMPILE_ALOE
+	if (swapi_tstamp(ctx)-last_tstamp < interval_ts) {
+		return 0;
+	}
+	last_tstamp = interval_ts;
 #endif
 
 

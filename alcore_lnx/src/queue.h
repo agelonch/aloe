@@ -19,21 +19,24 @@
 #ifndef QUEUE_H_
 #define QUEUE_H_
 
-#define MAX_QUEUE_SZ	64
-
-#include <pthread.h>
+#include "hwapi_types.h"
 
 typedef struct {
-	int count;
-	int front;
-	int rear;
-	void *items[MAX_QUEUE_SZ];
+	int read;
+	int write;
+	int size;
+	int id;
+	h_pkt_t *packets;
+	char *data;
 }queue_t;
 
 
-void queue_init(queue_t *q);
+void queue_init(queue_t *q, int pkt_sz, int nof_pkts);
+void queue_free(queue_t *q);
 int queue_is_empty(queue_t *q);
 int queue_is_full(queue_t *q);
-int queue_put(queue_t *q, void *value);
-void *queue_get(queue_t *q, int tstamp);
+h_pkt_t* queue_request(queue_t *q);
+int queue_push(queue_t *q);
+h_pkt_t *queue_pop(queue_t *q, int tstamp);
+int queue_release(queue_t *q);
 #endif

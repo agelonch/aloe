@@ -3,7 +3,7 @@
 #include <stdarg.h>
 
 #include "swapi.h"
-
+#include "hwapi.h"
 #include "params.h"
 #include "skeleton.h"
 
@@ -326,6 +326,7 @@ int Run(void *_ctx) {
 	int i;
 	int n;
 
+
 	for (i=0;i<nof_input_itf;i++) {
 		if (!inputs[i]) {
 			input_pkt[i] = NULL;
@@ -333,6 +334,9 @@ int Run(void *_ctx) {
 		} else {
 			input_pkt[i] = swapi_itf_pkt_get(inputs[i]);
 			moddebug("get: input=%d, pkt=0x%x\n",i, input_pkt[i]);
+			if (!input_pkt[i]) {
+				printf("[ts=%d] %s received no input\n",hwapi_time_slot(),swapi_module_name(ctx));
+			}
 			if (!input_pkt[i]) {
 				rcv_len[i] = 0;
 			} else {
@@ -446,7 +450,7 @@ int Run(void *_ctx) {
 				} else if (n == 0) {
 					moderror_msg("warning packet from output interface %d could not be transmitted\n",i);
 				}
-			} else {
+			} /*else {
 				n = swapi_itf_pkt_release(outputs[i],output_pkt[i]);
 				if (n == -1) {
 					swapi_perror("swapi_itf_ptr_release\n");
@@ -454,7 +458,7 @@ int Run(void *_ctx) {
 				} else if (n == 0) {
 					modinfo_msg("warning packet from output interface %d could not be released\n",i);
 				}
-			}
+			}*/
 		}
 	}
 
