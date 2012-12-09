@@ -18,6 +18,9 @@
 
 #include "str.h"
 
+/**@ingroup source source
+ * @{
+ */
 #define GENERATOR_BINARY	0
 #define GENERATOR_RAMP_RE	1
 #define GENERATOR_RAMP_C	2
@@ -25,6 +28,7 @@
 #define GENERATOR_BPSK_C	4
 #define GENERATOR_SIN_RE	5
 #define GENERATOR_SIN_C		6
+/**@} */
 
 int work_binary(void **data, int block_size);
 int work_ramp_re(void **data, int block_size);

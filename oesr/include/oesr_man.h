@@ -23,34 +23,70 @@
 #include "oesr_man_types.h"
 #include "waveform.h"
 
+/**@defgroup base Base Functions
+ * @{
+ */
 int oesr_man_initialize(string platform_conf, int nof_waveforms);
 int oesr_man_read_waveforms(string repository);
 int oesr_man_start_nodes();
 int oesr_man_stop_nodes();
 waveform_t* oesr_man_waveform_get(string name);
+/**@} */
 
+/**@defgroup error Error functions
+ * @{
+ */
 int oesr_man_error_code();
 char* oesr_man_error_string();
 void oesr_man_error_print();
+/**@}
+ */
 
+/**@defgroup update General update function
+ * @{
+ */
 int update(updateable *obj);
+/**@} */
 
+/**@defgroup platform Platform management functions
+ * @{
+ */
 int man_platform_update();
 int man_platform_connect();
 int man_platform_disconnect();
 int man_platform_tslot_length();
 man_platform_model_t* man_platform_get_model();
+/**@} */
 
+/**@defgroup variable Variable reports functions
+ * @{
+ */
 int variable_report_start(variable_t *var, void (*callback)(void), int period, int window);
 int variable_report_stop(variable_t *var);
+/**@} */
 
+/**@defgroup waveform Waveform management functions
+ * @{
+ */
 int waveform_load(waveform_t* waveform);
 int waveform_update(waveform_t *waveform);
 int waveform_parse(waveform_t* waveform);
+/**@} */
 
+/**@defgroup status Waveform status management function
+ * @{
+ */
 int waveform_status_set(waveform_t *waveform, waveform_status_t *new_status);
 int waveform_status_is_loaded(waveform_status_t* status);
 int waveform_status_is_running(waveform_status_t* status);
+/**@} */
 
+
+/** \mainpage ALOE++ Operating Environment for Software-defined Radio (OESR) Manager API
+ *
+ * OESR is an operating environment based on RTDAL for distributed DSP for SDR.
+ *
+ * This is the API for the platform management.
+ */
 
 #endif

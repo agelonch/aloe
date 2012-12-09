@@ -28,6 +28,14 @@ pmid_t ofdm_symbol_sz_id;
 pmid_t cyclic_prefix_sz_id;
 pmid_t first_cyclic_prefix_sz_id;
 
+/**@ingroup gen_cyclic
+ *
+ * \param ofdm_symbol_sz Size of the OFDM symbol (in samples). This parameter is mandatory.
+ * \param cyclic_prefix_sz Size of the cyclic prefix to add to each received symbol (in samples)
+ * This parameter is mandatory.
+ * \param first_cyclic_prefix_sz Size of the cyclic prefix to add to the first received symbol
+ * (in samples). Optional parameter, default is cyclic_prefix_sz
+ */
 int initialize() {
 
 	ofdm_symbol_sz_id = param_id("ofdm_symbol_sz");
@@ -47,10 +55,22 @@ int initialize() {
 		modinfo("Parameter first_cyclic_prefix_sz undefined. Assuming equal to cyclic_prefix_sz\n");
 	}
 
+	if (NOF_INPUT_ITF != NOF_OUTPUT_ITF) {
+		moderror_msg("Fatal error, the number of input interfaces (%d) must be equal to the "
+				"number of output interfaces (%d)\n",NOF_INPUT_ITF,NOF_OUTPUT_ITF);
+		return -1;
+	}
+
 	return 0;
 }
 
-
+/**@ingroup gen_cyclic
+ *
+ * For each interface, the number of received samples must be multiple of the OFDM symbol size,
+ * otherwise the module produces and error and stops the waveform.
+ *
+ * It adds a cyclic prefix to each OFDM symbol received from each interface.
+ */
 int work(void **inp, void **out) {
 	int i, j;
 	int nof_ofdm_symb;

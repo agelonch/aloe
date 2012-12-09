@@ -16,7 +16,14 @@
  * along with ALOE++.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/* input and output data types */
+
+/**@defgroup source source
+ *
+ * This source module can generate different types of signals. A new generator can easily be added
+ * configuring the generators.h and implementing the function in generator.c
+ *
+ * @{
+ */
 typedef char input_t;
 typedef char output_t;
 
@@ -26,7 +33,7 @@ typedef char output_t;
 #define NOF_INPUT_ITF		0
 #define NOF_OUTPUT_ITF		1
 
-
+/**@} */
 
 
 /********* do not need to modify beyond here */

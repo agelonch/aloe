@@ -26,10 +26,12 @@
 pmid_t gain_id;
 int block_length;
 
-/*
- * Function documentation
+/**@ingroup template
+ * Document your initialization function
+ * \param gain Document paramater gain
+ * \param block_length Document parameter block_length
  *
- * @returns 0 on success, -1 on error
+ * \returns This function returns 0 on success or -1 on error
  */
 int initialize() {
 	int size;
@@ -57,14 +59,18 @@ int initialize() {
 
 
 /**
- * @brief Function documentation
+ * @ingroup template
  *
- * @param inp Input interface buffers. Data from other interfaces is stacked in the buffer.
- * Use in(ptr,idx) to access the address. To obtain the number of received samples use the function
- * int get_input_samples(int idx) where idx is the interface index.
+ * \brief Main DSP function
  *
- * @param out Input interface buffers. Data to other interfaces must be stacked in the buffer.
- * Use out(ptr,idx) to access the address.
+ * Document here your module, which parameters it requires and how it behaves as a function of them.
+ *
+ * \param inp Input interface buffers. The value inp[i] points to the buffer received
+ * from the i-th interface. The function get_input_samples(i) returns the number of received
+ * samples (the sample size is by default sizeof(input_t))
+ *
+ * \param out Output interface buffers. The value out[i] points to the buffer where the samples
+ * to be sent through the i-th interfaces must be stored.
  *
  * @return On success, returns a non-negative number indicating the output
  * samples that should be transmitted through all output interface. To specify a different length

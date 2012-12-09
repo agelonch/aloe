@@ -18,12 +18,19 @@
 
 #include "turbocoder.h"
 
-/* Define here module interfaces */
+
+/** @defgroup lte_encoder lte_encoder
+ *
+ * The lte_encoder module implements an 3GPP LTE 1/3 Turbo Coder.
+ * The input and output interfaces are bitstreams.
+ *
+ * If several interfaces are defined, one code block is decoded from each interface every timeslot.
+ *
+ * @{
+ */
 
 typedef char input_t;
 typedef char output_t;
-
-//#define GENERATE_COMPLEX
 
 #define INPUT_MAX_SAMPLES 	5114
 #define OUTPUT_MAX_SAMPLES 	RATE*5114+TOTALTAIL+64
@@ -31,7 +38,9 @@ typedef char output_t;
 #define NOF_INPUT_ITF		1
 #define NOF_OUTPUT_ITF		1
 
+/**@} */
 
+//#define GENERATE_COMPLEX
 
 
 /********* do not need to modify beyond here */

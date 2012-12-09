@@ -32,13 +32,21 @@ const int precomputed_dft_len[] = {128,256,512,1024,2048};
 #define MAX_EXTRA_PLANS	5
 
 
-pmid_t fft_size_id;
+pmid_t dft_size_id;
 
 dft_plan_t plans[NOF_PRECOMPUTED_DFT];
 dft_plan_t extra_plans[MAX_EXTRA_PLANS];
 static int direction;
 static int options;
 
+/**@ingroup gen_dft
+ * \param direction Direction of the dft: 0 computes a dft and 1 computes an idft (default is 0)
+ * \param mirror 0 computes a normal dft, 1 swaps the two halfes of the input signal before computing
+ * the dft (used in LTE) (default is 0)
+ * \param psd Set to 1 to compute the power spectral density (untested) (default is 0)
+ * \param out_db Set to 1 to produce the output results in dB (untested) (default is 0)
+ * \param dft_size Length of the DFT, in samples. This parameter is mandatory.
+ */
 int initialize() {
 	int tmp;
 	int i;
@@ -73,9 +81,9 @@ int initialize() {
 		if (tmp) options |= DFT_NORMALIZE;
 	}
 
-	fft_size_id = param_id("fft_size");
-	if (!fft_size_id) {
-		moderror("Parameter fft_size not defined\n");
+	dft_size_id = param_id("dft_size");
+	if (!dft_size_id) {
+		moderror("Parameter dft_size not defined\n");
 		return -1;
 	}
 
@@ -91,23 +99,23 @@ int initialize() {
 	return 0;
 }
 
-dft_plan_t* find_plan(int fft_size) {
+dft_plan_t* find_plan(int dft_size) {
 	int i;
 	for (i=0;i<NOF_PRECOMPUTED_DFT;i++) {
-		if (plans[i].size == fft_size) {
+		if (plans[i].size == dft_size) {
 			return &plans[i];
 		}
 	}
 	return NULL;
 }
 
-dft_plan_t* generate_new_plan(int fft_size) {
+dft_plan_t* generate_new_plan(int dft_size) {
 	int i;
 
-	modinfo_msg("Warning, no plan was precomputed for size %d. Generating.\n",fft_size);
+	modinfo_msg("Warning, no plan was precomputed for size %d. Generating.\n",dft_size);
 	for (i=0;i<MAX_EXTRA_PLANS;i++) {
 		if (!extra_plans[i].size) {
-			if (dft_plan_c2c(fft_size, (!direction)?FORWARD:BACKWARD, &extra_plans[i])) {
+			if (dft_plan_c2c(dft_size, (!direction)?FORWARD:BACKWARD, &extra_plans[i])) {
 				return NULL;
 			}
 			extra_plans[i].options = options;
@@ -120,19 +128,19 @@ dft_plan_t* generate_new_plan(int fft_size) {
 
 int work(void **inp, void **out) {
 	int i, j, nof_fft;
-	int fft_size;
+	int dft_size;
 	input_t *input;
 	output_t *output;
 	dft_plan_t *plan;
 
-	if (param_get_int(fft_size_id,&fft_size) != 1) {
-		moderror("Getting parameter fft_size\n");
+	if (param_get_int(dft_size_id,&dft_size) != 1) {
+		moderror("Getting parameter dft_size\n");
 		return -1;
 	}
 
-	plan = find_plan(fft_size);
+	plan = find_plan(dft_size);
 	if (!plan) {
-		if ((plan = generate_new_plan(fft_size)) == NULL) {
+		if ((plan = generate_new_plan(dft_size)) == NULL) {
 			moderror("Generating plan.\n");
 			return -1;
 		}
@@ -142,19 +150,19 @@ int work(void **inp, void **out) {
 		input = inp[i];
 		output = out[i];
 
-		if (get_input_samples(i) % fft_size) {
-			moderror_msg("Number of input samples (%d) must be multiple of fft_size (%d), in "
-					"interface %d\n",get_input_samples(i),fft_size,i);
+		if (get_input_samples(i) % dft_size) {
+			moderror_msg("Number of input samples (%d) must be multiple of dft_size (%d), in "
+					"interface %d\n",get_input_samples(i),dft_size,i);
 			return -1;
 		}
 
-		nof_fft = get_input_samples(i)/fft_size;
+		nof_fft = get_input_samples(i)/dft_size;
 
 		for (j=0;j<nof_fft;j++) {
-			dft_run_c2c(plan, &input[j*fft_size], &output[j*fft_size]);
+			dft_run_c2c(plan, &input[j*dft_size], &output[j*dft_size]);
 		}
 
-		set_output_samples(i,fft_size*nof_fft);
+		set_output_samples(i,dft_size*nof_fft);
 	}
 	return 0;
 }

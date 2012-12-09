@@ -96,4 +96,12 @@ int oesr_log_write(log_t log, char *str);
 int oesr_log_printf(log_t log, const char *fmt, ...);
 /**@} */
 
+
+/** \mainpage ALOE++ Operating Environment for Software-defined Radio (OESR) API
+ *
+ * OESR is an operating environment based on RTDAL for distributed DSP for SDR.
+ *
+ * This is the API for DSP modules.
+ */
+
 #endif

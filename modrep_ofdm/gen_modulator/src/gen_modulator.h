@@ -17,7 +17,15 @@
  */
 
 
-/* Define here module interfaces */
+
+/** @defgroup gen_modulator gen_modulator
+ *
+ * Modulates the input bit stream producing a stream of complex samples.
+ *
+ * Several modulations are supported (see modulator.h). The symbol levels are also defined in this file.
+ *
+ * @{
+ */
 
 typedef char input_t;
 typedef _Complex float output_t;
@@ -28,6 +36,7 @@ typedef _Complex float output_t;
 #define NOF_INPUT_ITF		1
 #define NOF_OUTPUT_ITF		1
 
+/**@} */
 
 
 /********* do not need to modify beyond here */

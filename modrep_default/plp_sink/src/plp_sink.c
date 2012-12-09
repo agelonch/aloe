@@ -47,6 +47,18 @@ static int fft_size;
 
 void setup_legends();
 
+/**@ingroup plp_sink
+ *
+ * \brief Initializes the plplot driver if mode is SCOPE or PSD. If the mode is PSD, it
+ * also initializes computes the fftw3 plan for the selected dft_size.
+ *
+ * \param is_complex 0: The input data for all interfaces is real;
+ * 1: The input data for all interfaces is complex. This parameter is mandatory.
+ * \param mode 0: Do nothing; 1: Print to stdout the received samples; 2: SCOPE mode, plots the
+ * received signal using plplot; 3: PSD mode, plots the power spectral density of the received signal.
+ * Default is 0 (silent)
+ * \param fft_size Size of the DFT to compute the PSD. Default is 128.
+ */
 int initialize() {
 	int i;
 	int mode;
@@ -71,7 +83,7 @@ int initialize() {
 			moderror("Error getting parameter mode\n");
 			return -1;
 		}
-		if (mode == MODE_SCOPE || mode == MODE_FFT) {
+		if (mode == MODE_SCOPE || mode == MODE_PSD) {
 			modinfo("Initiating plplot...\n");
 			if (plp_init(PL_DRIVER,"",is_complex)) {
 				return -1;
@@ -92,7 +104,7 @@ int initialize() {
 			return -1;
 		}
 	}
-	if (mode == MODE_FFT) {
+	if (mode == MODE_PSD) {
 		if (fft_init(fft_size, is_complex)) {
 			moderror_msg("Initiating FFT for size %d\n",fft_size);
 			return -1;
@@ -116,6 +128,10 @@ int initialize() {
 
 	return 0;
 }
+
+/**@ingroup plp_sink
+ * Prints or displays the signal according to the selected mode.
+ */
 int work(void **inp, void **out) {
 	int n,i;
 	int mode;
@@ -206,7 +222,7 @@ int work(void **inp, void **out) {
 
 		plp_draw(pl_signals,signal_lengths,0);
 	break;
-	case MODE_FFT:
+	case MODE_PSD:
 #ifdef _COMPILE_ALOE
 		snprintf(xlabel,STR_LEN,"freq. idx (ts=%d)",oesr_tstamp(ctx));
 #else

@@ -17,19 +17,20 @@
  */
 
 
-/* Define here module interfaces */
 
+/**@defgroup template template
+ * Document here your module
+ * @{
+ */
 typedef _Complex float input_t;
 typedef _Complex float output_t;
-
-//#define GENERATE_COMPLEX
 
 #define OUTPUT_MAX_SAMPLES 	14*2048
 #define INPUT_MAX_SAMPLES 	14*2048
 
 #define NOF_INPUT_ITF		1
 #define NOF_OUTPUT_ITF		1
-
+/**@} */
 
 /** Define here module constants shared with test_generate.c fie */
 #define PI			3.14159265359	/* pi approximation */

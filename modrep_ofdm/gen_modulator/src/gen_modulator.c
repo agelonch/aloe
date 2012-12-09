@@ -29,6 +29,11 @@ static int modulation;
 
 int modulate(input_t *input, output_t *output, int nof_bits);
 
+
+/**@ingroup gen_modulator
+ *
+ * \param modulation Choose between 0: BPŜK, 1: QPSK, 2: QAM16 or 3: QAM64. Default is BPSK.
+ */
 int initialize() {
 
 	modulation_id = param_id("modulation");

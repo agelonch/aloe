@@ -31,6 +31,12 @@ static int last_type;
 static int last_block_length;
 
 
+/**@ingroup source
+ *
+ * The available generators are defined in generators.h
+ * \param block_length Number of items (bits or samples) to generate
+ * \param generator Integer indicating the generator (see generators.h)
+ */
 int initialize() {
 	int size;
 	int block_length;

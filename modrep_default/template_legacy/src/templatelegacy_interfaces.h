@@ -23,7 +23,11 @@
 #include "skeleton.h"
 #endif
 
-/* input and output data types */
+
+/**@defgroup template_legacy template_legacy
+ * Document here your module
+ * @{
+ */
 typedef _Complex float input_t;
 typedef _Complex float output_t;
 
@@ -44,4 +48,5 @@ const int nof_output_itf = 1;
 
 #endif
 
+/**@} */
 #endif

@@ -16,7 +16,22 @@
  * along with ALOE++.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/* input and output data types */
+/**@defgroup plp_sink plp_sink
+ *
+ * This sink uses plplot to plot the received samples. It supports different modes:
+ * do nothing, print samples to stdout, plot received samples or plot the power spectral density of the
+ * received samples. The PSD is estimated using the DFT-based periodogram.
+ *
+ * If multiple interfaces are defined, it plots them all in the same window.
+ *
+ * The PLplot interface supports many output drivers. The supported drivers depends on each
+ * particular system. The driver may be selected using the PL_DRIVER constant in the plp_sink.h file.
+ * Please check with plplot documentation for more information.
+ *
+ * The parameter EXEC_MIN_INTERVAL_MS in plp_sink.h selects the signal print/plot period, in miliseconds.
+ *
+ * @{
+ */
 typedef float input_t;
 typedef float output_t;
 
@@ -25,6 +40,8 @@ typedef float output_t;
 
 #define NOF_INPUT_ITF		1
 #define NOF_OUTPUT_ITF		0
+
+/**@} */
 
 #define FFT_DEFAULT_SZ 128
 
@@ -40,7 +57,7 @@ typedef float output_t;
 #define MODE_SILENT		0
 #define MODE_PRINT		1
 #define MODE_SCOPE		2
-#define MODE_FFT		3
+#define MODE_PSD		3
 
 
 

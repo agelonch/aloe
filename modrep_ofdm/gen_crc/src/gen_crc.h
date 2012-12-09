@@ -17,7 +17,14 @@
  */
 
 
-/* Define here module interfaces */
+/** @defgroup gen_crc gen_crc
+ *
+ * Adds a cyclic-reduncancy check to the received bitstream.
+ *
+ * The input and output bits are encoded as 1 byte per bit.
+ *
+ * @{
+ */
 
 typedef char input_t;
 typedef char output_t;
@@ -29,11 +36,12 @@ typedef char output_t;
 #define NOF_OUTPUT_ITF		1
 
 #define DEFAULT_LONG_CRC 	24
-#define DEFAULT_POLY		25578747
+#define DEFAULT_POLY		0x1864CFB
 
 #define MODE_ADD	0
 #define MODE_CHECK	1
 
+/**@} */
 
 /********* do not need to modify beyond here */
 

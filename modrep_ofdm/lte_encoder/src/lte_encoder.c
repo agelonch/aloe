@@ -27,6 +27,10 @@
 pmid_t padding_id;
 static int padding;
 
+
+/** @ingroup lte_encoder
+ * \param padding Number of zero bits to add to the output after encoding the data.
+ */
 int initialize() {
 
 	padding_id = param_id("padding");

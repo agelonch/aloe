@@ -30,6 +30,13 @@ static int long_crc;
 static int mode;
 static unsigned int poly;
 
+/** @ingroup gen_crc gen_crc
+ *
+ * \param long_crc Length of the CRC (default 24)
+ * \param mode 0: add CRC; 1: check last long_crc bits with the teoretical CRC (default ADD)
+ * \param poly CRC polynomi, in hexadecimal (default 0x1864CFB)
+ */
+
 int initialize() {
 
 	if (param_get_int(param_id("mode"),&mode) != 1) {
@@ -56,6 +63,9 @@ int initialize() {
 	return 0;
 }
 
+/**@ingroup gen_crc
+ * Adds a CRC to every received packet from each interface
+ */
 int work(void **inp, void **out) {
 	int i, n;
 	input_t *input;
