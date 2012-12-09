@@ -6,7 +6,7 @@ ALOE stands for Abstraction Layer and Open Operating Environment. It is an Open 
 The project is partially founded by the NLnet foundation (http://www.nlnet.nl), as part of the OSLD project. OSLD aims at building an Open Source LTE system based on ALOE. More information and documentation can be found in the OSLD project website (https://sites.google.com/site/osldproject/)
 
 Requirements
-========
+=============
 
 To install ALOE++, the only requirement is the libconfig parsing library and cmake:
  * libconfig 
@@ -14,19 +14,13 @@ To install ALOE++, the only requirement is the libconfig parsing library and cma
 
 The current ALOE++ release comes with an OFDM demo waveform and a small set of useful modues. These modules have more requirements: 
  * libfftw3 is used by the gen_dft module 
- * plplot + xcairo are used by the plp_sink module to display signals.
+ * plplot + output driver is used by the plp_sink module to display signals.
 
 To install all requirements in ubuntu, just type:
 
 sudo apt-get install libconfig-dev libfftw3-dev libplplot-dev plplot11-driver-xwin plplot11-driver-wxwidgets plplot11-driver-qt
 
 The last two packages are optional. PLplot can work with many different output drivers. The xwin driver works just fine and is fast. The driver used by plp_sink can be selected from the file modrep_ofdm/plp_sink/src/plp_sink.h (see the Documentation Section)
-
-The downloaded directory contains the following subdirectories:
- * rtdal_lnx/ is the linux implementation of the RTDAL
- * oesr/ contains the OESR framework, the OESR API and the OESR Manager API
- * modrep_default/ Modules are organized in repositories. This is the default repository.
- * modrep_ofdm/ This repository contains the OFDM demo waveform modules.
   
 Install
 =========
