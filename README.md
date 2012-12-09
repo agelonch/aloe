@@ -5,26 +5,6 @@ ALOE stands for Abstraction Layer and Open Operating Environment. It is an Open 
 
 The project is partially founded by the NLnet foundation (http://www.nlnet.nl), as part of the OSLD project. OSLD aims at building an Open Source LTE system based on ALOE. More information and documentation can be found in the OSLD project website (https://sites.google.com/site/osldproject/)
 
-Brief Description
-==================
-
-The ALOE framework entails two sub-projects:
- * Real-Time Distributed Abstraction Layer (RTDAL)
- * Operating Environment for Software-defined Radio (OESR)
-
-RTDAL facilitates real-time synchronous execution of tasks in a distributed environment. Tasks are executed periodically on each processor in a pipeline fashion. Each processor creates one thread per core, which runs each task (dynamically loaded as a shared library) one after another. The threads period on each core of each processor are continuously synchronized, offering the user an abstracted virtual platform. It is also possible to synchronize the task execution with a digital converter (AD/DA) for coherent transmission and processing of samples. 
-
-Besides, the RTDAL API also provides other functions to abstract the specific platform-dependant characteristics:
- * Low-priority tasks: Synchronous or asynchronous low-priority tasks can be created and managed.
- * Interfaces: Two tasks sharing a common interface can communicate between each other. Interfaces can be external or internal, to communicate tasks in remote or local processors, respectively. Internal interfaces support zero-copy mode where only a pointer is transfered between the writer and reader, minimizing memory bandwidth consumption. The current implementation employs a wait-free SPSC bounded queue for best real-time performance.   
- * AD/DA abstraction, time functions, shared memory, file I/O, etc.
-
-The OESR, on the other hand, is built on top of the RTDAL. This allows future portability to other platforms (currently, RTDAL employs the POSIX interface and gcc atomic functions). OESR provides functionalities specifically tailored for SDR applications:
- * Automatic mapping of waveforms to a set of processing cores (distributed or in a multi-core, or both). 
- * Location-transparent inter-module communications.
- * Global variables and parameters configuration/visualization
- * Logs, counters and others.
-
 Requirements
 ========
 
@@ -48,7 +28,6 @@ The downloaded directory contains the following subdirectories:
  * modrep_default/ Modules are organized in repositories. This is the default repository.
  * modrep_ofdm/ This repository contains the OFDM demo waveform modules.
   
-
 Install
 =========
 
@@ -94,6 +73,29 @@ Doxygen-generated documentation is available in the following links:
  * OESR Manager API: http://flexnets.github.com/aloe/oesr_man/html/index.html
  * Default Modules: http://flexnets.github.com/aloe/modrep_default/html/index.html
  * OFDM Modules: http://flexnets.github.com/aloe/modrep_ofdm/html/index.html
+
+
+Brief Project Description 
+==================
+
+The ALOE framework entails two sub-projects:
+ * Real-Time Distributed Abstraction Layer (RTDAL)
+ * Operating Environment for Software-defined Radio (OESR)
+
+RTDAL facilitates real-time synchronous execution of tasks in a distributed environment. Tasks are executed periodically on each processor in a pipeline fashion. Each processor creates one thread per core, which runs each task (dynamically loaded as a shared library) one after another. The threads period on each core of each processor are continuously synchronized, offering the user an abstracted virtual platform. It is also possible to synchronize the task execution with a digital converter (AD/DA) for coherent transmission and processing of samples. 
+
+Besides, the RTDAL API also provides other functions to abstract the specific platform-dependant characteristics:
+ * Low-priority tasks: Synchronous or asynchronous low-priority tasks can be created and managed.
+ * Interfaces: Two tasks sharing a common interface can communicate between each other. Interfaces can be external or internal, to communicate tasks in remote or local processors, respectively. Internal interfaces support zero-copy mode where only a pointer is transfered between the writer and reader, minimizing memory bandwidth consumption. The current implementation employs a wait-free SPSC bounded queue for best real-time performance.   
+ * AD/DA abstraction, time functions, shared memory, file I/O, etc.
+
+The OESR, on the other hand, is built on top of the RTDAL. This allows future portability to other platforms (currently, RTDAL employs the POSIX interface and gcc atomic functions). OESR provides functionalities specifically tailored for SDR applications:
+ * Automatic mapping of waveforms to a set of processing cores (distributed or in a multi-core, or both). 
+ * Location-transparent inter-module communications.
+ * Global variables and parameters configuration/visualization
+ * Logs, counters and others.
+
+
 
 Related Projects
 =================
