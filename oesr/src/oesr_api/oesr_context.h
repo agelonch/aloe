@@ -34,7 +34,7 @@ typedef struct {
 	oesr_error_t error;
 	void *module;
 	int tstamp;
-	h_itf_t probeItf;
+	r_itf_t probeItf;
 	int closed_resources;
 }oesr_context_t;
 

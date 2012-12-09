@@ -43,7 +43,7 @@ int rtdal_time_reset() {
 	struct timespec x;
 
 	if (clock_gettime(CLOCK_MONOTONIC,&x)) {
-		rtdal_SYSERROR("clock_gettime");
+		RTDAL_SYSERROR("clock_gettime");
 		return -1;
 	}
 	context->init_time.tv_sec = x.tv_sec;
@@ -73,13 +73,13 @@ inline void rtdal_time_ts_inc() {
  */
 int rtdal_time_set(time_t *time) {
 	assert(context);
-	rtdal_ASSERT_PARAM(time);
+	RTDAL_ASSERT_PARAM(time);
 
 	time_t tact;
 	struct timespec x;
 
 	if (clock_gettime(CLOCK_MONOTONIC,&x)) {
-		rtdal_SYSERROR("clock_gettime");
+		RTDAL_SYSERROR("clock_gettime");
 		return -1;
 	}
 	tact.tv_sec = x.tv_sec;
@@ -93,13 +93,13 @@ int rtdal_time_set(time_t *time) {
  */
 int rtdal_time_get(time_t *time) {
 	assert(context);
-	rtdal_ASSERT_PARAM(time);
+	RTDAL_ASSERT_PARAM(time);
 
 	time_t tact;
 	struct timespec x;
 
 	if (clock_gettime(CLOCK_MONOTONIC,&x)) {
-		rtdal_SYSERROR("clock_gettime");
+		RTDAL_SYSERROR("clock_gettime");
 		return -1;
 	}
 	tact.tv_sec = x.tv_sec;
@@ -143,7 +143,7 @@ void rtdal_time_interval(time_t * tdata) {
  */
 int rtdal_time_to_tstamp(time_t *tdata) {
 	assert(context);
-	rtdal_ASSERT_PARAM(tdata);
+	RTDAL_ASSERT_PARAM(tdata);
 
 	long long int x;
 

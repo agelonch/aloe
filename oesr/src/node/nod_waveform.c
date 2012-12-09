@@ -163,7 +163,7 @@ int nod_waveform_status_stop(nod_waveform_t *waveform) {
 	aassert(waveform);
 	ndebug("waveform_id=%d\n",waveform->id);
 	int i;
-	h_task_t task;
+	r_task_t task;
 	void *ret_val;
 	time_t t;
 	int trials=0;
@@ -251,7 +251,7 @@ void* nod_waveform_status_init_thread(void *arg) {
 int nod_waveform_status_init(nod_waveform_t *waveform) {
 	time_t t;
 	int n;
-	h_task_t task;
+	r_task_t task;
 	int trials = 0;
 	void *ret_val;
 

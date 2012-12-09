@@ -186,7 +186,7 @@ void *pipeline_run_thread(void *self) {
 int pipeline_recover_thread(pipeline_t *obj) {
 	hdebug("pipeline_id=%d\n",obj->id);
 	obj->finished = 1;
-	if (rtdal_process_seterror((h_proc_t) obj->running_process, SIG_RECV)) {
+	if (rtdal_process_seterror((r_proc_t) obj->running_process, SIG_RECV)) {
 		aerror("setting process error\n");
 		return -1;
 	}
@@ -224,7 +224,7 @@ int pipeline_rt_fault(pipeline_t *obj) {
 /**
  * Adds a process to the pipeline. It is inserted in the position
  * min(n,exec_position) where n is the number of
- * elements in the queue and exec_position is defined in the process attributes
+ * elements in the spscq and exec_position is defined in the process attributes
  * used in the call to rtdal_process_new().
  * Returns the position it has finally been inserted.
  *
@@ -236,8 +236,8 @@ int pipeline_rt_fault(pipeline_t *obj) {
 int pipeline_add(pipeline_t *obj, rtdal_process_t *process) {
 	hdebug("pipeid=%d, nof_process=%d, pid=%d, exec_pos=%d\n",obj->id,obj->nof_processes,
 			process->pid,process->attributes.exec_position);
-	rtdal_ASSERT_PARAM(obj);
-	rtdal_ASSERT_PARAM(process);
+	RTDAL_ASSERT_PARAM(obj);
+	RTDAL_ASSERT_PARAM(process);
 	int exec_pos, i;
 	rtdal_process_t *p = NULL;
 
@@ -286,8 +286,8 @@ end:
 int pipeline_remove(pipeline_t *obj, rtdal_process_t *proc) {
 	hdebug("pipeid=%d, nof_process=%d, pid=%d, pid_pos=%d\n",obj->id,obj->nof_processes,
 			proc->pid,proc->attributes.exec_position);
-	rtdal_ASSERT_PARAM(obj);
-	rtdal_ASSERT_PARAM(proc);
+	RTDAL_ASSERT_PARAM(obj);
+	RTDAL_ASSERT_PARAM(proc);
 
 	rtdal_process_t *cur, *prev;
 
@@ -300,7 +300,7 @@ int pipeline_remove(pipeline_t *obj, rtdal_process_t *proc) {
 		cur = cur->next;
 	}
 	if (!cur) {
-		rtdal_SETERROR(rtdal_ERROR_NOTFOUND);
+		RTDAL_SETERROR(RTDAL_ERROR_NOTFOUND);
 		return -1;
 	}
 	if (prev) {

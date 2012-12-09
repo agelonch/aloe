@@ -1,0 +1,164 @@
+\section{/home/ismael/aloe\-\_\-ws/aloe\-\_\-git/rtdal\-\_\-lnx/include/rtdal.h File Reference}
+\label{rtdal_8h}\index{/home/ismael/aloe\-\_\-ws/aloe\-\_\-git/rtdal\-\_\-lnx/include/rtdal.\-h@{/home/ismael/aloe\-\_\-ws/aloe\-\_\-git/rtdal\-\_\-lnx/include/rtdal.\-h}}
+{\ttfamily \#include \char`\"{}rtdal\-\_\-types.\-h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}str.\-h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}rtdal\-\_\-machine.\-h\char`\"{}}\\*
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define {\bf M\-O\-D\-U\-L\-E\-S\-\_\-\-P\-A\-T\-H}~\char`\"{}/home/ismael/aloe\-\_\-ws/aloe\-\_\-git/modules\char`\"{}
+\item 
+\#define {\bf B\-I\-N\-A\-R\-I\-E\-S\-\_\-\-B\-A\-S\-E\-\_\-\-D\-I\-R}~\char`\"{}../modules/\char`\"{}
+\item 
+\#define {\bf B\-I\-N\-A\-R\-I\-E\-S\-\_\-\-M\-O\-D\-U\-L\-E\-\_\-\-D\-I\-R}~\char`\"{}../lib/\char`\"{}
+\item 
+\#define {\bf rtdal\-\_\-perror}(msg)~{\bf rtdal\-\_\-error\-\_\-print}(\char`\"{}\char`\"{}); aerror(msg)
+\end{DoxyCompactItemize}
+\subsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum {\bf rtdal\-\_\-processerrors\-\_\-t} \{ {\bf F\-I\-N\-I\-S\-H\-\_\-\-O\-K}, 
+{\bf R\-T\-F\-A\-U\-L\-T}, 
+{\bf S\-I\-G\-\_\-\-R\-E\-C\-V}, 
+{\bf R\-U\-N\-E\-R\-R\-O\-R}
+ \}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void $\ast$ {\bf \-\_\-run\-\_\-main} (void $\ast$arg)
+\item 
+void {\bf rtdal\-\_\-machine} ({\bf rtdal\-\_\-machine\-\_\-t} $\ast$machine)
+\item 
+int {\bf rtdal\-\_\-sleep} ({\bf time\-\_\-t} $\ast$t)
+\item 
+{\bf r\-\_\-proc\-\_\-t} {\bf rtdal\-\_\-process\-\_\-new} (struct {\bf rtdal\-\_\-process\-\_\-attr} $\ast$attr, void $\ast$arg)
+\item 
+int {\bf rtdal\-\_\-process\-\_\-remove} ({\bf r\-\_\-proc\-\_\-t} proc)
+\item 
+int {\bf rtdal\-\_\-process\-\_\-run} ({\bf r\-\_\-proc\-\_\-t} proc)
+\item 
+int {\bf rtdal\-\_\-process\-\_\-stop} ({\bf r\-\_\-proc\-\_\-t} process)
+\item 
+int {\bf rtdal\-\_\-process\-\_\-seterror} ({\bf r\-\_\-proc\-\_\-t} proc, {\bf rtdal\-\_\-processerrors\-\_\-t} code)
+\item 
+{\bf rtdal\-\_\-processerrors\-\_\-t} {\bf rtdal\-\_\-process\-\_\-geterror} ({\bf r\-\_\-proc\-\_\-t} proc)
+\item 
+int {\bf rtdal\-\_\-process\-\_\-isrunning} ({\bf r\-\_\-proc\-\_\-t} proc)
+\item 
+int {\bf rtdal\-\_\-task\-\_\-new} ({\bf r\-\_\-task\-\_\-t} $\ast$task, void $\ast$($\ast$fnc)(void $\ast$), void $\ast$arg)
+\item 
+int {\bf rtdal\-\_\-task\-\_\-kill} ({\bf r\-\_\-task\-\_\-t} task)
+\item 
+int {\bf rtdal\-\_\-task\-\_\-wait} ({\bf r\-\_\-task\-\_\-t} task, void $\ast$$\ast$retval)
+\item 
+int {\bf rtdal\-\_\-task\-\_\-wait\-\_\-nb} ({\bf r\-\_\-task\-\_\-t} task, void $\ast$$\ast$retval)
+\item 
+void {\bf rtdal\-\_\-task\-\_\-print\-\_\-sched} ()
+\item 
+int {\bf rtdal\-\_\-periodic\-\_\-add} (void($\ast$fnc)(void), int period)
+\item 
+int {\bf rtdal\-\_\-periodic\-\_\-remove} (void($\ast$fnc)(void))
+\item 
+int {\bf rtdal\-\_\-time\-\_\-set} ({\bf time\-\_\-t} $\ast$time)
+\item 
+int {\bf rtdal\-\_\-time\-\_\-get} ({\bf time\-\_\-t} $\ast$time)
+\item 
+int {\bf rtdal\-\_\-time\-\_\-slot} ()
+\item 
+void {\bf rtdal\-\_\-time\-\_\-interval} ({\bf time\-\_\-t} $\ast$tdata)
+\item 
+int {\bf rtdal\-\_\-time\-\_\-attach\-\_\-local} ()
+\item 
+int {\bf rtdal\-\_\-file\-\_\-open} (string name)
+\item 
+int {\bf rtdal\-\_\-file\-\_\-close} (int fd)
+\item 
+int {\bf rtdal\-\_\-file\-\_\-write} (int fd, void $\ast$buf, int size)
+\item 
+int {\bf rtdal\-\_\-file\-\_\-read} (int fd, void $\ast$buf, int size)
+\item 
+{\bf r\-\_\-itf\-\_\-t} {\bf rtdal\-\_\-itfphysic\-\_\-get} (string name)
+\item 
+{\bf r\-\_\-itf\-\_\-t} {\bf rtdal\-\_\-itfphysic\-\_\-get\-\_\-id} (int id)
+\item 
+int {\bf rtdal\-\_\-itfphysic\-\_\-create} ({\bf r\-\_\-itf\-\_\-t} obj, string address)
+\item 
+int {\bf rtdal\-\_\-itfphysic\-\_\-connect} ({\bf r\-\_\-itf\-\_\-t} obj)
+\item 
+int {\bf rtdal\-\_\-itfphysic\-\_\-disconnect} ({\bf r\-\_\-itf\-\_\-t} obj)
+\item 
+{\bf r\-\_\-itf\-\_\-t} {\bf rtdal\-\_\-itfspscq\-\_\-new} (int max\-\_\-msg, int msg\-\_\-sz)
+\item 
+int {\bf rtdal\-\_\-itf\-\_\-remove} ({\bf r\-\_\-itf\-\_\-t} obj)
+\item 
+int {\bf rtdal\-\_\-itf\-\_\-send} ({\bf r\-\_\-itf\-\_\-t} obj, void $\ast$buffer, int len)
+\item 
+int {\bf rtdal\-\_\-itf\-\_\-recv} ({\bf r\-\_\-itf\-\_\-t} obj, void $\ast$buffer, int len)
+\item 
+int {\bf rtdal\-\_\-itf\-\_\-set\-\_\-callback} ({\bf r\-\_\-itf\-\_\-t} obj, void($\ast$fnc)(void), int prio)
+\item 
+int {\bf rtdal\-\_\-itf\-\_\-set\-\_\-blocking} ({\bf r\-\_\-itf\-\_\-t} obj, int block)
+\item 
+int {\bf rtdal\-\_\-itf\-\_\-get\-\_\-blocking} ({\bf r\-\_\-itf\-\_\-t} obj)
+\item 
+int {\bf rtdal\-\_\-itf\-\_\-push} ({\bf r\-\_\-itf\-\_\-t} obj, int len)
+\item 
+int {\bf rtdal\-\_\-itf\-\_\-pop} ({\bf r\-\_\-itf\-\_\-t} obj, void $\ast$$\ast$ptr, int $\ast$len)
+\item 
+int {\bf rtdal\-\_\-itf\-\_\-request} ({\bf r\-\_\-itf\-\_\-t} obj, void $\ast$$\ast$ptr)
+\item 
+int {\bf rtdal\-\_\-itf\-\_\-release} ({\bf r\-\_\-itf\-\_\-t} obj)
+\item 
+int {\bf rtdal\-\_\-itf\-\_\-set\-\_\-delay} ({\bf r\-\_\-itf\-\_\-t} obj, int delay)
+\item 
+int {\bf rtdal\-\_\-itf\-\_\-get\-\_\-delay} ({\bf r\-\_\-itf\-\_\-t} obj)
+\item 
+{\bf r\-\_\-dac\-\_\-t} {\bf rtdal\-\_\-dac\-\_\-get} (string address)
+\item 
+int {\bf rtdal\-\_\-dac\-\_\-set\-\_\-scheduler} ({\bf r\-\_\-dac\-\_\-t} obj, void($\ast$ts\-\_\-begin\-\_\-fnc)(void), int thread\-\_\-prio)
+\item 
+int {\bf rtdal\-\_\-dac\-\_\-start} ({\bf r\-\_\-dac\-\_\-t} obj)
+\item 
+int {\bf rtdal\-\_\-dac\-\_\-set\-\_\-opts} ({\bf r\-\_\-dac\-\_\-t} obj, string opts)
+\item 
+int {\bf rtdal\-\_\-dac\-\_\-set\-\_\-freq} ({\bf r\-\_\-dac\-\_\-t} obj, float freq)
+\item 
+int {\bf rtdal\-\_\-dac\-\_\-set\-\_\-block\-\_\-len} ({\bf r\-\_\-dac\-\_\-t} obj, int len)
+\item 
+int {\bf rtdal\-\_\-dac\-\_\-set\-\_\-sample\-\_\-type} ({\bf r\-\_\-dac\-\_\-t} obj, int type)
+\item 
+int {\bf rtdal\-\_\-dac\-\_\-set\-\_\-buffer\-\_\-size} ({\bf r\-\_\-dac\-\_\-t} obj, int in, int out)
+\item 
+{\bf r\-\_\-itf\-\_\-t} {\bf rtdal\-\_\-dac\-\_\-channel} ({\bf r\-\_\-dac\-\_\-t} obj, int int\-\_\-ch)
+\item 
+char $\ast$ {\bf rtdal\-\_\-error\-\_\-string} ()
+\item 
+int {\bf rtdal\-\_\-error\-\_\-code} ()
+\item 
+void {\bf rtdal\-\_\-error\-\_\-print} (const char $\ast$user\-\_\-message)
+\end{DoxyCompactItemize}
+
+
+\subsection{Macro Definition Documentation}
+\index{rtdal.\-h@{rtdal.\-h}!B\-I\-N\-A\-R\-I\-E\-S\-\_\-\-B\-A\-S\-E\-\_\-\-D\-I\-R@{B\-I\-N\-A\-R\-I\-E\-S\-\_\-\-B\-A\-S\-E\-\_\-\-D\-I\-R}}
+\index{B\-I\-N\-A\-R\-I\-E\-S\-\_\-\-B\-A\-S\-E\-\_\-\-D\-I\-R@{B\-I\-N\-A\-R\-I\-E\-S\-\_\-\-B\-A\-S\-E\-\_\-\-D\-I\-R}!rtdal.h@{rtdal.\-h}}
+\subsubsection[{B\-I\-N\-A\-R\-I\-E\-S\-\_\-\-B\-A\-S\-E\-\_\-\-D\-I\-R}]{\setlength{\rightskip}{0pt plus 5cm}\#define B\-I\-N\-A\-R\-I\-E\-S\-\_\-\-B\-A\-S\-E\-\_\-\-D\-I\-R~\char`\"{}../modules/\char`\"{}}\label{rtdal_8h_a486bd8b3b5035bc58ca728c7bd4c8e0b}
+
+
+Definition at line 28 of file rtdal.\-h.
+
+\index{rtdal.\-h@{rtdal.\-h}!B\-I\-N\-A\-R\-I\-E\-S\-\_\-\-M\-O\-D\-U\-L\-E\-\_\-\-D\-I\-R@{B\-I\-N\-A\-R\-I\-E\-S\-\_\-\-M\-O\-D\-U\-L\-E\-\_\-\-D\-I\-R}}
+\index{B\-I\-N\-A\-R\-I\-E\-S\-\_\-\-M\-O\-D\-U\-L\-E\-\_\-\-D\-I\-R@{B\-I\-N\-A\-R\-I\-E\-S\-\_\-\-M\-O\-D\-U\-L\-E\-\_\-\-D\-I\-R}!rtdal.h@{rtdal.\-h}}
+\subsubsection[{B\-I\-N\-A\-R\-I\-E\-S\-\_\-\-M\-O\-D\-U\-L\-E\-\_\-\-D\-I\-R}]{\setlength{\rightskip}{0pt plus 5cm}\#define B\-I\-N\-A\-R\-I\-E\-S\-\_\-\-M\-O\-D\-U\-L\-E\-\_\-\-D\-I\-R~\char`\"{}../lib/\char`\"{}}\label{rtdal_8h_ac3038a2b717c471b8959eb41c44b3bd5}
+
+
+Definition at line 29 of file rtdal.\-h.
+
+\index{rtdal.\-h@{rtdal.\-h}!M\-O\-D\-U\-L\-E\-S\-\_\-\-P\-A\-T\-H@{M\-O\-D\-U\-L\-E\-S\-\_\-\-P\-A\-T\-H}}
+\index{M\-O\-D\-U\-L\-E\-S\-\_\-\-P\-A\-T\-H@{M\-O\-D\-U\-L\-E\-S\-\_\-\-P\-A\-T\-H}!rtdal.h@{rtdal.\-h}}
+\subsubsection[{M\-O\-D\-U\-L\-E\-S\-\_\-\-P\-A\-T\-H}]{\setlength{\rightskip}{0pt plus 5cm}\#define M\-O\-D\-U\-L\-E\-S\-\_\-\-P\-A\-T\-H~\char`\"{}/home/ismael/aloe\-\_\-ws/aloe\-\_\-git/modules\char`\"{}}\label{rtdal_8h_a23ad38ca7b77f2e595e436a6cf11489d}
+
+
+Definition at line 22 of file rtdal.\-h.
+

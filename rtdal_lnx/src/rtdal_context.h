@@ -21,7 +21,7 @@
 
 #include <pthread.h>
 
-#include "rtdal_itfqueue.h"
+#include "rtdal_itfspscq.h"
 #include "rtdal_itfphysic.h"
 #include "rtdal_dac.h"
 #include "rtdal_machine.h"
@@ -41,7 +41,7 @@ typedef struct {
 	rtdal_error_t error;
 	rtdal_machine_t machine;
 	rtdal_time_t time;
-	rtdal_itfqueue_t queues[MAX(rtdal_itfqueue)];
+	rtdal_itfspscq_t spscqs[MAX(rtdal_itfspscq)];
 	rtdal_periodic_t periodic[MAX(rtdal_periodic)];
 	int nof_periodic;
 	pipeline_t pipelines[MAX(pipeline)];

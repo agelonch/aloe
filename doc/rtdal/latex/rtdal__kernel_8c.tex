@@ -1,0 +1,321 @@
+\section{/home/ismael/aloe\-\_\-ws/aloe\-\_\-git/rtdal\-\_\-lnx/src/rtdal\-\_\-kernel.c File Reference}
+\label{rtdal__kernel_8c}\index{/home/ismael/aloe\-\_\-ws/aloe\-\_\-git/rtdal\-\_\-lnx/src/rtdal\-\_\-kernel.\-c@{/home/ismael/aloe\-\_\-ws/aloe\-\_\-git/rtdal\-\_\-lnx/src/rtdal\-\_\-kernel.\-c}}
+{\ttfamily \#include $<$pthread.\-h$>$}\\*
+{\ttfamily \#include $<$stdlib.\-h$>$}\\*
+{\ttfamily \#include $<$stdio.\-h$>$}\\*
+{\ttfamily \#include $<$signal.\-h$>$}\\*
+{\ttfamily \#include $<$errno.\-h$>$}\\*
+{\ttfamily \#include $<$sched.\-h$>$}\\*
+{\ttfamily \#include $<$unistd.\-h$>$}\\*
+{\ttfamily \#include $<$sys/types.\-h$>$}\\*
+{\ttfamily \#include $<$sys/mman.\-h$>$}\\*
+{\ttfamily \#include \char`\"{}rtdal\-\_\-kernel.\-h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}str.\-h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}defs.\-h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}rtdal\-\_\-time.\-h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}rtdal\-\_\-process.\-h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}rtdal\-\_\-context.\-h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}rtdal\-\_\-task.\-h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}rtdal.\-h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}rtdal\-\_\-timer.\-h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}futex.\-h\char`\"{}}\\*
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define {\bf K\-E\-R\-N\-E\-L\-\_\-\-S\-I\-G\-\_\-\-T\-H\-R\-E\-A\-D\-\_\-\-S\-P\-E\-C\-I\-F\-I\-C}~S\-I\-G\-R\-T\-M\-I\-N
+\item 
+\#define {\bf N\-\_\-\-T\-H\-R\-E\-A\-D\-\_\-\-S\-P\-E\-C\-I\-F\-I\-C\-\_\-\-S\-I\-G\-N\-A\-L\-S}~6
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void {\bf kernel\-\_\-tslot\-\_\-run} ()
+\item 
+int {\bf kernel\-\_\-initialize\-\_\-create\-\_\-pipeline} ({\bf pipeline\-\_\-t} $\ast$obj, int $\ast$wait\-\_\-futex)
+\item 
+void {\bf open\-\_\-debug\-\_\-trace} ()
+\item 
+void {\bf write\-\_\-debug\-\_\-trace} ()
+\item 
+int {\bf parse\-\_\-cores\-\_\-comma\-\_\-sep} (char $\ast$str)
+\item 
+int {\bf parse\-\_\-cores\-\_\-single\-\_\-array} (char $\ast$core\-\_\-init, char $\ast$core\-\_\-end)
+\item 
+int {\bf parse\-\_\-cores} (char $\ast$str)
+\item 
+int {\bf main} (int argc, char $\ast$$\ast$argv)
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+const int {\bf thread\-\_\-specific\-\_\-signals} [{\bf N\-\_\-\-T\-H\-R\-E\-A\-D\-\_\-\-S\-P\-E\-C\-I\-F\-I\-C\-\_\-\-S\-I\-G\-N\-A\-L\-S}]
+\item 
+int $\ast$ {\bf core\-\_\-mapping}
+\item 
+int {\bf nof\-\_\-cores}
+\item 
+F\-I\-L\-E $\ast$ {\bf trace\-\_\-buffer} = N\-U\-L\-L
+\item 
+char $\ast$ {\bf debug\-\_\-trace\-\_\-addr}
+\item 
+size\-\_\-t {\bf debug\-\_\-trace\-\_\-sz}
+\item 
+F\-I\-L\-E $\ast$ {\bf debug\-\_\-trace\-\_\-file}
+\end{DoxyCompactItemize}
+
+
+\subsection{Macro Definition Documentation}
+\index{rtdal\-\_\-kernel.\-c@{rtdal\-\_\-kernel.\-c}!K\-E\-R\-N\-E\-L\-\_\-\-S\-I\-G\-\_\-\-T\-H\-R\-E\-A\-D\-\_\-\-S\-P\-E\-C\-I\-F\-I\-C@{K\-E\-R\-N\-E\-L\-\_\-\-S\-I\-G\-\_\-\-T\-H\-R\-E\-A\-D\-\_\-\-S\-P\-E\-C\-I\-F\-I\-C}}
+\index{K\-E\-R\-N\-E\-L\-\_\-\-S\-I\-G\-\_\-\-T\-H\-R\-E\-A\-D\-\_\-\-S\-P\-E\-C\-I\-F\-I\-C@{K\-E\-R\-N\-E\-L\-\_\-\-S\-I\-G\-\_\-\-T\-H\-R\-E\-A\-D\-\_\-\-S\-P\-E\-C\-I\-F\-I\-C}!rtdal_kernel.c@{rtdal\-\_\-kernel.\-c}}
+\subsubsection[{K\-E\-R\-N\-E\-L\-\_\-\-S\-I\-G\-\_\-\-T\-H\-R\-E\-A\-D\-\_\-\-S\-P\-E\-C\-I\-F\-I\-C}]{\setlength{\rightskip}{0pt plus 5cm}\#define K\-E\-R\-N\-E\-L\-\_\-\-S\-I\-G\-\_\-\-T\-H\-R\-E\-A\-D\-\_\-\-S\-P\-E\-C\-I\-F\-I\-C~S\-I\-G\-R\-T\-M\-I\-N}\label{rtdal__kernel_8c_a2c9d44a9fa92ffd49381e37ea8b98923}
+
+
+Definition at line 40 of file rtdal\-\_\-kernel.\-c.
+
+\index{rtdal\-\_\-kernel.\-c@{rtdal\-\_\-kernel.\-c}!N\-\_\-\-T\-H\-R\-E\-A\-D\-\_\-\-S\-P\-E\-C\-I\-F\-I\-C\-\_\-\-S\-I\-G\-N\-A\-L\-S@{N\-\_\-\-T\-H\-R\-E\-A\-D\-\_\-\-S\-P\-E\-C\-I\-F\-I\-C\-\_\-\-S\-I\-G\-N\-A\-L\-S}}
+\index{N\-\_\-\-T\-H\-R\-E\-A\-D\-\_\-\-S\-P\-E\-C\-I\-F\-I\-C\-\_\-\-S\-I\-G\-N\-A\-L\-S@{N\-\_\-\-T\-H\-R\-E\-A\-D\-\_\-\-S\-P\-E\-C\-I\-F\-I\-C\-\_\-\-S\-I\-G\-N\-A\-L\-S}!rtdal_kernel.c@{rtdal\-\_\-kernel.\-c}}
+\subsubsection[{N\-\_\-\-T\-H\-R\-E\-A\-D\-\_\-\-S\-P\-E\-C\-I\-F\-I\-C\-\_\-\-S\-I\-G\-N\-A\-L\-S}]{\setlength{\rightskip}{0pt plus 5cm}\#define N\-\_\-\-T\-H\-R\-E\-A\-D\-\_\-\-S\-P\-E\-C\-I\-F\-I\-C\-\_\-\-S\-I\-G\-N\-A\-L\-S~6}\label{rtdal__kernel_8c_a9675457fec2c74220d4630df0f0c5507}
+
+
+Definition at line 41 of file rtdal\-\_\-kernel.\-c.
+
+
+
+\subsection{Function Documentation}
+\index{rtdal\-\_\-kernel.\-c@{rtdal\-\_\-kernel.\-c}!kernel\-\_\-initialize\-\_\-create\-\_\-pipeline@{kernel\-\_\-initialize\-\_\-create\-\_\-pipeline}}
+\index{kernel\-\_\-initialize\-\_\-create\-\_\-pipeline@{kernel\-\_\-initialize\-\_\-create\-\_\-pipeline}!rtdal_kernel.c@{rtdal\-\_\-kernel.\-c}}
+\subsubsection[{kernel\-\_\-initialize\-\_\-create\-\_\-pipeline}]{\setlength{\rightskip}{0pt plus 5cm}int kernel\-\_\-initialize\-\_\-create\-\_\-pipeline (
+\begin{DoxyParamCaption}
+\item[{{\bf pipeline\-\_\-t} $\ast$}]{obj, }
+\item[{int $\ast$}]{wait\-\_\-futex}
+\end{DoxyParamCaption}
+)}\label{rtdal__kernel_8c_ac38357048b30cf05db3695d29567f543}
+
+
+Definition at line 191 of file rtdal\-\_\-kernel.\-c.
+
+
+
+References rtdal\-\_\-timer\-\_\-t\-::arg, rtdal\-\_\-machine\-\_\-t\-::clock\-\_\-source, core\-\_\-mapping, D\-E\-T\-A\-C\-H\-A\-B\-L\-E, hdebug, pipeline\-\_\-t\-::id, rtdal\-\_\-machine\-\_\-t\-::kernel\-\_\-prio, rtdal\-\_\-context\-\_\-t\-::machine, rtdal\-\_\-timer\-\_\-t\-::mode, M\-U\-L\-T\-I\-\_\-\-T\-I\-M\-E\-R, pipeline\-\_\-t\-::mytimer, N\-A\-N\-O\-S\-L\-E\-E\-P, rtdal\-\_\-timer\-\_\-t\-::period, rtdal\-\_\-timer\-\_\-t\-::period\-\_\-function, pipeline\-\_\-run\-\_\-from\-\_\-timer(), pipeline\-\_\-run\-\_\-thread(), rtdal\-\_\-perror, rtdal\-\_\-task\-\_\-new\-\_\-thread(), rtdal\-\_\-timer\-\_\-t\-::thread, pipeline\-\_\-t\-::thread, timer\-\_\-run\-\_\-thread(), rtdal\-\_\-machine\-\_\-t\-::ts\-\_\-len\-\_\-us, and rtdal\-\_\-timer\-\_\-t\-::wait\-\_\-futex.
+
+
+
+Referenced by pipeline\-\_\-recover\-\_\-thread().
+
+\index{rtdal\-\_\-kernel.\-c@{rtdal\-\_\-kernel.\-c}!kernel\-\_\-tslot\-\_\-run@{kernel\-\_\-tslot\-\_\-run}}
+\index{kernel\-\_\-tslot\-\_\-run@{kernel\-\_\-tslot\-\_\-run}!rtdal_kernel.c@{rtdal\-\_\-kernel.\-c}}
+\subsubsection[{kernel\-\_\-tslot\-\_\-run}]{\setlength{\rightskip}{0pt plus 5cm}void kernel\-\_\-tslot\-\_\-run (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\label{rtdal__kernel_8c_a0ff66c773d304b578d69496d0cb6a7dc}
+
+
+Definition at line 119 of file rtdal\-\_\-kernel.\-c.
+
+
+
+References hdebug, rtdal\-\_\-time\-\_\-slot(), and rtdal\-\_\-time\-\_\-ts\-\_\-inc().
+
+
+
+Referenced by pipeline\-\_\-run\-\_\-from\-\_\-timer().
+
+\index{rtdal\-\_\-kernel.\-c@{rtdal\-\_\-kernel.\-c}!main@{main}}
+\index{main@{main}!rtdal_kernel.c@{rtdal\-\_\-kernel.\-c}}
+\subsubsection[{main}]{\setlength{\rightskip}{0pt plus 5cm}int main (
+\begin{DoxyParamCaption}
+\item[{int}]{argc, }
+\item[{char $\ast$$\ast$}]{argv}
+\end{DoxyParamCaption}
+)}\label{rtdal__kernel_8c_a3c04138a5bfe5d72780bb7e82a18e627}
+
+
+Definition at line 655 of file rtdal\-\_\-kernel.\-c.
+
+
+
+References \-\_\-run\-\_\-main(), aerror, rtdal\-\_\-context\-\_\-t\-::machine, M\-U\-L\-T\-I\-\_\-\-T\-I\-M\-E\-R, rtdal\-\_\-machine\-\_\-t\-::nof\-\_\-cores, nof\-\_\-cores, open\-\_\-debug\-\_\-trace(), parse\-\_\-cores(), rtdal\-\_\-perror, rtdal\-\_\-task\-\_\-new(), S\-I\-N\-G\-L\-E\-\_\-\-T\-I\-M\-E\-R, strcmp, and write\-\_\-debug\-\_\-trace().
+
+\index{rtdal\-\_\-kernel.\-c@{rtdal\-\_\-kernel.\-c}!open\-\_\-debug\-\_\-trace@{open\-\_\-debug\-\_\-trace}}
+\index{open\-\_\-debug\-\_\-trace@{open\-\_\-debug\-\_\-trace}!rtdal_kernel.c@{rtdal\-\_\-kernel.\-c}}
+\subsubsection[{open\-\_\-debug\-\_\-trace}]{\setlength{\rightskip}{0pt plus 5cm}void open\-\_\-debug\-\_\-trace (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{rtdal__kernel_8c_a26273ca4ee3346e5a0aa78ff0928a059}
+
+
+Definition at line 542 of file rtdal\-\_\-kernel.\-c.
+
+
+
+References debug\-\_\-trace\-\_\-addr, debug\-\_\-trace\-\_\-file, debug\-\_\-trace\-\_\-sz, and trace\-\_\-buffer.
+
+
+
+Referenced by main().
+
+\index{rtdal\-\_\-kernel.\-c@{rtdal\-\_\-kernel.\-c}!parse\-\_\-cores@{parse\-\_\-cores}}
+\index{parse\-\_\-cores@{parse\-\_\-cores}!rtdal_kernel.c@{rtdal\-\_\-kernel.\-c}}
+\subsubsection[{parse\-\_\-cores}]{\setlength{\rightskip}{0pt plus 5cm}int parse\-\_\-cores (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{str}
+\end{DoxyParamCaption}
+)}\label{rtdal__kernel_8c_a48010ad44cfb75d3a9736ff25a935b7d}
+Parses a string indicating which cores can be used to load modules Valid string formats are\-:
+\begin{DoxyItemize}
+\item \char`\"{}\-N\char`\"{} Just a number, without \char`\"{},\char`\"{} nor \char`\"{}\-:\char`\"{} means to use core id 0 to N-\/1
+\item \char`\"{}n1\-:n2\char`\"{} Indicates that core ids n1 to n2 will be used
+\item \char`\"{}n1,n2,n3\char`\"{} Indicates that core ids n1, n2 and n3 only will be used 
+\end{DoxyItemize}
+
+Definition at line 634 of file rtdal\-\_\-kernel.\-c.
+
+
+
+References parse\-\_\-cores\-\_\-comma\-\_\-sep(), and parse\-\_\-cores\-\_\-single\-\_\-array().
+
+
+
+Referenced by main().
+
+\index{rtdal\-\_\-kernel.\-c@{rtdal\-\_\-kernel.\-c}!parse\-\_\-cores\-\_\-comma\-\_\-sep@{parse\-\_\-cores\-\_\-comma\-\_\-sep}}
+\index{parse\-\_\-cores\-\_\-comma\-\_\-sep@{parse\-\_\-cores\-\_\-comma\-\_\-sep}!rtdal_kernel.c@{rtdal\-\_\-kernel.\-c}}
+\subsubsection[{parse\-\_\-cores\-\_\-comma\-\_\-sep}]{\setlength{\rightskip}{0pt plus 5cm}int parse\-\_\-cores\-\_\-comma\-\_\-sep (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{str}
+\end{DoxyParamCaption}
+)}\label{rtdal__kernel_8c_a52c92f67b8fa80901d1a8c3815571a2e}
+
+
+Definition at line 585 of file rtdal\-\_\-kernel.\-c.
+
+
+
+References core\-\_\-mapping.
+
+
+
+Referenced by parse\-\_\-cores().
+
+\index{rtdal\-\_\-kernel.\-c@{rtdal\-\_\-kernel.\-c}!parse\-\_\-cores\-\_\-single\-\_\-array@{parse\-\_\-cores\-\_\-single\-\_\-array}}
+\index{parse\-\_\-cores\-\_\-single\-\_\-array@{parse\-\_\-cores\-\_\-single\-\_\-array}!rtdal_kernel.c@{rtdal\-\_\-kernel.\-c}}
+\subsubsection[{parse\-\_\-cores\-\_\-single\-\_\-array}]{\setlength{\rightskip}{0pt plus 5cm}int parse\-\_\-cores\-\_\-single\-\_\-array (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{core\-\_\-init, }
+\item[{char $\ast$}]{core\-\_\-end}
+\end{DoxyParamCaption}
+)}\label{rtdal__kernel_8c_a2cb45f40a5c2ea40596ecc9691f585ef}
+
+
+Definition at line 609 of file rtdal\-\_\-kernel.\-c.
+
+
+
+References core\-\_\-mapping.
+
+
+
+Referenced by parse\-\_\-cores().
+
+\index{rtdal\-\_\-kernel.\-c@{rtdal\-\_\-kernel.\-c}!write\-\_\-debug\-\_\-trace@{write\-\_\-debug\-\_\-trace}}
+\index{write\-\_\-debug\-\_\-trace@{write\-\_\-debug\-\_\-trace}!rtdal_kernel.c@{rtdal\-\_\-kernel.\-c}}
+\subsubsection[{write\-\_\-debug\-\_\-trace}]{\setlength{\rightskip}{0pt plus 5cm}void write\-\_\-debug\-\_\-trace (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{rtdal__kernel_8c_a46f3b7b0a49dcc119fc158a139ace557}
+
+
+Definition at line 553 of file rtdal\-\_\-kernel.\-c.
+
+
+
+References debug\-\_\-trace\-\_\-addr, debug\-\_\-trace\-\_\-file, debug\-\_\-trace\-\_\-sz, and trace\-\_\-buffer.
+
+
+
+Referenced by main().
+
+
+
+\subsection{Variable Documentation}
+\index{rtdal\-\_\-kernel.\-c@{rtdal\-\_\-kernel.\-c}!core\-\_\-mapping@{core\-\_\-mapping}}
+\index{core\-\_\-mapping@{core\-\_\-mapping}!rtdal_kernel.c@{rtdal\-\_\-kernel.\-c}}
+\subsubsection[{core\-\_\-mapping}]{\setlength{\rightskip}{0pt plus 5cm}int$\ast$ core\-\_\-mapping}\label{rtdal__kernel_8c_a41cd6ec9b53ae98e0eafeacaaa2c51a3}
+
+
+Definition at line 46 of file rtdal\-\_\-kernel.\-c.
+
+
+
+Referenced by kernel\-\_\-initialize\-\_\-create\-\_\-pipeline(), parse\-\_\-cores\-\_\-comma\-\_\-sep(), parse\-\_\-cores\-\_\-single\-\_\-array(), and rtdal\-\_\-task\-\_\-new\-\_\-thread().
+
+\index{rtdal\-\_\-kernel.\-c@{rtdal\-\_\-kernel.\-c}!debug\-\_\-trace\-\_\-addr@{debug\-\_\-trace\-\_\-addr}}
+\index{debug\-\_\-trace\-\_\-addr@{debug\-\_\-trace\-\_\-addr}!rtdal_kernel.c@{rtdal\-\_\-kernel.\-c}}
+\subsubsection[{debug\-\_\-trace\-\_\-addr}]{\setlength{\rightskip}{0pt plus 5cm}char$\ast$ debug\-\_\-trace\-\_\-addr}\label{rtdal__kernel_8c_a8fe8a97db2250e73d61441632f950f5f}
+
+
+Definition at line 66 of file rtdal\-\_\-kernel.\-c.
+
+
+
+Referenced by open\-\_\-debug\-\_\-trace(), and write\-\_\-debug\-\_\-trace().
+
+\index{rtdal\-\_\-kernel.\-c@{rtdal\-\_\-kernel.\-c}!debug\-\_\-trace\-\_\-file@{debug\-\_\-trace\-\_\-file}}
+\index{debug\-\_\-trace\-\_\-file@{debug\-\_\-trace\-\_\-file}!rtdal_kernel.c@{rtdal\-\_\-kernel.\-c}}
+\subsubsection[{debug\-\_\-trace\-\_\-file}]{\setlength{\rightskip}{0pt plus 5cm}F\-I\-L\-E$\ast$ debug\-\_\-trace\-\_\-file}\label{rtdal__kernel_8c_a86a8d012600cf066725345344d40a5da}
+
+
+Definition at line 68 of file rtdal\-\_\-kernel.\-c.
+
+
+
+Referenced by open\-\_\-debug\-\_\-trace(), and write\-\_\-debug\-\_\-trace().
+
+\index{rtdal\-\_\-kernel.\-c@{rtdal\-\_\-kernel.\-c}!debug\-\_\-trace\-\_\-sz@{debug\-\_\-trace\-\_\-sz}}
+\index{debug\-\_\-trace\-\_\-sz@{debug\-\_\-trace\-\_\-sz}!rtdal_kernel.c@{rtdal\-\_\-kernel.\-c}}
+\subsubsection[{debug\-\_\-trace\-\_\-sz}]{\setlength{\rightskip}{0pt plus 5cm}size\-\_\-t debug\-\_\-trace\-\_\-sz}\label{rtdal__kernel_8c_ab79c13782617d982dae3fdc114ac39d6}
+
+
+Definition at line 67 of file rtdal\-\_\-kernel.\-c.
+
+
+
+Referenced by open\-\_\-debug\-\_\-trace(), and write\-\_\-debug\-\_\-trace().
+
+\index{rtdal\-\_\-kernel.\-c@{rtdal\-\_\-kernel.\-c}!nof\-\_\-cores@{nof\-\_\-cores}}
+\index{nof\-\_\-cores@{nof\-\_\-cores}!rtdal_kernel.c@{rtdal\-\_\-kernel.\-c}}
+\subsubsection[{nof\-\_\-cores}]{\setlength{\rightskip}{0pt plus 5cm}int nof\-\_\-cores}\label{rtdal__kernel_8c_a963897f83bd39432e5c50dee715eb2f9}
+
+
+Definition at line 47 of file rtdal\-\_\-kernel.\-c.
+
+
+
+Referenced by main(), and rtdal\-\_\-task\-\_\-new\-\_\-thread().
+
+\index{rtdal\-\_\-kernel.\-c@{rtdal\-\_\-kernel.\-c}!thread\-\_\-specific\-\_\-signals@{thread\-\_\-specific\-\_\-signals}}
+\index{thread\-\_\-specific\-\_\-signals@{thread\-\_\-specific\-\_\-signals}!rtdal_kernel.c@{rtdal\-\_\-kernel.\-c}}
+\subsubsection[{thread\-\_\-specific\-\_\-signals}]{\setlength{\rightskip}{0pt plus 5cm}const int thread\-\_\-specific\-\_\-signals[{\bf N\-\_\-\-T\-H\-R\-E\-A\-D\-\_\-\-S\-P\-E\-C\-I\-F\-I\-C\-\_\-\-S\-I\-G\-N\-A\-L\-S}]}\label{rtdal__kernel_8c_a349740abec20c73ff7e70ed54841c7a6}
+{\bfseries Initial value\-:}
+\begin{DoxyCode}
+
+        \{SIGSEGV, SIGBUS, SIGILL, SIGFPE, TASK_TERMINATION_SIGNAL, SIGUSR1\}
+\end{DoxyCode}
+
+
+Definition at line 42 of file rtdal\-\_\-kernel.\-c.
+
+\index{rtdal\-\_\-kernel.\-c@{rtdal\-\_\-kernel.\-c}!trace\-\_\-buffer@{trace\-\_\-buffer}}
+\index{trace\-\_\-buffer@{trace\-\_\-buffer}!rtdal_kernel.c@{rtdal\-\_\-kernel.\-c}}
+\subsubsection[{trace\-\_\-buffer}]{\setlength{\rightskip}{0pt plus 5cm}F\-I\-L\-E$\ast$ trace\-\_\-buffer = N\-U\-L\-L}\label{rtdal__kernel_8c_abd0a342fbf3ca1440dd41f34d06c6d07}
+
+
+Definition at line 65 of file rtdal\-\_\-kernel.\-c.
+
+
+
+Referenced by open\-\_\-debug\-\_\-trace(), and write\-\_\-debug\-\_\-trace().
+

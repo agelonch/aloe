@@ -30,7 +30,7 @@ typedef struct {
 	float freq;
 	int block_len;
 	int sampleType;
-	rtdal_itfqueue_t channels[MAX(dac_channel)];
+	rtdal_itfspscq_t channels[MAX(dac_channel)];
 	string address;
 	void (*ts_begin_fnc)(void);
 	int thread_prio;
@@ -38,15 +38,15 @@ typedef struct {
 } rtdal_dac_t;
 
 
-int rtdal_dac_open(h_dac_t obj, string address, string options);
-int rtdal_dac_close(h_dac_t obj);
-int rtdal_dac_set_scheduler(h_dac_t obj, void (*ts_begin_fnc)(void), int thread_prio);
-int rtdal_dac_start(h_dac_t obj);
-int rtdal_dac_set_opts(h_dac_t obj, string opts);
-int rtdal_dac_set_freq(h_dac_t obj, float freq);
-int rtdal_dac_set_block_len(h_dac_t obj, int len);
-int rtdal_dac_set_sample_type(h_dac_t obj, int type);
-int rtdal_dac_set_buffer_sz(h_dac_t obj, int in, int out);
-h_itf_t rtdal_dac_channel(h_dac_t obj, int int_ch);
+int rtdal_dac_open(r_dac_t obj, string address, string options);
+int rtdal_dac_close(r_dac_t obj);
+int rtdal_dac_set_scheduler(r_dac_t obj, void (*ts_begin_fnc)(void), int thread_prio);
+int rtdal_dac_start(r_dac_t obj);
+int rtdal_dac_set_opts(r_dac_t obj, string opts);
+int rtdal_dac_set_freq(r_dac_t obj, float freq);
+int rtdal_dac_set_block_len(r_dac_t obj, int len);
+int rtdal_dac_set_sample_type(r_dac_t obj, int type);
+int rtdal_dac_set_buffer_sz(r_dac_t obj, int in, int out);
+r_itf_t rtdal_dac_channel(r_dac_t obj, int int_ch);
 
 #endif

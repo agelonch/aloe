@@ -1,0 +1,281 @@
+\section{/home/ismael/aloe\-\_\-ws/aloe\-\_\-git/rtdal\-\_\-lnx/src/rtdal\-\_\-itfspscq.h File Reference}
+\label{rtdal__itfspscq_8h}\index{/home/ismael/aloe\-\_\-ws/aloe\-\_\-git/rtdal\-\_\-lnx/src/rtdal\-\_\-itfspscq.\-h@{/home/ismael/aloe\-\_\-ws/aloe\-\_\-git/rtdal\-\_\-lnx/src/rtdal\-\_\-itfspscq.\-h}}
+{\ttfamily \#include \char`\"{}str.\-h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}rtdal\-\_\-itf.\-h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}rtdal.\-h\char`\"{}}\\*
+\subsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct {\bf r\-\_\-pkt\-\_\-t}
+\item 
+struct {\bf rtdal\-\_\-itfspscq\-\_\-t}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+int {\bf rtdal\-\_\-itfspscq\-\_\-init} ({\bf rtdal\-\_\-itfspscq\-\_\-t} $\ast$obj)
+\item 
+int {\bf rtdal\-\_\-itfspscq\-\_\-create} ({\bf r\-\_\-itf\-\_\-t} obj, {\bf string} address)
+\item 
+int {\bf rtdal\-\_\-itfspscq\-\_\-remove} ({\bf r\-\_\-itf\-\_\-t} obj)
+\item 
+int {\bf rtdal\-\_\-itfspscq\-\_\-request} ({\bf r\-\_\-itf\-\_\-t} obj, void $\ast$$\ast$ptr)
+\item 
+int {\bf rtdal\-\_\-itfspscq\-\_\-push} ({\bf r\-\_\-itf\-\_\-t} obj, int len)
+\item 
+int {\bf rtdal\-\_\-itfspscq\-\_\-pop} ({\bf r\-\_\-itf\-\_\-t} obj, void $\ast$$\ast$ptr, int $\ast$len)
+\item 
+int {\bf rtdal\-\_\-itfspscq\-\_\-release} ({\bf r\-\_\-itf\-\_\-t} obj)
+\item 
+int {\bf rtdal\-\_\-itfspscq\-\_\-send} ({\bf r\-\_\-itf\-\_\-t} obj, void $\ast$buffer, int len)
+\item 
+int {\bf rtdal\-\_\-itfspscq\-\_\-recv} ({\bf r\-\_\-itf\-\_\-t} obj, void $\ast$buffer, int len)
+\item 
+int {\bf rtdal\-\_\-itfspscq\-\_\-set\-\_\-callback} ({\bf r\-\_\-itf\-\_\-t} obj, void($\ast$fnc)(void), int prio)
+\item 
+int {\bf rtdal\-\_\-itfspscq\-\_\-set\-\_\-blocking} ({\bf r\-\_\-itf\-\_\-t} obj, int block)
+\item 
+int {\bf rtdal\-\_\-itfspscq\-\_\-get\-\_\-blocking} ({\bf r\-\_\-itf\-\_\-t} obj)
+\item 
+int {\bf rtdal\-\_\-itfspscq\-\_\-set\-\_\-delay} ({\bf r\-\_\-itf\-\_\-t} obj, int delay)
+\item 
+int {\bf rtdal\-\_\-itfspscq\-\_\-get\-\_\-delay} ({\bf r\-\_\-itf\-\_\-t} obj)
+\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\index{rtdal\-\_\-itfspscq.\-h@{rtdal\-\_\-itfspscq.\-h}!rtdal\-\_\-itfspscq\-\_\-create@{rtdal\-\_\-itfspscq\-\_\-create}}
+\index{rtdal\-\_\-itfspscq\-\_\-create@{rtdal\-\_\-itfspscq\-\_\-create}!rtdal_itfspscq.h@{rtdal\-\_\-itfspscq.\-h}}
+\subsubsection[{rtdal\-\_\-itfspscq\-\_\-create}]{\setlength{\rightskip}{0pt plus 5cm}int rtdal\-\_\-itfspscq\-\_\-create (
+\begin{DoxyParamCaption}
+\item[{{\bf r\-\_\-itf\-\_\-t}}]{obj, }
+\item[{{\bf string}}]{address}
+\end{DoxyParamCaption}
+)}\label{rtdal__itfspscq_8h_a3d310354aca07f7bfcec1f7093d7acb0}
+\index{rtdal\-\_\-itfspscq.\-h@{rtdal\-\_\-itfspscq.\-h}!rtdal\-\_\-itfspscq\-\_\-get\-\_\-blocking@{rtdal\-\_\-itfspscq\-\_\-get\-\_\-blocking}}
+\index{rtdal\-\_\-itfspscq\-\_\-get\-\_\-blocking@{rtdal\-\_\-itfspscq\-\_\-get\-\_\-blocking}!rtdal_itfspscq.h@{rtdal\-\_\-itfspscq.\-h}}
+\subsubsection[{rtdal\-\_\-itfspscq\-\_\-get\-\_\-blocking}]{\setlength{\rightskip}{0pt plus 5cm}int rtdal\-\_\-itfspscq\-\_\-get\-\_\-blocking (
+\begin{DoxyParamCaption}
+\item[{{\bf r\-\_\-itf\-\_\-t}}]{obj}
+\end{DoxyParamCaption}
+)}\label{rtdal__itfspscq_8h_a1a3f746f5567afcef70a5326932666af}
+
+
+Definition at line 180 of file rtdal\-\_\-itfspscq.\-c.
+
+
+
+References aerror.
+
+\index{rtdal\-\_\-itfspscq.\-h@{rtdal\-\_\-itfspscq.\-h}!rtdal\-\_\-itfspscq\-\_\-get\-\_\-delay@{rtdal\-\_\-itfspscq\-\_\-get\-\_\-delay}}
+\index{rtdal\-\_\-itfspscq\-\_\-get\-\_\-delay@{rtdal\-\_\-itfspscq\-\_\-get\-\_\-delay}!rtdal_itfspscq.h@{rtdal\-\_\-itfspscq.\-h}}
+\subsubsection[{rtdal\-\_\-itfspscq\-\_\-get\-\_\-delay}]{\setlength{\rightskip}{0pt plus 5cm}int rtdal\-\_\-itfspscq\-\_\-get\-\_\-delay (
+\begin{DoxyParamCaption}
+\item[{{\bf r\-\_\-itf\-\_\-t}}]{obj}
+\end{DoxyParamCaption}
+)}\label{rtdal__itfspscq_8h_a5a13e5b7076e8d9d5e6956eab36e336e}
+
+
+Definition at line 164 of file rtdal\-\_\-itfspscq.\-c.
+
+
+
+References aerror.
+
+\index{rtdal\-\_\-itfspscq.\-h@{rtdal\-\_\-itfspscq.\-h}!rtdal\-\_\-itfspscq\-\_\-init@{rtdal\-\_\-itfspscq\-\_\-init}}
+\index{rtdal\-\_\-itfspscq\-\_\-init@{rtdal\-\_\-itfspscq\-\_\-init}!rtdal_itfspscq.h@{rtdal\-\_\-itfspscq.\-h}}
+\subsubsection[{rtdal\-\_\-itfspscq\-\_\-init}]{\setlength{\rightskip}{0pt plus 5cm}int rtdal\-\_\-itfspscq\-\_\-init (
+\begin{DoxyParamCaption}
+\item[{{\bf rtdal\-\_\-itfspscq\-\_\-t} $\ast$}]{obj}
+\end{DoxyParamCaption}
+)}\label{rtdal__itfspscq_8h_a4dd3bf69f9865a0770622d65964cc00d}
+
+
+Definition at line 34 of file rtdal\-\_\-itfspscq.\-c.
+
+
+
+References r\-\_\-pkt\-\_\-t\-::data, rtdal\-\_\-itfspscq\-\_\-t\-::data, rtdal\-\_\-itf\-\_\-t\-::delay, rtdal\-\_\-itf\-\_\-t\-::is\-\_\-external, rtdal\-\_\-itfspscq\-\_\-t\-::max\-\_\-msg, rtdal\-\_\-itfspscq\-\_\-t\-::max\-\_\-msg\-\_\-sz, rtdal\-\_\-itfspscq\-\_\-t\-::packets, rtdal\-\_\-itfspscq\-\_\-t\-::parent, rtdal\-\_\-itfspscq\-\_\-t\-::read, R\-T\-D\-A\-L\-\_\-\-A\-S\-S\-E\-R\-T\-\_\-\-P\-A\-R\-A\-M, r\-\_\-pkt\-\_\-t\-::valid, and rtdal\-\_\-itfspscq\-\_\-t\-::write.
+
+
+
+Referenced by rtdal\-\_\-itfspscq\-\_\-new().
+
+\index{rtdal\-\_\-itfspscq.\-h@{rtdal\-\_\-itfspscq.\-h}!rtdal\-\_\-itfspscq\-\_\-pop@{rtdal\-\_\-itfspscq\-\_\-pop}}
+\index{rtdal\-\_\-itfspscq\-\_\-pop@{rtdal\-\_\-itfspscq\-\_\-pop}!rtdal_itfspscq.h@{rtdal\-\_\-itfspscq.\-h}}
+\subsubsection[{rtdal\-\_\-itfspscq\-\_\-pop}]{\setlength{\rightskip}{0pt plus 5cm}int rtdal\-\_\-itfspscq\-\_\-pop (
+\begin{DoxyParamCaption}
+\item[{{\bf r\-\_\-itf\-\_\-t}}]{obj, }
+\item[{void $\ast$$\ast$}]{ptr, }
+\item[{int $\ast$}]{len}
+\end{DoxyParamCaption}
+)}\label{rtdal__itfspscq_8h_ac4327e041f6c5f07cfb5f53f726c1be2}
+
+
+Definition at line 117 of file rtdal\-\_\-itfspscq.\-c.
+
+
+
+References cast, r\-\_\-pkt\-\_\-t\-::data, r\-\_\-pkt\-\_\-t\-::len, rtdal\-\_\-itfspscq\-\_\-t\-::packets, qdebug, rtdal\-\_\-itfspscq\-\_\-t\-::read, R\-T\-D\-A\-L\-\_\-\-A\-S\-S\-E\-R\-T\-\_\-\-P\-A\-R\-A\-M, rtdal\-\_\-time\-\_\-slot(), and r\-\_\-pkt\-\_\-t\-::tstamp.
+
+
+
+Referenced by rtdal\-\_\-itfspscq\-\_\-recv().
+
+\index{rtdal\-\_\-itfspscq.\-h@{rtdal\-\_\-itfspscq.\-h}!rtdal\-\_\-itfspscq\-\_\-push@{rtdal\-\_\-itfspscq\-\_\-push}}
+\index{rtdal\-\_\-itfspscq\-\_\-push@{rtdal\-\_\-itfspscq\-\_\-push}!rtdal_itfspscq.h@{rtdal\-\_\-itfspscq.\-h}}
+\subsubsection[{rtdal\-\_\-itfspscq\-\_\-push}]{\setlength{\rightskip}{0pt plus 5cm}int rtdal\-\_\-itfspscq\-\_\-push (
+\begin{DoxyParamCaption}
+\item[{{\bf r\-\_\-itf\-\_\-t}}]{obj, }
+\item[{int}]{len}
+\end{DoxyParamCaption}
+)}\label{rtdal__itfspscq_8h_a39616560d2408c77062a0b5b99a1a666}
+
+
+Definition at line 101 of file rtdal\-\_\-itfspscq.\-c.
+
+
+
+References cast, rtdal\-\_\-itf\-\_\-t\-::delay, r\-\_\-pkt\-\_\-t\-::len, rtdal\-\_\-itfspscq\-\_\-t\-::max\-\_\-msg, rtdal\-\_\-itfspscq\-\_\-t\-::packets, rtdal\-\_\-itfspscq\-\_\-t\-::parent, qdebug, R\-T\-D\-A\-L\-\_\-\-E\-R\-R\-O\-R\-\_\-\-N\-O\-S\-P\-A\-C\-E, R\-T\-D\-A\-L\-\_\-\-S\-E\-T\-E\-R\-R\-O\-R, rtdal\-\_\-time\-\_\-slot(), r\-\_\-pkt\-\_\-t\-::tstamp, r\-\_\-pkt\-\_\-t\-::valid, and rtdal\-\_\-itfspscq\-\_\-t\-::write.
+
+
+
+Referenced by rtdal\-\_\-itfspscq\-\_\-send().
+
+\index{rtdal\-\_\-itfspscq.\-h@{rtdal\-\_\-itfspscq.\-h}!rtdal\-\_\-itfspscq\-\_\-recv@{rtdal\-\_\-itfspscq\-\_\-recv}}
+\index{rtdal\-\_\-itfspscq\-\_\-recv@{rtdal\-\_\-itfspscq\-\_\-recv}!rtdal_itfspscq.h@{rtdal\-\_\-itfspscq.\-h}}
+\subsubsection[{rtdal\-\_\-itfspscq\-\_\-recv}]{\setlength{\rightskip}{0pt plus 5cm}int rtdal\-\_\-itfspscq\-\_\-recv (
+\begin{DoxyParamCaption}
+\item[{{\bf r\-\_\-itf\-\_\-t}}]{obj, }
+\item[{void $\ast$}]{buffer, }
+\item[{int}]{len}
+\end{DoxyParamCaption}
+)}\label{rtdal__itfspscq_8h_a9e9b0b04d3c285e9fbafd6a528a3dfde}
+
+
+Definition at line 210 of file rtdal\-\_\-itfspscq.\-c.
+
+
+
+References cast, hdebug, R\-T\-D\-A\-L\-\_\-\-A\-S\-S\-E\-R\-T\-\_\-\-P\-A\-R\-A\-M, rtdal\-\_\-itfspscq\-\_\-pop(), and rtdal\-\_\-itfspscq\-\_\-release().
+
+\index{rtdal\-\_\-itfspscq.\-h@{rtdal\-\_\-itfspscq.\-h}!rtdal\-\_\-itfspscq\-\_\-release@{rtdal\-\_\-itfspscq\-\_\-release}}
+\index{rtdal\-\_\-itfspscq\-\_\-release@{rtdal\-\_\-itfspscq\-\_\-release}!rtdal_itfspscq.h@{rtdal\-\_\-itfspscq.\-h}}
+\subsubsection[{rtdal\-\_\-itfspscq\-\_\-release}]{\setlength{\rightskip}{0pt plus 5cm}int rtdal\-\_\-itfspscq\-\_\-release (
+\begin{DoxyParamCaption}
+\item[{{\bf r\-\_\-itf\-\_\-t}}]{obj}
+\end{DoxyParamCaption}
+)}\label{rtdal__itfspscq_8h_ac0278bd4bedfd019aef889571d23e509}
+
+
+Definition at line 145 of file rtdal\-\_\-itfspscq.\-c.
+
+
+
+References cast, rtdal\-\_\-itfspscq\-\_\-t\-::max\-\_\-msg, rtdal\-\_\-itfspscq\-\_\-t\-::packets, qdebug, rtdal\-\_\-itfspscq\-\_\-t\-::read, r\-\_\-pkt\-\_\-t\-::tstamp, and r\-\_\-pkt\-\_\-t\-::valid.
+
+
+
+Referenced by rtdal\-\_\-itfspscq\-\_\-recv().
+
+\index{rtdal\-\_\-itfspscq.\-h@{rtdal\-\_\-itfspscq.\-h}!rtdal\-\_\-itfspscq\-\_\-remove@{rtdal\-\_\-itfspscq\-\_\-remove}}
+\index{rtdal\-\_\-itfspscq\-\_\-remove@{rtdal\-\_\-itfspscq\-\_\-remove}!rtdal_itfspscq.h@{rtdal\-\_\-itfspscq.\-h}}
+\subsubsection[{rtdal\-\_\-itfspscq\-\_\-remove}]{\setlength{\rightskip}{0pt plus 5cm}int rtdal\-\_\-itfspscq\-\_\-remove (
+\begin{DoxyParamCaption}
+\item[{{\bf r\-\_\-itf\-\_\-t}}]{obj}
+\end{DoxyParamCaption}
+)}\label{rtdal__itfspscq_8h_a321c9b73a5daf5a5f01fb41f321155fc}
+
+
+Definition at line 56 of file rtdal\-\_\-itfspscq.\-c.
+
+
+
+References cast.
+
+\index{rtdal\-\_\-itfspscq.\-h@{rtdal\-\_\-itfspscq.\-h}!rtdal\-\_\-itfspscq\-\_\-request@{rtdal\-\_\-itfspscq\-\_\-request}}
+\index{rtdal\-\_\-itfspscq\-\_\-request@{rtdal\-\_\-itfspscq\-\_\-request}!rtdal_itfspscq.h@{rtdal\-\_\-itfspscq.\-h}}
+\subsubsection[{rtdal\-\_\-itfspscq\-\_\-request}]{\setlength{\rightskip}{0pt plus 5cm}int rtdal\-\_\-itfspscq\-\_\-request (
+\begin{DoxyParamCaption}
+\item[{{\bf r\-\_\-itf\-\_\-t}}]{obj, }
+\item[{void $\ast$$\ast$}]{ptr}
+\end{DoxyParamCaption}
+)}\label{rtdal__itfspscq_8h_ad993aed16e1a3468f2cfc9de52a0b8ce}
+
+
+Definition at line 82 of file rtdal\-\_\-itfspscq.\-c.
+
+
+
+References cast, r\-\_\-pkt\-\_\-t\-::data, rtdal\-\_\-itfspscq\-\_\-t\-::max\-\_\-msg, rtdal\-\_\-itfspscq\-\_\-t\-::packets, qdebug, R\-T\-D\-A\-L\-\_\-\-A\-S\-S\-E\-R\-T\-\_\-\-P\-A\-R\-A\-M, R\-T\-D\-A\-L\-\_\-\-E\-R\-R\-O\-R\-\_\-\-N\-O\-S\-P\-A\-C\-E, R\-T\-D\-A\-L\-\_\-\-S\-E\-T\-E\-R\-R\-O\-R, r\-\_\-pkt\-\_\-t\-::tstamp, and rtdal\-\_\-itfspscq\-\_\-t\-::write.
+
+
+
+Referenced by rtdal\-\_\-itfspscq\-\_\-send().
+
+\index{rtdal\-\_\-itfspscq.\-h@{rtdal\-\_\-itfspscq.\-h}!rtdal\-\_\-itfspscq\-\_\-send@{rtdal\-\_\-itfspscq\-\_\-send}}
+\index{rtdal\-\_\-itfspscq\-\_\-send@{rtdal\-\_\-itfspscq\-\_\-send}!rtdal_itfspscq.h@{rtdal\-\_\-itfspscq.\-h}}
+\subsubsection[{rtdal\-\_\-itfspscq\-\_\-send}]{\setlength{\rightskip}{0pt plus 5cm}int rtdal\-\_\-itfspscq\-\_\-send (
+\begin{DoxyParamCaption}
+\item[{{\bf r\-\_\-itf\-\_\-t}}]{obj, }
+\item[{void $\ast$}]{buffer, }
+\item[{int}]{len}
+\end{DoxyParamCaption}
+)}\label{rtdal__itfspscq_8h_acf2650b9b3bdd719c7a058252a0c5a97}
+
+
+Definition at line 186 of file rtdal\-\_\-itfspscq.\-c.
+
+
+
+References cast, hdebug, rtdal\-\_\-itfspscq\-\_\-t\-::max\-\_\-msg\-\_\-sz, R\-T\-D\-A\-L\-\_\-\-A\-S\-S\-E\-R\-T\-\_\-\-P\-A\-R\-A\-M, R\-T\-D\-A\-L\-\_\-\-E\-R\-R\-O\-R\-\_\-\-L\-A\-R\-G\-E, rtdal\-\_\-itfspscq\-\_\-push(), rtdal\-\_\-itfspscq\-\_\-request(), and R\-T\-D\-A\-L\-\_\-\-S\-E\-T\-E\-R\-R\-O\-R.
+
+\index{rtdal\-\_\-itfspscq.\-h@{rtdal\-\_\-itfspscq.\-h}!rtdal\-\_\-itfspscq\-\_\-set\-\_\-blocking@{rtdal\-\_\-itfspscq\-\_\-set\-\_\-blocking}}
+\index{rtdal\-\_\-itfspscq\-\_\-set\-\_\-blocking@{rtdal\-\_\-itfspscq\-\_\-set\-\_\-blocking}!rtdal_itfspscq.h@{rtdal\-\_\-itfspscq.\-h}}
+\subsubsection[{rtdal\-\_\-itfspscq\-\_\-set\-\_\-blocking}]{\setlength{\rightskip}{0pt plus 5cm}int rtdal\-\_\-itfspscq\-\_\-set\-\_\-blocking (
+\begin{DoxyParamCaption}
+\item[{{\bf r\-\_\-itf\-\_\-t}}]{obj, }
+\item[{int}]{block}
+\end{DoxyParamCaption}
+)}\label{rtdal__itfspscq_8h_ac4f08e3d212016fba1f8b5b439115ca7}
+
+
+Definition at line 175 of file rtdal\-\_\-itfspscq.\-c.
+
+
+
+References aerror.
+
+\index{rtdal\-\_\-itfspscq.\-h@{rtdal\-\_\-itfspscq.\-h}!rtdal\-\_\-itfspscq\-\_\-set\-\_\-callback@{rtdal\-\_\-itfspscq\-\_\-set\-\_\-callback}}
+\index{rtdal\-\_\-itfspscq\-\_\-set\-\_\-callback@{rtdal\-\_\-itfspscq\-\_\-set\-\_\-callback}!rtdal_itfspscq.h@{rtdal\-\_\-itfspscq.\-h}}
+\subsubsection[{rtdal\-\_\-itfspscq\-\_\-set\-\_\-callback}]{\setlength{\rightskip}{0pt plus 5cm}int rtdal\-\_\-itfspscq\-\_\-set\-\_\-callback (
+\begin{DoxyParamCaption}
+\item[{{\bf r\-\_\-itf\-\_\-t}}]{obj, }
+\item[{void($\ast$)(void)}]{fnc, }
+\item[{int}]{prio}
+\end{DoxyParamCaption}
+)}\label{rtdal__itfspscq_8h_aa530e5b2b6e901870b2455d12e8f6d97}
+
+
+Definition at line 170 of file rtdal\-\_\-itfspscq.\-c.
+
+
+
+References aerror.
+
+\index{rtdal\-\_\-itfspscq.\-h@{rtdal\-\_\-itfspscq.\-h}!rtdal\-\_\-itfspscq\-\_\-set\-\_\-delay@{rtdal\-\_\-itfspscq\-\_\-set\-\_\-delay}}
+\index{rtdal\-\_\-itfspscq\-\_\-set\-\_\-delay@{rtdal\-\_\-itfspscq\-\_\-set\-\_\-delay}!rtdal_itfspscq.h@{rtdal\-\_\-itfspscq.\-h}}
+\subsubsection[{rtdal\-\_\-itfspscq\-\_\-set\-\_\-delay}]{\setlength{\rightskip}{0pt plus 5cm}int rtdal\-\_\-itfspscq\-\_\-set\-\_\-delay (
+\begin{DoxyParamCaption}
+\item[{{\bf r\-\_\-itf\-\_\-t}}]{obj, }
+\item[{int}]{delay}
+\end{DoxyParamCaption}
+)}\label{rtdal__itfspscq_8h_a253c600819004c79a8bc517ab65087b6}
+
+
+Definition at line 159 of file rtdal\-\_\-itfspscq.\-c.
+
+
+
+References aerror.
+

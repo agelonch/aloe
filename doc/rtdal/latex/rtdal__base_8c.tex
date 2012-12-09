@@ -1,0 +1,95 @@
+\section{/home/ismael/aloe\-\_\-ws/aloe\-\_\-git/rtdal\-\_\-lnx/src/rtdal\-\_\-base.c File Reference}
+\label{rtdal__base_8c}\index{/home/ismael/aloe\-\_\-ws/aloe\-\_\-git/rtdal\-\_\-lnx/src/rtdal\-\_\-base.\-c@{/home/ismael/aloe\-\_\-ws/aloe\-\_\-git/rtdal\-\_\-lnx/src/rtdal\-\_\-base.\-c}}
+{\ttfamily \#include $<$stddef.\-h$>$}\\*
+{\ttfamily \#include $<$unistd.\-h$>$}\\*
+{\ttfamily \#include $<$time.\-h$>$}\\*
+{\ttfamily \#include \char`\"{}defs.\-h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}str.\-h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}rtdal\-\_\-kernel.\-h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}objects\-\_\-max.\-h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}rtdal\-\_\-context.\-h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}rtdal\-\_\-time.\-h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}rtdal\-\_\-file.\-h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}rtdal\-\_\-error.\-h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}rtdal.\-h\char`\"{}}\\*
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void {\bf rtdal\-\_\-machine} ({\bf rtdal\-\_\-machine\-\_\-t} $\ast$machine)
+\begin{DoxyCompactList}\small\item\em Writes the machine structure into the buffer pointed by $\ast$machine. \end{DoxyCompactList}\item 
+int {\bf rtdal\-\_\-initialize\-\_\-node} ({\bf rtdal\-\_\-context\-\_\-t} $\ast$\-\_\-context, {\bf string} config\-\_\-file, void($\ast$ts\-\_\-begin\-\_\-fnc)(void))
+\item 
+int {\bf rtdal\-\_\-start\-\_\-manager\-\_\-interfaces} ({\bf string} config\-\_\-file)
+\item 
+int {\bf rtdal\-\_\-periodic\-\_\-add} (void($\ast$callback)(void), int period)
+\item 
+int {\bf rtdal\-\_\-periodic\-\_\-remove} (void($\ast$callback)(void))
+\item 
+int {\bf rtdal\-\_\-sleep} ({\bf time\-\_\-t} $\ast$t)
+\begin{DoxyCompactList}\small\item\em sleep the calling thread for the time specified by the time\-\_\-t structure. \end{DoxyCompactList}\item 
+{\bf r\-\_\-itf\-\_\-t} {\bf rtdal\-\_\-itfphysic\-\_\-get} ({\bf string} name)
+\item 
+{\bf r\-\_\-itf\-\_\-t} {\bf rtdal\-\_\-itfphysic\-\_\-get\-\_\-id} (int id)
+\item 
+{\bf r\-\_\-itf\-\_\-t} {\bf rtdal\-\_\-itfspscq\-\_\-new} (int max\-\_\-msg, int max\-\_\-msg\-\_\-sz)
+\item 
+{\bf r\-\_\-dac\-\_\-t} {\bf rtdal\-\_\-dac\-\_\-get} ({\bf string} address)
+\item 
+{\bf r\-\_\-proc\-\_\-t} {\bf rtdal\-\_\-process\-\_\-new} (struct {\bf rtdal\-\_\-process\-\_\-attr} $\ast$attr, void $\ast$arg)
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+int {\bf waveforms\-\_\-notified\-\_\-failure} [{\bf M\-A\-X\-\_\-\-W\-A\-V\-E\-F\-O\-R\-M\-S}]
+\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\index{rtdal\-\_\-base.\-c@{rtdal\-\_\-base.\-c}!rtdal\-\_\-initialize\-\_\-node@{rtdal\-\_\-initialize\-\_\-node}}
+\index{rtdal\-\_\-initialize\-\_\-node@{rtdal\-\_\-initialize\-\_\-node}!rtdal_base.c@{rtdal\-\_\-base.\-c}}
+\subsubsection[{rtdal\-\_\-initialize\-\_\-node}]{\setlength{\rightskip}{0pt plus 5cm}int rtdal\-\_\-initialize\-\_\-node (
+\begin{DoxyParamCaption}
+\item[{{\bf rtdal\-\_\-context\-\_\-t} $\ast$}]{\-\_\-context, }
+\item[{{\bf string}}]{config\-\_\-file, }
+\item[{void($\ast$)(void)}]{ts\-\_\-begin\-\_\-fnc}
+\end{DoxyParamCaption}
+)}\label{rtdal__base_8c_acf471993b90b562066b9e1100406d1c6}
+Must be called before any other function.
+
+1) Parse configuration file and fill +machine attributes 2) Create interfaces. Call -\/create\-Node\-Interfaces() 3) Setup synchronization\-:   3.\-1) If I am the synchronization master, set machine.\-clock\-Source=C\-L\-O\-C\-K\-S\-R\-C\-\_\-\-T\-I\-M\-E\-R if source=\char`\"{}timer\char`\"{} or machine.\-clock\-Source=C\-L\-O\-C\-K\-S\-R\-C\-\_\-\-D\-A\-C if source=\char`\"{}dac\-:/\char`\"{}   3.\-2) If I am an slave node, set machine.\-clock\-Source=C\-L\-O\-C\-K\-S\-R\-C\-\_\-\-T\-I\-M\-E\-R if continuous\-\_\-mode=F\-A\-L\-S\-E or machine.\-clock\-Source=C\-L\-O\-C\-K\-S\-R\-C\-\_\-\-S\-Y\-N\-C if continuous\-\_\-mode=T\-R\-U\-E   3.\-3) Set machine.\-sync\-Continuous boolean if continuous\-\_\-mode=T\-R\-U\-E   3.\-4) Set machine.\-sync\-Master boolean if I am the synchronization master reference   3.\-5) Set machine.\-sync\-Period to the synchronization period 4) setup D\-A\-C (if my node has a D\-A\-C). For each D\-A\-C, create an instance of the D\-A\-C type and\-:   4.\-1) Call D\-A\-C.\-open\-D\-A\-C(address,options,null) if machine.\-clock\-Source!=C\-L\-O\-C\-K\-S\-R\-C\-\_\-\-D\-A\-C   4.\-2) Call D\-A\-C.\-set\-Scheduler(ts\-Begin\-Fnc, machine.\-kernel\-Prio) if machine.\-clock\-Source==C\-L\-O\-C\-K\-S\-R\-C\-\_\-\-D\-A\-C 5) create max\-\_\-spscqs\-\_\-x\-\_\-node +spscqs and max\-\_\-modules\-\_\-x\-\_\-node +procs objects 
+
+Definition at line 62 of file rtdal\-\_\-base.\-c.
+
+
+
+References rtdal\-\_\-context\-\_\-t\-::error, rtdal\-\_\-context\-\_\-t\-::machine, rtdal\-\_\-error\-\_\-set\-\_\-context(), rtdal\-\_\-time\-\_\-reset(), rtdal\-\_\-time\-\_\-set\-\_\-context(), rtdal\-\_\-context\-\_\-t\-::time, rtdal\-\_\-time\-\_\-t\-::ts\-\_\-len\-\_\-us, and rtdal\-\_\-machine\-\_\-t\-::ts\-\_\-len\-\_\-us.
+
+\index{rtdal\-\_\-base.\-c@{rtdal\-\_\-base.\-c}!rtdal\-\_\-start\-\_\-manager\-\_\-interfaces@{rtdal\-\_\-start\-\_\-manager\-\_\-interfaces}}
+\index{rtdal\-\_\-start\-\_\-manager\-\_\-interfaces@{rtdal\-\_\-start\-\_\-manager\-\_\-interfaces}!rtdal_base.c@{rtdal\-\_\-base.\-c}}
+\subsubsection[{rtdal\-\_\-start\-\_\-manager\-\_\-interfaces}]{\setlength{\rightskip}{0pt plus 5cm}int rtdal\-\_\-start\-\_\-manager\-\_\-interfaces (
+\begin{DoxyParamCaption}
+\item[{{\bf string}}]{config\-\_\-file}
+\end{DoxyParamCaption}
+)}\label{rtdal__base_8c_ac463f8bb697321e0d970ad0f7908291a}
+Configures the control, probe and sync interfaces for the manager 1) For each node, create an interface with name ctrl\-\_\-nodename 2) For each node, create an interface with name probe\-\_\-nodename 3) if clock\-Local create the sync interface to the sync master, with name \char`\"{}sync\char`\"{} 
+
+Definition at line 98 of file rtdal\-\_\-base.\-c.
+
+
+
+References aerror.
+
+
+
+\subsection{Variable Documentation}
+\index{rtdal\-\_\-base.\-c@{rtdal\-\_\-base.\-c}!waveforms\-\_\-notified\-\_\-failure@{waveforms\-\_\-notified\-\_\-failure}}
+\index{waveforms\-\_\-notified\-\_\-failure@{waveforms\-\_\-notified\-\_\-failure}!rtdal_base.c@{rtdal\-\_\-base.\-c}}
+\subsubsection[{waveforms\-\_\-notified\-\_\-failure}]{\setlength{\rightskip}{0pt plus 5cm}int waveforms\-\_\-notified\-\_\-failure[{\bf M\-A\-X\-\_\-\-W\-A\-V\-E\-F\-O\-R\-M\-S}]}\label{rtdal__base_8c_a095300387faf6c941bf15eebbb9a857d}
+
+
+Definition at line 39 of file pipeline.\-c.
+
+
+
+Referenced by rtdal\-\_\-process\-\_\-new().
+

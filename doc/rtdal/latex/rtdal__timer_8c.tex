@@ -1,0 +1,180 @@
+\section{/home/ismael/aloe\-\_\-ws/aloe\-\_\-git/rtdal\-\_\-lnx/src/rtdal\-\_\-timer.c File Reference}
+\label{rtdal__timer_8c}\index{/home/ismael/aloe\-\_\-ws/aloe\-\_\-git/rtdal\-\_\-lnx/src/rtdal\-\_\-timer.\-c@{/home/ismael/aloe\-\_\-ws/aloe\-\_\-git/rtdal\-\_\-lnx/src/rtdal\-\_\-timer.\-c}}
+{\ttfamily \#include $<$pthread.\-h$>$}\\*
+{\ttfamily \#include $<$unistd.\-h$>$}\\*
+{\ttfamily \#include $<$stdlib.\-h$>$}\\*
+{\ttfamily \#include $<$signal.\-h$>$}\\*
+{\ttfamily \#include $<$time.\-h$>$}\\*
+{\ttfamily \#include $<$error.\-h$>$}\\*
+{\ttfamily \#include $<$sys/timerfd.\-h$>$}\\*
+{\ttfamily \#include \char`\"{}defs.\-h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}rtdal\-\_\-timer.\-h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}rtdal.\-h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}futex.\-h\char`\"{}}\\*
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void {\bf timer\-\_\-close} ({\bf rtdal\-\_\-timer\-\_\-t} $\ast$info)
+\item 
+int {\bf timer\-\_\-setup} ({\bf rtdal\-\_\-timer\-\_\-t} $\ast$info)
+\item 
+int {\bf timer\-\_\-start} ({\bf rtdal\-\_\-timer\-\_\-t} $\ast$info)
+\item 
+int {\bf timer\-\_\-wait\-\_\-period} ({\bf rtdal\-\_\-timer\-\_\-t} $\ast$info)
+\item 
+void $\ast$ {\bf timer\-\_\-run\-\_\-thread} (void $\ast$x)
+\item 
+void $\ast$ {\bf timerfd\-\_\-timer\-\_\-run\-\_\-thread} ({\bf rtdal\-\_\-timer\-\_\-t} $\ast$obj)
+\item 
+void {\bf timespec\-\_\-sub\-\_\-us} (struct timespec $\ast$t, long int us)
+\item 
+void $\ast$ {\bf nanoclock\-\_\-timer\-\_\-run\-\_\-thread} ({\bf rtdal\-\_\-timer\-\_\-t} $\ast$obj)
+\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\index{rtdal\-\_\-timer.\-c@{rtdal\-\_\-timer.\-c}!nanoclock\-\_\-timer\-\_\-run\-\_\-thread@{nanoclock\-\_\-timer\-\_\-run\-\_\-thread}}
+\index{nanoclock\-\_\-timer\-\_\-run\-\_\-thread@{nanoclock\-\_\-timer\-\_\-run\-\_\-thread}!rtdal_timer.c@{rtdal\-\_\-timer.\-c}}
+\subsubsection[{nanoclock\-\_\-timer\-\_\-run\-\_\-thread}]{\setlength{\rightskip}{0pt plus 5cm}void$\ast$ nanoclock\-\_\-timer\-\_\-run\-\_\-thread (
+\begin{DoxyParamCaption}
+\item[{{\bf rtdal\-\_\-timer\-\_\-t} $\ast$}]{obj}
+\end{DoxyParamCaption}
+)}\label{rtdal__timer_8c_ae458a16475ac37fff3e1914cc5bf83f4}
+
+
+Definition at line 177 of file rtdal\-\_\-timer.\-c.
+
+
+
+References rtdal\-\_\-timer\-\_\-t\-::arg, futex\-\_\-wait, rtdal\-\_\-timer\-\_\-t\-::next, rtdal\-\_\-timer\-\_\-t\-::period, rtdal\-\_\-timer\-\_\-t\-::period\-\_\-function, rtdal\-\_\-timer\-\_\-t\-::stop, T\-I\-M\-E\-R\-\_\-\-F\-U\-T\-E\-X\-\_\-\-G\-U\-A\-R\-D\-\_\-\-S\-E\-C, and rtdal\-\_\-timer\-\_\-t\-::wait\-\_\-futex.
+
+
+
+Referenced by timer\-\_\-run\-\_\-thread().
+
+\index{rtdal\-\_\-timer.\-c@{rtdal\-\_\-timer.\-c}!timer\-\_\-close@{timer\-\_\-close}}
+\index{timer\-\_\-close@{timer\-\_\-close}!rtdal_timer.c@{rtdal\-\_\-timer.\-c}}
+\subsubsection[{timer\-\_\-close}]{\setlength{\rightskip}{0pt plus 5cm}void timer\-\_\-close (
+\begin{DoxyParamCaption}
+\item[{{\bf rtdal\-\_\-timer\-\_\-t} $\ast$}]{info}
+\end{DoxyParamCaption}
+)}\label{rtdal__timer_8c_ae1a672958fdb59920efdb76ae4ad2ff5}
+
+
+Definition at line 41 of file rtdal\-\_\-timer.\-c.
+
+
+
+References rtdal\-\_\-timer\-\_\-t\-::timer\-\_\-fd.
+
+
+
+Referenced by timerfd\-\_\-timer\-\_\-run\-\_\-thread().
+
+\index{rtdal\-\_\-timer.\-c@{rtdal\-\_\-timer.\-c}!timer\-\_\-run\-\_\-thread@{timer\-\_\-run\-\_\-thread}}
+\index{timer\-\_\-run\-\_\-thread@{timer\-\_\-run\-\_\-thread}!rtdal_timer.c@{rtdal\-\_\-timer.\-c}}
+\subsubsection[{timer\-\_\-run\-\_\-thread}]{\setlength{\rightskip}{0pt plus 5cm}void$\ast$ timer\-\_\-run\-\_\-thread (
+\begin{DoxyParamCaption}
+\item[{void $\ast$}]{x}
+\end{DoxyParamCaption}
+)}\label{rtdal__timer_8c_a788dd9ea55c96655a1c60321caefddff}
+
+
+Definition at line 109 of file rtdal\-\_\-timer.\-c.
+
+
+
+References aerror\-\_\-msg, D\-E\-B\-U\-G\-\_\-rtdal, rtdal\-\_\-timer\-\_\-t\-::mode, nanoclock\-\_\-timer\-\_\-run\-\_\-thread(), N\-A\-N\-O\-S\-L\-E\-E\-P, rtdal\-\_\-task\-\_\-print\-\_\-sched(), T\-I\-M\-E\-R\-F\-D, and timerfd\-\_\-timer\-\_\-run\-\_\-thread().
+
+
+
+Referenced by kernel\-\_\-initialize\-\_\-create\-\_\-pipeline().
+
+\index{rtdal\-\_\-timer.\-c@{rtdal\-\_\-timer.\-c}!timer\-\_\-setup@{timer\-\_\-setup}}
+\index{timer\-\_\-setup@{timer\-\_\-setup}!rtdal_timer.c@{rtdal\-\_\-timer.\-c}}
+\subsubsection[{timer\-\_\-setup}]{\setlength{\rightskip}{0pt plus 5cm}int timer\-\_\-setup (
+\begin{DoxyParamCaption}
+\item[{{\bf rtdal\-\_\-timer\-\_\-t} $\ast$}]{info}
+\end{DoxyParamCaption}
+)}\label{rtdal__timer_8c_a91a7a34af4740f9cd40214dab6c38d14}
+
+
+Definition at line 45 of file rtdal\-\_\-timer.\-c.
+
+
+
+References aerror\-\_\-msg, rtdal\-\_\-timer\-\_\-t\-::itval, rtdal\-\_\-timer\-\_\-t\-::period, rtdal\-\_\-timer\-\_\-t\-::timer\-\_\-fd, and rtdal\-\_\-timer\-\_\-t\-::wakeups\-\_\-missed.
+
+
+
+Referenced by timerfd\-\_\-timer\-\_\-run\-\_\-thread().
+
+\index{rtdal\-\_\-timer.\-c@{rtdal\-\_\-timer.\-c}!timer\-\_\-start@{timer\-\_\-start}}
+\index{timer\-\_\-start@{timer\-\_\-start}!rtdal_timer.c@{rtdal\-\_\-timer.\-c}}
+\subsubsection[{timer\-\_\-start}]{\setlength{\rightskip}{0pt plus 5cm}int timer\-\_\-start (
+\begin{DoxyParamCaption}
+\item[{{\bf rtdal\-\_\-timer\-\_\-t} $\ast$}]{info}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\label{rtdal__timer_8c_a98aa8339dd23e5016ee9432df047cf32}
+
+
+Definition at line 77 of file rtdal\-\_\-timer.\-c.
+
+
+
+References rtdal\-\_\-timer\-\_\-t\-::itval, and rtdal\-\_\-timer\-\_\-t\-::timer\-\_\-fd.
+
+
+
+Referenced by timerfd\-\_\-timer\-\_\-run\-\_\-thread().
+
+\index{rtdal\-\_\-timer.\-c@{rtdal\-\_\-timer.\-c}!timer\-\_\-wait\-\_\-period@{timer\-\_\-wait\-\_\-period}}
+\index{timer\-\_\-wait\-\_\-period@{timer\-\_\-wait\-\_\-period}!rtdal_timer.c@{rtdal\-\_\-timer.\-c}}
+\subsubsection[{timer\-\_\-wait\-\_\-period}]{\setlength{\rightskip}{0pt plus 5cm}int timer\-\_\-wait\-\_\-period (
+\begin{DoxyParamCaption}
+\item[{{\bf rtdal\-\_\-timer\-\_\-t} $\ast$}]{info}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\label{rtdal__timer_8c_a5cdfa5c3c222b363d7c3424ee578144c}
+
+
+Definition at line 88 of file rtdal\-\_\-timer.\-c.
+
+
+
+References rtdal\-\_\-timer\-\_\-t\-::timer\-\_\-fd, and rtdal\-\_\-timer\-\_\-t\-::wakeups\-\_\-missed.
+
+
+
+Referenced by timerfd\-\_\-timer\-\_\-run\-\_\-thread().
+
+\index{rtdal\-\_\-timer.\-c@{rtdal\-\_\-timer.\-c}!timerfd\-\_\-timer\-\_\-run\-\_\-thread@{timerfd\-\_\-timer\-\_\-run\-\_\-thread}}
+\index{timerfd\-\_\-timer\-\_\-run\-\_\-thread@{timerfd\-\_\-timer\-\_\-run\-\_\-thread}!rtdal_timer.c@{rtdal\-\_\-timer.\-c}}
+\subsubsection[{timerfd\-\_\-timer\-\_\-run\-\_\-thread}]{\setlength{\rightskip}{0pt plus 5cm}void$\ast$ timerfd\-\_\-timer\-\_\-run\-\_\-thread (
+\begin{DoxyParamCaption}
+\item[{{\bf rtdal\-\_\-timer\-\_\-t} $\ast$}]{obj}
+\end{DoxyParamCaption}
+)}\label{rtdal__timer_8c_a9690d748c0d24525f4214b9c07c11bf3}
+
+
+Definition at line 127 of file rtdal\-\_\-timer.\-c.
+
+
+
+References aerror, rtdal\-\_\-timer\-\_\-t\-::arg, futex\-\_\-wait, rtdal\-\_\-timer\-\_\-t\-::period\-\_\-function, rtdal\-\_\-timer\-\_\-t\-::stop, timer\-\_\-close(), timer\-\_\-setup(), timer\-\_\-start(), timer\-\_\-wait\-\_\-period(), and rtdal\-\_\-timer\-\_\-t\-::wait\-\_\-futex.
+
+
+
+Referenced by timer\-\_\-run\-\_\-thread().
+
+\index{rtdal\-\_\-timer.\-c@{rtdal\-\_\-timer.\-c}!timespec\-\_\-sub\-\_\-us@{timespec\-\_\-sub\-\_\-us}}
+\index{timespec\-\_\-sub\-\_\-us@{timespec\-\_\-sub\-\_\-us}!rtdal_timer.c@{rtdal\-\_\-timer.\-c}}
+\subsubsection[{timespec\-\_\-sub\-\_\-us}]{\setlength{\rightskip}{0pt plus 5cm}void timespec\-\_\-sub\-\_\-us (
+\begin{DoxyParamCaption}
+\item[{struct timespec $\ast$}]{t, }
+\item[{long int}]{us}
+\end{DoxyParamCaption}
+)}\label{rtdal__timer_8c_af3313cb513c685b5db157b15fcd17776}
+
+
+Definition at line 169 of file rtdal\-\_\-timer.\-c.
+

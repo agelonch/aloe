@@ -57,7 +57,7 @@ void rtdal_machine(rtdal_machine_t *machine) {
  * 4) setup DAC (if my node has a DAC). For each DAC, create an instance of the DAC type and:
  *   4.1) Call DAC.openDAC(address,options,null) if machine.clockSource!=CLOCKSRC_DAC
  *   4.2) Call DAC.setScheduler(tsBeginFnc, machine.kernelPrio) if machine.clockSource==CLOCKSRC_DAC
- * 5) create max_queues_x_node +queues and max_modules_x_node +procs objects
+ * 5) create max_spscqs_x_node +spscqs and max_modules_x_node +procs objects
  */
 int rtdal_initialize_node(rtdal_context_t *_context, string config_file,
 		void (*ts_begin_fnc)(void) ) {
@@ -118,8 +118,8 @@ int rtdal_start_manager_interfaces(string config_file) {
  */
 int rtdal_periodic_add(void (*callback)(void), int period) {
 	assert(context);
-	rtdal_ASSERT_PARAM(callback);
-	rtdal_ASSERT_PARAM(period>0);
+	RTDAL_ASSERT_PARAM(callback);
+	RTDAL_ASSERT_PARAM(period>0);
 
 	pthread_mutex_lock(&context->mutex);
 
@@ -130,7 +130,7 @@ int rtdal_periodic_add(void (*callback)(void), int period) {
 			break;
 	}
 	if (i == MAX(rtdal_periodic)) {
-		rtdal_SETERROR(rtdal_ERROR_NOSPACE);
+		RTDAL_SETERROR(RTDAL_ERROR_NOSPACE);
 		pthread_mutex_unlock(&context->mutex);
 		return -1;
 	}
@@ -151,7 +151,7 @@ int rtdal_periodic_add(void (*callback)(void), int period) {
  */
 int rtdal_periodic_remove(void (*callback)(void)) {
 	assert(context);
-	rtdal_ASSERT_PARAM(callback);
+	RTDAL_ASSERT_PARAM(callback);
 
 	int i;
 	pthread_mutex_lock(&context->mutex);
@@ -161,7 +161,7 @@ int rtdal_periodic_remove(void (*callback)(void)) {
 	}
 
 	if (i == MAX(rtdal_periodic)) {
-		rtdal_SETERROR(rtdal_ERROR_NOTFOUND);
+		RTDAL_SETERROR(RTDAL_ERROR_NOTFOUND);
 		return -1;
 	}
 	context->periodic[i].counter = 0;
@@ -176,7 +176,7 @@ int rtdal_periodic_remove(void (*callback)(void)) {
  */
 int rtdal_sleep(time_t *t) {
 	assert(context);
-	rtdal_ASSERT_PARAM(t);
+	RTDAL_ASSERT_PARAM(t);
 	hdebug("sleep_for=%d:%d\n",t->tv_sec,t->tv_usec);
 	struct timespec sleep;
 
@@ -184,7 +184,7 @@ int rtdal_sleep(time_t *t) {
 	sleep.tv_nsec = t->tv_usec*1000;
 
 	if (clock_nanosleep(CLOCK_MONOTONIC,0,&sleep,NULL)) {
-		rtdal_SYSERROR("clock_nanosleep");
+		RTDAL_SYSERROR("clock_nanosleep");
 		return -1;
 	}
 
@@ -197,10 +197,10 @@ int rtdal_sleep(time_t *t) {
  * @param name Name of the physical interface
  * @return non-null value on success, zero on error
  */
-h_itf_t rtdal_itfphysic_get(string name) {
+r_itf_t rtdal_itfphysic_get(string name) {
 	hdebug("name=%s\n",name);
 	assert(context);
-	rtdal_ASSERT_PARAM_P(name);
+	RTDAL_ASSERT_PARAM_P(name);
 
 	int i;
 	for (i=0;i<MAX(rtdal_itfphysic);i++) {
@@ -210,10 +210,10 @@ h_itf_t rtdal_itfphysic_get(string name) {
 	hdebug("i=%d\n",i);
 
 	if (i == MAX(rtdal_itfphysic)) {
-		rtdal_SETERROR(rtdal_ERROR_NOTFOUND);
+		RTDAL_SETERROR(RTDAL_ERROR_NOTFOUND);
 		return NULL;
 	}
-	return (h_itf_t) &context->physic_itfs[i];
+	return (r_itf_t) &context->physic_itfs[i];
 }
 
 /**
@@ -221,10 +221,10 @@ h_itf_t rtdal_itfphysic_get(string name) {
  * @param id Id of the physical interface
  * @return non-null value on success, zero on error
  */
-h_itf_t rtdal_itfphysic_get_id(int id) {
+r_itf_t rtdal_itfphysic_get_id(int id) {
 	hdebug("id=%d\n",id);
 	assert(context);
-	rtdal_ASSERT_PARAM_P(id);
+	RTDAL_ASSERT_PARAM_P(id);
 	int i;
 	for (i=0;i<MAX(rtdal_itfphysic);i++) {
 		if (context->physic_itfs[i].parent.id == id)
@@ -233,51 +233,51 @@ h_itf_t rtdal_itfphysic_get_id(int id) {
 
 	hdebug("i=%d\n",i);
 	if (i == MAX(rtdal_itfphysic)) {
-		rtdal_SETERROR(rtdal_ERROR_NOTFOUND);
+		RTDAL_SETERROR(RTDAL_ERROR_NOTFOUND);
 		return NULL;
 	}
 
-	return (h_itf_t) &context->physic_itfs[i];
+	return (r_itf_t) &context->physic_itfs[i];
 }
 
 /**
- * Creates a new message queue.
- * @param name Name of the new queue interface
- * @param max_msg Positive integer. Maximum number of messages that can be inserted in the queue
+ * Creates a new message spscq.
+ * @param name Name of the new spscq interface
+ * @param max_msg Positive integer. Maximum number of messages that can be inserted in the spscq
  * @param msg_sz Positive integer. Maximum message size
  * @return non-null value on success, zero on error
  */
-h_itf_t rtdal_itfqueue_new(int max_msg, int max_msg_sz) {
+r_itf_t rtdal_itfspscq_new(int max_msg, int max_msg_sz) {
 	hdebug("max_msg=%d,max_msg_sz=%d\n",max_msg,max_msg_sz);
 	assert(context);
-	rtdal_ASSERT_PARAM_P(max_msg>=0);
-	rtdal_ASSERT_PARAM_P(max_msg_sz>=0);
+	RTDAL_ASSERT_PARAM_P(max_msg>=0);
+	RTDAL_ASSERT_PARAM_P(max_msg_sz>=0);
 	int i;
 
 
 	pthread_mutex_lock(&context->mutex);
-	for (i=0;i<MAX(rtdal_itfqueue);i++) {
-		if (!context->queues[i].parent.id)
+	for (i=0;i<MAX(rtdal_itfspscq);i++) {
+		if (!context->spscqs[i].parent.id)
 			break;
 	}
-	if (i == MAX(rtdal_itfqueue)) {
-		rtdal_SETERROR(rtdal_ERROR_NOTFOUND);
+	if (i == MAX(rtdal_itfspscq)) {
+		RTDAL_SETERROR(RTDAL_ERROR_NOTFOUND);
 		return NULL;
 	}
 	hdebug("i=%d\n",i);
-	context->queues[i].max_msg = max_msg;
-	context->queues[i].max_msg_sz = max_msg_sz;
+	context->spscqs[i].max_msg = max_msg;
+	context->spscqs[i].max_msg_sz = max_msg_sz;
 
-	context->queues[i].parent.id = i+1;
+	context->spscqs[i].parent.id = i+1;
 
-	if (rtdal_itfqueue_init(&context->queues[i])) {
-		context->queues[i].parent.id = 0;
+	if (rtdal_itfspscq_init(&context->spscqs[i])) {
+		context->spscqs[i].parent.id = 0;
 		pthread_mutex_unlock(&context->mutex);
 		return NULL;
 	}
 
 	pthread_mutex_unlock(&context->mutex);
-	return (h_itf_t) &context->queues[i];
+	return (r_itf_t) &context->spscqs[i];
 }
 
 
@@ -286,7 +286,7 @@ h_itf_t rtdal_itfqueue_new(int max_msg, int max_msg_sz) {
  * @param name Name of the dac
  * @return non-null value on success, zero on error
  */
-h_dac_t rtdal_dac_get(string address) {
+r_dac_t rtdal_dac_get(string address) {
 	assert(context);
 	aerror("Not yet implemented");
 	return NULL;
@@ -315,12 +315,12 @@ h_dac_t rtdal_dac_get(string address) {
  * @param arg Argument to pass to the process each execution cycle
  * @return non-null value on success, zero on error
  */
-h_proc_t rtdal_process_new(struct rtdal_process_attr *attr, void *arg) {
+r_proc_t rtdal_process_new(struct rtdal_process_attr *attr, void *arg) {
 	hdebug("binary=%s, proc=%d, pos=%d, finish=0x%x, arg=0x%x\n",attr->binary_path,attr->pipeline_id,
 			attr->exec_position,attr->finish_callback,arg);
 	assert(context);
-	rtdal_ASSERT_PARAM_P(attr);
-	rtdal_ASSERT_PARAM_P(arg);
+	RTDAL_ASSERT_PARAM_P(attr);
+	RTDAL_ASSERT_PARAM_P(arg);
 
 	pthread_mutex_lock(&context->mutex);
 	int i=0;
@@ -331,17 +331,17 @@ h_proc_t rtdal_process_new(struct rtdal_process_attr *attr, void *arg) {
 	}
 
 	if (i == MAX(rtdal_process)) {
-		rtdal_SETERROR(rtdal_ERROR_NOSPACE);
+		RTDAL_SETERROR(RTDAL_ERROR_NOSPACE);
 		goto out;
 	}
 
 	if (attr->waveform_id > MAX_WAVEFORMS) {
-		rtdal_SETERROR(rtdal_ERROR_NOSPACE);
+		RTDAL_SETERROR(RTDAL_ERROR_NOSPACE);
 		goto out;
 	}
 
 	if (attr->waveform_id < 0) {
-		rtdal_SETERROR(rtdal_ERROR_INVAL);
+		RTDAL_SETERROR(RTDAL_ERROR_INVAL);
 		goto out;
 	}
 
@@ -368,7 +368,7 @@ h_proc_t rtdal_process_new(struct rtdal_process_attr *attr, void *arg) {
 	}
 
 	pthread_mutex_unlock(&context->mutex);
-	return (h_proc_t) &context->processes[i];
+	return (r_proc_t) &context->processes[i];
 out:
 	pthread_mutex_unlock(&context->mutex);
 	return NULL;

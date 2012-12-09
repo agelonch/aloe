@@ -34,7 +34,7 @@ int man_probelistener_remove(man_probelistener_t *lstnr, int code) {
  * Sets process() function as a callback to the interface
  *  
  */
-int man_probelistener_setup(man_probelistener_t *lstnr, h_itf_t *itf) {
+int man_probelistener_setup(man_probelistener_t *lstnr, r_itf_t *itf) {
 	aerror("Not yet implemented");
 	return -1;
 }

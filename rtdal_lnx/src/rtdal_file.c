@@ -37,11 +37,11 @@ static strdef(syspath);
  */
 int rtdal_file_set_path(string path) {
 	hdebug("path=%s\n",path);
-	rtdal_ASSERT_PARAM(path);
+	RTDAL_ASSERT_PARAM(path);
 
 	struct stat st;
 	if(stat(path,&st)) {
-		rtdal_SYSERROR("stat");
+		RTDAL_SYSERROR("stat");
 		return -1;
 	}
 
@@ -62,7 +62,7 @@ int rtdal_file_set_path(string path) {
  */
 int rtdal_file_open(string name) {
 	hdebug("name=%s\n",name);
-	rtdal_ASSERT_PARAM(name);
+	RTDAL_ASSERT_PARAM(name);
 	int fd;
 
 
@@ -70,7 +70,7 @@ int rtdal_file_open(string name) {
 
 	fd = open(tmp_path, O_RDWR, O_CREAT | O_NONBLOCK);
 	if (fd == -1) {
-		rtdal_SYSERROR("open");
+		RTDAL_SYSERROR("open");
 		return -1;
 	}
 	return fd;
@@ -83,9 +83,9 @@ int rtdal_file_open(string name) {
  */
 int rtdal_file_close(int fd) {
 	hdebug("fd=%d\n",fd);
-	rtdal_ASSERT_PARAM(fd>0);
+	RTDAL_ASSERT_PARAM(fd>0);
 	if (close(fd)) {
-		rtdal_SYSERROR("open");
+		RTDAL_SYSERROR("open");
 		return -1;
 	}
 	return 0;
@@ -103,15 +103,15 @@ int rtdal_file_close(int fd) {
  */
 int rtdal_file_write(int fd, void* buf, int size) {
 	hdebug("fd=%d, buf=0x%x, size=%d\n",fd, buf, size);
-	rtdal_ASSERT_PARAM(fd>0);
-	rtdal_ASSERT_PARAM(buf);
-	rtdal_ASSERT_PARAM(size>0);
+	RTDAL_ASSERT_PARAM(fd>0);
+	RTDAL_ASSERT_PARAM(buf);
+	RTDAL_ASSERT_PARAM(size>0);
 
 	int s;
 
 	s = write(fd, buf, (size_t) size);
 	if (s == -1) {
-		rtdal_SYSERROR("write");
+		RTDAL_SYSERROR("write");
 		return -1;
 	}
 
@@ -129,15 +129,15 @@ int rtdal_file_write(int fd, void* buf, int size) {
  * nothing was written). On error, -1 is returned
  */
 int rtdal_file_read(int fd, void* buf, int size) {
-	rtdal_ASSERT_PARAM(fd>0);
-	rtdal_ASSERT_PARAM(buf);
-	rtdal_ASSERT_PARAM(size>0);
+	RTDAL_ASSERT_PARAM(fd>0);
+	RTDAL_ASSERT_PARAM(buf);
+	RTDAL_ASSERT_PARAM(size>0);
 
 	int s;
 
 	s = read(fd, buf, (size_t) size);
 	if (s == -1) {
-		rtdal_SYSERROR("read");
+		RTDAL_SYSERROR("read");
 		return -1;
 	}
 

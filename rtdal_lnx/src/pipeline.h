@@ -30,7 +30,7 @@
 /**
  * A ProcThread is a POSIX-thread that runs in a single processor core with
  * real-time priority and FIFO-scheduling (non-preemptable).
- * It has a queue of function pointers which are called one after another.
+ * It has a spscq of function pointers which are called one after another.
  * This functions are supposed to run SP tasks.
  * The thread is synchronized with the kernel-thread with a shared memory
  * POSIX semaphore. At the beginning of the timeslot, the kernel-thread

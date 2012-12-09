@@ -37,19 +37,19 @@ typedef struct {
 	int id;
 }rtdal_itfphysic_t;
 
-int rtdal_itfphysic_create(h_itf_t obj, string address);
-int rtdal_itfphysic_remove(h_itf_t obj);
-int rtdal_itfphysic_send(h_itf_t obj, void* buffer, int len);
-int rtdal_itfphysic_recv(h_itf_t obj, void* buffer, int len);
-int rtdal_itfphysic_set_callback(h_itf_t obj, void (*fnc)(void), int prio);
-int rtdal_itfphysic_set_blocking(h_itf_t obj, int block);
-int rtdal_itfphysic_get_blocking(h_itf_t obj);
-h_pkt_t* rtdal_itfphysic_request_pkt(h_itf_t obj);
-int rtdal_itfphysic_put_pkt(h_itf_t obj, h_pkt_t* ptr);
-h_pkt_t* rtdal_itfphysic_get_pkt(h_itf_t obj);
-int rtdal_itfphysic_release_pkt(h_itf_t obj, h_pkt_t* ptr);
-int rtdal_itfphysic_set_delay(h_itf_t obj, int delay);
-int rtdal_itfphysic_get_delay(h_itf_t obj);
+int rtdal_itfphysic_create(r_itf_t obj, string address);
+int rtdal_itfphysic_remove(r_itf_t obj);
+int rtdal_itfphysic_request(r_itf_t obj, void **ptr);
+int rtdal_itfphysic_release(r_itf_t obj);
+int rtdal_itfphysic_push(r_itf_t obj, int len);
+int rtdal_itfphysic_pop(r_itf_t obj, void **ptr, int *len);
+int rtdal_itfphysic_send(r_itf_t obj, void* buffer, int len);
+int rtdal_itfphysic_recv(r_itf_t obj, void* buffer, int len);
+int rtdal_itfphysic_set_callback(r_itf_t obj, void (*fnc)(void), int prio);
+int rtdal_itfphysic_set_blocking(r_itf_t obj, int block);
+int rtdal_itfphysic_get_blocking(r_itf_t obj);
+int rtdal_itfphysic_set_delay(r_itf_t obj, int delay);
+int rtdal_itfphysic_get_delay(r_itf_t obj);
 
 
 #endif

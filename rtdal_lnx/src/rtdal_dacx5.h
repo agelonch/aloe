@@ -31,15 +31,15 @@ typedef struct {
 }rtdal_dacx5_t;
 
 
-int rtdal_dacx5_open(h_dac_t obj, string address, string options);
-int rtdal_dacx5_close(h_dac_t obj);
-int rtdal_dacx5_set_scheduler(h_dac_t obj, void (*ts_begin_fnc)(void), int thread_prio);
-int rtdal_dacx5_start(h_dac_t obj);
-int rtdal_dacx5_set_opts(h_dac_t obj, string opts);
-int rtdal_dacx5_set_freq(h_dac_t obj, float freq);
-int rtdal_dacx5_set_block_len(h_dac_t obj, int len);
-int rtdal_dacx5_set_sample_type(h_dac_t obj, int type);
-int rtdal_dacx5_set_buffer_sz(h_dac_t obj, int in, int out);
-h_itf_t rtdal_dacx5_channel(h_dac_t obj, int int_ch);
+int rtdal_dacx5_open(r_dac_t obj, string address, string options);
+int rtdal_dacx5_close(r_dac_t obj);
+int rtdal_dacx5_set_scheduler(r_dac_t obj, void (*ts_begin_fnc)(void), int thread_prio);
+int rtdal_dacx5_start(r_dac_t obj);
+int rtdal_dacx5_set_opts(r_dac_t obj, string opts);
+int rtdal_dacx5_set_freq(r_dac_t obj, float freq);
+int rtdal_dacx5_set_block_len(r_dac_t obj, int len);
+int rtdal_dacx5_set_sample_type(r_dac_t obj, int type);
+int rtdal_dacx5_set_buffer_sz(r_dac_t obj, int in, int out);
+r_itf_t rtdal_dacx5_channel(r_dac_t obj, int int_ch);
 
 #endif

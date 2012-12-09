@@ -24,7 +24,7 @@
 
 int man_probelistener_add(man_probelistener_t *lstnr, void (*callback)(void), int code);
 int man_probelistener_remove(man_probelistener_t *lstnr, int code);
-int man_probelistener_setup(man_probelistener_t *lstnr, h_itf_t *itf);
+int man_probelistener_setup(man_probelistener_t *lstnr, r_itf_t *itf);
 int man_probelistener_process(man_probelistener_t *lstnr);
 
 #endif

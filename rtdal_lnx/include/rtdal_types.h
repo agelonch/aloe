@@ -28,7 +28,7 @@
 struct h_proc_ {
 	int id;
 };
-typedef struct h_proc_* h_proc_t;
+typedef struct h_proc_* r_proc_t;
 
 /**
  * Process attributes for use with the rtdal_process_new() function.
@@ -41,27 +41,19 @@ struct rtdal_process_attr {
 	void* (*finish_callback)(void*);
 };
 
-
-typedef struct {
-	int valid;
-	int tstamp;
-	int len;
-	void *data;
-}h_pkt_t;
-
 struct h_itf_ {
 	int id;
 	int is_external;
 };
-typedef struct h_itf_* h_itf_t;
+typedef struct h_itf_* r_itf_t;
 
 
 struct h_dac_ {
 	int id;
 };
-typedef struct h_dac_* h_dac_t;
+typedef struct h_dac_* r_dac_t;
 
-typedef pthread_t h_task_t;
+typedef pthread_t r_task_t;
 
 
 #endif

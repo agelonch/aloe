@@ -1,0 +1,167 @@
+\section{rtdal\-\_\-timer\-\_\-t Struct Reference}
+\label{structrtdal__timer__t}\index{rtdal\-\_\-timer\-\_\-t@{rtdal\-\_\-timer\-\_\-t}}
+
+
+{\ttfamily \#include $<$rtdal\-\_\-timer.\-h$>$}
+
+\subsection*{Data Fields}
+\begin{DoxyCompactItemize}
+\item 
+struct timespec {\bf next}
+\item 
+int {\bf timer\-\_\-fd}
+\item 
+unsigned long long {\bf wakeups\-\_\-missed}
+\item 
+struct itimerspec {\bf itval}
+\item 
+long int {\bf period}
+\item 
+int {\bf stop}
+\item 
+pthread\-\_\-t $\ast$ {\bf thread}
+\item 
+int $\ast$ {\bf wait\-\_\-futex}
+\item 
+void $\ast$ {\bf arg}
+\item 
+void($\ast$ {\bf period\-\_\-function} )(void $\ast$, struct timespec $\ast$time)
+\item 
+enum {\bf timer\-\_\-mode} {\bf mode}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line 32 of file rtdal\-\_\-timer.\-h.
+
+
+
+\subsection{Field Documentation}
+\index{rtdal\-\_\-timer\-\_\-t@{rtdal\-\_\-timer\-\_\-t}!arg@{arg}}
+\index{arg@{arg}!rtdal_timer_t@{rtdal\-\_\-timer\-\_\-t}}
+\subsubsection[{arg}]{\setlength{\rightskip}{0pt plus 5cm}void$\ast$ rtdal\-\_\-timer\-\_\-t\-::arg}\label{structrtdal__timer__t_ac956640df81f13d496555dc5de7b1c80}
+
+
+Definition at line 42 of file rtdal\-\_\-timer.\-h.
+
+
+
+Referenced by kernel\-\_\-initialize\-\_\-create\-\_\-pipeline(), nanoclock\-\_\-timer\-\_\-run\-\_\-thread(), and timerfd\-\_\-timer\-\_\-run\-\_\-thread().
+
+\index{rtdal\-\_\-timer\-\_\-t@{rtdal\-\_\-timer\-\_\-t}!itval@{itval}}
+\index{itval@{itval}!rtdal_timer_t@{rtdal\-\_\-timer\-\_\-t}}
+\subsubsection[{itval}]{\setlength{\rightskip}{0pt plus 5cm}struct itimerspec rtdal\-\_\-timer\-\_\-t\-::itval}\label{structrtdal__timer__t_ae5b29f6b10dd563261807b39bc1431c0}
+
+
+Definition at line 37 of file rtdal\-\_\-timer.\-h.
+
+
+
+Referenced by timer\-\_\-setup(), and timer\-\_\-start().
+
+\index{rtdal\-\_\-timer\-\_\-t@{rtdal\-\_\-timer\-\_\-t}!mode@{mode}}
+\index{mode@{mode}!rtdal_timer_t@{rtdal\-\_\-timer\-\_\-t}}
+\subsubsection[{mode}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf timer\-\_\-mode} rtdal\-\_\-timer\-\_\-t\-::mode}\label{structrtdal__timer__t_a5c6e934cbc400f85f5022346a532d01b}
+
+
+Definition at line 44 of file rtdal\-\_\-timer.\-h.
+
+
+
+Referenced by kernel\-\_\-initialize\-\_\-create\-\_\-pipeline(), and timer\-\_\-run\-\_\-thread().
+
+\index{rtdal\-\_\-timer\-\_\-t@{rtdal\-\_\-timer\-\_\-t}!next@{next}}
+\index{next@{next}!rtdal_timer_t@{rtdal\-\_\-timer\-\_\-t}}
+\subsubsection[{next}]{\setlength{\rightskip}{0pt plus 5cm}struct timespec rtdal\-\_\-timer\-\_\-t\-::next}\label{structrtdal__timer__t_a1224d0ece56f943b6afe4d7a5d8124a7}
+
+
+Definition at line 34 of file rtdal\-\_\-timer.\-h.
+
+
+
+Referenced by nanoclock\-\_\-timer\-\_\-run\-\_\-thread().
+
+\index{rtdal\-\_\-timer\-\_\-t@{rtdal\-\_\-timer\-\_\-t}!period@{period}}
+\index{period@{period}!rtdal_timer_t@{rtdal\-\_\-timer\-\_\-t}}
+\subsubsection[{period}]{\setlength{\rightskip}{0pt plus 5cm}long int rtdal\-\_\-timer\-\_\-t\-::period}\label{structrtdal__timer__t_a289e83fa067430617d384467265df41e}
+
+
+Definition at line 38 of file rtdal\-\_\-timer.\-h.
+
+
+
+Referenced by kernel\-\_\-initialize\-\_\-create\-\_\-pipeline(), nanoclock\-\_\-timer\-\_\-run\-\_\-thread(), and timer\-\_\-setup().
+
+\index{rtdal\-\_\-timer\-\_\-t@{rtdal\-\_\-timer\-\_\-t}!period\-\_\-function@{period\-\_\-function}}
+\index{period\-\_\-function@{period\-\_\-function}!rtdal_timer_t@{rtdal\-\_\-timer\-\_\-t}}
+\subsubsection[{period\-\_\-function}]{\setlength{\rightskip}{0pt plus 5cm}void($\ast$ rtdal\-\_\-timer\-\_\-t\-::period\-\_\-function)(void $\ast$, struct timespec $\ast$time)}\label{structrtdal__timer__t_a9e202cbf4ae2d7a24c3e956d9dd0cc48}
+
+
+Definition at line 43 of file rtdal\-\_\-timer.\-h.
+
+
+
+Referenced by kernel\-\_\-initialize\-\_\-create\-\_\-pipeline(), nanoclock\-\_\-timer\-\_\-run\-\_\-thread(), and timerfd\-\_\-timer\-\_\-run\-\_\-thread().
+
+\index{rtdal\-\_\-timer\-\_\-t@{rtdal\-\_\-timer\-\_\-t}!stop@{stop}}
+\index{stop@{stop}!rtdal_timer_t@{rtdal\-\_\-timer\-\_\-t}}
+\subsubsection[{stop}]{\setlength{\rightskip}{0pt plus 5cm}int rtdal\-\_\-timer\-\_\-t\-::stop}\label{structrtdal__timer__t_a760c332c00e1eebe04e98f6b238932b5}
+
+
+Definition at line 39 of file rtdal\-\_\-timer.\-h.
+
+
+
+Referenced by nanoclock\-\_\-timer\-\_\-run\-\_\-thread(), and timerfd\-\_\-timer\-\_\-run\-\_\-thread().
+
+\index{rtdal\-\_\-timer\-\_\-t@{rtdal\-\_\-timer\-\_\-t}!thread@{thread}}
+\index{thread@{thread}!rtdal_timer_t@{rtdal\-\_\-timer\-\_\-t}}
+\subsubsection[{thread}]{\setlength{\rightskip}{0pt plus 5cm}pthread\-\_\-t$\ast$ rtdal\-\_\-timer\-\_\-t\-::thread}\label{structrtdal__timer__t_a935b3c9da18c2f0a39588f4bba9e13d6}
+
+
+Definition at line 40 of file rtdal\-\_\-timer.\-h.
+
+
+
+Referenced by kernel\-\_\-initialize\-\_\-create\-\_\-pipeline().
+
+\index{rtdal\-\_\-timer\-\_\-t@{rtdal\-\_\-timer\-\_\-t}!timer\-\_\-fd@{timer\-\_\-fd}}
+\index{timer\-\_\-fd@{timer\-\_\-fd}!rtdal_timer_t@{rtdal\-\_\-timer\-\_\-t}}
+\subsubsection[{timer\-\_\-fd}]{\setlength{\rightskip}{0pt plus 5cm}int rtdal\-\_\-timer\-\_\-t\-::timer\-\_\-fd}\label{structrtdal__timer__t_aa7bf664cf9401e16c226f326e0672dfd}
+
+
+Definition at line 35 of file rtdal\-\_\-timer.\-h.
+
+
+
+Referenced by timer\-\_\-close(), timer\-\_\-setup(), timer\-\_\-start(), and timer\-\_\-wait\-\_\-period().
+
+\index{rtdal\-\_\-timer\-\_\-t@{rtdal\-\_\-timer\-\_\-t}!wait\-\_\-futex@{wait\-\_\-futex}}
+\index{wait\-\_\-futex@{wait\-\_\-futex}!rtdal_timer_t@{rtdal\-\_\-timer\-\_\-t}}
+\subsubsection[{wait\-\_\-futex}]{\setlength{\rightskip}{0pt plus 5cm}int$\ast$ rtdal\-\_\-timer\-\_\-t\-::wait\-\_\-futex}\label{structrtdal__timer__t_a5f908aa671f7e3adffbc9096c1dc415a}
+
+
+Definition at line 41 of file rtdal\-\_\-timer.\-h.
+
+
+
+Referenced by kernel\-\_\-initialize\-\_\-create\-\_\-pipeline(), nanoclock\-\_\-timer\-\_\-run\-\_\-thread(), and timerfd\-\_\-timer\-\_\-run\-\_\-thread().
+
+\index{rtdal\-\_\-timer\-\_\-t@{rtdal\-\_\-timer\-\_\-t}!wakeups\-\_\-missed@{wakeups\-\_\-missed}}
+\index{wakeups\-\_\-missed@{wakeups\-\_\-missed}!rtdal_timer_t@{rtdal\-\_\-timer\-\_\-t}}
+\subsubsection[{wakeups\-\_\-missed}]{\setlength{\rightskip}{0pt plus 5cm}unsigned long long rtdal\-\_\-timer\-\_\-t\-::wakeups\-\_\-missed}\label{structrtdal__timer__t_ad605ac13eeb5dd9ba9715685e965e019}
+
+
+Definition at line 36 of file rtdal\-\_\-timer.\-h.
+
+
+
+Referenced by timer\-\_\-setup(), and timer\-\_\-wait\-\_\-period().
+
+
+
+The documentation for this struct was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+/home/ismael/aloe\-\_\-ws/aloe\-\_\-git/rtdal\-\_\-lnx/src/{\bf rtdal\-\_\-timer.\-h}\end{DoxyCompactItemize}

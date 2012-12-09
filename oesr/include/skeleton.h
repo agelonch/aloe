@@ -28,7 +28,6 @@
 /*#define DEBUG_TRACE
 */
 
-
 /**\brief Returns the number of samples (of size input_sample_sz) received from the input port
  * idx.
  * \returns non-negative integer on success or -1 if idx is not a valid interface.

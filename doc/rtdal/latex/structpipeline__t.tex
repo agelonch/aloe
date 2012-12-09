@@ -1,0 +1,156 @@
+\section{pipeline\-\_\-t Struct Reference}
+\label{structpipeline__t}\index{pipeline\-\_\-t@{pipeline\-\_\-t}}
+
+
+{\ttfamily \#include $<$pipeline.\-h$>$}
+
+\subsection*{Data Fields}
+\begin{DoxyCompactItemize}
+\item 
+int {\bf id}
+\item 
+{\bf rtdal\-\_\-process\-\_\-t} $\ast$ {\bf first\-\_\-process}
+\item 
+pthread\-\_\-t {\bf thread}
+\item 
+{\bf rtdal\-\_\-timer\-\_\-t} {\bf mytimer}
+\item 
+int {\bf stop}
+\item 
+int {\bf finished}
+\item 
+int {\bf nof\-\_\-processes}
+\item 
+int {\bf ts\-\_\-counter}
+\item 
+{\bf rtdal\-\_\-process\-\_\-t} $\ast$ {\bf running\-\_\-process}
+\item 
+int {\bf running\-\_\-process\-\_\-idx}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+A Proc\-Thread is a P\-O\-S\-I\-X-\/thread that runs in a single processor core with real-\/time priority and F\-I\-F\-O-\/scheduling (non-\/preemptable). It has a spscq of function pointers which are called one after another. This functions are supposed to run S\-P tasks. The thread is synchronized with the kernel-\/thread with a shared memory P\-O\-S\-I\-X semaphore. At the beginning of the timeslot, the kernel-\/thread actives a semaphore indicating the Proc-\/\-Thread may start its execution. After all functions are called, the Proc-\/\-Thread blocks on the semaphore again.
+
+These threads are detachable. 
+
+Definition at line 42 of file pipeline.\-h.
+
+
+
+\subsection{Field Documentation}
+\index{pipeline\-\_\-t@{pipeline\-\_\-t}!finished@{finished}}
+\index{finished@{finished}!pipeline_t@{pipeline\-\_\-t}}
+\subsubsection[{finished}]{\setlength{\rightskip}{0pt plus 5cm}int pipeline\-\_\-t\-::finished}\label{structpipeline__t_a676e2ef00113a6da513d70007858628b}
+Indicates if the thread has finished the execution of a time-\/slot or not. 
+
+Definition at line 58 of file pipeline.\-h.
+
+
+
+Referenced by pipeline\-\_\-recover\-\_\-thread(), and pipeline\-\_\-rt\-\_\-fault().
+
+\index{pipeline\-\_\-t@{pipeline\-\_\-t}!first\-\_\-process@{first\-\_\-process}}
+\index{first\-\_\-process@{first\-\_\-process}!pipeline_t@{pipeline\-\_\-t}}
+\subsubsection[{first\-\_\-process}]{\setlength{\rightskip}{0pt plus 5cm}{\bf rtdal\-\_\-process\-\_\-t}$\ast$ pipeline\-\_\-t\-::first\-\_\-process}\label{structpipeline__t_a6bb54a0cd8dde618972cdcd629503979}
+
+
+Definition at line 46 of file pipeline.\-h.
+
+
+
+Referenced by pipeline\-\_\-add(), and pipeline\-\_\-remove().
+
+\index{pipeline\-\_\-t@{pipeline\-\_\-t}!id@{id}}
+\index{id@{id}!pipeline_t@{pipeline\-\_\-t}}
+\subsubsection[{id}]{\setlength{\rightskip}{0pt plus 5cm}int pipeline\-\_\-t\-::id}\label{structpipeline__t_a4d67080f7085c575d347d1ed5203a2ff}
+
+
+Definition at line 43 of file pipeline.\-h.
+
+
+
+Referenced by kernel\-\_\-initialize\-\_\-create\-\_\-pipeline(), pipeline\-\_\-add(), pipeline\-\_\-recover\-\_\-thread(), pipeline\-\_\-remove(), pipeline\-\_\-rt\-\_\-fault(), and pipeline\-\_\-run\-\_\-thread().
+
+\index{pipeline\-\_\-t@{pipeline\-\_\-t}!mytimer@{mytimer}}
+\index{mytimer@{mytimer}!pipeline_t@{pipeline\-\_\-t}}
+\subsubsection[{mytimer}]{\setlength{\rightskip}{0pt plus 5cm}{\bf rtdal\-\_\-timer\-\_\-t} pipeline\-\_\-t\-::mytimer}\label{structpipeline__t_ab49193f9dbfbddaee1b5327c2ece0fb8}
+
+
+Definition at line 52 of file pipeline.\-h.
+
+
+
+Referenced by kernel\-\_\-initialize\-\_\-create\-\_\-pipeline().
+
+\index{pipeline\-\_\-t@{pipeline\-\_\-t}!nof\-\_\-processes@{nof\-\_\-processes}}
+\index{nof\-\_\-processes@{nof\-\_\-processes}!pipeline_t@{pipeline\-\_\-t}}
+\subsubsection[{nof\-\_\-processes}]{\setlength{\rightskip}{0pt plus 5cm}int pipeline\-\_\-t\-::nof\-\_\-processes}\label{structpipeline__t_af1260ecb0c7e3429f031708d1eebaf04}
+
+
+Definition at line 60 of file pipeline.\-h.
+
+
+
+Referenced by pipeline\-\_\-add(), pipeline\-\_\-remove(), and pipeline\-\_\-rt\-\_\-fault().
+
+\index{pipeline\-\_\-t@{pipeline\-\_\-t}!running\-\_\-process@{running\-\_\-process}}
+\index{running\-\_\-process@{running\-\_\-process}!pipeline_t@{pipeline\-\_\-t}}
+\subsubsection[{running\-\_\-process}]{\setlength{\rightskip}{0pt plus 5cm}{\bf rtdal\-\_\-process\-\_\-t}$\ast$ pipeline\-\_\-t\-::running\-\_\-process}\label{structpipeline__t_a8c842f2d27e3f3a3ff933d5a2ee409fa}
+Indicates the execution position of the running module 
+
+Definition at line 66 of file pipeline.\-h.
+
+
+
+Referenced by pipeline\-\_\-recover\-\_\-thread().
+
+\index{pipeline\-\_\-t@{pipeline\-\_\-t}!running\-\_\-process\-\_\-idx@{running\-\_\-process\-\_\-idx}}
+\index{running\-\_\-process\-\_\-idx@{running\-\_\-process\-\_\-idx}!pipeline_t@{pipeline\-\_\-t}}
+\subsubsection[{running\-\_\-process\-\_\-idx}]{\setlength{\rightskip}{0pt plus 5cm}int pipeline\-\_\-t\-::running\-\_\-process\-\_\-idx}\label{structpipeline__t_a09b2f4bb610224e4f5c9ddcbf81b7874}
+
+
+Definition at line 67 of file pipeline.\-h.
+
+
+
+Referenced by pipeline\-\_\-rt\-\_\-fault().
+
+\index{pipeline\-\_\-t@{pipeline\-\_\-t}!stop@{stop}}
+\index{stop@{stop}!pipeline_t@{pipeline\-\_\-t}}
+\subsubsection[{stop}]{\setlength{\rightskip}{0pt plus 5cm}int pipeline\-\_\-t\-::stop}\label{structpipeline__t_ab5d965c3c5c84d69165351e7d7b70e80}
+
+
+Definition at line 54 of file pipeline.\-h.
+
+
+
+Referenced by pipeline\-\_\-run\-\_\-thread().
+
+\index{pipeline\-\_\-t@{pipeline\-\_\-t}!thread@{thread}}
+\index{thread@{thread}!pipeline_t@{pipeline\-\_\-t}}
+\subsubsection[{thread}]{\setlength{\rightskip}{0pt plus 5cm}pthread\-\_\-t pipeline\-\_\-t\-::thread}\label{structpipeline__t_ab506a10f907e26976e2784e7b4d3075d}
+
+
+Definition at line 49 of file pipeline.\-h.
+
+
+
+Referenced by kernel\-\_\-initialize\-\_\-create\-\_\-pipeline(), and pipeline\-\_\-rt\-\_\-fault().
+
+\index{pipeline\-\_\-t@{pipeline\-\_\-t}!ts\-\_\-counter@{ts\-\_\-counter}}
+\index{ts\-\_\-counter@{ts\-\_\-counter}!pipeline_t@{pipeline\-\_\-t}}
+\subsubsection[{ts\-\_\-counter}]{\setlength{\rightskip}{0pt plus 5cm}int pipeline\-\_\-t\-::ts\-\_\-counter}\label{structpipeline__t_ada6cb4fb46dcc2966c0237c2e24db1ed}
+
+
+Definition at line 62 of file pipeline.\-h.
+
+
+
+Referenced by pipeline\-\_\-rt\-\_\-fault().
+
+
+
+The documentation for this struct was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+/home/ismael/aloe\-\_\-ws/aloe\-\_\-git/rtdal\-\_\-lnx/src/{\bf pipeline.\-h}\end{DoxyCompactItemize}

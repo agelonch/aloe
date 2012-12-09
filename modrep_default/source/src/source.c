@@ -46,6 +46,8 @@ int initialize() {
 		return -1;
 	}
 
+	generator_init_random();
+
 	modinfo_msg("Parameter block_length is %d\n",block_length);
 
 	gen_id = param_id("generator");

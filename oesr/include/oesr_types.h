@@ -38,14 +38,6 @@ typedef enum {
 	VAR_INT, VAR_FLOAT, VAR_STRING
 }oesr_var_type_t;
 
-/** must be exactly the same than h_pkt_t in rtdal_types.h */
-typedef struct {
-	int valid;
-	int tstamp;
-	int len;
-	void *data;
-}pkt_t;
-
 struct _s_itf {
 	int id;
 };

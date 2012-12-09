@@ -34,21 +34,21 @@ lstrdef(tmp);
  */
 int rtdal_process_launch(rtdal_process_t *obj) {
 	hdebug("path=%s\n",obj->attributes.binary_path);
-	rtdal_ASSERT_PARAM(obj);
+	RTDAL_ASSERT_PARAM(obj);
 	char *error;
 
 	snprintf(tmp,LSTR_LEN,"/usr/local/lib/%s",obj->attributes.binary_path);
 	obj->dl_handle = dlopen(tmp, RTLD_NOW);
 
 	if (!obj->dl_handle) {
-		rtdal_DLERROR(dlerror());
+		RTDAL_DLERROR(dlerror());
 		return -1;
 	}
 	dlerror();
 
 	*(void**) (&obj->run_point) = dlsym(obj->dl_handle, "_run_cycle");
 	if ((error = dlerror()) != NULL) {
-		rtdal_DLERROR(error);
+		RTDAL_DLERROR(error);
 		return -1;
 	}
 
@@ -70,8 +70,8 @@ int rtdal_process_launch(rtdal_process_t *obj) {
  * 3) Set pid=0
  * 4) if finishCallback!=null, call the function
  */
-int rtdal_process_remove(h_proc_t process) {
-	rtdal_ASSERT_PARAM(process);
+int rtdal_process_remove(r_proc_t process) {
+	RTDAL_ASSERT_PARAM(process);
 	rtdal_process_t *obj = (rtdal_process_t*) process;
 	hdebug("pid=%d\n",obj->pid)
 
@@ -92,8 +92,8 @@ int rtdal_process_remove(h_proc_t process) {
  * @param process Handler to the process
  * @returns non-negative id on success, -1 on error
  */
-int rtdal_process_pid(h_proc_t process) {
-	rtdal_ASSERT_PARAM(process);
+int rtdal_process_pid(r_proc_t process) {
+	RTDAL_ASSERT_PARAM(process);
 	rtdal_process_t *obj = (rtdal_process_t*) process;
 	return obj->pid;
 }
@@ -104,8 +104,8 @@ int rtdal_process_pid(h_proc_t process) {
  * @param process Handler to the process
  * @returns zero on success, -1 on error
  */
-int rtdal_process_run(h_proc_t process) {
-	rtdal_ASSERT_PARAM(process);
+int rtdal_process_run(r_proc_t process) {
+	RTDAL_ASSERT_PARAM(process);
 	rtdal_process_t *obj = (rtdal_process_t*) process;
 	hdebug("pid=%d\n",obj->pid);
 	obj->runnable = 1;
@@ -118,31 +118,31 @@ int rtdal_process_run(h_proc_t process) {
  * @param process Handler to the process
  * @returns zero on success, -1 on error
  */
-int rtdal_process_stop(h_proc_t process) {
-	rtdal_ASSERT_PARAM(process);
+int rtdal_process_stop(r_proc_t process) {
+	RTDAL_ASSERT_PARAM(process);
 	rtdal_process_t *obj = (rtdal_process_t*) process;
 	hdebug("pid=%d\n",obj->pid);
 	obj->runnable = 0;
 	return 0;
 }
 
-int rtdal_process_seterror(h_proc_t proc, rtdal_processerrors_t code) {
-	rtdal_ASSERT_PARAM(proc);
+int rtdal_process_seterror(r_proc_t proc, rtdal_processerrors_t code) {
+	RTDAL_ASSERT_PARAM(proc);
 	rtdal_process_t *obj = (rtdal_process_t*) proc;
 	hdebug("pid=%d, code=%d\n",obj->pid,(int)code);
 	obj->finish_code = code;
 	return 0;
 }
 
-rtdal_processerrors_t rtdal_process_geterror(h_proc_t proc) {
-	rtdal_ASSERT_PARAM(proc);
+rtdal_processerrors_t rtdal_process_geterror(r_proc_t proc) {
+	RTDAL_ASSERT_PARAM(proc);
 	rtdal_process_t *obj = (rtdal_process_t*) proc;
 	hdebug("pid=%d, code=%d\n",obj->pid,(int)obj->finish_code);
 	return obj->finish_code;
 }
 
-int rtdal_process_isrunning(h_proc_t proc) {
-	rtdal_ASSERT_PARAM(proc);
+int rtdal_process_isrunning(r_proc_t proc) {
+	RTDAL_ASSERT_PARAM(proc);
 	rtdal_process_t *obj = (rtdal_process_t*) proc;
 	hdebug("pid=%d, running=%d\n",obj->pid,obj->runnable);
 	return obj->is_running;

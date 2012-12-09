@@ -29,7 +29,6 @@ int nof_vars;
 log_t mlog;
 counter_t counter;
 
-pkt_t *input_pkt[MAX_INPUTS], *output_pkt[MAX_OUTPUTS];
 void *input_ptr[MAX_INPUTS], *output_ptr[MAX_OUTPUTS];
 int rcv_len[MAX_INPUTS], snd_len[MAX_OUTPUTS];
 
@@ -41,13 +40,9 @@ void *ctx;
 
 void init_memory() {
 	memset(inputs,0,sizeof(itf_t)*MAX_INPUTS);
-	memset(input_pkt,0,sizeof(pkt_t*)*MAX_INPUTS);
-	memset(input_ptr,0,sizeof(void*)*MAX_INPUTS);
 	memset(rcv_len,0,sizeof(int)*MAX_INPUTS);
 
 	memset(outputs,0,sizeof(itf_t)*MAX_OUTPUTS);
-	memset(output_pkt,0,sizeof(pkt_t*)*MAX_OUTPUTS);
-	memset(output_ptr,0,sizeof(void*)*MAX_OUTPUTS);
 	memset(snd_len,0,sizeof(int)*MAX_OUTPUTS);
 
 	memset(vars,0,sizeof(var_t)*MAX_VARIABLES);
@@ -329,30 +324,30 @@ int Run(void *_ctx) {
 
 	for (i=0;i<nof_input_itf;i++) {
 		if (!inputs[i]) {
-			input_pkt[i] = NULL;
+			input_ptr[i] = NULL;
 			rcv_len[i] = 0;
 		} else {
-			input_pkt[i] = oesr_itf_pkt_get(inputs[i]);
-			moddebug("get: input=%d, pkt=0x%x\n",i, input_pkt[i]);
-			if (!input_pkt[i]) {
-				printf("[ts=%d] %s received no input\n",rtdal_time_slot(),oesr_module_name(ctx));
-			}
-			if (!input_pkt[i]) {
-				rcv_len[i] = 0;
+			n = oesr_itf_ptr_get(inputs[i], &input_ptr[i], &rcv_len[i]);
+			if (n == 0) {
+				moddebug("[ts=%d] received no input from %d\n",rtdal_time_slot(),i);
+			} else if (n == -1) {
+				oesr_perror("oesr_itf_get");
+				return -1;
 			} else {
-				moddebug("get: input=%d, len=%d\n",i,input_pkt[i]->len);
-				rcv_len[i] = input_pkt[i]->len/input_sample_sz;
+				moddebug("[ts=%d] received %d bytes\n",rtdal_time_slot(),rcv_len[i]);
+				rcv_len[i] /= input_sample_sz;
 			}
 		}
 	}
 	for (i=0;i<nof_output_itf;i++) {
 		if (!outputs[i]) {
-			output_pkt[i] = NULL;
+			output_ptr[i] = NULL;
 		} else {
-			output_pkt[i] = oesr_itf_pkt_request(outputs[i]);
-			moddebug("request: output=%d pkt=0x%x\n",i,output_pkt[i]);
-			if (!output_pkt[i]) {
-				oesr_perror("oesr_itf_pkt_request\n");
+			n = oesr_itf_ptr_request(outputs[i], &output_ptr[i]);
+			if (n == 0) {
+				printf("[ts=%d] no packets available in output interface %d\n",rtdal_time_slot(),i);
+			} else if (n == -1) {
+				oesr_perror("oesr_itf_request");
 				return -1;
 			}
 		}
@@ -364,9 +359,8 @@ int Run(void *_ctx) {
 #ifdef _ALOE_OLD_SKELETON
 
 	for (i=0;i<nof_input_itf;i++) {
-		if (input_pkt[i]) {
-			assert(input_pkt[i]->data);
-			memcpy(&input_buffer[i*input_max_samples*input_sample_sz],input_pkt[i]->data,
+		if (input_ptr[i]) {
+			memcpy(&input_buffer[i*input_max_samples*input_sample_sz],input_ptr[i],
 					rcv_len[i]*input_sample_sz);
 		}
 	}
@@ -382,17 +376,7 @@ int Run(void *_ctx) {
 	}
 
 #else
-	/* This is the module DSP function */
-	for (i=0;i<nof_input_itf;i++) {
-		if (input_pkt[i]) {
-			input_ptr[i]=input_pkt[i]->data;
-		}
-	}
-	for (i=0;i<nof_output_itf;i++) {
-		if (output_pkt[i]) {
-			output_ptr[i]=output_pkt[i]->data;
-		}
-	}
+
 #ifdef MOD_DEBUG
 	oesr_counter_start(counter);
 #endif
@@ -410,55 +394,40 @@ int Run(void *_ctx) {
 	memset(rcv_len,0,sizeof(int)*nof_input_itf);
 
 	for (i=0;i<nof_output_itf;i++) {
-		if (!snd_len[i] && output_pkt[i]) {
+		if (!snd_len[i] && output_ptr[i]) {
 			snd_len[i] = n*output_sample_sz;
 		}
 	}
 
 #ifdef _ALOE_OLD_SKELETON
 	for (i=0;i<nof_output_itf;i++) {
-		if (output_pkt[i]) {
-			assert(output_pkt[i]->data);
-			memcpy(output_pkt[i]->data,&output_buffer[i*output_max_samples*output_sample_sz],
-					snd_len[i]);
+		if (output_ptr[i]) {
+			memcpy(output_ptr[i],&output_buffer[i*output_max_samples*output_sample_sz],snd_len[i]);
 		}
 	}
 
 #endif
 
 	for (i=0;i<nof_input_itf;i++) {
-		moddebug("release: input=%d pkt=0x%x\n",i,input_pkt[i]);
-		if (input_pkt[i]) {
-			n = oesr_itf_pkt_release(inputs[i],input_pkt[i]);
-			if (n == -1) {
+		if (input_ptr[i]) {
+			n = oesr_itf_ptr_release(inputs[i]);
+			if (n == 0) {
+				moddebug("[ts=%d] packet from interface %d not released\n",rtdal_time_slot(),i);
+			} else if (n == -1) {
 				oesr_perror("oesr_itf_ptr_release\n");
 				return -1;
-			} else if (n == 0) {
-				modinfo_msg("warning packet from input interface %d could not be released\n",i);
 			}
 		}
 	}
 	for (i=0;i<nof_output_itf;i++) {
-		if (output_pkt[i]) {
-			moddebug("put: output=%d pkt=0x%x len=%d\n",i,output_pkt[i],snd_len[i]);
-			if (snd_len[i]) {
-				output_pkt[i]->len = snd_len[i];
-				n = oesr_itf_pkt_put(outputs[i],output_pkt[i]);
-				if (n == -1) {
-					oesr_perror("oesr_itf_ptr_put\n");
-					return -1;
-				} else if (n == 0) {
-					moderror_msg("warning packet from output interface %d could not be transmitted\n",i);
-				}
-			} /*else {
-				n = oesr_itf_pkt_release(outputs[i],output_pkt[i]);
-				if (n == -1) {
-					oesr_perror("oesr_itf_ptr_release\n");
-					return -1;
-				} else if (n == 0) {
-					modinfo_msg("warning packet from output interface %d could not be released\n",i);
-				}
-			}*/
+		if (output_ptr[i] && snd_len[i]) {
+			n = oesr_itf_ptr_put(outputs[i],snd_len[i]);
+			if (n == 0) {
+				moddebug("[ts=%d] no space left in output interface %d\n",rtdal_time_slot(),i);
+			} else if (n == -1) {
+				oesr_perror("oesr_itf_ptr_put\n");
+				return -1;
+			}
 		}
 	}
 

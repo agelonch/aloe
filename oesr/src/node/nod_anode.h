@@ -32,10 +32,10 @@ typedef struct {
 	nod_waveform_t *loaded_waveforms;
 	int max_waveforms;
 	packet_t packet;
-	h_itf_t sync_itf;
-	h_itf_t ctr_itf;
-	h_itf_t probe_itf;
-	h_itf_t slaves_itf[MAX(node_itfphysic)];
+	r_itf_t sync_itf;
+	r_itf_t ctr_itf;
+	r_itf_t probe_itf;
+	r_itf_t slaves_itf[MAX(node_itfphysic)];
 } nod_anode_t;
 
 int nod_anode_initialize();

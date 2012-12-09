@@ -63,7 +63,7 @@ itf_t oesr_itf_create(void *context, int port_idx, oesr_itf_mode_t mode,
 	nod_module_t *module = ctx->module;
 	sdebug("context=0x%x, module_id=%d, port_idx=%d, mode=%d, size=%d inputs=%d outputs=%d\n",context,module->parent.id,
 			port_idx, mode, size,module->parent.nof_inputs,module->parent.nof_outputs);
-	h_itf_t rtdal_itf;
+	r_itf_t rtdal_itf;
 	interface_t *nod_itf = NULL;
 
 	oesr_ASSERT_PARAM_P(module);
@@ -85,14 +85,14 @@ itf_t oesr_itf_create(void *context, int port_idx, oesr_itf_mode_t mode,
 
 	if (nod_itf->physic_itf_id != 0) {
 		/* is external */
-		rtdal_itf = (h_itf_t) rtdal_itfphysic_get_id(nod_itf->physic_itf_id);
+		rtdal_itf = (r_itf_t) rtdal_itfphysic_get_id(nod_itf->physic_itf_id);
 		if (!rtdal_itf) {
 			oesr_HWERROR("rtdal_itf_physic_get_id");
 		}
 	} else {
 		/* is internal */
 		if (mode == ITF_WRITE) {
-			rtdal_itf = (h_itf_t) rtdal_itfqueue_new(oesr_ITF_DEFAULT_MSG,
+			rtdal_itf = (r_itf_t) rtdal_itfspscq_new(OESR_ITF_DEFAULT_MSG,
 					size);
 			if (!rtdal_itf) {
 				oesr_HWERROR("rtdal_itfqueue");
@@ -139,7 +139,6 @@ itf_t oesr_itf_create(void *context, int port_idx, oesr_itf_mode_t mode,
  */
 int oesr_itf_close(itf_t itf) {
 	assert(itf);
-	sdebug("itf_id=%d\n",itf->id);
 	interface_t *x = (interface_t*) itf;
 	return rtdal_itf_remove(x->hw_itf);
 }
@@ -161,9 +160,6 @@ int oesr_itf_close(itf_t itf) {
  */
 int oesr_itf_write(itf_t itf, void* buffer, int size) {
 	assert(itf);
-	sdebug("itf_id=%d, buffer=0x%x, size=%d\n",itf->id, buffer,size);
-	assert(buffer);
-	assert(size>=0);
 	interface_t *x = (interface_t*) itf;
 	return rtdal_itf_send(x->hw_itf,buffer,size);
 }
@@ -183,9 +179,6 @@ int oesr_itf_write(itf_t itf, void* buffer, int size) {
  */
 int oesr_itf_read(itf_t itf, void* buffer, int size) {
 	assert(itf);
-	sdebug("itf_id=%d, buffer=0x%x, size=%d\n",itf->id, buffer,size);
-	assert(buffer);
-	assert(size>=0);
 	interface_t *x = (interface_t*) itf;
 	return rtdal_itf_recv(x->hw_itf,buffer,size);
 }
@@ -210,43 +203,33 @@ int oesr_itf_status(itf_t itf) {
  *
  * See oesr_itf_create() for an introduction to oesr interfaces.
  *
- * The family of oesr_itf_ptr_* functions may be used for more efficient interface usage: they are designed
- * for zero-copy packet communication. A call to oesr_itf_pkt_request() returns a pointer to a structure
- * of type pkt_t:
+ * The family of oesr_itf_ptr_* functions may be used for more efficient interface usage:
+ * they are designed for zero-copy packet communication.
  *
- * typedef struct {
- * 	int len;
- * 	void *data;
- * }pkt_t;
+ * The transmitter obtains a buffer using the function oesr_itf_ptr_request(). It fills the contents
+ * with the samples to transmitted and then calls oesr_itf_ptr_put() to make the packet available
+ * to the receiver. The receiver obtains the buffer address using the function oesr_itf_ptr_get().
+ * After the samples have been processed, a final call to oesr_itf_ptr_release() allows the packet
+ * to be reused again by the transmitter.
  *
- * where len indicates the packet length and data is a pointer to the packet buffer. The size of this
- * buffer equals the parameter size passed to the oesr_itf_create() function.
- * The user should not read/write more data from/to this buffer, otherwise the result is unexpected.
+ * These functions give the user direct access to the internal rtdal memory. The buffers are
+ * automatically allocated for the size passed as a parameter to the oesr_itf_create() function.
+ * The user MUST ensure that this size is not exceed.
  *
- * ALOE uses the field len when the interface opposite side uses the functions oesr_itf_read/write.
- * Then len should be equal to the number of useful bytes in the packet. If all modules in the waveform
- * use the family of functions oesr_itf_pkt_* then len can have another meaning, like bits/bytes/words
- * as soon as the transmitter and receiver agree.
- *
- * A successive call to oesr_itf_ptr_put() sends the packet to the receiver without copying the
- * buffer contents. The receiver will read the samples from the same buffer. Therefore, after a call
- * to oesr_itf_ptr_put() the transmitter can NOT use the buffer and may request another packet using
- * oesr_itf_ptr_request().
- *
- * The receiver uses oesr_itf_ptr_get() to receive the packet (if any pending in the interface).
- * After it has processed all the samples, a call to oesr_itf_ptr_release() releases the packet,
- * which enables to reuse the buffer in a future call to oesr_itf_ptr_request().
+ * \details In the current implementation, internal interfaces employ a SPSP wait-free queue.
+ * Therefore, one transmitter module and one receiver module can use the same interface.
  *
  * \param itf Handler returned by the oesr_itf_create() function.
-
- * \return A non-null pkt_t pointer on success or null on error.
+ * \param ptr Address of the buffer where the samples to transmit must be written.
+ *
+ * \return 1 if a pointer was successfully allocated, 0 if there is no space in the interface
+ * or -1 on error
  *
  */
-pkt_t* oesr_itf_pkt_request(itf_t itf) {
+int oesr_itf_ptr_request(itf_t itf, void **ptr) {
 	assert(itf);
-	sdebug("itf_id=%d\n",itf->id);
 	interface_t *x = (interface_t*) itf;
-	return (pkt_t*) rtdal_itf_request_pkt(x->hw_itf);
+	return rtdal_itf_request(x->hw_itf, ptr);
 }
 
 
@@ -255,41 +238,36 @@ pkt_t* oesr_itf_pkt_request(itf_t itf) {
  *
  * See oesr_itf_create() for an introduction to oesr interfaces.
  *
- * See oesr_itf_pkt_request() for documentation on the oesr_itf_ptr_* family of functions.
+ * See oesr_itf_ptr_request() for documentation on the oesr_itf_ptr_* family of functions.
  *
  * \param itf Handler returned by the oesr_itf_create() function.
  *
  * \return 1 on success, 0 if the packet could not be released, or -1 on error.
  *
  */
-int oesr_itf_pkt_release(itf_t itf, pkt_t *pkt) {
+int oesr_itf_ptr_release(itf_t itf) {
 	assert(itf);
-	sdebug("itf_id=%d, pkt=0x%x\n",itf->id, pkt);
-	assert(pkt);
 	interface_t *x = (interface_t*) itf;
-	return rtdal_itf_release_pkt(x->hw_itf, (h_pkt_t*) pkt);
+	return rtdal_itf_release(x->hw_itf);
 }
 
 
-/** \brief Sends a buffer obtained by oesr_itf_ptr_new() after the samples have been written to it.
+/** \brief Sends a buffer obtained by oesr_itf_ptr_request() after the samples have been written to it.
  *
  * See oesr_itf_create() for an introduction to oesr interfaces.
  *
- * See oesr_itf_pkt_request() for documentation on the oesr_itf_ptr_* family of functions.
+ * See oesr_itf_ptr_request() for documentation on the oesr_itf_ptr_* family of functions.
  *
  * \param itf Handler returned by the oesr_itf_create() function.
- * \param ptr Pointer returned by oesr_itf_ptr_new()
- * \param size Number of bytes to send (and have been written to the buffer)
+ * \param len Number of useful bytes written to the buffer
  *
  * \return 1 on success, 0 if the packet could not be sent or -1 on error.
  *
  */
-int oesr_itf_pkt_put(itf_t itf, pkt_t *pkt) {
+int oesr_itf_ptr_put(itf_t itf, int len) {
 	assert(itf);
-	sdebug("itf_id=%d, pkt=0x%x\n",itf->id, pkt);
-	assert(pkt);
 	interface_t *x = (interface_t*) itf;
-	return rtdal_itf_put_pkt(x->hw_itf, (h_pkt_t*) pkt);
+	return rtdal_itf_push(x->hw_itf, len);
 }
 
 
@@ -297,18 +275,17 @@ int oesr_itf_pkt_put(itf_t itf, pkt_t *pkt) {
  *
  * See oesr_itf_create() for an introduction to oesr interfaces.
  *
- * See oesr_itf_pkt_request() for documentation on the oesr_itf_ptr_* family of functions.
+ * See oesr_itf_ptr_request() for documentation on the oesr_itf_ptr_* family of functions.
  *
  * \param itf Handler returned by the oesr_itf_create() function.
- * \param len The function stores in the integer pointed by len the length of the received packet,
- * in bytes (or number of bytes that should be read from the buffer)
+ * \param ptr Pointer where the received packet address will be stored
+ * \param len Pointer to where the number of useful received samples will be saved.
  *
- * \return A non-null pkt_t pointer on success or null on error.
+ * \return 1 on success, 0 if there are no packets pending in the interface or -1 on error.
  *
  */
-pkt_t* oesr_itf_pkt_get(itf_t itf) {
+int oesr_itf_ptr_get(itf_t itf, void **ptr, int *len) {
 	assert(itf);
-	sdebug("itf_id=%d\n",itf->id);
 	interface_t *x = (interface_t*) itf;
-	return (pkt_t*) rtdal_itf_get_pkt(x->hw_itf);
+	return rtdal_itf_pop(x->hw_itf, ptr, len);
 }

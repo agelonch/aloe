@@ -31,6 +31,6 @@ enum rtdal_task_type {
 
 int rtdal_task_new_thread(pthread_t *thread, void *(*fnc)(void*), void *arg, \
 		enum rtdal_task_type type, int prio, int cpu, int unblock_signals);
-int rtdal_task_new_prio(h_task_t *task, void *(*fnc)(void*), void* arg, int prio, int cpu);
+int rtdal_task_new_prio(r_task_t *task, void *(*fnc)(void*), void* arg, int prio, int cpu);
 
 #endif

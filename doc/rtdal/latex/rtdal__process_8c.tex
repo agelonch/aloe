@@ -1,0 +1,89 @@
+\section{/home/ismael/aloe\-\_\-ws/aloe\-\_\-git/rtdal\-\_\-lnx/src/rtdal\-\_\-process.c File Reference}
+\label{rtdal__process_8c}\index{/home/ismael/aloe\-\_\-ws/aloe\-\_\-git/rtdal\-\_\-lnx/src/rtdal\-\_\-process.\-c@{/home/ismael/aloe\-\_\-ws/aloe\-\_\-git/rtdal\-\_\-lnx/src/rtdal\-\_\-process.\-c}}
+{\ttfamily \#include $<$dlfcn.\-h$>$}\\*
+{\ttfamily \#include \char`\"{}defs.\-h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}rtdal\-\_\-error.\-h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}rtdal\-\_\-process.\-h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}rtdal.\-h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}pipeline.\-h\char`\"{}}\\*
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\bf lstrdef} (tmp)
+\item 
+int {\bf rtdal\-\_\-process\-\_\-launch} ({\bf rtdal\-\_\-process\-\_\-t} $\ast$obj)
+\item 
+int {\bf rtdal\-\_\-process\-\_\-remove} ({\bf r\-\_\-proc\-\_\-t} process)
+\item 
+int {\bf rtdal\-\_\-process\-\_\-pid} ({\bf r\-\_\-proc\-\_\-t} process)
+\item 
+int {\bf rtdal\-\_\-process\-\_\-run} ({\bf r\-\_\-proc\-\_\-t} process)
+\item 
+int {\bf rtdal\-\_\-process\-\_\-stop} ({\bf r\-\_\-proc\-\_\-t} process)
+\item 
+int {\bf rtdal\-\_\-process\-\_\-seterror} ({\bf r\-\_\-proc\-\_\-t} proc, {\bf rtdal\-\_\-processerrors\-\_\-t} code)
+\item 
+{\bf rtdal\-\_\-processerrors\-\_\-t} {\bf rtdal\-\_\-process\-\_\-geterror} ({\bf r\-\_\-proc\-\_\-t} proc)
+\item 
+int {\bf rtdal\-\_\-process\-\_\-isrunning} ({\bf r\-\_\-proc\-\_\-t} proc)
+\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\index{rtdal\-\_\-process.\-c@{rtdal\-\_\-process.\-c}!lstrdef@{lstrdef}}
+\index{lstrdef@{lstrdef}!rtdal_process.c@{rtdal\-\_\-process.\-c}}
+\subsubsection[{lstrdef}]{\setlength{\rightskip}{0pt plus 5cm}lstrdef (
+\begin{DoxyParamCaption}
+\item[{tmp}]{}
+\end{DoxyParamCaption}
+)}\label{rtdal__process_8c_a59758f3099ae8b3e448b0243f2859413}
+\index{rtdal\-\_\-process.\-c@{rtdal\-\_\-process.\-c}!rtdal\-\_\-process\-\_\-launch@{rtdal\-\_\-process\-\_\-launch}}
+\index{rtdal\-\_\-process\-\_\-launch@{rtdal\-\_\-process\-\_\-launch}!rtdal_process.c@{rtdal\-\_\-process.\-c}}
+\subsubsection[{rtdal\-\_\-process\-\_\-launch}]{\setlength{\rightskip}{0pt plus 5cm}int rtdal\-\_\-process\-\_\-launch (
+\begin{DoxyParamCaption}
+\item[{{\bf rtdal\-\_\-process\-\_\-t} $\ast$}]{obj}
+\end{DoxyParamCaption}
+)}\label{rtdal__process_8c_a13457994932e34fee03619102b3b978d}
+Loads a process binary into memory. The process must have been created using \doxyref{rtdal\-\_\-process\-\_\-new()}{p.}{group__process_gaac39f57d3d63eca01423a7ffd95026e1}. This function loads the library defined in the process attributes during the call to \doxyref{rtdal\-\_\-process\-\_\-new()}{p.}{group__process_gaac39f57d3d63eca01423a7ffd95026e1}. 
+\begin{DoxyParams}{Parameters}
+{\em obj} & Pointer to the rtdal\-\_\-process\-\_\-t object. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Zero on success, -\/1 on error. 
+\end{DoxyReturn}
+
+
+Definition at line 35 of file rtdal\-\_\-process.\-c.
+
+
+
+References \-\_\-rtdal\-\_\-process\-\_\-t\-::attributes, \-\_\-rtdal\-\_\-process\-\_\-t\-::dl\-\_\-handle, hdebug, L\-S\-T\-R\-\_\-\-L\-E\-N, R\-T\-D\-A\-L\-\_\-\-A\-S\-S\-E\-R\-T\-\_\-\-P\-A\-R\-A\-M, R\-T\-D\-A\-L\-\_\-\-D\-L\-E\-R\-R\-O\-R, and \-\_\-rtdal\-\_\-process\-\_\-t\-::run\-\_\-point.
+
+
+
+Referenced by rtdal\-\_\-process\-\_\-new().
+
+\index{rtdal\-\_\-process.\-c@{rtdal\-\_\-process.\-c}!rtdal\-\_\-process\-\_\-pid@{rtdal\-\_\-process\-\_\-pid}}
+\index{rtdal\-\_\-process\-\_\-pid@{rtdal\-\_\-process\-\_\-pid}!rtdal_process.c@{rtdal\-\_\-process.\-c}}
+\subsubsection[{rtdal\-\_\-process\-\_\-pid}]{\setlength{\rightskip}{0pt plus 5cm}int rtdal\-\_\-process\-\_\-pid (
+\begin{DoxyParamCaption}
+\item[{{\bf r\-\_\-proc\-\_\-t}}]{process}
+\end{DoxyParamCaption}
+)}\label{rtdal__process_8c_a9c44b3f98cf2398922a185f4822c700a}
+Returns the id of the process identified by the first argument. The process must have been previously loaded using \doxyref{rtdal\-\_\-process\-\_\-new()}{p.}{group__process_gaac39f57d3d63eca01423a7ffd95026e1}. 
+\begin{DoxyParams}{Parameters}
+{\em process} & Handler to the process \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+non-\/negative id on success, -\/1 on error 
+\end{DoxyReturn}
+
+
+Definition at line 95 of file rtdal\-\_\-process.\-c.
+
+
+
+References \-\_\-rtdal\-\_\-process\-\_\-t\-::pid, and R\-T\-D\-A\-L\-\_\-\-A\-S\-S\-E\-R\-T\-\_\-\-P\-A\-R\-A\-M.
+

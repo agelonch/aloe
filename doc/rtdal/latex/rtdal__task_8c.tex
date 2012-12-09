@@ -1,0 +1,112 @@
+\section{/home/ismael/aloe\-\_\-ws/aloe\-\_\-git/rtdal\-\_\-lnx/src/rtdal\-\_\-task.c File Reference}
+\label{rtdal__task_8c}\index{/home/ismael/aloe\-\_\-ws/aloe\-\_\-git/rtdal\-\_\-lnx/src/rtdal\-\_\-task.\-c@{/home/ismael/aloe\-\_\-ws/aloe\-\_\-git/rtdal\-\_\-lnx/src/rtdal\-\_\-task.\-c}}
+{\ttfamily \#include $<$pthread.\-h$>$}\\*
+{\ttfamily \#include $<$sched.\-h$>$}\\*
+{\ttfamily \#include $<$unistd.\-h$>$}\\*
+{\ttfamily \#include $<$signal.\-h$>$}\\*
+{\ttfamily \#include $<$sys/types.\-h$>$}\\*
+{\ttfamily \#include \char`\"{}defs.\-h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}rtdal\-\_\-task.\-h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}rtdal.\-h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}rtdal\-\_\-error.\-h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}rtdal\-\_\-kernel.\-h\char`\"{}}\\*
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+int {\bf rtdal\-\_\-task\-\_\-new} ({\bf r\-\_\-task\-\_\-t} $\ast$task, void $\ast$($\ast$fnc)(void $\ast$), void $\ast$arg)
+\item 
+int {\bf rtdal\-\_\-task\-\_\-kill} ({\bf r\-\_\-task\-\_\-t} task)
+\item 
+int {\bf rtdal\-\_\-task\-\_\-wait} ({\bf r\-\_\-task\-\_\-t} task, void $\ast$$\ast$retval)
+\item 
+int {\bf rtdal\-\_\-task\-\_\-wait\-\_\-nb} ({\bf r\-\_\-task\-\_\-t} task, void $\ast$$\ast$retval)
+\item 
+int {\bf rtdal\-\_\-task\-\_\-new\-\_\-prio} ({\bf r\-\_\-task\-\_\-t} $\ast$task, void $\ast$($\ast$fnc)(void $\ast$), void $\ast$arg, int prio, int cpu)
+\item 
+int {\bf rtdal\-\_\-task\-\_\-new\-\_\-thread} (pthread\-\_\-t $\ast$thread, void $\ast$($\ast$fnc)(void $\ast$), void $\ast$arg, enum {\bf rtdal\-\_\-task\-\_\-type} type, int prio, int cpu, int unblock\-\_\-signals)
+\item 
+void {\bf rtdal\-\_\-task\-\_\-print\-\_\-sched} ()
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+int $\ast$ {\bf core\-\_\-mapping}
+\item 
+int {\bf nof\-\_\-cores}
+\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\index{rtdal\-\_\-task.\-c@{rtdal\-\_\-task.\-c}!rtdal\-\_\-task\-\_\-new\-\_\-prio@{rtdal\-\_\-task\-\_\-new\-\_\-prio}}
+\index{rtdal\-\_\-task\-\_\-new\-\_\-prio@{rtdal\-\_\-task\-\_\-new\-\_\-prio}!rtdal_task.c@{rtdal\-\_\-task.\-c}}
+\subsubsection[{rtdal\-\_\-task\-\_\-new\-\_\-prio}]{\setlength{\rightskip}{0pt plus 5cm}int rtdal\-\_\-task\-\_\-new\-\_\-prio (
+\begin{DoxyParamCaption}
+\item[{{\bf r\-\_\-task\-\_\-t} $\ast$}]{task, }
+\item[{void $\ast$($\ast$)(void $\ast$)}]{fnc, }
+\item[{void $\ast$}]{arg, }
+\item[{int}]{prio, }
+\item[{int}]{cpu}
+\end{DoxyParamCaption}
+)}\label{rtdal__task_8c_a20caf9c9982694cab8848c98a3f1131b}
+All threads are created with detachable state. 
+
+Definition at line 78 of file rtdal\-\_\-task.\-c.
+
+
+
+References D\-E\-T\-A\-C\-H\-A\-B\-L\-E, J\-O\-I\-N\-A\-B\-L\-E, and rtdal\-\_\-task\-\_\-new\-\_\-thread().
+
+
+
+Referenced by rtdal\-\_\-task\-\_\-new().
+
+\index{rtdal\-\_\-task.\-c@{rtdal\-\_\-task.\-c}!rtdal\-\_\-task\-\_\-new\-\_\-thread@{rtdal\-\_\-task\-\_\-new\-\_\-thread}}
+\index{rtdal\-\_\-task\-\_\-new\-\_\-thread@{rtdal\-\_\-task\-\_\-new\-\_\-thread}!rtdal_task.c@{rtdal\-\_\-task.\-c}}
+\subsubsection[{rtdal\-\_\-task\-\_\-new\-\_\-thread}]{\setlength{\rightskip}{0pt plus 5cm}int rtdal\-\_\-task\-\_\-new\-\_\-thread (
+\begin{DoxyParamCaption}
+\item[{pthread\-\_\-t $\ast$}]{thread, }
+\item[{void $\ast$($\ast$)(void $\ast$)}]{fnc, }
+\item[{void $\ast$}]{arg, }
+\item[{enum {\bf rtdal\-\_\-task\-\_\-type}}]{type, }
+\item[{int}]{prio, }
+\item[{int}]{cpu, }
+\item[{int}]{unblock\-\_\-signals}
+\end{DoxyParamCaption}
+)}\label{rtdal__task_8c_ad3b58671016cbe5119ebc37c0ba17700}
+
+
+Definition at line 95 of file rtdal\-\_\-task.\-c.
+
+
+
+References awarn, core\-\_\-mapping, D\-E\-T\-A\-C\-H\-A\-B\-L\-E, hdebug, nof\-\_\-cores, R\-T\-D\-A\-L\-\_\-\-A\-S\-S\-E\-R\-T\-\_\-\-P\-A\-R\-A\-M, R\-T\-D\-A\-L\-\_\-\-P\-O\-S\-E\-R\-R\-O\-R, and T\-A\-S\-K\-\_\-\-D\-E\-F\-A\-U\-L\-T\-\_\-\-P\-R\-I\-O\-R\-I\-T\-Y.
+
+
+
+Referenced by kernel\-\_\-initialize\-\_\-create\-\_\-pipeline(), and rtdal\-\_\-task\-\_\-new\-\_\-prio().
+
+
+
+\subsection{Variable Documentation}
+\index{rtdal\-\_\-task.\-c@{rtdal\-\_\-task.\-c}!core\-\_\-mapping@{core\-\_\-mapping}}
+\index{core\-\_\-mapping@{core\-\_\-mapping}!rtdal_task.c@{rtdal\-\_\-task.\-c}}
+\subsubsection[{core\-\_\-mapping}]{\setlength{\rightskip}{0pt plus 5cm}int$\ast$ core\-\_\-mapping}\label{rtdal__task_8c_a41cd6ec9b53ae98e0eafeacaaa2c51a3}
+
+
+Definition at line 46 of file rtdal\-\_\-kernel.\-c.
+
+
+
+Referenced by kernel\-\_\-initialize\-\_\-create\-\_\-pipeline(), parse\-\_\-cores\-\_\-comma\-\_\-sep(), parse\-\_\-cores\-\_\-single\-\_\-array(), and rtdal\-\_\-task\-\_\-new\-\_\-thread().
+
+\index{rtdal\-\_\-task.\-c@{rtdal\-\_\-task.\-c}!nof\-\_\-cores@{nof\-\_\-cores}}
+\index{nof\-\_\-cores@{nof\-\_\-cores}!rtdal_task.c@{rtdal\-\_\-task.\-c}}
+\subsubsection[{nof\-\_\-cores}]{\setlength{\rightskip}{0pt plus 5cm}int nof\-\_\-cores}\label{rtdal__task_8c_a963897f83bd39432e5c50dee715eb2f9}
+
+
+Definition at line 47 of file rtdal\-\_\-kernel.\-c.
+
+
+
+Referenced by main(), and rtdal\-\_\-task\-\_\-new\-\_\-thread().
+

@@ -459,7 +459,7 @@ static void thread_signal_handler(int signum, siginfo_t *info, void *ctx) {
 
 	signal_received++;
 
-	hdebug("signal %d received\n",signum);
+	printf("[ts=%d] signal %d received\n",rtdal_time_slot(),signum);
 
 	/* try to find the thread that caused the signal */
 
@@ -510,7 +510,7 @@ static void thread_signal_handler(int signum, siginfo_t *info, void *ctx) {
 	if (sigqueue(kernel_pid,
 			KERNEL_SIG_THREAD_SPECIFIC,
 			value)) {
-		poserror(errno, "sigqueue");
+		poserror(errno, "sigspscq");
 	}
 
 cancel_and_exit:

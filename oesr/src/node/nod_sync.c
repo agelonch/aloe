@@ -20,7 +20,7 @@
 #include "nod_sync.h"
 #include "rtdal.h"
 
-int nod_sync_master(h_itf_t *itf) {
+int nod_sync_master(r_itf_t *itf) {
 	aerror("Not yet implemented");
 	return -1;
 }

@@ -30,7 +30,7 @@
 
 typedef struct {
 	module_t parent;
-	h_proc_t process;
+	r_proc_t process;
 	void *context;
 	int changing_status;
 	int (*init) (void*);

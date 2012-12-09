@@ -47,7 +47,7 @@ typedef struct {
 	float total_mbpts;
 	float use_mbpts;
 	int delay;
-	h_itf_t hw_itf;
+	r_itf_t hw_itf;
 } interface_t;
 
 typedef enum {

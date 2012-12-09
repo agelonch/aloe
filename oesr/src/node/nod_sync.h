@@ -21,7 +21,7 @@
 
 #include "rtdal.h"
 
-int nod_sync_master(h_itf_t *itf);
+int nod_sync_master(r_itf_t *itf);
 int nod_sync_slave();
 int nod_sync_request();
 

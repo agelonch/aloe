@@ -34,6 +34,8 @@ int work_bpsk_c(void **data, int block_size);
 int work_sin_re(void **data, int block_size);
 int work_sin_c(void **data, int block_size);
 
+void generator_init_random();
+
 typedef struct {
 	int key;
 	int (*work)(void **data, int block_size);

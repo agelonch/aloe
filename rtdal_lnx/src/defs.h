@@ -38,10 +38,10 @@ extern FILE *trace_buffer;
 	do { if (DEBUG_rtdal) fprintf(debug_buffer,"[debug-rtdal]\t[%s()]: " _fmt, __func__,__VA_ARGS__);} while(0);
 
 
-/* debug queue */
-#define DEBUG_QUEUE 0
+/* debug spscq */
+#define DEBUG_spscq 0
 #define qdebug(_fmt, ...) \
-	do { if (DEBUG_QUEUE) fprintf(debug_buffer,"[debug-queue-%d][ts=%d]\t[%s()]: " _fmt, q->id,rtdal_time_slot(),__func__,__VA_ARGS__);} while(0);
+	do { if (DEBUG_spscq) fprintf(debug_buffer,"[debug-spscq-%d][ts=%d]\t[%s()]: " _fmt, itf->parent.id,rtdal_time_slot(),__func__,__VA_ARGS__);} while(0);
 
 
 #define WHERESTR  "[%s():%d]: "

@@ -37,7 +37,7 @@ void rtdal_error_systemcall(int errnum, const char *file, int line,
 		const char *system_call) {
 	assert(context);
 	context->sys_errnum=errnum;
-	context->code = rtdal_ERROR_SYSTEM;
+	context->code = RTDAL_ERROR_SYSTEM;
 	snprintf(context->msg, LSTR_LEN, "[file %s, line %d]: System call: %s. "
 			"Error: %s", file, line, system_call, strerror(errnum));
 }
@@ -70,15 +70,15 @@ void rtdal_error_print(const char *user_message) {
 inline static const char *print_error_string(int code) {
 	assert(context);
 	switch(code) {
-	case rtdal_ERROR_INVAL:
+	case RTDAL_ERROR_INVAL:
 		return "Invalid parameter. ";
-	case rtdal_ERROR_NOSPACE:
+	case RTDAL_ERROR_NOSPACE:
 		return "Run out of space. ";
-	case rtdal_ERROR_LARGE:
+	case RTDAL_ERROR_LARGE:
 		return "Too large. ";
-	case rtdal_ERROR_DL:
+	case RTDAL_ERROR_DL:
 		return "Dynamic Loading. ";
-	case rtdal_ERROR_NOTFOUND:
+	case RTDAL_ERROR_NOTFOUND:
 		return "Object not found. ";
 	default:
 		return "";

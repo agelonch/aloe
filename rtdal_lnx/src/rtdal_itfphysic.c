@@ -23,76 +23,77 @@
 #include "rtdal_itfphysic.h"
 #include "rtdal.h"
 
-int rtdal_itfphysic_create(h_itf_t obj, string address) {
+int rtdal_itfphysic_create(r_itf_t obj, string address) {
 	aerror("Not yet implemented");
 	return -1;
 }
 
-int rtdal_itfphysic_connect(h_itf_t obj) {
+int rtdal_itfphysic_connect(r_itf_t obj) {
 	aerror("Not yet implemented");
 	return -1;
 }
 
-int rtdal_itfphysic_disconnect(h_itf_t obj) {
+int rtdal_itfphysic_disconnect(r_itf_t obj) {
 	aerror("Not yet implemented");
 	return -1;
 }
 
-int rtdal_itfphysic_remove(h_itf_t obj) {
+int rtdal_itfphysic_remove(r_itf_t obj) {
 	aerror("Not yet implemented");
 	return -1;
 }
 
-int rtdal_itfphysic_recv(h_itf_t obj, void* buffer, int len) {
+int rtdal_itfphysic_recv(r_itf_t obj, void* buffer, int len) {
 	aerror("Not yet implemented");
 	return -1;
 }
 
-int rtdal_itfphysic_send(h_itf_t obj, void* buffer, int len) {
+int rtdal_itfphysic_send(r_itf_t obj, void* buffer, int len) {
 	aerror("Not yet implemented");
 	return -1;
 }
 
-int rtdal_itfphysic_set_blocking(h_itf_t obj, int block) {
+int rtdal_itfphysic_set_blocking(r_itf_t obj, int block) {
 	aerror("Not yet implemented");
 	return -1;
 }
 
-int rtdal_itfphysic_get_blocking(h_itf_t obj) {
+int rtdal_itfphysic_get_blocking(r_itf_t obj) {
 	aerror("Not yet implemented");
 	return -1;
 }
 
-h_pkt_t* rtdal_itfphysic_request_pkt(h_itf_t obj) {
-	aerror("Not yet implemented");
-	return NULL;
-}
-
-int rtdal_itfphysic_release_pkt(h_itf_t obj, h_pkt_t* pkt) {
+int rtdal_itfphysic_request(r_itf_t obj, void **ptr) {
 	aerror("Not yet implemented");
 	return -1;
 }
 
-int rtdal_itfphysic_put_pkt(h_itf_t obj, h_pkt_t* pkt) {
+int rtdal_itfphysic_release(r_itf_t obj) {
 	aerror("Not yet implemented");
 	return -1;
 }
 
-int rtdal_itfphysic_set_callback(h_itf_t obj, void (*fnc)(void), int prio) {
+int rtdal_itfphysic_push(r_itf_t obj, int len) {
 	aerror("Not yet implemented");
 	return -1;
 }
 
-int rtdal_itfphysic_set_delay(h_itf_t obj, int delay) {
+int rtdal_itfphysic_pop(r_itf_t obj, void **ptr, int *len) {
 	aerror("Not yet implemented");
 	return -1;
 }
 
-int rtdal_itfphysic_get_delay(h_itf_t obj) {
+int rtdal_itfphysic_set_callback(r_itf_t obj, void (*fnc)(void), int prio) {
+	aerror("Not yet implemented");
+	return -1;
+}
+
+int rtdal_itfphysic_set_delay(r_itf_t obj, int delay) {
+	aerror("Not yet implemented");
+	return -1;
+}
+
+int rtdal_itfphysic_get_delay(r_itf_t obj) {
 	return -1;//rtdal_itf_get_delay__(obj);
 }
 
-h_pkt_t* rtdal_itfphysic_get_pkt(h_itf_t obj) {
-	aerror("Not yet implemented");
-	return NULL;
-}

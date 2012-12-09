@@ -1,0 +1,230 @@
+\section{/home/ismael/aloe\-\_\-ws/aloe\-\_\-git/rtdal\-\_\-lnx/src/rtdal\-\_\-itfphysic.h File Reference}
+\label{rtdal__itfphysic_8h}\index{/home/ismael/aloe\-\_\-ws/aloe\-\_\-git/rtdal\-\_\-lnx/src/rtdal\-\_\-itfphysic.\-h@{/home/ismael/aloe\-\_\-ws/aloe\-\_\-git/rtdal\-\_\-lnx/src/rtdal\-\_\-itfphysic.\-h}}
+{\ttfamily \#include \char`\"{}str.\-h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}rtdal\-\_\-itf.\-h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}rtdal.\-h\char`\"{}}\\*
+\subsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct {\bf rtdal\-\_\-itfphysic\-\_\-t}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+int {\bf rtdal\-\_\-itfphysic\-\_\-create} ({\bf r\-\_\-itf\-\_\-t} obj, {\bf string} address)
+\item 
+int {\bf rtdal\-\_\-itfphysic\-\_\-remove} ({\bf r\-\_\-itf\-\_\-t} obj)
+\item 
+int {\bf rtdal\-\_\-itfphysic\-\_\-request} ({\bf r\-\_\-itf\-\_\-t} obj, void $\ast$$\ast$ptr)
+\item 
+int {\bf rtdal\-\_\-itfphysic\-\_\-release} ({\bf r\-\_\-itf\-\_\-t} obj)
+\item 
+int {\bf rtdal\-\_\-itfphysic\-\_\-push} ({\bf r\-\_\-itf\-\_\-t} obj, int len)
+\item 
+int {\bf rtdal\-\_\-itfphysic\-\_\-pop} ({\bf r\-\_\-itf\-\_\-t} obj, void $\ast$$\ast$ptr, int $\ast$len)
+\item 
+int {\bf rtdal\-\_\-itfphysic\-\_\-send} ({\bf r\-\_\-itf\-\_\-t} obj, void $\ast$buffer, int len)
+\item 
+int {\bf rtdal\-\_\-itfphysic\-\_\-recv} ({\bf r\-\_\-itf\-\_\-t} obj, void $\ast$buffer, int len)
+\item 
+int {\bf rtdal\-\_\-itfphysic\-\_\-set\-\_\-callback} ({\bf r\-\_\-itf\-\_\-t} obj, void($\ast$fnc)(void), int prio)
+\item 
+int {\bf rtdal\-\_\-itfphysic\-\_\-set\-\_\-blocking} ({\bf r\-\_\-itf\-\_\-t} obj, int block)
+\item 
+int {\bf rtdal\-\_\-itfphysic\-\_\-get\-\_\-blocking} ({\bf r\-\_\-itf\-\_\-t} obj)
+\item 
+int {\bf rtdal\-\_\-itfphysic\-\_\-set\-\_\-delay} ({\bf r\-\_\-itf\-\_\-t} obj, int delay)
+\item 
+int {\bf rtdal\-\_\-itfphysic\-\_\-get\-\_\-delay} ({\bf r\-\_\-itf\-\_\-t} obj)
+\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\index{rtdal\-\_\-itfphysic.\-h@{rtdal\-\_\-itfphysic.\-h}!rtdal\-\_\-itfphysic\-\_\-get\-\_\-blocking@{rtdal\-\_\-itfphysic\-\_\-get\-\_\-blocking}}
+\index{rtdal\-\_\-itfphysic\-\_\-get\-\_\-blocking@{rtdal\-\_\-itfphysic\-\_\-get\-\_\-blocking}!rtdal_itfphysic.h@{rtdal\-\_\-itfphysic.\-h}}
+\subsubsection[{rtdal\-\_\-itfphysic\-\_\-get\-\_\-blocking}]{\setlength{\rightskip}{0pt plus 5cm}int rtdal\-\_\-itfphysic\-\_\-get\-\_\-blocking (
+\begin{DoxyParamCaption}
+\item[{{\bf r\-\_\-itf\-\_\-t}}]{obj}
+\end{DoxyParamCaption}
+)}\label{rtdal__itfphysic_8h_a9921138515bdbd46b3d1acb3776d2434}
+
+
+Definition at line 61 of file rtdal\-\_\-itfphysic.\-c.
+
+
+
+References aerror.
+
+\index{rtdal\-\_\-itfphysic.\-h@{rtdal\-\_\-itfphysic.\-h}!rtdal\-\_\-itfphysic\-\_\-get\-\_\-delay@{rtdal\-\_\-itfphysic\-\_\-get\-\_\-delay}}
+\index{rtdal\-\_\-itfphysic\-\_\-get\-\_\-delay@{rtdal\-\_\-itfphysic\-\_\-get\-\_\-delay}!rtdal_itfphysic.h@{rtdal\-\_\-itfphysic.\-h}}
+\subsubsection[{rtdal\-\_\-itfphysic\-\_\-get\-\_\-delay}]{\setlength{\rightskip}{0pt plus 5cm}int rtdal\-\_\-itfphysic\-\_\-get\-\_\-delay (
+\begin{DoxyParamCaption}
+\item[{{\bf r\-\_\-itf\-\_\-t}}]{obj}
+\end{DoxyParamCaption}
+)}\label{rtdal__itfphysic_8h_a7b4c853813147de4bcf1aeb0e7bdecec}
+
+
+Definition at line 96 of file rtdal\-\_\-itfphysic.\-c.
+
+\index{rtdal\-\_\-itfphysic.\-h@{rtdal\-\_\-itfphysic.\-h}!rtdal\-\_\-itfphysic\-\_\-pop@{rtdal\-\_\-itfphysic\-\_\-pop}}
+\index{rtdal\-\_\-itfphysic\-\_\-pop@{rtdal\-\_\-itfphysic\-\_\-pop}!rtdal_itfphysic.h@{rtdal\-\_\-itfphysic.\-h}}
+\subsubsection[{rtdal\-\_\-itfphysic\-\_\-pop}]{\setlength{\rightskip}{0pt plus 5cm}int rtdal\-\_\-itfphysic\-\_\-pop (
+\begin{DoxyParamCaption}
+\item[{{\bf r\-\_\-itf\-\_\-t}}]{obj, }
+\item[{void $\ast$$\ast$}]{ptr, }
+\item[{int $\ast$}]{len}
+\end{DoxyParamCaption}
+)}\label{rtdal__itfphysic_8h_ae67cda5642c5887ddf4b00982faaf727}
+
+
+Definition at line 81 of file rtdal\-\_\-itfphysic.\-c.
+
+
+
+References aerror.
+
+\index{rtdal\-\_\-itfphysic.\-h@{rtdal\-\_\-itfphysic.\-h}!rtdal\-\_\-itfphysic\-\_\-push@{rtdal\-\_\-itfphysic\-\_\-push}}
+\index{rtdal\-\_\-itfphysic\-\_\-push@{rtdal\-\_\-itfphysic\-\_\-push}!rtdal_itfphysic.h@{rtdal\-\_\-itfphysic.\-h}}
+\subsubsection[{rtdal\-\_\-itfphysic\-\_\-push}]{\setlength{\rightskip}{0pt plus 5cm}int rtdal\-\_\-itfphysic\-\_\-push (
+\begin{DoxyParamCaption}
+\item[{{\bf r\-\_\-itf\-\_\-t}}]{obj, }
+\item[{int}]{len}
+\end{DoxyParamCaption}
+)}\label{rtdal__itfphysic_8h_aa73f1d0689bbb85617453f4bff6351c5}
+
+
+Definition at line 76 of file rtdal\-\_\-itfphysic.\-c.
+
+
+
+References aerror.
+
+\index{rtdal\-\_\-itfphysic.\-h@{rtdal\-\_\-itfphysic.\-h}!rtdal\-\_\-itfphysic\-\_\-recv@{rtdal\-\_\-itfphysic\-\_\-recv}}
+\index{rtdal\-\_\-itfphysic\-\_\-recv@{rtdal\-\_\-itfphysic\-\_\-recv}!rtdal_itfphysic.h@{rtdal\-\_\-itfphysic.\-h}}
+\subsubsection[{rtdal\-\_\-itfphysic\-\_\-recv}]{\setlength{\rightskip}{0pt plus 5cm}int rtdal\-\_\-itfphysic\-\_\-recv (
+\begin{DoxyParamCaption}
+\item[{{\bf r\-\_\-itf\-\_\-t}}]{obj, }
+\item[{void $\ast$}]{buffer, }
+\item[{int}]{len}
+\end{DoxyParamCaption}
+)}\label{rtdal__itfphysic_8h_a56fc817eeaec47a9682813c19f7d802c}
+
+
+Definition at line 46 of file rtdal\-\_\-itfphysic.\-c.
+
+
+
+References aerror.
+
+\index{rtdal\-\_\-itfphysic.\-h@{rtdal\-\_\-itfphysic.\-h}!rtdal\-\_\-itfphysic\-\_\-release@{rtdal\-\_\-itfphysic\-\_\-release}}
+\index{rtdal\-\_\-itfphysic\-\_\-release@{rtdal\-\_\-itfphysic\-\_\-release}!rtdal_itfphysic.h@{rtdal\-\_\-itfphysic.\-h}}
+\subsubsection[{rtdal\-\_\-itfphysic\-\_\-release}]{\setlength{\rightskip}{0pt plus 5cm}int rtdal\-\_\-itfphysic\-\_\-release (
+\begin{DoxyParamCaption}
+\item[{{\bf r\-\_\-itf\-\_\-t}}]{obj}
+\end{DoxyParamCaption}
+)}\label{rtdal__itfphysic_8h_a09a6430dc05489f473bf80f6c6018f4a}
+
+
+Definition at line 71 of file rtdal\-\_\-itfphysic.\-c.
+
+
+
+References aerror.
+
+\index{rtdal\-\_\-itfphysic.\-h@{rtdal\-\_\-itfphysic.\-h}!rtdal\-\_\-itfphysic\-\_\-remove@{rtdal\-\_\-itfphysic\-\_\-remove}}
+\index{rtdal\-\_\-itfphysic\-\_\-remove@{rtdal\-\_\-itfphysic\-\_\-remove}!rtdal_itfphysic.h@{rtdal\-\_\-itfphysic.\-h}}
+\subsubsection[{rtdal\-\_\-itfphysic\-\_\-remove}]{\setlength{\rightskip}{0pt plus 5cm}int rtdal\-\_\-itfphysic\-\_\-remove (
+\begin{DoxyParamCaption}
+\item[{{\bf r\-\_\-itf\-\_\-t}}]{obj}
+\end{DoxyParamCaption}
+)}\label{rtdal__itfphysic_8h_a7ea44efc2b4f01ef834dbd743e7ac376}
+
+
+Definition at line 41 of file rtdal\-\_\-itfphysic.\-c.
+
+
+
+References aerror.
+
+\index{rtdal\-\_\-itfphysic.\-h@{rtdal\-\_\-itfphysic.\-h}!rtdal\-\_\-itfphysic\-\_\-request@{rtdal\-\_\-itfphysic\-\_\-request}}
+\index{rtdal\-\_\-itfphysic\-\_\-request@{rtdal\-\_\-itfphysic\-\_\-request}!rtdal_itfphysic.h@{rtdal\-\_\-itfphysic.\-h}}
+\subsubsection[{rtdal\-\_\-itfphysic\-\_\-request}]{\setlength{\rightskip}{0pt plus 5cm}int rtdal\-\_\-itfphysic\-\_\-request (
+\begin{DoxyParamCaption}
+\item[{{\bf r\-\_\-itf\-\_\-t}}]{obj, }
+\item[{void $\ast$$\ast$}]{ptr}
+\end{DoxyParamCaption}
+)}\label{rtdal__itfphysic_8h_a71de2340b8cb540dae3ecdbbf06c862c}
+
+
+Definition at line 66 of file rtdal\-\_\-itfphysic.\-c.
+
+
+
+References aerror.
+
+\index{rtdal\-\_\-itfphysic.\-h@{rtdal\-\_\-itfphysic.\-h}!rtdal\-\_\-itfphysic\-\_\-send@{rtdal\-\_\-itfphysic\-\_\-send}}
+\index{rtdal\-\_\-itfphysic\-\_\-send@{rtdal\-\_\-itfphysic\-\_\-send}!rtdal_itfphysic.h@{rtdal\-\_\-itfphysic.\-h}}
+\subsubsection[{rtdal\-\_\-itfphysic\-\_\-send}]{\setlength{\rightskip}{0pt plus 5cm}int rtdal\-\_\-itfphysic\-\_\-send (
+\begin{DoxyParamCaption}
+\item[{{\bf r\-\_\-itf\-\_\-t}}]{obj, }
+\item[{void $\ast$}]{buffer, }
+\item[{int}]{len}
+\end{DoxyParamCaption}
+)}\label{rtdal__itfphysic_8h_aaf9912dde677bf556d3decd9dcb2d5d1}
+
+
+Definition at line 51 of file rtdal\-\_\-itfphysic.\-c.
+
+
+
+References aerror.
+
+\index{rtdal\-\_\-itfphysic.\-h@{rtdal\-\_\-itfphysic.\-h}!rtdal\-\_\-itfphysic\-\_\-set\-\_\-blocking@{rtdal\-\_\-itfphysic\-\_\-set\-\_\-blocking}}
+\index{rtdal\-\_\-itfphysic\-\_\-set\-\_\-blocking@{rtdal\-\_\-itfphysic\-\_\-set\-\_\-blocking}!rtdal_itfphysic.h@{rtdal\-\_\-itfphysic.\-h}}
+\subsubsection[{rtdal\-\_\-itfphysic\-\_\-set\-\_\-blocking}]{\setlength{\rightskip}{0pt plus 5cm}int rtdal\-\_\-itfphysic\-\_\-set\-\_\-blocking (
+\begin{DoxyParamCaption}
+\item[{{\bf r\-\_\-itf\-\_\-t}}]{obj, }
+\item[{int}]{block}
+\end{DoxyParamCaption}
+)}\label{rtdal__itfphysic_8h_a8b0cad3a22d0f6c452811e08affd0bbb}
+
+
+Definition at line 56 of file rtdal\-\_\-itfphysic.\-c.
+
+
+
+References aerror.
+
+\index{rtdal\-\_\-itfphysic.\-h@{rtdal\-\_\-itfphysic.\-h}!rtdal\-\_\-itfphysic\-\_\-set\-\_\-callback@{rtdal\-\_\-itfphysic\-\_\-set\-\_\-callback}}
+\index{rtdal\-\_\-itfphysic\-\_\-set\-\_\-callback@{rtdal\-\_\-itfphysic\-\_\-set\-\_\-callback}!rtdal_itfphysic.h@{rtdal\-\_\-itfphysic.\-h}}
+\subsubsection[{rtdal\-\_\-itfphysic\-\_\-set\-\_\-callback}]{\setlength{\rightskip}{0pt plus 5cm}int rtdal\-\_\-itfphysic\-\_\-set\-\_\-callback (
+\begin{DoxyParamCaption}
+\item[{{\bf r\-\_\-itf\-\_\-t}}]{obj, }
+\item[{void($\ast$)(void)}]{fnc, }
+\item[{int}]{prio}
+\end{DoxyParamCaption}
+)}\label{rtdal__itfphysic_8h_a7c3ac8d30bfd03de06b4c27781165224}
+
+
+Definition at line 86 of file rtdal\-\_\-itfphysic.\-c.
+
+
+
+References aerror.
+
+\index{rtdal\-\_\-itfphysic.\-h@{rtdal\-\_\-itfphysic.\-h}!rtdal\-\_\-itfphysic\-\_\-set\-\_\-delay@{rtdal\-\_\-itfphysic\-\_\-set\-\_\-delay}}
+\index{rtdal\-\_\-itfphysic\-\_\-set\-\_\-delay@{rtdal\-\_\-itfphysic\-\_\-set\-\_\-delay}!rtdal_itfphysic.h@{rtdal\-\_\-itfphysic.\-h}}
+\subsubsection[{rtdal\-\_\-itfphysic\-\_\-set\-\_\-delay}]{\setlength{\rightskip}{0pt plus 5cm}int rtdal\-\_\-itfphysic\-\_\-set\-\_\-delay (
+\begin{DoxyParamCaption}
+\item[{{\bf r\-\_\-itf\-\_\-t}}]{obj, }
+\item[{int}]{delay}
+\end{DoxyParamCaption}
+)}\label{rtdal__itfphysic_8h_a5e5043c57049c78c0138676a88506408}
+
+
+Definition at line 91 of file rtdal\-\_\-itfphysic.\-c.
+
+
+
+References aerror.
+

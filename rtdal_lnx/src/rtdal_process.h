@@ -28,7 +28,7 @@
  *  - _startup(arg0,arg1): This function is called at load-time and is not subject to real-time constraints.
  *  - _runCycle(): This function is called each time-slot and is subject to real-time constraints.
  * It is used to load and execute signal processing waveform modules.
- * The rtdal.Process objects are instantiated by Base.initializeNode() function at boot. A call to create() loads the module into memory. A call to startup() calls the _startup() function and a call to places the _runCycle() function into the pipelined execution queue (see Proc-Thread class)
+ * The rtdal.Process objects are instantiated by Base.initializeNode() function at boot. A call to create() loads the module into memory. A call to startup() calls the _startup() function and a call to places the _runCycle() function into the pipelined execution spscq (see Proc-Thread class)
  */
 struct _rtdal_process_t {
 	int pid;
@@ -44,7 +44,7 @@ struct _rtdal_process_t {
 	int runnable;
 	rtdal_processerrors_t finish_code;
 	strdef(error_msg);
-	/* pointer to the next process in the pipeline queue */
+	/* pointer to the next process in the pipeline spscq */
 	struct _rtdal_process_t *next;
 };
 typedef struct _rtdal_process_t rtdal_process_t;

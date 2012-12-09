@@ -35,7 +35,7 @@ typedef struct {
 
 typedef struct {
 	man_probehandlers_t handlers[MAX(man_probehandlers)];
-	h_itf_t* itf;
+	r_itf_t* itf;
 }man_probelistener_t;
 
 typedef struct {
@@ -61,8 +61,8 @@ typedef struct {
 	man_processor_t processors[MAX(processors)];
 	man_dataitf_t man_dataitfs[MAX(node_itfphysic)];
 	man_probelistener_t probe_listener;
-	h_itf_t* ctr_itf;
-	h_itf_t* probe_itf;
+	r_itf_t* ctr_itf;
+	r_itf_t* probe_itf;
 	strdef(name);
 	int id;
 
@@ -174,7 +174,7 @@ typedef struct {
 	packet_t packet;
 	int last_update_ts;
 	int ts_length_us;
-	h_itf_t *sync_itf;
+	r_itf_t *sync_itf;
 	int sync_local;
 
 } man_platform_t;

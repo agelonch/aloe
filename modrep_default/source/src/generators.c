@@ -22,27 +22,37 @@
 #define INCLUDE_DEFS_ONLY
 #include "source.h"
 
+#define RANDOM_NUMBERS	4*OUTPUT_MAX_SAMPLES
 
 #define DIV(a,b) ((a-1)/b+1)
 
-static int tmp_random[DIV(OUTPUT_MAX_SAMPLES,sizeof(int)*8)];
+static int tmp_random[RANDOM_NUMBERS];
 static char tmp_binary[OUTPUT_MAX_SAMPLES];
 
 #define BPSK_SYMB 0.707
 
-void random_sequence(int *x, int len) {
+int cnt = 0;
+
+void generator_init_random() {
 	int i;
-	if (len > OUTPUT_MAX_SAMPLES/8) {
-		len = OUTPUT_MAX_SAMPLES/8;
+	for (i=0;i<RANDOM_NUMBERS;i++) {
+		tmp_random[i] = rand();
 	}
-	for (i=0;i<len;i++) {
-		x[i] = i;//rand();
-	}
+	cnt = 0;
+}
+
+int* random_sequence(int len) {
+	cnt += len;
+	if (cnt >= RANDOM_NUMBERS)
+		cnt -= RANDOM_NUMBERS;
+
+	return &tmp_random[cnt];
 }
 
 void random_bits(char *output, int len) {
 	int j,b,k,tmp;
-	random_sequence(tmp_random,DIV(len,sizeof(int)*8));
+	int *ptr;
+	ptr = random_sequence(DIV(len,sizeof(int)*8));
 	b=k=0;
 	for (j=0;j<len;j++) {
 		if (!b) {

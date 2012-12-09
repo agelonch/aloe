@@ -81,15 +81,20 @@ void *nod_module_finish_callback(void *context) {
 		aerror("Warning, not supposed to be here\n");
 		return 0;
 	case RTFAULT:
+		aerror_msg("Module %s violated real-time deadlines. Trying a clean stop\n",
+						module->parent.name);
+		break;
 	case SIG_RECV:
+		aerror_msg("Module %s produced a SIGSEGV, SIGILL, SIGFPE or SIGBUS signal. Trying a clean stop\n",
+						module->parent.name);
+		break;
 	case RUNERROR:
 		aerror_msg("Module %s terminated abnormally. Trying a clean stop\n",
 						module->parent.name);
-
-		if (nod_waveform_status_stop(waveform)) {
-			aerror("stopping waveform\n");
-		}
 		break;
+	}
+	if (nod_waveform_status_stop(waveform)) {
+		aerror("stopping waveform\n");
 	}
 	return NULL;
 }

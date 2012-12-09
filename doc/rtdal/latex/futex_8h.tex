@@ -1,0 +1,42 @@
+\section{/home/ismael/aloe\-\_\-ws/aloe\-\_\-git/rtdal\-\_\-lnx/src/futex.h File Reference}
+\label{futex_8h}\index{/home/ismael/aloe\-\_\-ws/aloe\-\_\-git/rtdal\-\_\-lnx/src/futex.\-h@{/home/ismael/aloe\-\_\-ws/aloe\-\_\-git/rtdal\-\_\-lnx/src/futex.\-h}}
+{\ttfamily \#include $<$limits.\-h$>$}\\*
+{\ttfamily \#include $<$linux/futex.\-h$>$}\\*
+{\ttfamily \#include $<$sys/syscall.\-h$>$}\\*
+{\ttfamily \#include $<$unistd.\-h$>$}\\*
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define {\bf futex\-\_\-wait}(a)~syscall(S\-Y\-S\-\_\-futex, a, F\-U\-T\-E\-X\-\_\-\-W\-A\-I\-T, 0, N\-U\-L\-L, N\-U\-L\-L, N\-U\-L\-L)
+\item 
+\#define {\bf futex\-\_\-wake}(a)~syscall(S\-Y\-S\-\_\-futex, a, F\-U\-T\-E\-X\-\_\-\-W\-A\-K\-E, I\-N\-T\-\_\-\-M\-A\-X, N\-U\-L\-L, N\-U\-L\-L, N\-U\-L\-L)
+\end{DoxyCompactItemize}
+
+
+\subsection{Macro Definition Documentation}
+\index{futex.\-h@{futex.\-h}!futex\-\_\-wait@{futex\-\_\-wait}}
+\index{futex\-\_\-wait@{futex\-\_\-wait}!futex.h@{futex.\-h}}
+\subsubsection[{futex\-\_\-wait}]{\setlength{\rightskip}{0pt plus 5cm}\#define futex\-\_\-wait(
+\begin{DoxyParamCaption}
+\item[{}]{a}
+\end{DoxyParamCaption}
+)~syscall(S\-Y\-S\-\_\-futex, a, F\-U\-T\-E\-X\-\_\-\-W\-A\-I\-T, 0, N\-U\-L\-L, N\-U\-L\-L, N\-U\-L\-L)}\label{futex_8h_a891bea017a48d07db494a3a06abbd6f9}
+
+
+Definition at line 27 of file futex.\-h.
+
+
+
+Referenced by nanoclock\-\_\-timer\-\_\-run\-\_\-thread(), and timerfd\-\_\-timer\-\_\-run\-\_\-thread().
+
+\index{futex.\-h@{futex.\-h}!futex\-\_\-wake@{futex\-\_\-wake}}
+\index{futex\-\_\-wake@{futex\-\_\-wake}!futex.h@{futex.\-h}}
+\subsubsection[{futex\-\_\-wake}]{\setlength{\rightskip}{0pt plus 5cm}\#define futex\-\_\-wake(
+\begin{DoxyParamCaption}
+\item[{}]{a}
+\end{DoxyParamCaption}
+)~syscall(S\-Y\-S\-\_\-futex, a, F\-U\-T\-E\-X\-\_\-\-W\-A\-K\-E, I\-N\-T\-\_\-\-M\-A\-X, N\-U\-L\-L, N\-U\-L\-L, N\-U\-L\-L)}\label{futex_8h_ae61d24c4dc851850bdee6b3eca75c095}
+
+
+Definition at line 28 of file futex.\-h.
+
