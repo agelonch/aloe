@@ -33,15 +33,89 @@
       <section id="main_content" class="inner">
         <h1>ALOE++</h1>
 
-<h1></h1>
-
 <p>ALOE stands for Abstraction Layer and Open Operating Environment. It is an Open Source framework for distributed real-time signal processing for SDR (Software-Defined Radio) applications. ALOE is released under the LGPL license (see license.txt) </p>
 
 <p>The project is partially founded by the NLnet foundation (<a href="http://www.nlnet.nl">http://www.nlnet.nl</a>), as part of the OSLD project. OSLD aims at building an Open Source LTE system based on ALOE. More information and documentation can be found in the OSLD project website (<a href="https://sites.google.com/site/osldproject/">https://sites.google.com/site/osldproject/</a>)</p>
 
-<hr><h3>Brief Description</h3>
+<p>This is the first release of ALOE++ version 0.1. The old ALOE versions are still active in <a href="http://flexnets.upc.edu">http://flexnets.upc.edu</a>.</p>
 
-<h1></h1>
+<h3>Requirements</h3>
+
+<p>To install ALOE++, the only requirement is the libconfig parsing library and cmake:</p>
+
+<ul>
+<li>libconfig </li>
+<li>cmake</li>
+</ul><p>The current ALOE++ release comes with an OFDM demo waveform and a small set of useful modues. These modules have more requirements: </p>
+
+<ul>
+<li>libfftw3 is used by the gen_dft module </li>
+<li>plplot + output driver is used by the plp_sink module to display signals.</li>
+</ul><p>To install all requirements in ubuntu, just type:</p>
+
+<p>sudo apt-get install libconfig-dev libfftw3-dev libplplot-dev plplot11-driver-xwin plplot11-driver-wxwidgets plplot11-driver-qt</p>
+
+<p>The last two packages are optional. PLplot can work with many different output drivers. The xwin driver works just fine and is fast. The driver used by plp_sink can be selected from the file modrep_ofdm/plp_sink/src/plp_sink.h (see the Documentation Section)</p>
+
+<h3>Install</h3>
+
+<p><code>git clone git://github.com/flexnets/aloe.git</code></p>
+
+<p><code>cd aloe</code></p>
+
+<p><code>mkdir build</code></p>
+
+<p><code>cd build</code></p>
+
+<p><code>cmake ../</code></p>
+
+<p><code>make</code></p>
+
+<p><code>sudo make install</code></p>
+
+<h3>Running the OFDM demo waveform</h3>
+
+<p>The waveform modules is described in the file ofdm.app, in the root aloe source folder. You may take a look at it to see how simply waveforms are created and parametrized in ALOE. </p>
+
+<p>To run the demo, type:</p>
+
+<p><code>runcf ts_len nof_cores path_to_ofdm.app</code></p>
+
+<p>for instance:</p>
+
+<p><code>runcf 50000 1 ./ofdm.app</code></p>
+
+<p>if you are running <code>runcf</code> from the root aloe source folder and want to run the waveform with a periodicity of 50000 microseconds. If you look at ofdm.app, you will see that the source generates 308 bits each invocation period. Therefore, with this command you will be generating a signal that encodes 6.16 kbps. Such a low throughput is required to plot the signal using the plp_sink module. </p>
+
+<p>You may increase the throughput by editing the ofdm.app file, module plp_sink and setting parameter "mode" to 0. For instance, type: </p>
+
+<p><code>runcf 500 1 ./ofdm.app</code></p>
+
+<p>to run the waveform with a granularity of 0.5 ms, that is a throughput of 616 kbps and an end-to-end latency of 4 ms.</p>
+
+<p>If you have a multi-core system you may experience with the <code>nof_cores</code> parameter. This parameter allows to formats:</p>
+
+<ul>
+<li>Number of cores, e.g. 2 or 4 will use all cores 0..n for allocating tasks</li>
+<li>Comma-separated values, e.g. 1,3,5, for instance will use only cores 1, 3 and 5 for allocating tasks. </li>
+</ul><p>As a final note, for best performance you should have enough permission to create real-time high-priority tasks in your system. </p>
+
+<h3>Documentation</h3>
+
+<p>Doxygen-generated documentation is available in the following links:</p>
+
+<ul>
+<li>RTDAL API: <a href="http://flexnets.github.com/aloe/rtdal/html/index.html">http://flexnets.github.com/aloe/rtdal/html/index.html</a>
+</li>
+<li>OESR API: <a href="http://flexnets.github.com/aloe/oesr/html/index.html">http://flexnets.github.com/aloe/oesr/html/index.html</a>
+</li>
+<li>OESR Manager API: <a href="http://flexnets.github.com/aloe/oesr_man/html/index.html">http://flexnets.github.com/aloe/oesr_man/html/index.html</a>
+</li>
+<li>Default Modules: <a href="http://flexnets.github.com/aloe/modrep_default/html/index.html">http://flexnets.github.com/aloe/modrep_default/html/index.html</a>
+</li>
+<li>OFDM Modules: <a href="http://flexnets.github.com/aloe/modrep_ofdm/html/index.html">http://flexnets.github.com/aloe/modrep_ofdm/html/index.html</a>
+</li>
+</ul><hr><h3>Brief Project Description</h3>
 
 <p>The ALOE framework entails two sub-projects:</p>
 
@@ -64,104 +138,16 @@
 <li>Location-transparent inter-module communications.</li>
 <li>Global variables and parameters configuration/visualization</li>
 <li>Logs, counters and others.</li>
-</ul><h3>Requirements</h3>
-
-<h1></h1>
-
-<p>To install ALOE++, the only requirement is the libconfig parsing library and cmake:</p>
-
-<ul>
-<li>libconfig </li>
-<li>cmake</li>
-</ul><p>The current ALOE++ release comes with an OFDM demo waveform and a small set of useful modues. These modules have more requirements: </p>
-
-<ul>
-<li>libfftw3 is used by the gen_dft module </li>
-<li>plplot + xcairo are used by the plp_sink module to display signals.</li>
-</ul><p>To install all requirements in ubuntu, just type:</p>
-
-<p>sudo apt-get install libconfig-dev libfftw3-dev libplplot-dev plplot11-driver-xwin plplot11-driver-wxwidgets plplot11-driver-qt</p>
-
-<p>The last two packages are optional. PLplot can work with many different output drivers. The xwin driver works just fine and is fast. The driver used by plp_sink can be selected from the file modrep_ofdm/plp_sink/src/plp_sink.h (see the Documentation Section)</p>
-
-<p>The downloaded directory contains the following subdirectories:</p>
-
-<ul>
-<li>rtdal_lnx/ is the linux implementation of the RTDAL</li>
-<li>oesr/ contains the OESR framework, the OESR API and the OESR Manager API</li>
-<li>modrep_default/ Modules are organized in repositories. This is the default repository.</li>
-<li>modrep_ofdm/ This repository contains the OFDM demo waveform modules.</li>
-</ul><h3>Install</h3>
-
-<h1></h1>
-
-<ul>
-<li>git clone git://github.com/flexnets/aloe.git</li>
-<li>cd aloe</li>
-<li>mkdir build</li>
-<li>cd build</li>
-<li>cmake ../</li>
-<li>make</li>
-<li>sudo make install</li>
-</ul><h3>Running the OFDM demo waveform</h3>
-
-<h1></h1>
-
-<p>The waveform modules is described in the file ofdm.app, in the root aloe source folder. You may take a look at it to see how simply waveforms are created and parametrized in ALOE. </p>
-
-<p>To run the demo, type:</p>
-
-<p>runcf ts_len nof_cores path_to_ofdm.app</p>
-
-<p>for instance:</p>
-
-<p>runcf 50000 1 ./ofdm.app</p>
-
-<p>if you are running "runcf" from the root aloe source folder and want to run the waveform with a periodicity of 50000 microseconds. If you look at ofdm.app, you will see that the source generates 308 bits each invocation period. Therefore, with this command you will be generating a signal that encodes 6.16 kbps. Such a low throughput is required to plot the signal using the plp_sink module. </p>
-
-<p>You may increase the throughput by editing the ofdm.app file, module plp_sink and setting parameter "mode" to 0. For instance, type: </p>
-
-<p>runcf 500 1 ./ofdm.app</p>
-
-<p>to run the waveform with a granularity of 0.5 ms, that is a throughput of 616 kbps and an end-to-end latency of 4 ms.</p>
-
-<p>If you have a multi-core system you may experience with the nof_cores parameter. This parameter allows to formats:</p>
-
-<ul>
-<li>Number of cores, e.g. 2 or 4 will use all cores 0..n for allocating tasks</li>
-<li>Comma-separated values, e.g. 1,3,5, for instance will use only cores 1, 3 and 5 for allocating tasks. </li>
-</ul><h3>Documentation</h3>
-
-<h1></h1>
-
-<p>Doxygen-generated documentation is available in the following links:</p>
-
-<ul>
-<li>RTDAL API: <a href="http://flexnets.github.com/aloe/rtdal/html/index.html">http://flexnets.github.com/aloe/rtdal/html/index.html</a>
-</li>
-<li>OESR API: <a href="http://flexnets.github.com/aloe/oesr/html/index.html">http://flexnets.github.com/aloe/oesr/html/index.html</a>
-</li>
-<li>OESR Manager API: <a href="http://flexnets.github.com/aloe/oesr_man/html/index.html">http://flexnets.github.com/aloe/oesr_man/html/index.html</a>
-</li>
-<li>Default Modules: <a href="http://flexnets.github.com/aloe/modrep_default/html/index.html">http://flexnets.github.com/aloe/modrep_default/html/index.html</a>
-</li>
-<li>OFDM Modules: <a href="http://flexnets.github.com/aloe/modrep_ofdm/html/index.html">http://flexnets.github.com/aloe/modrep_ofdm/html/index.html</a>
-</li>
 </ul><h3>Related Projects</h3>
-
-<h1></h1>
 
 <ul>
 <li>OSLD (<a href="https://sites.google.com/site/osldproject/">https://sites.google.com/site/osldproject/</a>)</li>
+<li>FlexNets (<a href="http://flexnets.upc.edu">http://flexnets.upc.edu</a>)</li>
 <li>GNU Radio (<a href="http://gnuradio.org">http://gnuradio.org</a>)</li>
 <li>OSSIE from Wireless@VT (<a href="http://ossie.wireless.vt.edu/">http://ossie.wireless.vt.edu/</a>)</li>
 </ul><h3>Contact</h3>
 
-<h1></h1>
-
 <p><a href="mailto:ismael.gomez@tsc.upc.edu">ismael.gomez@tsc.upc.edu</a></p>
-
-<p><a href="http://githalytics.com/flexnets/aloe"><img src="https://cruel-carlota.pagodabox.com/fbe47a2652453cdc1eb50219b38ab2f0" alt="githalytics.com alpha" title="githalytics.com"></a></p>
       </section>
     </div>
 
