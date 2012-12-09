@@ -11,7 +11,7 @@ if( CMAKE_SOURCE_DIR STREQUAL CMAKE_CURRENT_SOURCE_DIR )
 	set (OECORE_VERSION_MINOR 0)
 	
 else()
-	include_directories(${OECORE_INCLUDE})
+	include_directories(${OESR_INCLUDE})
 endif()
 
 # The version number.

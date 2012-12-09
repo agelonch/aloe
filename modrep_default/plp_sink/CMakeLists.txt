@@ -21,7 +21,7 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src)
 add_library(${module}-aloe SHARED ${SOURCES})
 set_target_properties(${module}-aloe PROPERTIES OUTPUT_NAME ${module})
 set_target_properties(${module}-aloe PROPERTIES COMPILE_FLAGS "-D_COMPILE_ALOE")
-target_link_libraries(${module}-aloe swapi skeleton ${LIBRARIES})
+target_link_libraries(${module}-aloe oesrapi skeleton ${LIBRARIES})
 install(TARGETS ${module}-aloe DESTINATION lib/${MODULE_REPOS_NAME}/)
 
 

@@ -17,7 +17,7 @@
  */
 
 #include <stdio.h>
-#include <swapi.h>
+#include <oesr.h>
 #include "template_plain.h"
 
 /** Return 1 on success, 0 to be called in the next timeslot or -1 to stop the waveform */

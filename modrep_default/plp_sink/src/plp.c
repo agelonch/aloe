@@ -20,7 +20,7 @@
 #include <stdlib.h>
 #include <float.h>
 
-#include <swapi.h>
+#include <oesr.h>
 #include <skeleton.h>
 #include "plplot.h"
 #include "plevent.h"

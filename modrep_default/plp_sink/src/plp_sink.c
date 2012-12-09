@@ -18,7 +18,7 @@
 
 #include <stdlib.h>
 
-#include <swapi.h>
+#include <oesr.h>
 #include <skeleton.h>
 #include <params.h>
 #include <str.h>
@@ -104,7 +104,7 @@ int initialize() {
 
 
 #ifdef _COMPILE_ALOE
-	tslen = swapi_tslot_length(ctx);
+	tslen = oesr_tslot_length(ctx);
 	if (tslen > EXEC_MIN_INTERVAL_MS*1000) {
 		interval_ts = 1;
 	} else {
@@ -144,10 +144,10 @@ int work(void **inp, void **out) {
 	if (print_not_received) {
 		for (n=0;n<NOF_INPUT_ITF;n++) {
 			if (MOD_DEBUG) {
-				ainfo_msg("ts=%d, rcv_len=%d\n",swapi_tstamp(ctx),get_input_samples(n));
+				ainfo_msg("ts=%d, rcv_len=%d\n",oesr_tstamp(ctx),get_input_samples(n));
 			}
 			if (!get_input_samples(n)) {
-				printf("ts=%d. Data not received from interface %d\n",swapi_tstamp(ctx),n);
+				printf("ts=%d. Data not received from interface %d\n",oesr_tstamp(ctx),n);
 			}
 
 		}
@@ -156,7 +156,7 @@ int work(void **inp, void **out) {
 
 
 #ifdef _COMPILE_ALOE
-	if (swapi_tstamp(ctx)-last_tstamp < interval_ts) {
+	if (oesr_tstamp(ctx)-last_tstamp < interval_ts) {
 		return 0;
 	}
 	last_tstamp = interval_ts;
@@ -175,7 +175,7 @@ int work(void **inp, void **out) {
 	break;
 	case MODE_SCOPE:
 #ifdef _COMPILE_ALOE
-		snprintf(xlabel,STR_LEN,"# sample (ts=%d)",swapi_tstamp(ctx));
+		snprintf(xlabel,STR_LEN,"# sample (ts=%d)",oesr_tstamp(ctx));
 #else
 		snprintf(xlabel,STR_LEN,"# sample");
 #endif
@@ -208,7 +208,7 @@ int work(void **inp, void **out) {
 	break;
 	case MODE_FFT:
 #ifdef _COMPILE_ALOE
-		snprintf(xlabel,STR_LEN,"freq. idx (ts=%d)",swapi_tstamp(ctx));
+		snprintf(xlabel,STR_LEN,"freq. idx (ts=%d)",oesr_tstamp(ctx));
 #else
 		snprintf(xlabel,STR_LEN,"freq. idx");
 #endif

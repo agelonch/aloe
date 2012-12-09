@@ -21,7 +21,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include <swapi.h>
+#include <oesr.h>
 #include "test_generate.h"
 #include "templatelegacy_interfaces.h"
 
