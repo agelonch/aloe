@@ -52,13 +52,13 @@ The downloaded directory contains the following subdirectories:
 Install
 =========
 
-git clone git://github.com/flexnets/aloe.git
-cd aloe
-mkdir build
-cd build
-cmake ../
-make
-sudo make install
+ * git clone git://github.com/flexnets/aloe.git
+ * cd aloe
+ * mkdir build
+ * cd build
+ * cmake ../
+ * make
+ * sudo make install
 
 Running the OFDM demo waveform
 ===============================
