@@ -11,7 +11,7 @@ Requirements
 =============
 
 To install ALOE++, the only requirement is the libconfig parsing library and cmake:
- * libconfig 
+ * libconfig 1.4.8
  * cmake
 
 The current ALOE++ release comes with an OFDM demo waveform and a small set of useful modues. These modules have more requirements: 
@@ -20,7 +20,7 @@ The current ALOE++ release comes with an OFDM demo waveform and a small set of u
 
 To install all requirements in ubuntu, just type:
 
-sudo apt-get install libconfig-dev libfftw3-dev libplplot-dev plplot11-driver-xwin plplot11-driver-wxwidgets plplot11-driver-qt
+sudo apt-get install libconfig-dev libfftw3-dev libplplot-dev plplot11-driver-xwin plplot11-driver-cairo
 
 The last two packages are optional. PLplot can work with many different output drivers. The xwin driver works just fine and is fast. The driver used by plp_sink can be selected from the file modrep_ofdm/plp_sink/src/plp_sink.h (see the Documentation Section)
   
