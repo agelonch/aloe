@@ -30,7 +30,7 @@ int rtdal_itf_remove(r_itf_t obj) {
 	call(remove,obj);
 }
 
-/** \brief Receives up to len bytes from the interface and stores the data in the
+/** Receives up to len bytes from the interface and stores the data in the
  * memory pointed by buffer.
  *
  * \param obj Handler returned by rtdal_itfspscq_create()
@@ -44,7 +44,7 @@ int rtdal_itf_recv(r_itf_t obj, void* buffer, int len) {
 	call(recv,obj,buffer,len);
 }
 
-/** \brief Sends len bytes from the memory pointed by buffer through the interface
+/** Sends len bytes from the memory pointed by buffer through the interface
  * After rtdal_itfspscq_send() returns, the user may reuse the buffer.
  *
  * \param obj Handler returned by rtdal_itfspscq_create()
@@ -65,7 +65,7 @@ int rtdal_itf_get_blocking(r_itf_t obj) {
 	call(get_blocking,obj);
 }
 
-/**\brief Saves in ptr the address of the buffer that will be transmitted in a subsequent call
+/**Saves in ptr the address of the buffer that will be transmitted in a subsequent call
  * to rtdal_itfspscq_push(). Two consecutive calls to rtdal_itfspscq_request() return the same
  * address until rtdal_itfspscq_push() is called.
  *
@@ -77,7 +77,7 @@ int rtdal_itf_request(r_itf_t obj, void **ptr) {
 	call(request,obj,ptr);
 }
 
-/**\brief Releases the packet received by rtdal_itfspscq_pop() after the contents have been
+/**Releases the packet received by rtdal_itfspscq_pop() after the contents have been
  * processed. The buffer then will be reused by the producer.
  *
  * \param obj Handler returned by rtdal_itfspscq_create()
@@ -88,7 +88,7 @@ int rtdal_itf_release(r_itf_t obj) {
 	call(release,obj);
 }
 
-/**\brief Pushes the current packet to the interface. The contents of the packet are modified using
+/**Pushes the current packet to the interface. The contents of the packet are modified using
  * the pointer returned by rtdal_itfspscq_request().
  *
  * \param obj Handler returned by rtdal_itfspscq_create()
@@ -100,7 +100,7 @@ int rtdal_itf_push(r_itf_t obj, int len) {
 }
 
 
-/**\brief Pops a packet from the interface. The address of the packet contents are saved in the
+/**Pops a packet from the interface. The address of the packet contents are saved in the
  * ptr pointer and the useful number of bytes is saved in len.
  * A packet will be received if the timestamp at transmission plus the interface delay is lower
  * or equal to the current timestamp.

@@ -30,16 +30,6 @@ struct h_proc_ {
 };
 typedef struct h_proc_* r_proc_t;
 
-/**
- * Process attributes for use with the rtdal_process_new() function.
- */
-struct rtdal_process_attr {
-	strdef(binary_path);
-	int pipeline_id;
-	int exec_position;
-	int waveform_id;
-	void* (*finish_callback)(void*);
-};
 
 struct h_itf_ {
 	int id;

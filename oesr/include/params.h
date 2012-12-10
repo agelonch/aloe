@@ -24,7 +24,7 @@ typedef enum {INT, FLOAT, STRING} param_type_t;
 typedef void* pmid_t;
 
 
-/**\brief Stores in ptr up to max_size elements of the value of the parameter with id the value
+/** Stores in ptr up to max_size elements of the value of the parameter with id the value
  * returned by the function param_id().
  *
  * Sets the number of written elements to the pointer size and the parameter type to "type".
@@ -51,7 +51,7 @@ typedef void* pmid_t;
 int param_get(pmid_t id, void *ptr, int max_size, param_type_t *type);
 
 
-/**\brief Returns a positive integer identifying the parameter name. The functions
+/** Returns a positive integer identifying the parameter name. The functions
  * param_get_int_id() and param_get_float_id() can then be used as the functions
  * param_get_int() or param_get_float() to obtain faster access to the parameter values.
  * Useful if the module needs to obtain the updated values continuously.

@@ -31,7 +31,7 @@ static char tmp_binary[OUTPUT_MAX_SAMPLES];
 
 #define BPSK_SYMB 0.707
 
-int cnt = 0;
+static int cnt = 0;
 
 void generator_init_random() {
 	int i;
@@ -56,7 +56,7 @@ void random_bits(char *output, int len) {
 	b=k=0;
 	for (j=0;j<len;j++) {
 		if (!b) {
-			tmp = tmp_random[k];
+			tmp = ptr[k];
 			b = sizeof(int)*8;
 			k++;
 		}

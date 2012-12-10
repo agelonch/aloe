@@ -22,7 +22,8 @@
 #include "nod_waveform.h"
 
 
-/** \brief Initializes a counter object. This function is called by the oesr_counter_create().
+/**
+ * Initializes a counter object. This function is called by the oesr_counter_create().
  * It calls nod_module_variable_create() to create a new module variable, which is associated to the
  * counter. Then uses nod_variable_init() to allocate the memory.
  */
@@ -30,8 +31,8 @@ int oesr_counter_init(void *context, oesr_counter_t *counter, string name) {
 	sdebug("context=0x%x, counter_id=%d, name=%s\n",context,counter->id,name);
 	oesr_context_t *ctx = context;
 	nod_module_t *module = ctx->module;
-	oesr_ASSERT_PARAM(counter);
-	oesr_ASSERT_PARAM(name);
+	OESR_ASSERT_PARAM(counter);
+	OESR_ASSERT_PARAM(name);
 	variable_t *variable = nod_module_variable_create(module, name);
 	if (!variable) {
 		return -1;
@@ -45,12 +46,6 @@ int oesr_counter_init(void *context, oesr_counter_t *counter, string name) {
 }
 
 /**
- * \brief A counter shall be used by a user to measure time intervals. oesr_counter_create() returns
- * a counter_t object which is passed as a first parameter to oesr_counter_start() and
- * oesr_counter_stop() functions, which start and stop the counter, respectively. A counter is
- * associated with a public module variable which can be accessed from the oesr_man interface. The
- * variable value is updated during a call to oesr_counter_stop(), saving the elapsed time between
- * successive calls to start() and stop(), in microseconds.
  *
  * oesr_counter_close() closes a counter and deallocates its resources. The counter can not be used
  * after a call to this function.
@@ -62,7 +57,7 @@ int oesr_counter_close(counter_t counter) {
 	oesr_counter_t *cnt = (oesr_counter_t*) counter;
 	oesr_context_t *ctx = cnt->context;
 	sdebug("context=0x%x, counter_id=%d\n",ctx,cnt->id);
-	oesr_ASSERT_PARAM(counter);
+	OESR_ASSERT_PARAM(counter);
 	variable_t *variable = cnt->variable;
 	variable->id = 0;
 	variable->size = 0;
@@ -72,20 +67,15 @@ int oesr_counter_close(counter_t counter) {
 }
 
 /**
- * \brief A counter shall be used by a user to measure time intervals. oesr_counter_create() returns
- * a counter_t object which is passed as a first parameter to oesr_counter_start() and
- * oesr_counter_stop() functions, which start and stop the counter, respectively. A counter is
- * associated with a public module variable which can be accessed from the oesr_man interface. The
- * variable value is updated during a call to oesr_counter_stop(), saving the elapsed time between
- * successive calls to start() and stop(), in microseconds.
- *  *
+ * Starts the counter clock.
+ *
  * \param counter Value returned by the oesr_counter_create() function
  * \returns 0 on success or -1 on error.
  */
 int oesr_counter_start(counter_t counter) {
 	oesr_counter_t *cnt = (oesr_counter_t*) counter;
 	oesr_context_t *ctx = cnt->context;
-	oesr_ASSERT_PARAM(counter);
+	OESR_ASSERT_PARAM(counter);
 	rtdal_time_get(&cnt->count[1]);
 	sdebug("context=0x%x, counter_id=%d, start=%d:%d\n",ctx,cnt->id,
 			cnt->count[1].tv_sec,cnt->count[1].tv_usec);
@@ -93,20 +83,15 @@ int oesr_counter_start(counter_t counter) {
 }
 
 /**
- * \brief A counter shall be used by a user to measure time intervals. oesr_counter_create() returns
- * a counter_t object which is passed as a first parameter to oesr_counter_start() and
- * oesr_counter_stop() functions, which start and stop the counter, respectively. A counter is
- * associated with a public module variable which can be accessed from the oesr_man interface. The
- * variable value is updated during a call to oesr_counter_stop(), saving the elapsed time between
- * successive calls to start() and stop(), in microseconds.
- *  *
+ *  Stops the counter clock and sets the elapsed time.
+ *
  * \param counter Value returned by the oesr_counter_create() function
  * \returns 0 on success or -1 on error.
  */
 int oesr_counter_stop(counter_t counter) {
 	oesr_counter_t *cnt = (oesr_counter_t*) counter;
 	oesr_context_t *ctx = cnt->context;
-	oesr_ASSERT_PARAM(counter);
+	OESR_ASSERT_PARAM(counter);
 	variable_t *variable = cnt->variable;
 
 	rtdal_time_get(&cnt->count[2]);
@@ -117,10 +102,14 @@ int oesr_counter_stop(counter_t counter) {
 	return 0;
 }
 
+/**
+ * Returns the current counter value after the last call to oesr_counter_stop().
+ *
+ */
 int oesr_counter_usec(counter_t counter) {
 	oesr_counter_t *cnt = (oesr_counter_t*) counter;
 	oesr_context_t *ctx = cnt->context;
-	oesr_ASSERT_PARAM(counter);
+	OESR_ASSERT_PARAM(counter);
 	variable_t *variable = cnt->variable;
 
 	return cnt->count[0].tv_usec;

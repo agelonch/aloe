@@ -26,13 +26,13 @@
 #include "nod_waveform.h"
 #include "waveform.h"
 
-/** \brief Returns the size of the oesr context
+/**  Returns the size of the oesr context
  */
 size_t oesr_sizeof() {
 	return sizeof(oesr_context_t);
 }
 
-/** \brief Initializes the oesr context. Sets the context pointer to _module and the
+/**  Initializes the oesr context. Sets the context pointer to _module and the
  * module->context pointer to _context
  */
 int oesr_context_init(void *_context, void *_module) {
@@ -65,7 +65,7 @@ nod_module_t *oesr_get_module(void *context) {
 
 
 
-/** \brief Returns a pointer to the oesr name string.
+/**  Returns a pointer to the oesr name string.
  */
 char *oesr_module_name(void *context) {
 	cast_p(ctx,context);
@@ -73,7 +73,7 @@ char *oesr_module_name(void *context) {
 	return module->parent.name;
 }
 
-/** \brief Returns the module id (non-negative integer), -1 on error
+/**  Returns the module id (non-negative integer), -1 on error
  */
 int oesr_module_id(void *context) {
 	cast(ctx,context);
@@ -86,7 +86,7 @@ int oesr_module_id(void *context) {
 
 
 /**
- * \brief Returns the module's timestamp. This is the number of timeslots that the object has executed
+ *  Returns the module's timestamp. This is the number of timeslots that the object has executed
  * the INIT an RUN states. This function is always successful.
  */
 int oesr_tstamp(void *context) {
@@ -94,37 +94,35 @@ int oesr_tstamp(void *context) {
 	return ctx->tstamp;
 }
 
+/**
+ * Returns the duration of the time slot in microseconds.
+ */
 int oesr_tslot_length(void *context) {
 	rtdal_machine_t machine;
 	rtdal_machine(&machine);
 	return machine.ts_len_us;
 }
 
-/** \brief A counter shall be used by a user to measure time intervals. oesr_counter_create() returns
- * a counter_t object which is passed as a first parameter to oesr_counter_start() and
- * oesr_counter_stop() functions, which start and stop the counter, respectively. A counter is
- * associated with a public module variable which can be accessed from the oesr_man interface. The
- * variable value is updated during a call to oesr_counter_stop(), saving the elapsed time between
- * successive calls to start() and stop(), in microseconds.
+/**
  *
- * oesr_counter_create() returns a pointer to the first empty counter. Before returning, it fills the
- * counter name with the second parameter string and sets the id to a positive integer.
+ * oesr_counter_create() creates a new counter. It returns a handler that is then used by the
+ * counter functions to manage it.
  *
- * \param context Pointer to the oesr context
+ * \param context OESR context pointer
  * \param name Name associated to the public variable
  * \returns On success, returns a non-null counter_t object. On error returns null.
  */
-counter_t oesr_counter_create(void *context, string name) {
+counter_t oesr_counter_create(void *context, char *name) {
 	sdebug("context=0x%x, name=%s\n",context,name);
 	cast_p(ctx,context);
-	oesr_ASSERT_PARAM_P(name);
+	OESR_ASSERT_PARAM_P(name);
 	int i;
 
 	i=0;
 	while(i<MAX(oesr_counter) && ctx->counters[i].id)
 		i++;
 	if (i==MAX(oesr_counter)) {
-		oesr_SETERROR(oesr_ERROR_NOSPACE);
+		OESR_SETERROR(OESR_ERROR_NOSPACE);
 		return NULL;
 	}
 	sdebug("counter_pos=%d\n",i);
@@ -136,22 +134,24 @@ counter_t oesr_counter_create(void *context, string name) {
 	}
 }
 
-/** \brief Returns a log handler used by the module to read/write logs. Find an empty log in
- * the logs array and initializes it usign oesr_log_init(). The returned handler (if non-null)
+/**
+ * It creates a new log for the module. The returned handler (if non-null)
  * is then passed as the first parameter to the functions oesr_log_write() or oesr_log_printf().
+ * \param context OESR context pointer
+ * \param name Name of the log to create
  * \returns NULL on error or non-null on success.
  */
-log_t oesr_log_create(void *context, string name) {
+log_t oesr_log_create(void *context, char *name) {
 	sdebug("context=0x%x, name=%s\n",context,name);
 	cast_p(ctx,context);
-	oesr_ASSERT_PARAM_P(name);
+	OESR_ASSERT_PARAM_P(name);
 	int i;
 
 	i=0;
 	while(i<MAX(oesr_log) && ctx->logs[i].id)
 		i++;
 	if (i==MAX(oesr_log)) {
-		oesr_SETERROR(oesr_ERROR_NOSPACE);
+		OESR_SETERROR(OESR_ERROR_NOSPACE);
 		return NULL;
 	}
 	if (oesr_log_init(ctx, &ctx->logs[i], name)) {
@@ -170,12 +170,13 @@ int report_variable(variable_t variable) {
 	return -1;
 }
 
-/** \brief Stops the calling module execution. Sets the module as NON-runnable.
+/**
+ * Stops the calling module execution. Sets the module as NON-runnable.
  *
  * The module continues the execution after this function returns but, once the module returns from one
  * of the Init/Run/Stop functions, it will not be executed again.
  * The oesr_exit() function DOES NOT free the module's resources. In the case of a normal STOP,
- * this is done by the same function that allocated them, that is, the nod_waveform_unserializeTo().
+ * this is done by the the OESR using the rtdal_process_remove() function.
  */
 int oesr_exit(void *context) {
 	cast(ctx,context);

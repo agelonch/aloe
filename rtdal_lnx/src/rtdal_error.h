@@ -24,14 +24,6 @@
 #include "str.h"
 #include "defs.h"
 
-#define RTDAL_ERROR_INVAL 	1
-#define RTDAL_ERROR_SYSTEM 	2
-#define RTDAL_ERROR_OTHER 	3
-#define RTDAL_ERROR_NOSPACE 	4
-#define RTDAL_ERROR_LARGE 	5
-#define RTDAL_ERROR_NOTFOUND 	6
-#define RTDAL_ERROR_DL		7
-
 /* Invalid parameter during a call to a rtdal function */
 #define RTDAL_ASSERT_PARAM(a) do { if(!(a)) { rtdal_error_set(RTDAL_ERROR_INVAL, __FILE__, __LINE__); \
 	return -1; } } while(0)

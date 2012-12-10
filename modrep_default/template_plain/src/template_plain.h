@@ -20,5 +20,6 @@
 
 /**@defgroup template_plain template_plain
  * This module uses the OESR API directly without any skeleton in between.
- *
+ * @{
+ * @}
  */

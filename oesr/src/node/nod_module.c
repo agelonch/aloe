@@ -119,7 +119,7 @@ int nod_module_load(nod_module_t *module) {
 	attr.finish_callback = nod_module_finish_callback;
 
 	nod_waveform_t *waveform = module->parent.waveform;
-	attr.waveform_id = waveform->id;
+	attr.process_group_id = waveform->id;
 
 	module->init = NULL;
 	module->stop = NULL;

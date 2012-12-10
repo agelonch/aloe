@@ -31,11 +31,11 @@
 #include "rtdal.h"
 
 static rtdal_context_t *context;
-extern int waveforms_notified_failure[MAX_WAVEFORMS];
+extern int pgroup_notified_failure[MAX_PROCESS_GROUP_ID];
 
 
 
-/**\brief Writes the machine structure into the buffer pointed by *machine
+/** Writes the machine structure into the buffer pointed by *machine
  *
  */
 void rtdal_machine(rtdal_machine_t *machine) {
@@ -108,9 +108,8 @@ int rtdal_start_manager_interfaces(string config_file) {
 
 
 /**
- * Adds the function callback to the kernel periodic callback functions.
- * If rtdal_periodic_add() successes, the function callback will be called every
- * period timeslots with Kernel Priority.
+ * Creates a new low-priority periodic function. If it succeeds, the function callback
+ * will be called every period timeslots with low priority.
  *
  * @param callback Pointer to the periodic function
  * @param period Positive integer, in time slots
@@ -172,7 +171,7 @@ int rtdal_periodic_remove(void (*callback)(void)) {
 	return 0;
 }
 
-/** \brief sleep the calling thread for the time specified by the time_t structure.
+/**  sleep the calling thread for the time specified by the time_t structure.
  */
 int rtdal_sleep(time_t *t) {
 	assert(context);
@@ -294,14 +293,9 @@ r_dac_t rtdal_dac_get(string address) {
 
 
 /**
- * Creates a new process to be executed in one of the kernel pipelines.
- * The structure pointed by attr has the following options:
- *  - binary_path: Path to the shared library where the program code resides
- *  - pipeline_id: If the machine has more than one pipeline (e.g. in a multi-core
- *  system, it indicates to which the process will be loaded).
- *  - exec_position: Indicates the execution position in the pipeline.
- *  - finish_callback: If non-null, the kernel will call this function when the
- *  process finishes (normally or due to an error) its execution.
+ * Creates a new process to be executed by one of the kernel pipelines.
+ * The structure pointed by attr is defined in rtdal_process_attr.
+
  *
  * rtdal_process_new() configures the process parameters and loads it into the
  * pipeline. The process won't execute until a success call to rtdal_process_run()
@@ -335,17 +329,17 @@ r_proc_t rtdal_process_new(struct rtdal_process_attr *attr, void *arg) {
 		goto out;
 	}
 
-	if (attr->waveform_id > MAX_WAVEFORMS) {
+	if (attr->process_group_id > MAX_PROCESS_GROUP_ID) {
 		RTDAL_SETERROR(RTDAL_ERROR_NOSPACE);
 		goto out;
 	}
 
-	if (attr->waveform_id < 0) {
+	if (attr->process_group_id < 0) {
 		RTDAL_SETERROR(RTDAL_ERROR_INVAL);
 		goto out;
 	}
 
-	waveforms_notified_failure[attr->waveform_id] = 0;
+	pgroup_notified_failure[attr->process_group_id] = 0;
 	memset(&context->processes[i],0,sizeof(rtdal_process_t));
 	context->processes[i].pid=i+1;
 

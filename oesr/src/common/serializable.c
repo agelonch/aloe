@@ -23,7 +23,7 @@
 #include "serializable.h"
 #include "man_platform.h"
 
-/** \brief Serializes an object of type waveform_t into the packet pointed by pkt.
+/**  Serializes an object of type waveform_t into the packet pointed by pkt.
  * If the waveform is in status PARSED or LOADED serializes all the waveform contents. It serializes
  * the waveform status only otherwise.
  * \param loading_node_id Non-negative integer indicating the node id to which send the modules. Only
@@ -77,7 +77,7 @@ int waveform_serialize(waveform_t *src, packet_t *pkt, int loading_node_id,
 	return 0;
 }
 
-/** \brief Unserializes an object of type waveform_t to the pointer dest from the packet pointed by pkt.
+/**  Unserializes an object of type waveform_t to the pointer dest from the packet pointed by pkt.
  * \param copy_data Indicates what kind of data will be send for each variable. See enum variable_serialize_data
  * \returns 0 on success -1 on error
  */
@@ -138,7 +138,7 @@ int waveform_mode_unserializeTo(packet_t *pkt, waveform_mode_t *dest) {
 	return 0;
 }
 
-/** \brief Serializes an object of type module_t into the packet pointed by pkt.
+/**  Serializes an object of type module_t into the packet pointed by pkt.
  * \param copy_data Indicates what kind of data will be send for each variable. See enum variable_serialize_data
  * \returns 0 on success -1 on error
  */
@@ -172,7 +172,7 @@ int module_serialize(module_t *src, packet_t *pkt, enum variable_serialize_data 
 	}
 	return 0;
 }
-/** \brief Unserializes an object of type module_t to the pointer dest from the packet pointed by pkt.
+/**  Unserializes an object of type module_t to the pointer dest from the packet pointed by pkt.
  * \param copy_data Indicates what kind of data will be send for each variable. See enum variable_serialize_data
  * \returns 0 on success -1 on error
  */
@@ -211,7 +211,7 @@ int module_unserializeTo(packet_t *pkt, module_t *dest, enum variable_serialize_
 	return 0;
 }
 
-/** \brief Serializes an object of type variable_t into the packet pointed by pkt.
+/**  Serializes an object of type variable_t into the packet pointed by pkt.
  * \param copy_data Indicates what kind of data will be send for each variable. See enum variable_serialize_data
  * \returns 0 on success -1 on error
  * \param nof_modes Indicates the number of configuration modes that will be copied to the packet
@@ -246,7 +246,7 @@ int variable_serialize(variable_t *src, packet_t *pkt, enum variable_serialize_d
 	}
 	return 0;
 }
-/** \brief Unerializes an object of type variable_t to the buffer dest from the packet pointed by pkt.
+/**  Unerializes an object of type variable_t to the buffer dest from the packet pointed by pkt.
  * \param copy_data Indicates what kind of data will be send for each variable. See enum variable_serialize_data
  * \returns 0 on success -1 on error
  * \param nof_modes Indicates the number of configuration modes that will be copied from the packet

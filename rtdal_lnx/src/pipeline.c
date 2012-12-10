@@ -36,7 +36,7 @@ static int num_pipelines;
 static int is_first_in_cycle_count;
 
 
-int waveforms_notified_failure[MAX_WAVEFORMS];
+int pgroup_notified_failure[MAX_PROCESS_GROUP_ID];
 
 void pipeline_initialize(int _num_pipelines) {
 	hdebug("num_pipelines=%d\n",_num_pipelines);
@@ -70,13 +70,13 @@ inline static void pipeline_run_thread_check_status(pipeline_t *pipe,
 		rtdal_process_t *proc) {
 
 	hdebug("pipeid=%d, pid=%d, run=%d, code=%d, waveform_notify=%d\n",pipe->id,proc->pid,
-			proc->runnable,proc->finish_code, waveforms_notified_failure[proc->attributes.waveform_id]);
+			proc->runnable,proc->finish_code, pgroup_notified_failure[proc->attributes.process_group_id]);
 	if (proc->runnable && proc->finish_code != FINISH_OK &&
-			!waveforms_notified_failure[proc->attributes.waveform_id]) {
+			!pgroup_notified_failure[proc->attributes.process_group_id]) {
 		if (proc->attributes.finish_callback) {
 			hdebug("calling finish 0x%x arg=0x%x\n",proc->attributes.finish_callback,
 					proc->arg);
-			waveforms_notified_failure[proc->attributes.waveform_id] = 1;
+			pgroup_notified_failure[proc->attributes.process_group_id] = 1;
 			rtdal_task_new(NULL, proc->attributes.finish_callback,proc->arg);
 		} else {
 			aerror_msg("Abnormal pid=%d termination but no callback was defined\n",
@@ -180,7 +180,7 @@ void *pipeline_run_thread(void *self) {
 	return NULL;
 }
 
-/** \brief Called from the sigwait kernel thread after a pipeline thread has died.
+/**  Called from the sigwait kernel thread after a pipeline thread has died.
  * Set the process that caused the fault as non-runnable and create a new pipeline thread.
  */
 int pipeline_recover_thread(pipeline_t *obj) {
@@ -197,7 +197,7 @@ int pipeline_recover_thread(pipeline_t *obj) {
 	return 0;
 }
 
-/** \brief Called when there is an rtfault in the pipeline
+/**  Called when there is an rtfault in the pipeline
  */
 int pipeline_rt_fault(pipeline_t *obj) {
 #ifdef KILL_RT_FAULT
@@ -229,7 +229,7 @@ int pipeline_rt_fault(pipeline_t *obj) {
  * Returns the position it has finally been inserted.
  *
  *  @param obj Pointer to the pipeline_t object where the process is inserted
- *  @pram process pointer to the rtdal_process_t object to insert.
+ *  @param process pointer to the rtdal_process_t object to insert.
  *  @returns non-negative integer number indicating the position it has been
  *  inserted, or -1 on error.
  */

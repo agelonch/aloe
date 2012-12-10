@@ -35,7 +35,7 @@ extern packet_t *node_packet;
 
 
 
-/** \brief Creates a packet of size bytes length
+/**  Creates a packet of size bytes length
  * \returns 0 on success, -1 on error
  */
 int packet_init(packet_t *pkt, int size) {
@@ -49,7 +49,7 @@ int packet_init(packet_t *pkt, int size) {
 	return 0;
 }
 
-/** \brief Clears the packet contents
+/**  Clears the packet contents
  * \returns 0 on success, -1 on error
  */
 int packet_clear(packet_t *pkt) {
@@ -63,7 +63,7 @@ int packet_clear(packet_t *pkt) {
 }
 
 /**
- * \brief Reads the packet header. This function must be called at reception before calling get_cmd()
+ *  Reads the packet header. This function must be called at reception before calling get_cmd()
  * or get_data().
  */
 int packet_read(packet_t *pkt) {
@@ -74,7 +74,7 @@ int packet_read(packet_t *pkt) {
 }
 
 /**
- * \brief Defines the command field on the packet header.
+ *  Defines the command field on the packet header.
  */
 int packet_set_cmd(packet_t *pkt, packet_command_t cmd) {
 	pktdebug("cmd=%d\n",cmd);
@@ -85,7 +85,7 @@ int packet_set_cmd(packet_t *pkt, packet_command_t cmd) {
 }
 
 /**
- * \brief returns the command field from the packet header.
+ *  returns the command field from the packet header.
  */
 packet_command_t packet_get_cmd(packet_t *pkt) {
 	assert_init;
@@ -93,7 +93,7 @@ packet_command_t packet_get_cmd(packet_t *pkt) {
 	return pkt->cmd;
 }
 
-/** \brief Adds len bytes from buffer pointed by data to the packet.
+/**  Adds len bytes from buffer pointed by data to the packet.
  * \returns 0 on success, -1 on error because invalid parameter or insufficient space in the packet
  */
 int packet_add_data(packet_t *pkt, void* data, int len) {
@@ -112,7 +112,7 @@ int packet_add_data(packet_t *pkt, void* data, int len) {
 }
 
 /**
- * \brief Copies len bytes of data from the packet to the buffer pointed by data.
+ *  Copies len bytes of data from the packet to the buffer pointed by data.
  * \returns 0 on success or -1 on error due to invalid parameters or insufficient data
  */
 int packet_get_data(packet_t *pkt, void* data, int len) {
@@ -131,7 +131,7 @@ int packet_get_data(packet_t *pkt, void* data, int len) {
 	return 0;
 }
 
-/** \brief returns the number of bytes written to the packet
+/**  returns the number of bytes written to the packet
  */
 int packet_total_size(packet_t *pkt) {
 	pktdebug("w_ptr=%d, r_ptr=%d\n",pkt->w_ptr,pkt->r_ptr);
@@ -140,7 +140,7 @@ int packet_total_size(packet_t *pkt) {
 	return pkt->w_ptr;
 }
 
-/** \brief returns the number of unreaded bytes in the packet
+/**  returns the number of unreaded bytes in the packet
  *
  */
 int packet_toread_size(packet_t *pkt) {
@@ -150,7 +150,7 @@ int packet_toread_size(packet_t *pkt) {
 	return pkt->w_ptr-pkt->r_ptr;
 }
 
-/** \brief sets the packet ACK word
+/**  sets the packet ACK word
  *
  */
 int packet_set_ack(packet_t *pkt, int ack) {
@@ -161,7 +161,7 @@ int packet_set_ack(packet_t *pkt, int ack) {
 	return 0;
 }
 
-/** \brief returns the packet ACK word
+/**  returns the packet ACK word
  *
  */
 int packet_get_ack(packet_t *pkt) {
@@ -169,7 +169,7 @@ int packet_get_ack(packet_t *pkt) {
 	return pkt->ack;
 }
 
-/** \brief Returns a pointer to the packet destination structure
+/**  Returns a pointer to the packet destination structure
  *
  */
 packet_dest_t *packet_get_dest(packet_t *pkt) {
@@ -177,7 +177,7 @@ packet_dest_t *packet_get_dest(packet_t *pkt) {
 	return &pkt->dest;
 }
 
-/** \brief Sends the packet to a destination node (dest->node) and object id 3-tuple
+/**  Sends the packet to a destination node (dest->node) and object id 3-tuple
  * (waveform_id, module_id, variables_id) configured in the dest structure.
  * \returns 0 on success or -1 on error
  */

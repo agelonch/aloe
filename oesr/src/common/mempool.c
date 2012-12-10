@@ -23,7 +23,7 @@
 
 /* @TODO: Implement a pool of fixed-size elements that allocates all memory at boot */
 
-/** \brief allocates nof_elems elements of size size from a heap.
+/**  allocates nof_elems elements of size size from a heap.
  *
  */
 void *pool_alloc(int nof_elems, size_t size) {
@@ -33,7 +33,7 @@ void *pool_alloc(int nof_elems, size_t size) {
 	return p;
 }
 
-/** \brief re-allocates ptr to use nof_elems elements of size size.
+/**  re-allocates ptr to use nof_elems elements of size size.
  *
  */
 void *pool_realloc(void *ptr, int nof_elems, size_t size) {
@@ -43,7 +43,7 @@ void *pool_realloc(void *ptr, int nof_elems, size_t size) {
 	return p;
 }
 
-/** \brief de-allocates ptr from a heap.
+/**  de-allocates ptr from a heap.
  *
  */
 int pool_free(void *ptr) {

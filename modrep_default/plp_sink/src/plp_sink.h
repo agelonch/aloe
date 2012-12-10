@@ -16,7 +16,8 @@
  * along with ALOE++.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/**@defgroup plp_sink plp_sink
+/**
+ * @defgroup plp_sink plp_sink
  *
  * This sink uses plplot to plot the received samples. It supports different modes:
  * do nothing, print samples to stdout, plot received samples or plot the power spectral density of the

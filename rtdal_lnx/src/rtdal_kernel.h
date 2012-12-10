@@ -21,7 +21,7 @@
 
 #define KERNEL_DEB_TIME
 
-#define MAX_WAVEFORMS	100
+
 
 #define ALOE_VERSION "ALOE++-0.1"
 #define ALOE_YEAR 2012

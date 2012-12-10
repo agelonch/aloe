@@ -94,7 +94,7 @@ int init_interfaces(void *ctx) {
 		if (inputs[i] == NULL) {
 			inputs[i] = oesr_itf_create(ctx, i, ITF_READ, input_max_samples*input_sample_sz);
 			if (inputs[i] == NULL) {
-				if (oesr_error_code(ctx) == oesr_ERROR_NOTREADY) {
+				if (oesr_error_code(ctx) == OESR_ERROR_NOTREADY) {
 					return 0;
 				} else {
 					oesr_perror("oesr_itf_create\n");
@@ -110,7 +110,7 @@ int init_interfaces(void *ctx) {
 		if (outputs[i] == NULL) {
 			outputs[i] = oesr_itf_create(ctx, i, ITF_WRITE, output_max_samples*output_sample_sz);
 			if (outputs[i] == NULL) {
-				if (oesr_error_code(ctx) == oesr_ERROR_NOTFOUND) {
+				if (oesr_error_code(ctx) == OESR_ERROR_NOTFOUND) {
 					moderror_msg("Output port %d does not exists. Please check waveform .app file\n",i);
 					return -1;
 				}
@@ -471,7 +471,7 @@ int param_get(pmid_t id, void *ptr, int max_size, param_type_t *type) {
 	int n = oesr_var_param_value(ctx, (var_t) id, ptr, max_size);
 	if (n == -1) {
 		/* keep quiet in this case */
-		if (oesr_error_code(ctx) != oesr_ERROR_INVAL) {
+		if (oesr_error_code(ctx) != OESR_ERROR_INVAL) {
 			oesr_perror("oesr_var_param_value\n");
 		}
 	}

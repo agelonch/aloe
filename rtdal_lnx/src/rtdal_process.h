@@ -23,13 +23,6 @@
 #include "rtdal_types.h"
 #include "rtdal.h"
 
-/**
- * A rtdal Process is defined as dynamically loaded shared library with two symbols that *MUST* be defined:
- *  - _startup(arg0,arg1): This function is called at load-time and is not subject to real-time constraints.
- *  - _runCycle(): This function is called each time-slot and is subject to real-time constraints.
- * It is used to load and execute signal processing waveform modules.
- * The rtdal.Process objects are instantiated by Base.initializeNode() function at boot. A call to create() loads the module into memory. A call to startup() calls the _startup() function and a call to places the _runCycle() function into the pipelined execution spscq (see Proc-Thread class)
- */
 struct _rtdal_process_t {
 	int pid;
 

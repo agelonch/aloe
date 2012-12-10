@@ -24,12 +24,9 @@
 #endif
 
 
-/**@defgroup template_legacy template_legacy
- * Document here your module
- * @{
- */
 typedef _Complex float input_t;
 typedef _Complex float output_t;
+
 
 #ifdef INTERFACE_CONFIG
 
@@ -48,5 +45,5 @@ const int nof_output_itf = 1;
 
 #endif
 
-/**@} */
+
 #endif

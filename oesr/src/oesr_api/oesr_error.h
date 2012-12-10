@@ -26,20 +26,20 @@
 
 
 /* Invalid parameter during a call to a oesr function */
-#define oesr_ASSERT_PARAM(a) do { if(!(a)) { oesr_error_set(ctx,oesr_ERROR_INVAL, __FILE__, __LINE__); \
+#define OESR_ASSERT_PARAM(a) do { if(!(a)) { oesr_error_set(ctx,OESR_ERROR_INVAL, __FILE__, __LINE__); \
 	return -1; } } while(0)
 
-#define oesr_ASSERT_PARAM_P(a) do { if(!(a)) { oesr_error_set(ctx,oesr_ERROR_INVAL, __FILE__, __LINE__); \
+#define OESR_ASSERT_PARAM_P(a) do { if(!(a)) { oesr_error_set(ctx,OESR_ERROR_INVAL, __FILE__, __LINE__); \
 	return NULL; } } while(0)
 
 /* a rtdal call caused an error. Errno is provided by rtdal_error_code() */
-#define oesr_HWERROR(msg)   oesr_error_rtdal(ctx,rtdal_error_code(), __FILE__, __LINE__, msg)
+#define OESR_HWERROR(msg)   oesr_error_rtdal(ctx,rtdal_error_code(), __FILE__, __LINE__, msg)
 
 /* a oesr call caused an error. */
-#define oesr_SETERROR(code)   oesr_error_set(ctx,code, __FILE__, __LINE__)
+#define OESR_SETERROR(code)   oesr_error_set(ctx,code, __FILE__, __LINE__)
 
 /* general error caused by a oesr call */
-#define oesr_ERROR(msg)   oesr_error_set_msg(ctx,oesr_ERROR_OTHER, __FILE__, __LINE__, msg)
+#define OESR_ERROR(msg)   oesr_error_set_msg(ctx,OESR_ERROR_OTHER, __FILE__, __LINE__, msg)
 
 
 typedef struct {

@@ -28,7 +28,7 @@
 int offset=0;
 
 /**
- * @brief Generates input signal. VERY IMPORTANT to fill length vector with the number of
+ *  Generates input signal. VERY IMPORTANT to fill length vector with the number of
  * samples that have been generated.
  * @param inp Input interface buffers. Data from other interfaces is stacked in the buffer.
  * Use in(ptr,idx) to access the address.

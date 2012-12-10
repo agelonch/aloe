@@ -33,12 +33,28 @@ extern int nof_cores;
 
 
 /**
- * Creates a new thread with normal priority, that is, no real-time priority. The thread is detachable, meaning that runs the function pointed by the first parameter and then is destroyed, ignoring the returned value.
+ * Creates a new thread with normal priority, that is, no real-time priority.
+ * If the the first argument is NULL, the task runs the function pointed by the first parameter and
+ * then is destroyed, ignoring the returned value.
+ * Otherwise, the function rtdal_task_wait() or rtdal_task_wait_nb() may be used to obtain the returned
+ * value (a pointer).
+ *
+ * The task finishes when the function fnc returns.
+ *
+ * \param task Can be NULL or a non-NULL pointer to a r_task_t value.
+ * \param fnc Function pointer to run the task
+ * \param arg Pointer argument to pass to the function
+ *
+ * \return 0 on success or -1 on error
  */
 int rtdal_task_new(r_task_t *task, void *(*fnc)(void*), void *arg) {
 	return rtdal_task_new_prio(task, fnc, arg, TASK_DEFAULT_PRIORITY, TASK_DEFAULT_CPUID);
 }
 
+/**
+ * Kills a task handler passed as first argument to rtdal_task_new()
+ * \return 0 on success or -1 on error
+ */
 int rtdal_task_kill(r_task_t task) {
 	int s = pthread_kill((pthread_t) task,TASK_TERMINATION_SIGNAL);
 	if (s != 0) {
@@ -48,6 +64,13 @@ int rtdal_task_kill(r_task_t task) {
 	return 0;
 }
 
+
+/**
+ * Blocking function that waits a task to finish. The return value is obtained in retval
+ * \param task Handler to a task passed as the first argument to rtdal_task_new()
+ * \param retval Value returned by the task function.
+ * \return 0 on success or -1 on error
+ */
 int rtdal_task_wait(r_task_t task, void **retval) {
 	hdebug("task=%d\n",task);
 	int s = pthread_join((pthread_t) task,retval);
@@ -58,6 +81,13 @@ int rtdal_task_wait(r_task_t task, void **retval) {
 	return 0;
 }
 
+/**
+ * Non-blocking function that polls if a task has finished or not.
+ * If the task has finished, the return value is obtained in retval
+ * \param task Handler to a task passed as the first argument to rtdal_task_new()
+ * \param retval Value returned by the task function.
+ * \return 0 if the task has not finished, 1 if the task has finished or -1 on error
+ */
 int rtdal_task_wait_nb(r_task_t task, void **retval) {
 	hdebug("task=%d\n",task);
 	int s = pthread_tryjoin_np((pthread_t) task,retval);

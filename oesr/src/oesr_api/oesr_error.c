@@ -32,7 +32,7 @@ void oesr_error_rtdal(void *ctx, int errnum, const char *file, int line,
 	oesr_error_t *context = &oesr_context->error;
 	assert(context);
 	context->sys_errnum=errnum;
-	context->code = oesr_ERROR_rtdal;
+	context->code = OESR_ERROR_RTDAL;
 	snprintf(context->msg, LSTR_LEN, "[file %s, line %d]: rtdal call: %s. "
 			"Error: %s", file, line, system_call, rtdal_error_string());
 }
@@ -54,6 +54,9 @@ void oesr_error_set_msg(void *ctx, int code, const char *file, int line, const c
 }
 
 
+/**
+ * Prints to stderr the current error message accompanied by a user message.
+ */
 void oesr_error_print(void *ctx, const char *user_message) {
 	oesr_context_t *oesr_context = (oesr_context_t*) ctx;
 	oesr_error_t *context = &oesr_context->error;
@@ -71,13 +74,13 @@ inline static const char *print_error_string(void *ctx, int code) {
 	oesr_error_t *context = &oesr_context->error;
 	assert(context);
 	switch(code) {
-	case oesr_ERROR_INVAL:
+	case OESR_ERROR_INVAL:
 		return "Invalid parameter. ";
-	case oesr_ERROR_NOSPACE:
+	case OESR_ERROR_NOSPACE:
 		return "Not enough space in structure array. ";
-	case oesr_ERROR_LARGE:
+	case OESR_ERROR_LARGE:
 		return "Too large. ";
-	case oesr_ERROR_NOTFOUND:
+	case OESR_ERROR_NOTFOUND:
 		return "Object not found. ";
 	default:
 		return "";
@@ -85,6 +88,9 @@ inline static const char *print_error_string(void *ctx, int code) {
 
 }
 
+/**
+ * Returns a pointer tot he current error message
+ */
 string oesr_error_string(void *ctx) {
 	oesr_context_t *oesr_context = (oesr_context_t*) ctx;
 	oesr_error_t *context = &oesr_context->error;
@@ -92,6 +98,9 @@ string oesr_error_string(void *ctx) {
 	return context->msg;
 }
 
+/**
+ * Returns the current error code
+ */
 int oesr_error_code(void *ctx) {
 	oesr_context_t *oesr_context = (oesr_context_t*) ctx;
 	oesr_error_t *context = &oesr_context->error;

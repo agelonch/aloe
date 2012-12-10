@@ -56,7 +56,9 @@ void rtdal_error_set_msg(int code, const char *file, int line, const char *msg) 
 	}
 }
 
-
+/**
+ * Prints to stderr the current error message accompanied by a user message.
+ */
 void rtdal_error_print(const char *user_message) {
 	assert(context);
 	assert(user_message);
@@ -86,11 +88,17 @@ inline static const char *print_error_string(int code) {
 
 }
 
+/**
+ * Returns a pointer tot he current error message
+ */
 string rtdal_error_string() {
 	assert(context);
 	return context->msg;
 }
 
+/**
+ * Returns the current error code
+ */
 int rtdal_error_code() {
 	assert(context);
 	return context->code;

@@ -3,11 +3,11 @@ if(${CMAKE_SOURCE_DIR} STREQUAL ${CMAKE_BINARY_DIR})
 endif(${CMAKE_SOURCE_DIR} STREQUAL ${CMAKE_BINARY_DIR})
 
 cmake_minimum_required (VERSION 2.6)
-project (ALOE)
+project (ALOE++)
 
 # The version number.
-set (ALOE_VERSION_MAJOR 2)
-set (ALOE_VERSION_MINOR 0)
+set (ALOE_VERSION_MAJOR 0)
+set (ALOE_VERSION_MINOR 2)
 
 set(MODULE_REPOS_NAME "default")
 

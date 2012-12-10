@@ -47,9 +47,10 @@ static int fft_size;
 
 void setup_legends();
 
-/**@ingroup plp_sink
+/**
+ * @ingroup plp_sink
  *
- * \brief Initializes the plplot driver if mode is SCOPE or PSD. If the mode is PSD, it
+ *  Initializes the plplot driver if mode is SCOPE or PSD. If the mode is PSD, it
  * also initializes computes the fftw3 plan for the selected dft_size.
  *
  * \param is_complex 0: The input data for all interfaces is real;

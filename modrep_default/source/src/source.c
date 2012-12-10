@@ -113,7 +113,7 @@ int work(void **inp, void **out) {
 	return snd_samples;
 }
 
-/** @brief Deallocates resources created during initialize().
+/**  Deallocates resources created during initialize().
  * @return 0 on success -1 on error
  */
 int stop() {

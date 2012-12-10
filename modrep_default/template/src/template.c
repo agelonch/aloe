@@ -26,8 +26,13 @@
 pmid_t gain_id;
 int block_length;
 
-/**@ingroup template
- * Document your initialization function
+/**
+ * @ingroup template
+ *  Document here the module's initialization parameters
+ *
+ * The documentation should explain which are the possible parameters, what they do and if they are
+ * mandatory or optional (indicating the default value in such case).
+ *
  * \param gain Document paramater gain
  * \param block_length Document parameter block_length
  *
@@ -61,7 +66,7 @@ int initialize() {
 /**
  * @ingroup template
  *
- * \brief Main DSP function
+ *  Main DSP function
  *
  * Document here your module, which parameters it requires and how it behaves as a function of them.
  *
@@ -99,7 +104,7 @@ int work(void **inp, void **out) {
 	return rcv_samples;
 }
 
-/** @brief Deallocates resources created during initialize().
+/**  Deallocates resources created during initialize().
  * @return 0 on success -1 on error
  */
 int stop() {

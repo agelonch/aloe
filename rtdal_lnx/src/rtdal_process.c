@@ -25,6 +25,8 @@
 
 lstrdef(tmp);
 
+extern int pgroup_notified_failure[MAX_PROCESS_GROUP_ID];
+
 /**
  * Loads a process binary into memory. The process must have been created using
  *  rtdal_process_new(). This function loads the library defined in the process
@@ -64,11 +66,6 @@ int rtdal_process_launch(rtdal_process_t *obj) {
 
  *  @param obj Pointer to the rtdal_process_t object.
  *  @return Zero on success, -1 on error.
- *
- * 1) Call rtdal_pipeline_remove(self->pipeline,self);
- * 2) Call to dlclose(handle)
- * 3) Set pid=0
- * 4) if finishCallback!=null, call the function
  */
 int rtdal_process_remove(r_proc_t process) {
 	RTDAL_ASSERT_PARAM(process);
@@ -115,7 +112,7 @@ int rtdal_process_run(r_proc_t process) {
 /**
  * Disables the execution of the process identified by the first argument.
  * The process must have been previously loaded using rtdal_process_new().
- * @param process Handler to the process
+ * @param process Process handler given by rtdal_process_new()
  * @returns zero on success, -1 on error
  */
 int rtdal_process_stop(r_proc_t process) {
@@ -126,6 +123,11 @@ int rtdal_process_stop(r_proc_t process) {
 	return 0;
 }
 
+/**
+ * Sets an error code for a process.
+ * \param proc Process handler given by rtdal_process_new()
+ * \returns zero on success, -1 on error
+ */
 int rtdal_process_seterror(r_proc_t proc, rtdal_processerrors_t code) {
 	RTDAL_ASSERT_PARAM(proc);
 	rtdal_process_t *obj = (rtdal_process_t*) proc;
@@ -134,6 +136,12 @@ int rtdal_process_seterror(r_proc_t proc, rtdal_processerrors_t code) {
 	return 0;
 }
 
+
+/**
+ * Returns the process error.
+ * \param proc Process handler given by rtdal_process_new()
+ * \returns process error code or -1 on error
+ */
 rtdal_processerrors_t rtdal_process_geterror(r_proc_t proc) {
 	RTDAL_ASSERT_PARAM(proc);
 	rtdal_process_t *obj = (rtdal_process_t*) proc;
@@ -141,9 +149,30 @@ rtdal_processerrors_t rtdal_process_geterror(r_proc_t proc) {
 	return obj->finish_code;
 }
 
+
+/**
+ * Returns 1 if the process is running or zero otherwise
+ */
 int rtdal_process_isrunning(r_proc_t proc) {
 	RTDAL_ASSERT_PARAM(proc);
 	rtdal_process_t *obj = (rtdal_process_t*) proc;
 	hdebug("pid=%d, running=%d\n",obj->pid,obj->runnable);
 	return obj->is_running;
+}
+
+/**
+ * Acknowledges that the process group error notification has been processed, enabling another
+ * future call to the finish_callback function.
+ * \returns 0 on success, -1 on error
+ */
+int rtdal_process_group_notified(r_proc_t proc) {
+	RTDAL_ASSERT_PARAM(proc);
+	rtdal_process_t *obj = (rtdal_process_t*) proc;
+	hdebug("pid=%d, running=%d\n",obj->pid,obj->runnable);
+	if (obj->attributes.process_group_id < 0 || obj->attributes.process_group_id > MAX_PROCESS_GROUP_ID) {
+		RTDAL_SETERROR(RTDAL_ERROR_INVAL);
+		return -1;
+	}
+	pgroup_notified_failure[obj->attributes.process_group_id] = 0;
+	return 0;
 }

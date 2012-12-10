@@ -6,7 +6,7 @@ crc_params={{'long_crc',int32(24)}};
 coder_params={{'padding',int32(0)}};
 modulator_params={{'modulation',int32(1)}};
 padding_params={{'data_type',int32(0)},{'pre_padding',int32(28)},{'post_padding',int32(28)},{'nof_packets',int32(7)}};
-ifft_params={{'direction',int32(1)},{'mirror',int32(1)},{'normalize',int32(1)},{'fft_size',int32(128)}};
+ifft_params={{'direction',int32(1)},{'mirror',int32(1)},{'normalize',int32(1)},{'dft_size',int32(128)}};
 cyclic_params={{'ofdm_symbol_sz',int32(128)},{'cyclic_prefix_sz',int32(9)},{'first_cyclic_prefix_sz',int32(10)}};
 
 output=[];

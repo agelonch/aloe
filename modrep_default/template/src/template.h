@@ -18,7 +18,8 @@
 
 
 
-/**@defgroup template template
+/**
+ * @defgroup template template
  * Document here your module
  * @{
  */
@@ -30,6 +31,7 @@ typedef _Complex float output_t;
 
 #define NOF_INPUT_ITF		1
 #define NOF_OUTPUT_ITF		1
+
 /**@} */
 
 /** Define here module constants shared with test_generate.c fie */

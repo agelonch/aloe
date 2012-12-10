@@ -42,8 +42,8 @@ size_t oesr_sizeof();
 int oesr_context_init(void *context, void *module);
 nod_module_t *oesr_get_module(void *context);
 
-#define cast(a,b) oesr_context_t *a = (oesr_context_t*) b; oesr_ASSERT_PARAM(a)
-#define cast_p(a,b) oesr_context_t *a = (oesr_context_t*) b; oesr_ASSERT_PARAM_P(a)
+#define cast(a,b) oesr_context_t *a = (oesr_context_t*) b; OESR_ASSERT_PARAM(a)
+#define cast_p(a,b) oesr_context_t *a = (oesr_context_t*) b; OESR_ASSERT_PARAM_P(a)
 
 #endif
 

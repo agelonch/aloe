@@ -20,23 +20,6 @@
 #ifndef oesr_TYPES_H_
 #define oesr_TYPES_H_
 
-#define oesr_ERROR_INVAL 		1
-#define oesr_ERROR_rtdal 		2
-#define oesr_ERROR_OTHER 		3
-#define oesr_ERROR_NOSPACE 	4
-#define oesr_ERROR_LARGE 		5
-#define oesr_ERROR_NOTFOUND 	6
-#define oesr_ERROR_MODNOTFOUND 	7
-#define oesr_ERROR_NOTREADY 	8
-
-typedef enum {
-	ITF_READ, ITF_WRITE
-}oesr_itf_mode_t;
-
-/** must be exactly the same than variable_type_t in waveform.h */
-typedef enum {
-	VAR_INT, VAR_FLOAT, VAR_STRING
-}oesr_var_type_t;
 
 struct _s_itf {
 	int id;

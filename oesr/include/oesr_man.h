@@ -87,6 +87,8 @@ int waveform_status_is_running(waveform_status_t* status);
  * OESR is an operating environment based on RTDAL for distributed DSP for SDR.
  *
  * This is the API for the platform management.
+ *
+ * TODO: The documentation for this API is under developement.
  */
 
 #endif

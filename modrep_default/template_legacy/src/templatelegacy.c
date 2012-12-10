@@ -59,7 +59,7 @@ int initialize() {
 
 
 /**
- * @brief Function documentation
+ *  Function documentation
  *
  * @param inp Input interface buffers. Data from other interfaces is stacked in the buffer.
  * Use in(ptr,idx) to access the address. To obtain the number of received samples use the function
@@ -75,9 +75,9 @@ int initialize() {
  *
  * @code
  * 	input_t *first_interface = inp;
-	input_t *second_interface = in(inp,1);
-	output_t *first_output_interface = out;
-	output_t *second_output_interface = out(out,1);
+ *	input_t *second_interface = in(inp,1);
+ *	output_t *first_output_interface = out;
+ *	output_t *second_output_interface = out(out,1);
  *
  */
 int work(input_t *inp, output_t *out) {
@@ -96,7 +96,7 @@ int work(input_t *inp, output_t *out) {
 	return rcv_samples;
 }
 
-/** @brief Deallocates resources created during initialize().
+/**  Deallocates resources created during initialize().
  * @return 0 on success -1 on error
  */
 int stop() {

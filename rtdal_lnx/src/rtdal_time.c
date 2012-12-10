@@ -67,9 +67,8 @@ inline void rtdal_time_ts_inc() {
 }
 
 /**
- * This function is called by syncSlave() in TWO-WAY synchronization mode.
- * It adjusts the local time-slot timer. It has an effect only if
- * clockSource==CLOCKSRC_TIMER
+ * Sets the current time to time defined by the first argument
+ * \returns 0 on success, -1 on error.
  */
 int rtdal_time_set(time_t *time) {
 	assert(context);
@@ -89,7 +88,8 @@ int rtdal_time_set(time_t *time) {
 }
 
 /**
- * Stores the current time in the structure pointed by time pointer.
+ * Stores the current time to the structure pointed by the first argument
+ * \returns 0 on success, -1 on error.
  */
 int rtdal_time_get(time_t *time) {
 	assert(context);
@@ -110,7 +110,7 @@ int rtdal_time_get(time_t *time) {
 }
 
 /**
- * returns the time-slot number
+ * Returns the current time-slot number
  */
 int rtdal_time_slot() {
 	assert(context);
@@ -122,7 +122,6 @@ int rtdal_time_slot() {
  * tdata points to a buffer of 3 time_t consecutive structures.
  * Computes the time interval between position 1 and position 2, storing
  * the result in position 0
- * @param tdata
  */
 void rtdal_time_interval(time_t * tdata) {
 	assert(tdata);

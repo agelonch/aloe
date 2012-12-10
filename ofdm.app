@@ -52,7 +52,7 @@ modules:
 			{name="direction";value=1;},
 			{name="mirror";value=1;},
 			{name="normalize";value=1;},
-			{name="fft_size";value=128;}
+			{name="dft_size";value=128;}
 		);
 	};
 
