@@ -1,7 +1,13 @@
 # This configuration is for the aloe++ skeleton
 
+
+#include fftw3 directories
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_CURRENT_SOURCE_DIR}/cmake/Modules/")
+find_package(FFTW REQUIRED)
+include_directories(${FFTW_INCLUDE_DIRS})
+
 # set-up the program libraries here
-set(LIBRARIES m rt fftw3f)
+set(LIBRARIES m rt ${FFTW_LIBRARIES})
 
 # set-up program includes here
 include_directories(/usr/local/include/)

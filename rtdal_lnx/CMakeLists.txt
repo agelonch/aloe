@@ -21,7 +21,7 @@ file(GLOB_RECURSE rtdal_SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/src/*.c")
 # runcf executable
 add_executable(runcf ${rtdal_SOURCES})
 target_link_libraries (runcf "-Wl,--whole-archive" oesr)
-target_link_libraries (runcf "-Wl,--no-whole-archive" rt dl config)
+target_link_libraries (runcf "-Wl,--no-whole-archive" rt dl)
 
 
 

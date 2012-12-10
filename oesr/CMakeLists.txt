@@ -12,8 +12,7 @@ if( CMAKE_SOURCE_DIR STREQUAL CMAKE_CURRENT_SOURCE_DIR )
 	set (oesr_VERSION_MINOR 0)
 	
 	#TODO: If building as standalone, should include rtdal headers here. 
-	
-	
+		
 else()
 	include_directories(${RTDAL_INCLUDE})
 endif()
@@ -27,8 +26,12 @@ include_directories("${CMAKE_CURRENT_SOURCE_DIR}/include")
 #remove in the multiprocessing environment
 include_directories("${CMAKE_CURRENT_SOURCE_DIR}/src/node")
 
+#include libconfig directories
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_CURRENT_SOURCE_DIR}/cmake/Modules/")
+find_package(LibConfig REQUIRED)
+include_directories(${LIBCONFIG_INCLUDE_DIRS})
 
-# core sources
+# oesr sources
 file(GLOB_RECURSE common_SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/src/common/*.c")
 file(GLOB_RECURSE manager_SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/src/manager/*.c")
 file(GLOB_RECURSE oesr_man_api_SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/src/oesr_man_api/*.c")
@@ -51,9 +54,10 @@ set(mex_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/src/skeleton/mex.c)
 # standalone sources
 file(GLOB_RECURSE standalone_SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/src/standalone/*.c")
 
-# aloe core library
+# oesr library
 add_library(oesr ${oesr_api_SOURCES} ${common_SOURCES} ${manager_SOURCES} ${oesr_man_api_SOURCES} ${node_SOURCES} ${test_suite_SOURCES})
 set_target_properties(oesr PROPERTIES LINK_FLAGS "-Wl,-export-dynamic -u _run_main")
+target_link_libraries(oesr ${LIBCONFIG_LIBRARIES})
 
 # swapi library
 add_library(oesrapi ${oesrapi_SOURCES} ${params_SOURCES})

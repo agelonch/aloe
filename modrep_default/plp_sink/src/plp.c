@@ -22,8 +22,8 @@
 
 #include <oesr.h>
 #include <skeleton.h>
-#include "plplot.h"
-#include "plevent.h"
+#include <plplot/plplot.h>
+#include <plplot/plevent.h>
 #include "plp.h"
 
 #define INCLUDE_DEFS_ONLY
