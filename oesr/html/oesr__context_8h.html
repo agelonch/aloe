@@ -76,9 +76,7 @@ Macros</h2></td></tr>
 <tr class="heading"><td colspan="2"><h2><a name="func-members"></a>
 Functions</h2></td></tr>
 <tr class="memitem:a4a4ec87abd81c9f8f58be0b7ec1fc69b"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="oesr__context_8h.html#a4a4ec87abd81c9f8f58be0b7ec1fc69b">oesr_sizeof</a> ()</td></tr>
-<tr class="memdesc:a4a4ec87abd81c9f8f58be0b7ec1fc69b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the size of the oesr context.  <a href="#a4a4ec87abd81c9f8f58be0b7ec1fc69b"></a><br/></td></tr>
 <tr class="memitem:a83792d2a4382978f4377da8c7bc6730c"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="oesr__context_8h.html#a83792d2a4382978f4377da8c7bc6730c">oesr_context_init</a> (void *context, void *module)</td></tr>
-<tr class="memdesc:a83792d2a4382978f4377da8c7bc6730c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes the oesr context. Sets the context pointer to _module and the module-&gt;context pointer to _context.  <a href="#a83792d2a4382978f4377da8c7bc6730c"></a><br/></td></tr>
 <tr class="memitem:ae5c4c93905582ee1aac225813eb4e9de"><td class="memItemLeft" align="right" valign="top">nod_module_t *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="oesr__context_8h.html#ae5c4c93905582ee1aac225813eb4e9de">oesr_get_module</a> (void *context)</td></tr>
 </table>
 <h2>Macro Definition Documentation</h2>
@@ -143,13 +141,13 @@ Functions</h2></td></tr>
           <td class="memname">int oesr_context_init </td>
           <td>(</td>
           <td class="paramtype">void *&#160;</td>
-          <td class="paramname"><em>context</em>, </td>
+          <td class="paramname"><em>_context</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">void *&#160;</td>
-          <td class="paramname"><em>module</em>&#160;</td>
+          <td class="paramname"><em>_module</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -158,8 +156,7 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-
-<p>Initializes the oesr context. Sets the context pointer to _module and the module-&gt;context pointer to _context. </p>
+<p>Initializes the oesr context. Sets the context pointer to _module and the module-&gt;context pointer to _context </p>
 
 </div>
 </div>
@@ -191,15 +188,14 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-
-<p>Returns the size of the oesr context. </p>
+<p>Returns the size of the oesr context </p>
 
 </div>
 </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Dec 9 2012 21:33:13 for ALOE++ OESR API by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Dec 10 2012 12:55:28 for ALOE++ OESR API by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.1.2
 </small></address>

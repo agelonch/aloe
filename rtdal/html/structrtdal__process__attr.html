@@ -47,11 +47,11 @@
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="#pub-attribs">Data Fields</a>  </div>
   <div class="headertitle">
-<div class="title">rtdal_process_attr Struct Reference</div>  </div>
+<div class="title">rtdal_process_attr Struct Reference<div class="ingroups"><a class="el" href="group__process.html">Synchronous High-Priority Tasks</a></div></div>  </div>
 </div><!--header-->
 <div class="contents">
 
-<p><code>#include &lt;<a class="el" href="rtdal__types_8h_source.html">rtdal_types.h</a>&gt;</code></p>
+<p><code>#include &lt;<a class="el" href="rtdal_8h_source.html">rtdal.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
@@ -61,13 +61,13 @@ Public Member Functions</h2></td></tr>
 Data Fields</h2></td></tr>
 <tr class="memitem:acd4d32580ab29e3b881bebe616b5e833"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structrtdal__process__attr.html#acd4d32580ab29e3b881bebe616b5e833">pipeline_id</a></td></tr>
 <tr class="memitem:ad1462da5986c023d9865b556220bec0c"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structrtdal__process__attr.html#ad1462da5986c023d9865b556220bec0c">exec_position</a></td></tr>
-<tr class="memitem:a1c0bf46255fa36473470d432234e626f"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structrtdal__process__attr.html#a1c0bf46255fa36473470d432234e626f">waveform_id</a></td></tr>
+<tr class="memitem:a12cd41c743c7642f8f2d0de4e5829ca8"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structrtdal__process__attr.html#a12cd41c743c7642f8f2d0de4e5829ca8">process_group_id</a></td></tr>
 <tr class="memitem:ae9b5f9e60d4117f1da3e8bcc09161a4b"><td class="memItemLeft" align="right" valign="top">void *(*&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structrtdal__process__attr.html#ae9b5f9e60d4117f1da3e8bcc09161a4b">finish_callback</a> )(void *)</td></tr>
 </table>
 <a name="details" id="details"></a><h2>Detailed Description</h2>
 <div class="textblock"><p>Process attributes for use with the <a class="el" href="group__process.html#gaac39f57d3d63eca01423a7ffd95026e1">rtdal_process_new()</a> function. </p>
 
-<p>Definition at line <a class="el" href="rtdal__types_8h_source.html#l00036">36</a> of file <a class="el" href="rtdal__types_8h_source.html">rtdal_types.h</a>.</p>
+<p>Definition at line <a class="el" href="rtdal_8h_source.html#l00065">65</a> of file <a class="el" href="rtdal_8h_source.html">rtdal.h</a>.</p>
 </div><h2>Member Function Documentation</h2>
 <a class="anchor" id="af5db7229c0df55e9fe7e9a77dc2362af"></a>
 <div class="memitem">
@@ -82,6 +82,7 @@ Data Fields</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Path relative to /usr/local/lib to the shared library where the program code resides </p>
 
 </div>
 </div>
@@ -95,10 +96,11 @@ Data Fields</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>The pipeline_id is the index of the processing core where the process should be allocated Indicates the execution position in the processing core. </p>
 
-<p>Definition at line <a class="el" href="rtdal__types_8h_source.html#l00039">39</a> of file <a class="el" href="rtdal__types_8h_source.html">rtdal_types.h</a>.</p>
+<p>Definition at line <a class="el" href="rtdal_8h_source.html#l00069">69</a> of file <a class="el" href="rtdal_8h_source.html">rtdal.h</a>.</p>
 
-<p>Referenced by <a class="el" href="pipeline_8c_source.html#l00236">pipeline_add()</a>, <a class="el" href="pipeline_8c_source.html#l00286">pipeline_remove()</a>, and <a class="el" href="rtdal__base_8c_source.html#l00318">rtdal_process_new()</a>.</p>
+<p>Referenced by <a class="el" href="pipeline_8c_source.html#l00236">pipeline_add()</a>, <a class="el" href="pipeline_8c_source.html#l00286">pipeline_remove()</a>, and <a class="el" href="rtdal__base_8c_source.html#l00312">rtdal_process_new()</a>.</p>
 
 </div>
 </div>
@@ -111,10 +113,11 @@ Data Fields</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Callback function used to notify changes in rtdal_processerror_t </p>
 
-<p>Definition at line <a class="el" href="rtdal__types_8h_source.html#l00041">41</a> of file <a class="el" href="rtdal__types_8h_source.html">rtdal_types.h</a>.</p>
+<p>Definition at line <a class="el" href="rtdal_8h_source.html#l00071">71</a> of file <a class="el" href="rtdal_8h_source.html">rtdal.h</a>.</p>
 
-<p>Referenced by <a class="el" href="rtdal__base_8c_source.html#l00318">rtdal_process_new()</a>.</p>
+<p>Referenced by <a class="el" href="rtdal__base_8c_source.html#l00312">rtdal_process_new()</a>.</p>
 
 </div>
 </div>
@@ -128,35 +131,35 @@ Data Fields</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="rtdal__types_8h_source.html#l00038">38</a> of file <a class="el" href="rtdal__types_8h_source.html">rtdal_types.h</a>.</p>
+<p>Definition at line <a class="el" href="rtdal_8h_source.html#l00067">67</a> of file <a class="el" href="rtdal_8h_source.html">rtdal.h</a>.</p>
 
-<p>Referenced by <a class="el" href="rtdal__base_8c_source.html#l00318">rtdal_process_new()</a>.</p>
+<p>Referenced by <a class="el" href="rtdal__base_8c_source.html#l00312">rtdal_process_new()</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a1c0bf46255fa36473470d432234e626f"></a>
+<a class="anchor" id="a12cd41c743c7642f8f2d0de4e5829ca8"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">int rtdal_process_attr::waveform_id</td>
+          <td class="memname">int rtdal_process_attr::process_group_id</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="rtdal__types_8h_source.html#l00040">40</a> of file <a class="el" href="rtdal__types_8h_source.html">rtdal_types.h</a>.</p>
+<p>Definition at line <a class="el" href="rtdal_8h_source.html#l00070">70</a> of file <a class="el" href="rtdal_8h_source.html">rtdal.h</a>.</p>
 
-<p>Referenced by <a class="el" href="rtdal__base_8c_source.html#l00318">rtdal_process_new()</a>.</p>
+<p>Referenced by <a class="el" href="rtdal__process_8c_source.html#l00168">rtdal_process_group_notified()</a>, and <a class="el" href="rtdal__base_8c_source.html#l00312">rtdal_process_new()</a>.</p>
 
 </div>
 </div>
 <hr/>The documentation for this struct was generated from the following file:<ul>
-<li>/home/ismael/aloe_ws/aloe_git/rtdal_lnx/include/<a class="el" href="rtdal__types_8h_source.html">rtdal_types.h</a></li>
+<li>/home/ismael/aloe_ws/aloe_git/rtdal_lnx/include/<a class="el" href="rtdal_8h_source.html">rtdal.h</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Dec 9 2012 21:33:17 for ALOE++ RTDAL API by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Dec 10 2012 11:45:32 for ALOE++ RTDAL API by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.1.2
 </small></address>

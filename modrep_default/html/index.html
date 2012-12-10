@@ -40,11 +40,39 @@
 <div class="title">Module repository: default Documentation</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p>This is the default repository of modules. </p>
+<div class="textblock"><p>This is the default repository of modules distributed with the ALOE source code.</p>
+<p>This repository contains a basic source and sink modules and a set of templates to facilitate the generation of new DSP modules: the template and template_plain modules. The template_plain uses the OESR API directly and shall be used only by experienced users or by those modules requiring some special functionalities.</p>
+<p>Most of the modules can use the OESR SKELETON template for generating new modules. This template has the following features:</p>
+<ul>
+<li>Automatic interface generation</li>
+<li>Interface for easy initialization parameters management</li>
+<li>The user only codes two functions: <a class="el" href="group__plp__sink.html#ga03aede8ff91764482bb5e9accfae9b4f">initialize()</a> and <a class="el" href="group__plp__sink.html#ga3e162d84d95f5d5168d881ef2194df00">work()</a></li>
+<li>Automatic generation of a <b>standalone</b> program for debugging and a <b>MATLAB/Octave MEX-file</b> for code verification.</li>
+</ul>
+<p>To create a new module, just follow this step-by-step guide:</p>
+<h2>Generation </h2>
+<p>1) Copy and rename the modrep_default/template directory to your module's repository (or use the default directory)</p>
+<p>2) Rename the files inside the src/ directory</p>
+<p>3) Write the <a class="el" href="group__plp__sink.html#ga03aede8ff91764482bb5e9accfae9b4f">initialize()</a> and <a class="el" href="group__plp__sink.html#ga3e162d84d95f5d5168d881ef2194df00">work()</a> functions</p>
+<p>4) If you have ALOE installed in your system, you can compile the module (using cmake) from its directory, otherwise go to the root aloe directory and run cmake, compile and install.</p>
+<p>5) When you install a module, the following files are installed in the system (by default, to /usr/local/bin):</p>
+<ul>
+<li>An executable: /usr/local/bin/modulename</li>
+<li>A MEX-file: /usr/local/mex/am_modulename</li>
+<li>A shared library: /usr/local/lib/libmodulename.so</li>
+</ul>
+<h2>Debugging </h2>
+<p>The executable is useful in this phase to carry out the initial debugging. Just use your favorite debugger or IDE to debug and ensure the correct functionality of the module under any circumstance.</p>
+<p>TODO: Parameters passed to the executable, using gnuplot, ...</p>
+<h2>Verification with MATLAB/Octave</h2>
+<p>TODO</p>
+<h2>Integration in ALOE++</h2>
+<p>TODO</p>
+<p>More information about the template is the module documentation, under the Module section of this page </p>
 </div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Dec 9 2012 21:53:44 for Module repository: default by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Dec 10 2012 13:20:31 for Module repository: default by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.1.2
 </small></address>

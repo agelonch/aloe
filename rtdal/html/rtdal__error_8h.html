@@ -67,20 +67,13 @@ Data Structures</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2><a name="define-members"></a>
 Macros</h2></td></tr>
-<tr class="memitem:ac82684684dc56978b7a379731fc8f265"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="rtdal__error_8h.html#ac82684684dc56978b7a379731fc8f265">RTDAL_ERROR_INVAL</a>&#160;&#160;&#160;1</td></tr>
-<tr class="memitem:a0cedfe5afc2172a3b03d6056f55b6d25"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="rtdal__error_8h.html#a0cedfe5afc2172a3b03d6056f55b6d25">RTDAL_ERROR_SYSTEM</a>&#160;&#160;&#160;2</td></tr>
-<tr class="memitem:a1fe951f1bafef5d2f48d5e477c54bfe9"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="rtdal__error_8h.html#a1fe951f1bafef5d2f48d5e477c54bfe9">RTDAL_ERROR_OTHER</a>&#160;&#160;&#160;3</td></tr>
-<tr class="memitem:a644929c31c5df9e81151bb9e2b36d831"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="rtdal__error_8h.html#a644929c31c5df9e81151bb9e2b36d831">RTDAL_ERROR_NOSPACE</a>&#160;&#160;&#160;4</td></tr>
-<tr class="memitem:abffbe06ebb3a9e34026a3d69155f5c63"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="rtdal__error_8h.html#abffbe06ebb3a9e34026a3d69155f5c63">RTDAL_ERROR_LARGE</a>&#160;&#160;&#160;5</td></tr>
-<tr class="memitem:ab6ec7eb3444e8c5d495f000fc88a9f96"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="rtdal__error_8h.html#ab6ec7eb3444e8c5d495f000fc88a9f96">RTDAL_ERROR_NOTFOUND</a>&#160;&#160;&#160;6</td></tr>
-<tr class="memitem:ad2c30c449d9ce1e0b92722cdd1a090e2"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="rtdal__error_8h.html#ad2c30c449d9ce1e0b92722cdd1a090e2">RTDAL_ERROR_DL</a>&#160;&#160;&#160;7</td></tr>
 <tr class="memitem:a86366326e77a7c12914011fe79331fe6"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="rtdal__error_8h.html#a86366326e77a7c12914011fe79331fe6">RTDAL_ASSERT_PARAM</a>(a)</td></tr>
 <tr class="memitem:a0a61ef341f1483de2ce3c22353584dd5"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="rtdal__error_8h.html#a0a61ef341f1483de2ce3c22353584dd5">RTDAL_ASSERT_PARAM_P</a>(a)</td></tr>
 <tr class="memitem:a54420752ba3a054fa610c4dc289fb08e"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="rtdal__error_8h.html#a54420752ba3a054fa610c4dc289fb08e">RTDAL_POSERROR</a>(a, msg)&#160;&#160;&#160;<a class="el" href="rtdal__error_8h.html#a13b0f22c7d821d6a97ea5895c876a0c0">rtdal_error_systemcall</a>(a, __FILE__, __LINE__, msg)</td></tr>
 <tr class="memitem:afc4eba3d5c8ffa4c6af31fbb2d28e963"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="rtdal__error_8h.html#afc4eba3d5c8ffa4c6af31fbb2d28e963">RTDAL_SYSERROR</a>(msg)&#160;&#160;&#160;<a class="el" href="rtdal__error_8h.html#a13b0f22c7d821d6a97ea5895c876a0c0">rtdal_error_systemcall</a>(errno, __FILE__, __LINE__, msg)</td></tr>
-<tr class="memitem:a08a71119b56265e7976333dfcb5a2727"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="rtdal__error_8h.html#a08a71119b56265e7976333dfcb5a2727">RTDAL_DLERROR</a>(msg)&#160;&#160;&#160;<a class="el" href="rtdal__error_8h.html#a7e3d3afa9b27936217edd19aacde163a">rtdal_error_set_msg</a>(<a class="el" href="rtdal__error_8h.html#ad2c30c449d9ce1e0b92722cdd1a090e2">RTDAL_ERROR_DL</a>, __FILE__, __LINE__, msg)</td></tr>
+<tr class="memitem:a08a71119b56265e7976333dfcb5a2727"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="rtdal__error_8h.html#a08a71119b56265e7976333dfcb5a2727">RTDAL_DLERROR</a>(msg)&#160;&#160;&#160;<a class="el" href="rtdal__error_8h.html#a7e3d3afa9b27936217edd19aacde163a">rtdal_error_set_msg</a>(<a class="el" href="group__error.html#gad2c30c449d9ce1e0b92722cdd1a090e2">RTDAL_ERROR_DL</a>, __FILE__, __LINE__, msg)</td></tr>
 <tr class="memitem:accb72f04d18ff6cf038fd30d0db338a9"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="rtdal__error_8h.html#accb72f04d18ff6cf038fd30d0db338a9">RTDAL_SETERROR</a>(code)&#160;&#160;&#160;<a class="el" href="rtdal__error_8h.html#a903f3c7d85a576ae2c80e2dfc236344f">rtdal_error_set</a>(code, __FILE__, __LINE__)</td></tr>
-<tr class="memitem:a3517294ef22e0843976af7433157d046"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="rtdal__error_8h.html#a3517294ef22e0843976af7433157d046">RTDAL_ERROR</a>(msg)&#160;&#160;&#160;<a class="el" href="rtdal__error_8h.html#a7e3d3afa9b27936217edd19aacde163a">rtdal_error_set_msg</a>(<a class="el" href="rtdal__error_8h.html#a1fe951f1bafef5d2f48d5e477c54bfe9">RTDAL_ERROR_OTHER</a>, __FILE__, __LINE__, msg)</td></tr>
+<tr class="memitem:a3517294ef22e0843976af7433157d046"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="rtdal__error_8h.html#a3517294ef22e0843976af7433157d046">RTDAL_ERROR</a>(msg)&#160;&#160;&#160;<a class="el" href="rtdal__error_8h.html#a7e3d3afa9b27936217edd19aacde163a">rtdal_error_set_msg</a>(<a class="el" href="group__error.html#ga1fe951f1bafef5d2f48d5e477c54bfe9">RTDAL_ERROR_OTHER</a>, __FILE__, __LINE__, msg)</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2><a name="func-members"></a>
 Functions</h2></td></tr>
@@ -104,12 +97,12 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<b>Value:</b><div class="fragment"><div class="line"><span class="keywordflow">do</span> { <span class="keywordflow">if</span>(!(a)) { <a class="code" href="rtdal__error_8c.html#a903f3c7d85a576ae2c80e2dfc236344f">rtdal_error_set</a>(<a class="code" href="rtdal__error_8h.html#ac82684684dc56978b7a379731fc8f265">RTDAL_ERROR_INVAL</a>, __FILE__, __LINE__); \</div>
+<b>Value:</b><div class="fragment"><div class="line"><span class="keywordflow">do</span> { <span class="keywordflow">if</span>(!(a)) { <a class="code" href="rtdal__error_8c.html#a903f3c7d85a576ae2c80e2dfc236344f">rtdal_error_set</a>(<a class="code" href="group__error.html#gac82684684dc56978b7a379731fc8f265">RTDAL_ERROR_INVAL</a>, __FILE__, __LINE__); \</div>
 <div class="line">        return -1; } } <span class="keywordflow">while</span>(0)</div>
 </div><!-- fragment -->
-<p>Definition at line <a class="el" href="rtdal__error_8h_source.html#l00036">36</a> of file <a class="el" href="rtdal__error_8h_source.html">rtdal_error.h</a>.</p>
+<p>Definition at line <a class="el" href="rtdal__error_8h_source.html#l00028">28</a> of file <a class="el" href="rtdal__error_8h_source.html">rtdal_error.h</a>.</p>
 
-<p>Referenced by <a class="el" href="pipeline_8c_source.html#l00236">pipeline_add()</a>, <a class="el" href="pipeline_8c_source.html#l00286">pipeline_remove()</a>, <a class="el" href="rtdal__file_8c_source.html#l00084">rtdal_file_close()</a>, <a class="el" href="rtdal__file_8c_source.html#l00063">rtdal_file_open()</a>, <a class="el" href="rtdal__file_8c_source.html#l00131">rtdal_file_read()</a>, <a class="el" href="rtdal__file_8c_source.html#l00038">rtdal_file_set_path()</a>, <a class="el" href="rtdal__file_8c_source.html#l00104">rtdal_file_write()</a>, <a class="el" href="rtdal__itfspscq_8c_source.html#l00034">rtdal_itfspscq_init()</a>, <a class="el" href="rtdal__itfspscq_8c_source.html#l00117">rtdal_itfspscq_pop()</a>, <a class="el" href="rtdal__itfspscq_8c_source.html#l00210">rtdal_itfspscq_recv()</a>, <a class="el" href="rtdal__itfspscq_8c_source.html#l00082">rtdal_itfspscq_request()</a>, <a class="el" href="rtdal__itfspscq_8c_source.html#l00186">rtdal_itfspscq_send()</a>, <a class="el" href="rtdal__base_8c_source.html#l00119">rtdal_periodic_add()</a>, <a class="el" href="rtdal__base_8c_source.html#l00152">rtdal_periodic_remove()</a>, <a class="el" href="rtdal__process_8c_source.html#l00137">rtdal_process_geterror()</a>, <a class="el" href="rtdal__process_8c_source.html#l00144">rtdal_process_isrunning()</a>, <a class="el" href="rtdal__process_8c_source.html#l00035">rtdal_process_launch()</a>, <a class="el" href="rtdal__process_8c_source.html#l00095">rtdal_process_pid()</a>, <a class="el" href="rtdal__process_8c_source.html#l00073">rtdal_process_remove()</a>, <a class="el" href="rtdal__process_8c_source.html#l00107">rtdal_process_run()</a>, <a class="el" href="rtdal__process_8c_source.html#l00129">rtdal_process_seterror()</a>, <a class="el" href="rtdal__process_8c_source.html#l00121">rtdal_process_stop()</a>, <a class="el" href="rtdal__base_8c_source.html#l00177">rtdal_sleep()</a>, <a class="el" href="rtdal__task_8c_source.html#l00095">rtdal_task_new_thread()</a>, <a class="el" href="rtdal__time_8c_source.html#l00094">rtdal_time_get()</a>, <a class="el" href="rtdal__time_8c_source.html#l00074">rtdal_time_set()</a>, and <a class="el" href="rtdal__time_8c_source.html#l00144">rtdal_time_to_tstamp()</a>.</p>
+<p>Referenced by <a class="el" href="pipeline_8c_source.html#l00236">pipeline_add()</a>, <a class="el" href="pipeline_8c_source.html#l00286">pipeline_remove()</a>, <a class="el" href="rtdal__file_8c_source.html#l00084">rtdal_file_close()</a>, <a class="el" href="rtdal__file_8c_source.html#l00063">rtdal_file_open()</a>, <a class="el" href="rtdal__file_8c_source.html#l00131">rtdal_file_read()</a>, <a class="el" href="rtdal__file_8c_source.html#l00038">rtdal_file_set_path()</a>, <a class="el" href="rtdal__file_8c_source.html#l00104">rtdal_file_write()</a>, <a class="el" href="rtdal__itfspscq_8c_source.html#l00034">rtdal_itfspscq_init()</a>, <a class="el" href="rtdal__itfspscq_8c_source.html#l00117">rtdal_itfspscq_pop()</a>, <a class="el" href="rtdal__itfspscq_8c_source.html#l00210">rtdal_itfspscq_recv()</a>, <a class="el" href="rtdal__itfspscq_8c_source.html#l00082">rtdal_itfspscq_request()</a>, <a class="el" href="rtdal__itfspscq_8c_source.html#l00186">rtdal_itfspscq_send()</a>, <a class="el" href="rtdal__base_8c_source.html#l00118">rtdal_periodic_add()</a>, <a class="el" href="rtdal__base_8c_source.html#l00151">rtdal_periodic_remove()</a>, <a class="el" href="rtdal__process_8c_source.html#l00145">rtdal_process_geterror()</a>, <a class="el" href="rtdal__process_8c_source.html#l00168">rtdal_process_group_notified()</a>, <a class="el" href="rtdal__process_8c_source.html#l00156">rtdal_process_isrunning()</a>, <a class="el" href="rtdal__process_8c_source.html#l00037">rtdal_process_launch()</a>, <a class="el" href="rtdal__process_8c_source.html#l00092">rtdal_process_pid()</a>, <a class="el" href="rtdal__process_8c_source.html#l00070">rtdal_process_remove()</a>, <a class="el" href="rtdal__process_8c_source.html#l00104">rtdal_process_run()</a>, <a class="el" href="rtdal__process_8c_source.html#l00131">rtdal_process_seterror()</a>, <a class="el" href="rtdal__process_8c_source.html#l00118">rtdal_process_stop()</a>, <a class="el" href="rtdal__base_8c_source.html#l00176">rtdal_sleep()</a>, <a class="el" href="rtdal__task_8c_source.html#l00125">rtdal_task_new_thread()</a>, <a class="el" href="rtdal__time_8c_source.html#l00094">rtdal_time_get()</a>, <a class="el" href="rtdal__time_8c_source.html#l00073">rtdal_time_set()</a>, and <a class="el" href="rtdal__time_8c_source.html#l00143">rtdal_time_to_tstamp()</a>.</p>
 
 </div>
 </div>
@@ -126,12 +119,12 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<b>Value:</b><div class="fragment"><div class="line"><span class="keywordflow">do</span> { <span class="keywordflow">if</span>(!(a)) { <a class="code" href="rtdal__error_8c.html#a903f3c7d85a576ae2c80e2dfc236344f">rtdal_error_set</a>(<a class="code" href="rtdal__error_8h.html#ac82684684dc56978b7a379731fc8f265">RTDAL_ERROR_INVAL</a>, __FILE__, __LINE__); \</div>
+<b>Value:</b><div class="fragment"><div class="line"><span class="keywordflow">do</span> { <span class="keywordflow">if</span>(!(a)) { <a class="code" href="rtdal__error_8c.html#a903f3c7d85a576ae2c80e2dfc236344f">rtdal_error_set</a>(<a class="code" href="group__error.html#gac82684684dc56978b7a379731fc8f265">RTDAL_ERROR_INVAL</a>, __FILE__, __LINE__); \</div>
 <div class="line">        return NULL; } } <span class="keywordflow">while</span>(0)</div>
 </div><!-- fragment -->
-<p>Definition at line <a class="el" href="rtdal__error_8h_source.html#l00039">39</a> of file <a class="el" href="rtdal__error_8h_source.html">rtdal_error.h</a>.</p>
+<p>Definition at line <a class="el" href="rtdal__error_8h_source.html#l00031">31</a> of file <a class="el" href="rtdal__error_8h_source.html">rtdal_error.h</a>.</p>
 
-<p>Referenced by <a class="el" href="rtdal__base_8c_source.html#l00200">rtdal_itfphysic_get()</a>, <a class="el" href="rtdal__base_8c_source.html#l00224">rtdal_itfphysic_get_id()</a>, <a class="el" href="rtdal__base_8c_source.html#l00250">rtdal_itfspscq_new()</a>, and <a class="el" href="rtdal__base_8c_source.html#l00318">rtdal_process_new()</a>.</p>
+<p>Referenced by <a class="el" href="rtdal__base_8c_source.html#l00199">rtdal_itfphysic_get()</a>, <a class="el" href="rtdal__base_8c_source.html#l00223">rtdal_itfphysic_get_id()</a>, <a class="el" href="rtdal__base_8c_source.html#l00249">rtdal_itfspscq_new()</a>, and <a class="el" href="rtdal__base_8c_source.html#l00312">rtdal_process_new()</a>.</p>
 
 </div>
 </div>
@@ -144,14 +137,14 @@ Functions</h2></td></tr>
           <td>(</td>
           <td class="paramtype">&#160;</td>
           <td class="paramname">msg</td><td>)</td>
-          <td>&#160;&#160;&#160;<a class="el" href="rtdal__error_8h.html#a7e3d3afa9b27936217edd19aacde163a">rtdal_error_set_msg</a>(<a class="el" href="rtdal__error_8h.html#ad2c30c449d9ce1e0b92722cdd1a090e2">RTDAL_ERROR_DL</a>, __FILE__, __LINE__, msg)</td>
+          <td>&#160;&#160;&#160;<a class="el" href="rtdal__error_8h.html#a7e3d3afa9b27936217edd19aacde163a">rtdal_error_set_msg</a>(<a class="el" href="group__error.html#gad2c30c449d9ce1e0b92722cdd1a090e2">RTDAL_ERROR_DL</a>, __FILE__, __LINE__, msg)</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="rtdal__error_8h_source.html#l00049">49</a> of file <a class="el" href="rtdal__error_8h_source.html">rtdal_error.h</a>.</p>
+<p>Definition at line <a class="el" href="rtdal__error_8h_source.html#l00041">41</a> of file <a class="el" href="rtdal__error_8h_source.html">rtdal_error.h</a>.</p>
 
-<p>Referenced by <a class="el" href="rtdal__process_8c_source.html#l00035">rtdal_process_launch()</a>.</p>
+<p>Referenced by <a class="el" href="rtdal__process_8c_source.html#l00037">rtdal_process_launch()</a>.</p>
 
 </div>
 </div>
@@ -164,120 +157,12 @@ Functions</h2></td></tr>
           <td>(</td>
           <td class="paramtype">&#160;</td>
           <td class="paramname">msg</td><td>)</td>
-          <td>&#160;&#160;&#160;<a class="el" href="rtdal__error_8h.html#a7e3d3afa9b27936217edd19aacde163a">rtdal_error_set_msg</a>(<a class="el" href="rtdal__error_8h.html#a1fe951f1bafef5d2f48d5e477c54bfe9">RTDAL_ERROR_OTHER</a>, __FILE__, __LINE__, msg)</td>
+          <td>&#160;&#160;&#160;<a class="el" href="rtdal__error_8h.html#a7e3d3afa9b27936217edd19aacde163a">rtdal_error_set_msg</a>(<a class="el" href="group__error.html#ga1fe951f1bafef5d2f48d5e477c54bfe9">RTDAL_ERROR_OTHER</a>, __FILE__, __LINE__, msg)</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="rtdal__error_8h_source.html#l00055">55</a> of file <a class="el" href="rtdal__error_8h_source.html">rtdal_error.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="ad2c30c449d9ce1e0b92722cdd1a090e2"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define RTDAL_ERROR_DL&#160;&#160;&#160;7</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="rtdal__error_8h_source.html#l00033">33</a> of file <a class="el" href="rtdal__error_8h_source.html">rtdal_error.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="ac82684684dc56978b7a379731fc8f265"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define RTDAL_ERROR_INVAL&#160;&#160;&#160;1</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="rtdal__error_8h_source.html#l00027">27</a> of file <a class="el" href="rtdal__error_8h_source.html">rtdal_error.h</a>.</p>
-
-<p>Referenced by <a class="el" href="rtdal__base_8c_source.html#l00318">rtdal_process_new()</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="abffbe06ebb3a9e34026a3d69155f5c63"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define RTDAL_ERROR_LARGE&#160;&#160;&#160;5</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="rtdal__error_8h_source.html#l00031">31</a> of file <a class="el" href="rtdal__error_8h_source.html">rtdal_error.h</a>.</p>
-
-<p>Referenced by <a class="el" href="rtdal__itfspscq_8c_source.html#l00186">rtdal_itfspscq_send()</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a644929c31c5df9e81151bb9e2b36d831"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define RTDAL_ERROR_NOSPACE&#160;&#160;&#160;4</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="rtdal__error_8h_source.html#l00030">30</a> of file <a class="el" href="rtdal__error_8h_source.html">rtdal_error.h</a>.</p>
-
-<p>Referenced by <a class="el" href="rtdal__itfspscq_8c_source.html#l00101">rtdal_itfspscq_push()</a>, <a class="el" href="rtdal__itfspscq_8c_source.html#l00082">rtdal_itfspscq_request()</a>, <a class="el" href="rtdal__base_8c_source.html#l00119">rtdal_periodic_add()</a>, and <a class="el" href="rtdal__base_8c_source.html#l00318">rtdal_process_new()</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="ab6ec7eb3444e8c5d495f000fc88a9f96"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define RTDAL_ERROR_NOTFOUND&#160;&#160;&#160;6</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="rtdal__error_8h_source.html#l00032">32</a> of file <a class="el" href="rtdal__error_8h_source.html">rtdal_error.h</a>.</p>
-
-<p>Referenced by <a class="el" href="pipeline_8c_source.html#l00286">pipeline_remove()</a>, <a class="el" href="rtdal__base_8c_source.html#l00200">rtdal_itfphysic_get()</a>, <a class="el" href="rtdal__base_8c_source.html#l00224">rtdal_itfphysic_get_id()</a>, <a class="el" href="rtdal__base_8c_source.html#l00250">rtdal_itfspscq_new()</a>, and <a class="el" href="rtdal__base_8c_source.html#l00152">rtdal_periodic_remove()</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a1fe951f1bafef5d2f48d5e477c54bfe9"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define RTDAL_ERROR_OTHER&#160;&#160;&#160;3</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="rtdal__error_8h_source.html#l00029">29</a> of file <a class="el" href="rtdal__error_8h_source.html">rtdal_error.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a0cedfe5afc2172a3b03d6056f55b6d25"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define RTDAL_ERROR_SYSTEM&#160;&#160;&#160;2</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="rtdal__error_8h_source.html#l00028">28</a> of file <a class="el" href="rtdal__error_8h_source.html">rtdal_error.h</a>.</p>
-
-<p>Referenced by <a class="el" href="rtdal__error_8c_source.html#l00036">rtdal_error_systemcall()</a>.</p>
+<p>Definition at line <a class="el" href="rtdal__error_8h_source.html#l00047">47</a> of file <a class="el" href="rtdal__error_8h_source.html">rtdal_error.h</a>.</p>
 
 </div>
 </div>
@@ -305,9 +190,9 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="rtdal__error_8h_source.html#l00043">43</a> of file <a class="el" href="rtdal__error_8h_source.html">rtdal_error.h</a>.</p>
+<p>Definition at line <a class="el" href="rtdal__error_8h_source.html#l00035">35</a> of file <a class="el" href="rtdal__error_8h_source.html">rtdal_error.h</a>.</p>
 
-<p>Referenced by <a class="el" href="rtdal__task_8c_source.html#l00042">rtdal_task_kill()</a>, <a class="el" href="rtdal__task_8c_source.html#l00095">rtdal_task_new_thread()</a>, <a class="el" href="rtdal__task_8c_source.html#l00051">rtdal_task_wait()</a>, and <a class="el" href="rtdal__task_8c_source.html#l00061">rtdal_task_wait_nb()</a>.</p>
+<p>Referenced by <a class="el" href="rtdal__task_8c_source.html#l00058">rtdal_task_kill()</a>, <a class="el" href="rtdal__task_8c_source.html#l00125">rtdal_task_new_thread()</a>, <a class="el" href="rtdal__task_8c_source.html#l00074">rtdal_task_wait()</a>, and <a class="el" href="rtdal__task_8c_source.html#l00091">rtdal_task_wait_nb()</a>.</p>
 
 </div>
 </div>
@@ -325,9 +210,9 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="rtdal__error_8h_source.html#l00052">52</a> of file <a class="el" href="rtdal__error_8h_source.html">rtdal_error.h</a>.</p>
+<p>Definition at line <a class="el" href="rtdal__error_8h_source.html#l00044">44</a> of file <a class="el" href="rtdal__error_8h_source.html">rtdal_error.h</a>.</p>
 
-<p>Referenced by <a class="el" href="pipeline_8c_source.html#l00286">pipeline_remove()</a>, <a class="el" href="rtdal__base_8c_source.html#l00200">rtdal_itfphysic_get()</a>, <a class="el" href="rtdal__base_8c_source.html#l00224">rtdal_itfphysic_get_id()</a>, <a class="el" href="rtdal__base_8c_source.html#l00250">rtdal_itfspscq_new()</a>, <a class="el" href="rtdal__itfspscq_8c_source.html#l00101">rtdal_itfspscq_push()</a>, <a class="el" href="rtdal__itfspscq_8c_source.html#l00082">rtdal_itfspscq_request()</a>, <a class="el" href="rtdal__itfspscq_8c_source.html#l00186">rtdal_itfspscq_send()</a>, <a class="el" href="rtdal__base_8c_source.html#l00119">rtdal_periodic_add()</a>, <a class="el" href="rtdal__base_8c_source.html#l00152">rtdal_periodic_remove()</a>, and <a class="el" href="rtdal__base_8c_source.html#l00318">rtdal_process_new()</a>.</p>
+<p>Referenced by <a class="el" href="pipeline_8c_source.html#l00286">pipeline_remove()</a>, <a class="el" href="rtdal__base_8c_source.html#l00199">rtdal_itfphysic_get()</a>, <a class="el" href="rtdal__base_8c_source.html#l00223">rtdal_itfphysic_get_id()</a>, <a class="el" href="rtdal__base_8c_source.html#l00249">rtdal_itfspscq_new()</a>, <a class="el" href="rtdal__itfspscq_8c_source.html#l00101">rtdal_itfspscq_push()</a>, <a class="el" href="rtdal__itfspscq_8c_source.html#l00082">rtdal_itfspscq_request()</a>, <a class="el" href="rtdal__itfspscq_8c_source.html#l00186">rtdal_itfspscq_send()</a>, <a class="el" href="rtdal__base_8c_source.html#l00118">rtdal_periodic_add()</a>, <a class="el" href="rtdal__base_8c_source.html#l00151">rtdal_periodic_remove()</a>, <a class="el" href="rtdal__process_8c_source.html#l00168">rtdal_process_group_notified()</a>, and <a class="el" href="rtdal__base_8c_source.html#l00312">rtdal_process_new()</a>.</p>
 
 </div>
 </div>
@@ -345,9 +230,9 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="rtdal__error_8h_source.html#l00046">46</a> of file <a class="el" href="rtdal__error_8h_source.html">rtdal_error.h</a>.</p>
+<p>Definition at line <a class="el" href="rtdal__error_8h_source.html#l00038">38</a> of file <a class="el" href="rtdal__error_8h_source.html">rtdal_error.h</a>.</p>
 
-<p>Referenced by <a class="el" href="rtdal__file_8c_source.html#l00084">rtdal_file_close()</a>, <a class="el" href="rtdal__file_8c_source.html#l00063">rtdal_file_open()</a>, <a class="el" href="rtdal__file_8c_source.html#l00131">rtdal_file_read()</a>, <a class="el" href="rtdal__file_8c_source.html#l00038">rtdal_file_set_path()</a>, <a class="el" href="rtdal__file_8c_source.html#l00104">rtdal_file_write()</a>, <a class="el" href="rtdal__base_8c_source.html#l00177">rtdal_sleep()</a>, <a class="el" href="rtdal__time_8c_source.html#l00094">rtdal_time_get()</a>, <a class="el" href="rtdal__time_8c_source.html#l00040">rtdal_time_reset()</a>, and <a class="el" href="rtdal__time_8c_source.html#l00074">rtdal_time_set()</a>.</p>
+<p>Referenced by <a class="el" href="rtdal__file_8c_source.html#l00084">rtdal_file_close()</a>, <a class="el" href="rtdal__file_8c_source.html#l00063">rtdal_file_open()</a>, <a class="el" href="rtdal__file_8c_source.html#l00131">rtdal_file_read()</a>, <a class="el" href="rtdal__file_8c_source.html#l00038">rtdal_file_set_path()</a>, <a class="el" href="rtdal__file_8c_source.html#l00104">rtdal_file_write()</a>, <a class="el" href="rtdal__base_8c_source.html#l00176">rtdal_sleep()</a>, <a class="el" href="rtdal__time_8c_source.html#l00094">rtdal_time_get()</a>, <a class="el" href="rtdal__time_8c_source.html#l00040">rtdal_time_reset()</a>, and <a class="el" href="rtdal__time_8c_source.html#l00073">rtdal_time_set()</a>.</p>
 
 </div>
 </div>
@@ -446,7 +331,7 @@ Functions</h2></td></tr>
 
 <p>Definition at line <a class="el" href="rtdal__error_8c_source.html#l00049">49</a> of file <a class="el" href="rtdal__error_8c_source.html">rtdal_error.c</a>.</p>
 
-<p>References <a class="el" href="rtdal__error_8h_source.html#l00059">rtdal_error_t::code</a>, and <a class="el" href="str_8h_source.html#l00025">LSTR_LEN</a>.</p>
+<p>References <a class="el" href="rtdal__error_8h_source.html#l00051">rtdal_error_t::code</a>, and <a class="el" href="str_8h_source.html#l00025">LSTR_LEN</a>.</p>
 
 <p>Referenced by <a class="el" href="rtdal__error_8c_source.html#l00045">rtdal_error_set()</a>.</p>
 
@@ -490,14 +375,14 @@ Functions</h2></td></tr>
 
 <p>Definition at line <a class="el" href="rtdal__error_8c_source.html#l00036">36</a> of file <a class="el" href="rtdal__error_8c_source.html">rtdal_error.c</a>.</p>
 
-<p>References <a class="el" href="rtdal__error_8h_source.html#l00059">rtdal_error_t::code</a>, <a class="el" href="str_8h_source.html#l00025">LSTR_LEN</a>, <a class="el" href="rtdal__error_8h_source.html#l00028">RTDAL_ERROR_SYSTEM</a>, and <a class="el" href="rtdal__error_8h_source.html#l00060">rtdal_error_t::sys_errnum</a>.</p>
+<p>References <a class="el" href="rtdal__error_8h_source.html#l00051">rtdal_error_t::code</a>, <a class="el" href="str_8h_source.html#l00025">LSTR_LEN</a>, <a class="el" href="rtdal_8h_source.html#l00183">RTDAL_ERROR_SYSTEM</a>, and <a class="el" href="rtdal__error_8h_source.html#l00052">rtdal_error_t::sys_errnum</a>.</p>
 
 </div>
 </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Dec 9 2012 21:33:17 for ALOE++ RTDAL API by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Dec 10 2012 11:45:32 for ALOE++ RTDAL API by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.1.2
 </small></address>

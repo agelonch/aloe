@@ -46,13 +46,12 @@
 <tr class="heading"><td colspan="2"><h2><a name="func-members"></a>
 Functions</h2></td></tr>
 <tr class="memitem:ga54ee68c74558908e8e7f827936deb307"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__module__functions.html#ga54ee68c74558908e8e7f827936deb307">Run</a> (void *context)</td></tr>
-<tr class="memdesc:ga54ee68c74558908e8e7f827936deb307"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return 0 on success or -1 to stop the waveform.  <a href="#ga54ee68c74558908e8e7f827936deb307"></a><br/></td></tr>
 <tr class="memitem:gafa75b8b72ccbb6e99c353ca34ab1272e"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__module__functions.html#gafa75b8b72ccbb6e99c353ca34ab1272e">Init</a> (void *context)</td></tr>
-<tr class="memdesc:gafa75b8b72ccbb6e99c353ca34ab1272e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return 1 on success, 0 to be called in the next timeslot or -1 to stop the waveform.  <a href="#gafa75b8b72ccbb6e99c353ca34ab1272e"></a><br/></td></tr>
 <tr class="memitem:ga48740506cf522a6cbcc6ac564327cf9f"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__module__functions.html#ga48740506cf522a6cbcc6ac564327cf9f">Stop</a> (void *context)</td></tr>
-<tr class="memdesc:ga48740506cf522a6cbcc6ac564327cf9f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return 0 on success or -1 on error.  <a href="#ga48740506cf522a6cbcc6ac564327cf9f"></a><br/></td></tr>
 </table>
 <a name="details" id="details"></a><h2>Detailed Description</h2>
+<p>These set of functions <b>must be implemented</b> by the DSP module source code. See modrep_default/template_plain for an example. They will be called by the OESR according to the waveform status.</p>
+<p>All functions receive as a parameter a pointer to the OESR context. This pointer has to be passed to some of the OESR API functions. </p>
 <h2>Function Documentation</h2>
 <a class="anchor" id="gafa75b8b72ccbb6e99c353ca34ab1272e"></a>
 <div class="memitem">
@@ -67,8 +66,10 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-
-<p>Return 1 on success, 0 to be called in the next timeslot or -1 to stop the waveform. </p>
+<p>This function is called during the initialization (INIT) phase. This function is not subject to real-time constraints. Rather, OESR creates a low-priority task that calls the <a class="el" href="group__module__functions.html#gafa75b8b72ccbb6e99c353ca34ab1272e">Init()</a> function for each module, one after another.</p>
+<p>In this function, the user shall create the interfaces, declare public variables and perform other initialization tasks, like look-up tables or filter coefficients computation, for instance.</p>
+<p>If this function returns 0, it will be called again after having called the other modules. This is required to initialize interfaces since they are created by the writer module only. Since the initialization order is unknown, the interface may not be created when the reader calls swapi_itf_create() and shall sleep until it is created. Note that if this feature is used, the <a class="el" href="group__module__functions.html#gafa75b8b72ccbb6e99c353ca34ab1272e">Init()</a> function must be reentrant, that is, it needs to track which resources have already been opened and which not, in order to avoid opeining the same resource twice.</p>
+<dl class="section return"><dt>Returns</dt><dd>1 on success, 0 to sleep called in the next time slot or -1 on error, which stops the waveform </dd></dl>
 
 </div>
 </div>
@@ -85,8 +86,9 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-
-<p>Return 0 on success or -1 to stop the waveform. </p>
+<p>This function is called once every time slot to perform the DSP signal processing. It is subject to real-time deadline constraints, that is, the execution time must be lower than a time slot and the required resources shall be modeled in the waveform model description.</p>
+<p>In this function, the user shall receive data from the input interfaces, process it and send the result through the output interfaces.</p>
+<dl class="section return"><dt>Returns</dt><dd>0 on success or -1 on error. On error, OESR will stop the entire waveform </dd></dl>
 
 </div>
 </div>
@@ -103,15 +105,15 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-
-<p>Return 0 on success or -1 on error. </p>
+<p>The <a class="el" href="group__module__functions.html#ga48740506cf522a6cbcc6ac564327cf9f">Stop()</a> function is called once during waveform stop (STOP phase). It is used to deallocate the resources allocated during <a class="el" href="group__module__functions.html#gafa75b8b72ccbb6e99c353ca34ab1272e">Init()</a> and to close the created interfaces. </p>
+<dl class="section return"><dt>Returns</dt><dd>0 on success or -1 on error </dd></dl>
 
 </div>
 </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Dec 9 2012 21:33:13 for ALOE++ OESR API by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Dec 10 2012 12:55:28 for ALOE++ OESR API by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.1.2
 </small></address>

@@ -53,24 +53,67 @@ Functions</h2></td></tr>
 <tr class="memitem:gae52e652cce22bfb7993040dc10c1c922"><td class="memItemLeft" align="right" valign="top"><a class="el" href="rtdal__types_8h.html#a95fa1c8ca0f279eeb420f2083f6bee5d">r_itf_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__itf.html#gae52e652cce22bfb7993040dc10c1c922">rtdal_itfspscq_new</a> (int max_msg, int msg_sz)</td></tr>
 <tr class="memitem:gafb140bf855934bd721b7c9c2eafa53c7"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__itf.html#gafb140bf855934bd721b7c9c2eafa53c7">rtdal_itf_remove</a> (<a class="el" href="rtdal__types_8h.html#a95fa1c8ca0f279eeb420f2083f6bee5d">r_itf_t</a> obj)</td></tr>
 <tr class="memitem:ga2a6d148b7ab1e2de028d2ed9ff1eeced"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__itf.html#ga2a6d148b7ab1e2de028d2ed9ff1eeced">rtdal_itf_send</a> (<a class="el" href="rtdal__types_8h.html#a95fa1c8ca0f279eeb420f2083f6bee5d">r_itf_t</a> obj, void *buffer, int len)</td></tr>
-<tr class="memdesc:ga2a6d148b7ab1e2de028d2ed9ff1eeced"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sends len bytes from the memory pointed by buffer through the interface After <a class="el" href="rtdal__itfspscq_8c.html#acf2650b9b3bdd719c7a058252a0c5a97">rtdal_itfspscq_send()</a> returns, the user may reuse the buffer.  <a href="#ga2a6d148b7ab1e2de028d2ed9ff1eeced"></a><br/></td></tr>
 <tr class="memitem:ga7013c5b24cc019f3112b341207f3d1ae"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__itf.html#ga7013c5b24cc019f3112b341207f3d1ae">rtdal_itf_recv</a> (<a class="el" href="rtdal__types_8h.html#a95fa1c8ca0f279eeb420f2083f6bee5d">r_itf_t</a> obj, void *buffer, int len)</td></tr>
-<tr class="memdesc:ga7013c5b24cc019f3112b341207f3d1ae"><td class="mdescLeft">&#160;</td><td class="mdescRight">Receives up to len bytes from the interface and stores the data in the memory pointed by buffer.  <a href="#ga7013c5b24cc019f3112b341207f3d1ae"></a><br/></td></tr>
 <tr class="memitem:ga61bc95f47b787b54c314ed1971739cdd"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__itf.html#ga61bc95f47b787b54c314ed1971739cdd">rtdal_itf_set_callback</a> (<a class="el" href="rtdal__types_8h.html#a95fa1c8ca0f279eeb420f2083f6bee5d">r_itf_t</a> obj, void(*fnc)(void), int prio)</td></tr>
 <tr class="memitem:gabd0a2a54a5bc12226a90930ddccbc146"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__itf.html#gabd0a2a54a5bc12226a90930ddccbc146">rtdal_itf_set_blocking</a> (<a class="el" href="rtdal__types_8h.html#a95fa1c8ca0f279eeb420f2083f6bee5d">r_itf_t</a> obj, int block)</td></tr>
 <tr class="memitem:gaf0367f49b66b46e0b22af3ca9f30f34f"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__itf.html#gaf0367f49b66b46e0b22af3ca9f30f34f">rtdal_itf_get_blocking</a> (<a class="el" href="rtdal__types_8h.html#a95fa1c8ca0f279eeb420f2083f6bee5d">r_itf_t</a> obj)</td></tr>
 <tr class="memitem:gab87fe53e0cb855f2633c07079721464e"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__itf.html#gab87fe53e0cb855f2633c07079721464e">rtdal_itf_push</a> (<a class="el" href="rtdal__types_8h.html#a95fa1c8ca0f279eeb420f2083f6bee5d">r_itf_t</a> obj, int len)</td></tr>
-<tr class="memdesc:gab87fe53e0cb855f2633c07079721464e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pushes the current packet to the interface. The contents of the packet are modified using the pointer returned by <a class="el" href="rtdal__itfspscq_8c.html#ad993aed16e1a3468f2cfc9de52a0b8ce">rtdal_itfspscq_request()</a>.  <a href="#gab87fe53e0cb855f2633c07079721464e"></a><br/></td></tr>
 <tr class="memitem:ga2a083a0b484685e86b520381e394da8c"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__itf.html#ga2a083a0b484685e86b520381e394da8c">rtdal_itf_pop</a> (<a class="el" href="rtdal__types_8h.html#a95fa1c8ca0f279eeb420f2083f6bee5d">r_itf_t</a> obj, void **ptr, int *len)</td></tr>
-<tr class="memdesc:ga2a083a0b484685e86b520381e394da8c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pops a packet from the interface. The address of the packet contents are saved in the ptr pointer and the useful number of bytes is saved in len. A packet will be received if the timestamp at transmission plus the interface delay is lower or equal to the current timestamp.  <a href="#ga2a083a0b484685e86b520381e394da8c"></a><br/></td></tr>
 <tr class="memitem:ga1b5c9027dcbcd0a7c4940f95be94c8a2"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__itf.html#ga1b5c9027dcbcd0a7c4940f95be94c8a2">rtdal_itf_request</a> (<a class="el" href="rtdal__types_8h.html#a95fa1c8ca0f279eeb420f2083f6bee5d">r_itf_t</a> obj, void **ptr)</td></tr>
-<tr class="memdesc:ga1b5c9027dcbcd0a7c4940f95be94c8a2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Saves in ptr the address of the buffer that will be transmitted in a subsequent call to <a class="el" href="rtdal__itfspscq_8c.html#a39616560d2408c77062a0b5b99a1a666">rtdal_itfspscq_push()</a>. Two consecutive calls to <a class="el" href="rtdal__itfspscq_8c.html#ad993aed16e1a3468f2cfc9de52a0b8ce">rtdal_itfspscq_request()</a> return the same address until <a class="el" href="rtdal__itfspscq_8c.html#a39616560d2408c77062a0b5b99a1a666">rtdal_itfspscq_push()</a> is called.  <a href="#ga1b5c9027dcbcd0a7c4940f95be94c8a2"></a><br/></td></tr>
 <tr class="memitem:ga0f4987e78ffc6c4aae88f3c11fc0c99c"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__itf.html#ga0f4987e78ffc6c4aae88f3c11fc0c99c">rtdal_itf_release</a> (<a class="el" href="rtdal__types_8h.html#a95fa1c8ca0f279eeb420f2083f6bee5d">r_itf_t</a> obj)</td></tr>
-<tr class="memdesc:ga0f4987e78ffc6c4aae88f3c11fc0c99c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Releases the packet received by <a class="el" href="rtdal__itfspscq_8c.html#ac4327e041f6c5f07cfb5f53f726c1be2">rtdal_itfspscq_pop()</a> after the contents have been processed. The buffer then will be reused by the producer.  <a href="#ga0f4987e78ffc6c4aae88f3c11fc0c99c"></a><br/></td></tr>
 <tr class="memitem:gaca1f751874efdd55b1a3533a68bc0c9e"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__itf.html#gaca1f751874efdd55b1a3533a68bc0c9e">rtdal_itf_set_delay</a> (<a class="el" href="rtdal__types_8h.html#a95fa1c8ca0f279eeb420f2083f6bee5d">r_itf_t</a> obj, int delay)</td></tr>
 <tr class="memitem:ga0875c6b0930d9522abf938d9fd90079d"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__itf.html#ga0875c6b0930d9522abf938d9fd90079d">rtdal_itf_get_delay</a> (<a class="el" href="rtdal__types_8h.html#a95fa1c8ca0f279eeb420f2083f6bee5d">r_itf_t</a> obj)</td></tr>
 </table>
 <a name="details" id="details"></a><h2>Detailed Description</h2>
+<p>RTDAL interfaces allow the communication between different tasks (high or low priority, synchronous or not).</p>
+<p>Interfaces can be external or internal. Internal interfaces communicate tasks running in processors that share memory whereas tasks that not share a common memory need to use external interfaces.</p>
+<p>Interfaces can have an associated <b> delay </b>, which is a non-negative integer number. If delay is non-null, a packet generated at time slot <em>n</em> is not received until timeslot <em>n+delay</em>.</p>
+<p>Two or more tasks can communicate with an internal interface if all use the same r_itf_t handler with the send/recv or push/pop functions. Only one task can create the interface and need to share the handler with the other tasks, for instance using a global memory.</p>
+<p>External or physical interfaces are defined in the platform configuration file and are associate with a name. Two or more tasks using <a class="el" href="group__itf.html#ga8ce98b18d4dd61b0d5a93c18a53083a9">rtdal_itfphysic_get()</a> to obtain a handler to a physical interface with the same name can send and receive data.</p>
+<p>TODO: Physical interfaces are not yet implemented.</p>
+<p>There are two kinds of internal interfaces:</p>
+<ul>
+<li>SPSCQ is a single producer single consumer wait-free queue.</li>
+<li>MPMCQ is a multi producer multi consumer lock-free queue which may be used if more than one task has to read or write from the interface. TODO: This is currently under development</li>
+</ul>
+<p>All interfaces share the same interface, defined by the family of functions rtdal_itf_*. Either external or internal interfaces are managed with the same type of handler: r_itf_t. What determines the kind of interface is the function used to obtain the handler.</p>
+<p>For instance:</p>
+<div class="fragment"><div class="line"><a class="code" href="structh__itf__.html">r_itf_t</a> my_int, my_ext;</div>
+<div class="line"></div>
+<div class="line"><span class="comment">// this creates an SPSC queue</span></div>
+<div class="line">my_int = <a class="code" href="group__itf.html#gae52e652cce22bfb7993040dc10c1c922">rtdal_itfspscq_new</a>(10,100);</div>
+<div class="line"><span class="comment">// this attaches to an external physical interface</span></div>
+<div class="line">my_ext = <a class="code" href="group__itf.html#ga8ce98b18d4dd61b0d5a93c18a53083a9">rtdal_itfphysic_get</a>(<span class="stringliteral">&quot;any_address_string&quot;</span>);</div>
+<div class="line"></div>
+<div class="line"><span class="comment">// and now we are sending data through any of them</span></div>
+<div class="line"><a class="code" href="group__itf.html#ga2a6d148b7ab1e2de028d2ed9ff1eeced">rtdal_itf_send</a>(my_int, buffer, buffer_sz);</div>
+<div class="line"></div>
+<div class="line"><a class="code" href="group__itf.html#ga2a6d148b7ab1e2de028d2ed9ff1eeced">rtdal_itf_send</a>(my_ext, buffer, buffer_sz);</div>
+</div><!-- fragment --><p>RTDAL interfaces support two kinds of operation, regardless of their particular implementation. normal or zero-copy. In normal mode, the transmitter task supplies a buffer whose contents are copied to an internal buffer. The receiver then copies these internal buffer contents to a buffer in his application. In zero-copy mode, the transmitter task obtains a buffer where the packet contents are copied. The receiver task reads from the same buffer, avoiding memory transfers.</p>
+<p>The zero-copy mode needs to request a pointer prior to pushing a packet into the queue. Similarly, the receiver has to release the pointer after poping from the queue. The following example illustrates the zero-copy operation of interfaces:</p>
+<p>This is the transmitter side: </p>
+<div class="fragment"><div class="line"><span class="keywordtype">int</span> *ptr;</div>
+<div class="line"></div>
+<div class="line"><a class="code" href="group__itf.html#ga1b5c9027dcbcd0a7c4940f95be94c8a2">rtdal_itf_request</a>(my_itf, &amp;ptr);</div>
+<div class="line"></div>
+<div class="line"><span class="keywordflow">for</span> (i=0;i&lt;len;i++) {</div>
+<div class="line">        ptr[i] = fill_data(i);</div>
+<div class="line">}</div>
+<div class="line"></div>
+<div class="line"><a class="code" href="group__itf.html#gab87fe53e0cb855f2633c07079721464e">rtdal_itf_push</a>(my_itf, len);</div>
+</div><!-- fragment --><p>And this is the receiver side: </p>
+<div class="fragment"><div class="line"><span class="keywordtype">int</span> *ptr;</div>
+<div class="line"></div>
+<div class="line"><a class="code" href="group__itf.html#ga2a083a0b484685e86b520381e394da8c">rtdal_itf_pop</a>(my_itf, &amp;ptr, &amp;len);</div>
+<div class="line"></div>
+<div class="line"><span class="keywordflow">for</span> (i=0;i&lt;len;i++) {</div>
+<div class="line">        process_data(i);</div>
+<div class="line">}</div>
+<div class="line"></div>
+<div class="line"><a class="code" href="group__itf.html#ga0f4987e78ffc6c4aae88f3c11fc0c99c">rtdal_itf_release</a>(my_itf);</div>
+</div><!-- fragment --><p>In some cases, the interface may not support one of the modes natively. In this case, the implementation has to simulate the desired behavior. For instance, if a physical interfaces does not support zero-copy operation, it may dynamically allocate a buffer which is given to the transmitter and then transfered to the receiver. On the other hand, SPSC queues only implement the zero-copy mode. When the user uses the normal mode, the implementation is using the zero-copy mode internally.</p>
+<p>The normal mode is operated using the <a class="el" href="group__itf.html#ga2a6d148b7ab1e2de028d2ed9ff1eeced">rtdal_itf_send()</a> and <a class="el" href="group__itf.html#ga7013c5b24cc019f3112b341207f3d1ae">rtdal_itf_recv()</a> functions.</p>
+<p>The zero-copy mode is operated using the <a class="el" href="group__itf.html#gab87fe53e0cb855f2633c07079721464e">rtdal_itf_push()</a>, <a class="el" href="group__itf.html#ga2a083a0b484685e86b520381e394da8c">rtdal_itf_pop()</a>, <a class="el" href="group__itf.html#ga1b5c9027dcbcd0a7c4940f95be94c8a2">rtdal_itf_request()</a> and <a class="el" href="group__itf.html#ga0f4987e78ffc6c4aae88f3c11fc0c99c">rtdal_itf_release()</a> functions. </p>
 <h2>Function Documentation</h2>
 <a class="anchor" id="gaf0367f49b66b46e0b22af3ca9f30f34f"></a>
 <div class="memitem">
@@ -141,8 +184,7 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-
-<p>Pops a packet from the interface. The address of the packet contents are saved in the ptr pointer and the useful number of bytes is saved in len. A packet will be received if the timestamp at transmission plus the interface delay is lower or equal to the current timestamp. </p>
+<p>Pops a packet from the interface. The address of the packet contents are saved in the ptr pointer and the useful number of bytes is saved in len. A packet will be received if the timestamp at transmission plus the interface delay is lower or equal to the current timestamp.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">obj</td><td>Handler returned by <a class="el" href="rtdal__itfspscq_8h.html#a3d310354aca07f7bfcec1f7093d7acb0">rtdal_itfspscq_create()</a> </td></tr>
@@ -182,8 +224,7 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-
-<p>Pushes the current packet to the interface. The contents of the packet are modified using the pointer returned by <a class="el" href="rtdal__itfspscq_8c.html#ad993aed16e1a3468f2cfc9de52a0b8ce">rtdal_itfspscq_request()</a>. </p>
+<p>Pushes the current packet to the interface. The contents of the packet are modified using the pointer returned by <a class="el" href="rtdal__itfspscq_8c.html#ad993aed16e1a3468f2cfc9de52a0b8ce">rtdal_itfspscq_request()</a>.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">obj</td><td>Handler returned by <a class="el" href="rtdal__itfspscq_8h.html#a3d310354aca07f7bfcec1f7093d7acb0">rtdal_itfspscq_create()</a> </td></tr>
@@ -228,8 +269,7 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-
-<p>Receives up to len bytes from the interface and stores the data in the memory pointed by buffer. </p>
+<p>Receives up to len bytes from the interface and stores the data in the memory pointed by buffer.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">obj</td><td>Handler returned by <a class="el" href="rtdal__itfspscq_8h.html#a3d310354aca07f7bfcec1f7093d7acb0">rtdal_itfspscq_create()</a> </td></tr>
@@ -259,8 +299,7 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-
-<p>Releases the packet received by <a class="el" href="rtdal__itfspscq_8c.html#ac4327e041f6c5f07cfb5f53f726c1be2">rtdal_itfspscq_pop()</a> after the contents have been processed. The buffer then will be reused by the producer. </p>
+<p>Releases the packet received by <a class="el" href="rtdal__itfspscq_8c.html#ac4327e041f6c5f07cfb5f53f726c1be2">rtdal_itfspscq_pop()</a> after the contents have been processed. The buffer then will be reused by the producer.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">obj</td><td>Handler returned by <a class="el" href="rtdal__itfspscq_8h.html#a3d310354aca07f7bfcec1f7093d7acb0">rtdal_itfspscq_create()</a></td></tr>
@@ -318,8 +357,7 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-
-<p>Saves in ptr the address of the buffer that will be transmitted in a subsequent call to <a class="el" href="rtdal__itfspscq_8c.html#a39616560d2408c77062a0b5b99a1a666">rtdal_itfspscq_push()</a>. Two consecutive calls to <a class="el" href="rtdal__itfspscq_8c.html#ad993aed16e1a3468f2cfc9de52a0b8ce">rtdal_itfspscq_request()</a> return the same address until <a class="el" href="rtdal__itfspscq_8c.html#a39616560d2408c77062a0b5b99a1a666">rtdal_itfspscq_push()</a> is called. </p>
+<p>Saves in ptr the address of the buffer that will be transmitted in a subsequent call to <a class="el" href="rtdal__itfspscq_8c.html#a39616560d2408c77062a0b5b99a1a666">rtdal_itfspscq_push()</a>. Two consecutive calls to <a class="el" href="rtdal__itfspscq_8c.html#ad993aed16e1a3468f2cfc9de52a0b8ce">rtdal_itfspscq_request()</a> return the same address until <a class="el" href="rtdal__itfspscq_8c.html#a39616560d2408c77062a0b5b99a1a666">rtdal_itfspscq_push()</a> is called.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">obj</td><td>Handler returned by <a class="el" href="rtdal__itfspscq_8h.html#a3d310354aca07f7bfcec1f7093d7acb0">rtdal_itfspscq_create()</a> </td></tr>
@@ -364,8 +402,7 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-
-<p>Sends len bytes from the memory pointed by buffer through the interface After <a class="el" href="rtdal__itfspscq_8c.html#acf2650b9b3bdd719c7a058252a0c5a97">rtdal_itfspscq_send()</a> returns, the user may reuse the buffer. </p>
+<p>Sends len bytes from the memory pointed by buffer through the interface After <a class="el" href="rtdal__itfspscq_8c.html#acf2650b9b3bdd719c7a058252a0c5a97">rtdal_itfspscq_send()</a> returns, the user may reuse the buffer.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">obj</td><td>Handler returned by <a class="el" href="rtdal__itfspscq_8h.html#a3d310354aca07f7bfcec1f7093d7acb0">rtdal_itfspscq_create()</a> </td></tr>
@@ -568,9 +605,9 @@ Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>non-null value on success, zero on error </dd></dl>
 
-<p>Definition at line <a class="el" href="rtdal__base_8c_source.html#l00200">200</a> of file <a class="el" href="rtdal__base_8c_source.html">rtdal_base.c</a>.</p>
+<p>Definition at line <a class="el" href="rtdal__base_8c_source.html#l00199">199</a> of file <a class="el" href="rtdal__base_8c_source.html">rtdal_base.c</a>.</p>
 
-<p>References <a class="el" href="defs_8h_source.html#l00037">hdebug</a>, <a class="el" href="objects__max_8h_source.html#l00020">MAX</a>, <a class="el" href="rtdal__itfphysic_8h_source.html#l00032">rtdal_itfphysic_t::parent</a>, <a class="el" href="rtdal__context_8h_source.html#l00050">rtdal_context_t::physic_itfs</a>, <a class="el" href="rtdal__error_8h_source.html#l00039">RTDAL_ASSERT_PARAM_P</a>, <a class="el" href="rtdal__error_8h_source.html#l00032">RTDAL_ERROR_NOTFOUND</a>, <a class="el" href="rtdal__error_8h_source.html#l00052">RTDAL_SETERROR</a>, and <a class="el" href="str_8h_source.html#l00035">strcmp</a>.</p>
+<p>References <a class="el" href="defs_8h_source.html#l00037">hdebug</a>, <a class="el" href="objects__max_8h_source.html#l00020">MAX</a>, <a class="el" href="rtdal__itfphysic_8h_source.html#l00032">rtdal_itfphysic_t::parent</a>, <a class="el" href="rtdal__context_8h_source.html#l00050">rtdal_context_t::physic_itfs</a>, <a class="el" href="rtdal__error_8h_source.html#l00031">RTDAL_ASSERT_PARAM_P</a>, <a class="el" href="rtdal_8h_source.html#l00187">RTDAL_ERROR_NOTFOUND</a>, <a class="el" href="rtdal__error_8h_source.html#l00044">RTDAL_SETERROR</a>, and <a class="el" href="str_8h_source.html#l00035">strcmp</a>.</p>
 
 </div>
 </div>
@@ -596,9 +633,9 @@ Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>non-null value on success, zero on error </dd></dl>
 
-<p>Definition at line <a class="el" href="rtdal__base_8c_source.html#l00224">224</a> of file <a class="el" href="rtdal__base_8c_source.html">rtdal_base.c</a>.</p>
+<p>Definition at line <a class="el" href="rtdal__base_8c_source.html#l00223">223</a> of file <a class="el" href="rtdal__base_8c_source.html">rtdal_base.c</a>.</p>
 
-<p>References <a class="el" href="defs_8h_source.html#l00037">hdebug</a>, <a class="el" href="rtdal__itf_8h_source.html#l00029">rtdal_itf_t::id</a>, <a class="el" href="objects__max_8h_source.html#l00020">MAX</a>, <a class="el" href="rtdal__itfphysic_8h_source.html#l00032">rtdal_itfphysic_t::parent</a>, <a class="el" href="rtdal__context_8h_source.html#l00050">rtdal_context_t::physic_itfs</a>, <a class="el" href="rtdal__error_8h_source.html#l00039">RTDAL_ASSERT_PARAM_P</a>, <a class="el" href="rtdal__error_8h_source.html#l00032">RTDAL_ERROR_NOTFOUND</a>, and <a class="el" href="rtdal__error_8h_source.html#l00052">RTDAL_SETERROR</a>.</p>
+<p>References <a class="el" href="defs_8h_source.html#l00037">hdebug</a>, <a class="el" href="rtdal__itf_8h_source.html#l00029">rtdal_itf_t::id</a>, <a class="el" href="objects__max_8h_source.html#l00020">MAX</a>, <a class="el" href="rtdal__itfphysic_8h_source.html#l00032">rtdal_itfphysic_t::parent</a>, <a class="el" href="rtdal__context_8h_source.html#l00050">rtdal_context_t::physic_itfs</a>, <a class="el" href="rtdal__error_8h_source.html#l00031">RTDAL_ASSERT_PARAM_P</a>, <a class="el" href="rtdal_8h_source.html#l00187">RTDAL_ERROR_NOTFOUND</a>, and <a class="el" href="rtdal__error_8h_source.html#l00044">RTDAL_SETERROR</a>.</p>
 
 </div>
 </div>
@@ -636,16 +673,16 @@ Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>non-null value on success, zero on error </dd></dl>
 
-<p>Definition at line <a class="el" href="rtdal__base_8c_source.html#l00250">250</a> of file <a class="el" href="rtdal__base_8c_source.html">rtdal_base.c</a>.</p>
+<p>Definition at line <a class="el" href="rtdal__base_8c_source.html#l00249">249</a> of file <a class="el" href="rtdal__base_8c_source.html">rtdal_base.c</a>.</p>
 
-<p>References <a class="el" href="defs_8h_source.html#l00037">hdebug</a>, <a class="el" href="rtdal__itf_8h_source.html#l00029">rtdal_itf_t::id</a>, <a class="el" href="objects__max_8h_source.html#l00020">MAX</a>, <a class="el" href="rtdal__itfspscq_8h_source.html#l00037">rtdal_itfspscq_t::max_msg</a>, <a class="el" href="rtdal__itfspscq_8h_source.html#l00038">rtdal_itfspscq_t::max_msg_sz</a>, <a class="el" href="rtdal__context_8h_source.html#l00052">rtdal_context_t::mutex</a>, <a class="el" href="rtdal__itfspscq_8h_source.html#l00035">rtdal_itfspscq_t::parent</a>, <a class="el" href="rtdal__error_8h_source.html#l00039">RTDAL_ASSERT_PARAM_P</a>, <a class="el" href="rtdal__error_8h_source.html#l00032">RTDAL_ERROR_NOTFOUND</a>, <a class="el" href="rtdal__itfspscq_8c_source.html#l00034">rtdal_itfspscq_init()</a>, <a class="el" href="rtdal__error_8h_source.html#l00052">RTDAL_SETERROR</a>, and <a class="el" href="rtdal__context_8h_source.html#l00044">rtdal_context_t::spscqs</a>.</p>
+<p>References <a class="el" href="defs_8h_source.html#l00037">hdebug</a>, <a class="el" href="rtdal__itf_8h_source.html#l00029">rtdal_itf_t::id</a>, <a class="el" href="objects__max_8h_source.html#l00020">MAX</a>, <a class="el" href="rtdal__itfspscq_8h_source.html#l00037">rtdal_itfspscq_t::max_msg</a>, <a class="el" href="rtdal__itfspscq_8h_source.html#l00038">rtdal_itfspscq_t::max_msg_sz</a>, <a class="el" href="rtdal__context_8h_source.html#l00052">rtdal_context_t::mutex</a>, <a class="el" href="rtdal__itfspscq_8h_source.html#l00035">rtdal_itfspscq_t::parent</a>, <a class="el" href="rtdal__error_8h_source.html#l00031">RTDAL_ASSERT_PARAM_P</a>, <a class="el" href="rtdal_8h_source.html#l00187">RTDAL_ERROR_NOTFOUND</a>, <a class="el" href="rtdal__itfspscq_8c_source.html#l00034">rtdal_itfspscq_init()</a>, <a class="el" href="rtdal__error_8h_source.html#l00044">RTDAL_SETERROR</a>, and <a class="el" href="rtdal__context_8h_source.html#l00044">rtdal_context_t::spscqs</a>.</p>
 
 </div>
 </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Dec 9 2012 21:33:17 for ALOE++ RTDAL API by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Dec 10 2012 11:45:32 for ALOE++ RTDAL API by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.1.2
 </small></address>

@@ -37,25 +37,56 @@
 </div><!-- top -->
 <div class="header">
   <div class="summary">
+<a href="#enum-members">Enumerations</a> &#124;
 <a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
 <div class="title">Public variables and parameters functions</div>  </div>
 </div><!--header-->
 <div class="contents">
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2><a name="enum-members"></a>
+Enumerations</h2></td></tr>
+<tr class="memitem:ga4c606facff0f8d831d91ae1116bcf644"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__var.html#ga4c606facff0f8d831d91ae1116bcf644">oesr_var_type_t</a> { <a class="el" href="group__var.html#gga4c606facff0f8d831d91ae1116bcf644adb5ba2a9a32328f0d562693a1f7b1d5e">VAR_INT</a>, 
+<a class="el" href="group__var.html#gga4c606facff0f8d831d91ae1116bcf644aa25f96b33612e203167f219b79603545">VAR_FLOAT</a>, 
+<a class="el" href="group__var.html#gga4c606facff0f8d831d91ae1116bcf644a9db9f9506f3e8660f6bd25e9c48745f1">VAR_STRING</a>
+ }</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2><a name="func-members"></a>
 Functions</h2></td></tr>
 <tr class="memitem:ga15698f3ab826d6d20ccb2fde7bc905fc"><td class="memItemLeft" align="right" valign="top">var_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__var.html#ga15698f3ab826d6d20ccb2fde7bc905fc">oesr_var_create</a> (void *context, char *name, void *ptr, int size)</td></tr>
 <tr class="memitem:ga82a201ed0020d45d3a7bb097774c33fe"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__var.html#ga82a201ed0020d45d3a7bb097774c33fe">oesr_var_close</a> (void *context, var_t var)</td></tr>
-<tr class="memdesc:ga82a201ed0020d45d3a7bb097774c33fe"><td class="mdescLeft">&#160;</td><td class="mdescRight">Closes a variable handler. After a call to this function, ALOE can not access to this variable anymore. However, the module may still use the contents of the memory address passed as a parameter in the <a class="el" href="group__var.html#ga15698f3ab826d6d20ccb2fde7bc905fc">oesr_var_create()</a> function.  <a href="#ga82a201ed0020d45d3a7bb097774c33fe"></a><br/></td></tr>
 <tr class="memitem:ga15942dcaa59766052d7e383e49487ad3"><td class="memItemLeft" align="right" valign="top">var_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__var.html#ga15942dcaa59766052d7e383e49487ad3">oesr_var_param_get</a> (void *context, char *name)</td></tr>
-<tr class="memdesc:ga15942dcaa59766052d7e383e49487ad3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a handler for the parameter with name "name". This handler is then used by the functions <a class="el" href="group__var.html#ga05296091361ad9e440617000e1c22e2f" title="Sets up to size bytes of the buffer pointed by ptr to the value of the parameter returned by oesr_var...">oesr_var_param_value()</a> and <a class="el" href="group__var.html#gaf56dedd1bf2f5fc703b2597814388e72" title="Returns the parameter variable type.">oesr_var_param_type()</a>  <a href="#ga15942dcaa59766052d7e383e49487ad3"></a><br/></td></tr>
 <tr class="memitem:ga05296091361ad9e440617000e1c22e2f"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__var.html#ga05296091361ad9e440617000e1c22e2f">oesr_var_param_value</a> (void *context, var_t parameter, void *value, int size)</td></tr>
-<tr class="memdesc:ga05296091361ad9e440617000e1c22e2f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets up to size bytes of the buffer pointed by ptr to the value of the parameter returned by <a class="el" href="group__var.html#ga15942dcaa59766052d7e383e49487ad3" title="Returns a handler for the parameter with name &quot;name&quot;. This handler is then used by the functions oesr...">oesr_var_param_get()</a> On success, returns a non-negative integer indicating the number of bytes written to value.  <a href="#ga05296091361ad9e440617000e1c22e2f"></a><br/></td></tr>
-<tr class="memitem:gaf56dedd1bf2f5fc703b2597814388e72"><td class="memItemLeft" align="right" valign="top">oesr_var_type_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__var.html#gaf56dedd1bf2f5fc703b2597814388e72">oesr_var_param_type</a> (void *context, var_t parameter)</td></tr>
-<tr class="memdesc:gaf56dedd1bf2f5fc703b2597814388e72"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the parameter variable type.  <a href="#gaf56dedd1bf2f5fc703b2597814388e72"></a><br/></td></tr>
+<tr class="memitem:gaf56dedd1bf2f5fc703b2597814388e72"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__var.html#ga4c606facff0f8d831d91ae1116bcf644">oesr_var_type_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__var.html#gaf56dedd1bf2f5fc703b2597814388e72">oesr_var_param_type</a> (void *context, var_t parameter)</td></tr>
 </table>
 <a name="details" id="details"></a><h2>Detailed Description</h2>
+<p>Variables and parameters are module variables accessible by other modules or from the OESR Manager API. For instance, a module may estimate the SNR and make the variable "public". Then another module can access it (not yet implemented). An external program that manages the ALOE modem may, for instance, reconfigure the waveform mode when the SNR is below certain threshold.</p>
+<p>Parameters are subset of variables which have an initialization value, specified in the waveform .app file. They are a subset in the sense that a parameter is also publicly accessible. Parameters are used to configure the functionality of the DSP module. For instance the DFT size or the length of the CRC are examples of parameters. They are specified in the module documentation, as the modrep_default/template example illustrates.</p>
+<p>This documentation has to define whether a change of a parameter can be done during the RUN phase or only during the INIT phase. If a parameter can be changed during the RUN phase, it implies that a reconfiguration can be done in real-time. That is, that the execution time of the module is unaffected by a change of parameter. On the other hand, a parameter can only be modified during the INIT phase if a change of its value implies an execution time longer that the specified in the model .app.</p>
+<p>A parameter value is obtained using the function <a class="el" href="group__var.html#ga05296091361ad9e440617000e1c22e2f">oesr_var_param_value()</a>. This function gives the value associated with the current <b>waveform mode</b>. The waveform mode is defined in the waveform .app file. It defines a value for each module parameter. Each parameter, on the other hand, has a different value for each different mode. This allows the dynamic reconfiguration of the waveform from one mode to another. </p>
+<h2>Enumeration Type Documentation</h2>
+<a class="anchor" id="ga4c606facff0f8d831d91ae1116bcf644"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="group__var.html#ga4c606facff0f8d831d91ae1116bcf644">oesr_var_type_t</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl><dt><b>Enumerator: </b></dt><dd><table border="0" cellspacing="2" cellpadding="0">
+<tr><td valign="top"><em><a class="anchor" id="gga4c606facff0f8d831d91ae1116bcf644adb5ba2a9a32328f0d562693a1f7b1d5e"></a>VAR_INT</em>&nbsp;</td><td>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="gga4c606facff0f8d831d91ae1116bcf644aa25f96b33612e203167f219b79603545"></a>VAR_FLOAT</em>&nbsp;</td><td>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="gga4c606facff0f8d831d91ae1116bcf644a9db9f9506f3e8660f6bd25e9c48745f1"></a>VAR_STRING</em>&nbsp;</td><td>
+</td></tr>
+</table>
+</dd>
+</dl>
+
+</div>
+</div>
 <h2>Function Documentation</h2>
 <a class="anchor" id="ga82a201ed0020d45d3a7bb097774c33fe"></a>
 <div class="memitem">
@@ -80,8 +111,15 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-
-<p>Closes a variable handler. After a call to this function, ALOE can not access to this variable anymore. However, the module may still use the contents of the memory address passed as a parameter in the <a class="el" href="group__var.html#ga15698f3ab826d6d20ccb2fde7bc905fc">oesr_var_create()</a> function. </p>
+<p>Closes a variable handler. After a call to this function, ALOE can not access to this variable anymore. However, the module may still use the contents of the memory address passed as a parameter in the <a class="el" href="group__var.html#ga15698f3ab826d6d20ccb2fde7bc905fc">oesr_var_create()</a> function.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">context</td><td>OESR context pointer </td></tr>
+    <tr><td class="paramname">parameter</td><td>Handler returned by the <a class="el" href="group__var.html#ga15942dcaa59766052d7e383e49487ad3">oesr_var_param_get()</a> function.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>0 on success, -1 on error </dd></dl>
 
 </div>
 </div>
@@ -120,6 +158,17 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Creates a new public variable with a given name. After this call size bytes of the buffer ptr may be accessible by other modules or ALOE (through the OESR Manager API) for either read or write.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">context</td><td>OESR context pointer </td></tr>
+    <tr><td class="paramname">name</td><td>Name of the variable. This name will be used by other modules or the OESR Manager API to view/modify the variable value </td></tr>
+    <tr><td class="paramname">ptr</td><td>Pointer to the user memory where the variable is located </td></tr>
+    <tr><td class="paramname">size</td><td>Size of the variable </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>On success, <a class="el" href="group__var.html#ga15698f3ab826d6d20ccb2fde7bc905fc">oesr_var_create()</a> returns a non-null handler which is passed as a first parameter to <a class="el" href="group__var.html#ga82a201ed0020d45d3a7bb097774c33fe">oesr_var_close()</a> to close the public variable. </dd></dl>
 
 </div>
 </div>
@@ -146,8 +195,15 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-
-<p>Returns a handler for the parameter with name "name". This handler is then used by the functions <a class="el" href="group__var.html#ga05296091361ad9e440617000e1c22e2f" title="Sets up to size bytes of the buffer pointed by ptr to the value of the parameter returned by oesr_var...">oesr_var_param_value()</a> and <a class="el" href="group__var.html#gaf56dedd1bf2f5fc703b2597814388e72" title="Returns the parameter variable type.">oesr_var_param_type()</a> </p>
+<p>Returns a handler for the parameter with name "name". This handler is then used by the functions <a class="el" href="group__var.html#ga05296091361ad9e440617000e1c22e2f">oesr_var_param_value()</a> and <a class="el" href="group__var.html#gaf56dedd1bf2f5fc703b2597814388e72">oesr_var_param_type()</a></p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">context</td><td>OESR context pointer </td></tr>
+    <tr><td class="paramname">name</td><td>Name of the parameter, as it appears in the waveform .app file </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>On success, returns a non-null handler. On error returns null. </dd></dl>
 
 </div>
 </div>
@@ -156,7 +212,7 @@ Functions</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">oesr_var_type_t oesr_var_param_type </td>
+          <td class="memname"><a class="el" href="group__var.html#ga4c606facff0f8d831d91ae1116bcf644">oesr_var_type_t</a> oesr_var_param_type </td>
           <td>(</td>
           <td class="paramtype">void *&#160;</td>
           <td class="paramname"><em>context</em>, </td>
@@ -174,8 +230,14 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-
-<p>Returns the parameter variable type. </p>
+<p>Returns the parameter variable type (see enum oesr_var_type_t) </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">context</td><td>OESR context pointer </td></tr>
+    <tr><td class="paramname">parameter</td><td>Handler returned by the <a class="el" href="group__var.html#ga15942dcaa59766052d7e383e49487ad3">oesr_var_param_get()</a> function. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -214,15 +276,24 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-
-<p>Sets up to size bytes of the buffer pointed by ptr to the value of the parameter returned by <a class="el" href="group__var.html#ga15942dcaa59766052d7e383e49487ad3" title="Returns a handler for the parameter with name &quot;name&quot;. This handler is then used by the functions oesr...">oesr_var_param_get()</a> On success, returns a non-negative integer indicating the number of bytes written to value. </p>
+<p>Sets up to size bytes of the buffer pointed by ptr to the value of the parameter returned by <a class="el" href="group__var.html#ga15942dcaa59766052d7e383e49487ad3">oesr_var_param_get()</a></p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">context</td><td>OESR context pointer </td></tr>
+    <tr><td class="paramname">parameter</td><td>Handler returned by the <a class="el" href="group__var.html#ga15942dcaa59766052d7e383e49487ad3">oesr_var_param_get()</a> function. </td></tr>
+    <tr><td class="paramname">value</td><td>Pointer to the user memory where the parameter value will be stored </td></tr>
+    <tr><td class="paramname">size</td><td>Size of user memory buffer</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>On success, returns a non-negative integer indicating the number of bytes written to value. On error returns -1 </dd></dl>
 
 </div>
 </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Dec 9 2012 21:33:13 for ALOE++ OESR API by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Dec 10 2012 12:55:28 for ALOE++ OESR API by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.1.2
 </small></address>

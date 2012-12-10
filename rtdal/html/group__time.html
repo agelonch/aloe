@@ -52,6 +52,7 @@ Functions</h2></td></tr>
 <tr class="memitem:ga53924358699f2f4e4cf746b6a52d6aa0"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__time.html#ga53924358699f2f4e4cf746b6a52d6aa0">rtdal_time_attach_local</a> ()</td></tr>
 </table>
 <a name="details" id="details"></a><h2>Detailed Description</h2>
+<p>These set of functions are used to obtain or modify the system time. </p>
 <h2>Function Documentation</h2>
 <a class="anchor" id="ga53924358699f2f4e4cf746b6a52d6aa0"></a>
 <div class="memitem">
@@ -67,7 +68,7 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 <p>Called by the manager if obtains the time from shared memory. 1) call shm_open("/initTime"); and save pointer to init_time. 2) set initTimeShm=TRUE </p>
 
-<p>Definition at line <a class="el" href="rtdal__time_8c_source.html#l00177">177</a> of file <a class="el" href="rtdal__time_8c_source.html">rtdal_time.c</a>.</p>
+<p>Definition at line <a class="el" href="rtdal__time_8c_source.html#l00176">176</a> of file <a class="el" href="rtdal__time_8c_source.html">rtdal_time.c</a>.</p>
 
 <p>References <a class="el" href="defs_8h_source.html#l00051">aerror</a>.</p>
 
@@ -86,11 +87,12 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Stores the current time in the structure pointed by time pointer. </p>
+<p>Stores the current time to the structure pointed by the first argument </p>
+<dl class="section return"><dt>Returns</dt><dd>0 on success, -1 on error. </dd></dl>
 
 <p>Definition at line <a class="el" href="rtdal__time_8c_source.html#l00094">94</a> of file <a class="el" href="rtdal__time_8c_source.html">rtdal_time.c</a>.</p>
 
-<p>References <a class="el" href="rtdal__time_8h_source.html#l00031">rtdal_time_t::init_time</a>, <a class="el" href="rtdal__error_8h_source.html#l00036">RTDAL_ASSERT_PARAM</a>, <a class="el" href="rtdal__error_8h_source.html#l00046">RTDAL_SYSERROR</a>, and <a class="el" href="rtdal__types_8h_source.html#l00024">time_t</a>.</p>
+<p>References <a class="el" href="rtdal__time_8h_source.html#l00031">rtdal_time_t::init_time</a>, <a class="el" href="rtdal__error_8h_source.html#l00028">RTDAL_ASSERT_PARAM</a>, <a class="el" href="rtdal__error_8h_source.html#l00038">RTDAL_SYSERROR</a>, and <a class="el" href="rtdal__types_8h_source.html#l00024">time_t</a>.</p>
 
 <p>Referenced by <a class="el" href="pipeline_8c_source.html#l00139">pipeline_run_from_timer()</a>.</p>
 
@@ -110,14 +112,8 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <p>tdata points to a buffer of 3 time_t consecutive structures. Computes the time interval between position 1 and position 2, storing the result in position 0 </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">tdata</td><td></td></tr>
-  </table>
-  </dd>
-</dl>
 
-<p>Definition at line <a class="el" href="rtdal__time_8c_source.html#l00127">127</a> of file <a class="el" href="rtdal__time_8c_source.html">rtdal_time.c</a>.</p>
+<p>Definition at line <a class="el" href="rtdal__time_8c_source.html#l00126">126</a> of file <a class="el" href="rtdal__time_8c_source.html">rtdal_time.c</a>.</p>
 
 </div>
 </div>
@@ -134,11 +130,12 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>This function is called by syncSlave() in TWO-WAY synchronization mode. It adjusts the local time-slot timer. It has an effect only if clockSource==CLOCKSRC_TIMER </p>
+<p>Sets the current time to time defined by the first argument </p>
+<dl class="section return"><dt>Returns</dt><dd>0 on success, -1 on error. </dd></dl>
 
-<p>Definition at line <a class="el" href="rtdal__time_8c_source.html#l00074">74</a> of file <a class="el" href="rtdal__time_8c_source.html">rtdal_time.c</a>.</p>
+<p>Definition at line <a class="el" href="rtdal__time_8c_source.html#l00073">73</a> of file <a class="el" href="rtdal__time_8c_source.html">rtdal_time.c</a>.</p>
 
-<p>References <a class="el" href="rtdal__time_8h_source.html#l00031">rtdal_time_t::init_time</a>, <a class="el" href="rtdal__error_8h_source.html#l00036">RTDAL_ASSERT_PARAM</a>, <a class="el" href="rtdal__error_8h_source.html#l00046">RTDAL_SYSERROR</a>, and <a class="el" href="rtdal__types_8h_source.html#l00024">time_t</a>.</p>
+<p>References <a class="el" href="rtdal__time_8h_source.html#l00031">rtdal_time_t::init_time</a>, <a class="el" href="rtdal__error_8h_source.html#l00028">RTDAL_ASSERT_PARAM</a>, <a class="el" href="rtdal__error_8h_source.html#l00038">RTDAL_SYSERROR</a>, and <a class="el" href="rtdal__types_8h_source.html#l00024">time_t</a>.</p>
 
 </div>
 </div>
@@ -154,20 +151,20 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>returns the time-slot number </p>
+<p>Returns the current time-slot number </p>
 
 <p>Definition at line <a class="el" href="rtdal__time_8c_source.html#l00115">115</a> of file <a class="el" href="rtdal__time_8c_source.html">rtdal_time.c</a>.</p>
 
 <p>References <a class="el" href="rtdal__time_8h_source.html#l00040">rtdal_time_t::ts_counter</a>.</p>
 
-<p>Referenced by <a class="el" href="rtdal__kernel_8c_source.html#l00119">kernel_tslot_run()</a>, <a class="el" href="rtdal__itfspscq_8c_source.html#l00117">rtdal_itfspscq_pop()</a>, <a class="el" href="rtdal__itfspscq_8c_source.html#l00101">rtdal_itfspscq_push()</a>, and <a class="el" href="rtdal__base_8c_source.html#l00177">rtdal_sleep()</a>.</p>
+<p>Referenced by <a class="el" href="rtdal__kernel_8c_source.html#l00119">kernel_tslot_run()</a>, <a class="el" href="rtdal__itfspscq_8c_source.html#l00117">rtdal_itfspscq_pop()</a>, <a class="el" href="rtdal__itfspscq_8c_source.html#l00101">rtdal_itfspscq_push()</a>, and <a class="el" href="rtdal__base_8c_source.html#l00176">rtdal_sleep()</a>.</p>
 
 </div>
 </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Dec 9 2012 21:33:17 for ALOE++ RTDAL API by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Dec 10 2012 11:45:32 for ALOE++ RTDAL API by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.1.2
 </small></address>

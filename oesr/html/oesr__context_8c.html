@@ -64,24 +64,16 @@
 <tr class="heading"><td colspan="2"><h2><a name="func-members"></a>
 Functions</h2></td></tr>
 <tr class="memitem:a4a4ec87abd81c9f8f58be0b7ec1fc69b"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="oesr__context_8c.html#a4a4ec87abd81c9f8f58be0b7ec1fc69b">oesr_sizeof</a> ()</td></tr>
-<tr class="memdesc:a4a4ec87abd81c9f8f58be0b7ec1fc69b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the size of the oesr context.  <a href="#a4a4ec87abd81c9f8f58be0b7ec1fc69b"></a><br/></td></tr>
 <tr class="memitem:a2bc0a9f42c7e5b73f9e804134ad9aa45"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="oesr__context_8c.html#a2bc0a9f42c7e5b73f9e804134ad9aa45">oesr_context_init</a> (void *_context, void *_module)</td></tr>
-<tr class="memdesc:a2bc0a9f42c7e5b73f9e804134ad9aa45"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes the oesr context. Sets the context pointer to _module and the module-&gt;context pointer to _context.  <a href="#a2bc0a9f42c7e5b73f9e804134ad9aa45"></a><br/></td></tr>
 <tr class="memitem:ae5c4c93905582ee1aac225813eb4e9de"><td class="memItemLeft" align="right" valign="top">nod_module_t *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="oesr__context_8c.html#ae5c4c93905582ee1aac225813eb4e9de">oesr_get_module</a> (void *context)</td></tr>
 <tr class="memitem:ga11dbee400724229ebd7870653e02bba9"><td class="memItemLeft" align="right" valign="top">char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__base.html#ga11dbee400724229ebd7870653e02bba9">oesr_module_name</a> (void *context)</td></tr>
-<tr class="memdesc:ga11dbee400724229ebd7870653e02bba9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a pointer to the oesr name string.  <a href="group__base.html#ga11dbee400724229ebd7870653e02bba9"></a><br/></td></tr>
 <tr class="memitem:gafc3984482b5a92e69c54a9a6043bc5dc"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__base.html#gafc3984482b5a92e69c54a9a6043bc5dc">oesr_module_id</a> (void *context)</td></tr>
-<tr class="memdesc:gafc3984482b5a92e69c54a9a6043bc5dc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the module id (non-negative integer), -1 on error.  <a href="group__base.html#gafc3984482b5a92e69c54a9a6043bc5dc"></a><br/></td></tr>
 <tr class="memitem:gaa11b36e80f21f276ff03783227f8b0c9"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__base.html#gaa11b36e80f21f276ff03783227f8b0c9">oesr_tstamp</a> (void *context)</td></tr>
-<tr class="memdesc:gaa11b36e80f21f276ff03783227f8b0c9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the module's timestamp. This is the number of timeslots that the object has executed the INIT an RUN states. This function is always successful.  <a href="group__base.html#gaa11b36e80f21f276ff03783227f8b0c9"></a><br/></td></tr>
 <tr class="memitem:gab72fbe047f8794d2a9a458cfce7509d6"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__base.html#gab72fbe047f8794d2a9a458cfce7509d6">oesr_tslot_length</a> (void *context)</td></tr>
-<tr class="memitem:a2fb406f0c8046fb7681c5f125216e19a"><td class="memItemLeft" align="right" valign="top">counter_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="oesr__context_8c.html#a2fb406f0c8046fb7681c5f125216e19a">oesr_counter_create</a> (void *context, string name)</td></tr>
-<tr class="memdesc:a2fb406f0c8046fb7681c5f125216e19a"><td class="mdescLeft">&#160;</td><td class="mdescRight">A counter shall be used by a user to measure time intervals. <a class="el" href="group__counter.html#ga41e5302d08f95e87cc244cd83d5fc4b2">oesr_counter_create()</a> returns a counter_t object which is passed as a first parameter to <a class="el" href="group__counter.html#ga1b3a3d1f1126a8ec8ca914b36829f656" title="A counter shall be used by a user to measure time intervals. oesr_counter_create() returns a counter_...">oesr_counter_start()</a> and <a class="el" href="group__counter.html#ga0fa96946aba4cdd7bdc5829111fb94b5" title="A counter shall be used by a user to measure time intervals. oesr_counter_create() returns a counter_...">oesr_counter_stop()</a> functions, which start and stop the counter, respectively. A counter is associated with a public module variable which can be accessed from the oesr_man interface. The variable value is updated during a call to <a class="el" href="group__counter.html#ga0fa96946aba4cdd7bdc5829111fb94b5" title="A counter shall be used by a user to measure time intervals. oesr_counter_create() returns a counter_...">oesr_counter_stop()</a>, saving the elapsed time between successive calls to start() and stop(), in microseconds.  <a href="#a2fb406f0c8046fb7681c5f125216e19a"></a><br/></td></tr>
-<tr class="memitem:ab04b551c4a9ea5f169e4b91e3218f6d0"><td class="memItemLeft" align="right" valign="top">log_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="oesr__context_8c.html#ab04b551c4a9ea5f169e4b91e3218f6d0">oesr_log_create</a> (void *context, string name)</td></tr>
-<tr class="memdesc:ab04b551c4a9ea5f169e4b91e3218f6d0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a log handler used by the module to read/write logs. Find an empty log in the logs array and initializes it usign <a class="el" href="oesr__log_8c.html#ae03c7f19eb454076b851b821934f2525" title="Called from oesr_log_create. Initializes the structure and creates the associated filename for writin...">oesr_log_init()</a>. The returned handler (if non-null) is then passed as the first parameter to the functions <a class="el" href="group__log.html#ga525d34709c8290a1a5da99ae6fc298f2">oesr_log_write()</a> or <a class="el" href="group__log.html#ga72e99558a708d79d3eed3bb62e94ca93" title="Writes a formated string to the log file associated to the handler log.">oesr_log_printf()</a>.  <a href="#ab04b551c4a9ea5f169e4b91e3218f6d0"></a><br/></td></tr>
+<tr class="memitem:ga41e5302d08f95e87cc244cd83d5fc4b2"><td class="memItemLeft" align="right" valign="top">counter_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__counter.html#ga41e5302d08f95e87cc244cd83d5fc4b2">oesr_counter_create</a> (void *context, char *name)</td></tr>
+<tr class="memitem:gae82c028afa07e2d535c1784be270c89d"><td class="memItemLeft" align="right" valign="top">log_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__log.html#gae82c028afa07e2d535c1784be270c89d">oesr_log_create</a> (void *context, char *name)</td></tr>
 <tr class="memitem:a7e45b56fbff786642ca1fe1347c6661c"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="oesr__context_8c.html#a7e45b56fbff786642ca1fe1347c6661c">report_variable</a> (variable_t variable)</td></tr>
 <tr class="memitem:ga80078711483d249618c55331061fe8d5"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__base.html#ga80078711483d249618c55331061fe8d5">oesr_exit</a> (void *context)</td></tr>
-<tr class="memdesc:ga80078711483d249618c55331061fe8d5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stops the calling module execution. Sets the module as NON-runnable.  <a href="group__base.html#ga80078711483d249618c55331061fe8d5"></a><br/></td></tr>
 </table>
 <h2>Function Documentation</h2>
 <a class="anchor" id="a2bc0a9f42c7e5b73f9e804134ad9aa45"></a>
@@ -107,45 +99,7 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-
-<p>Initializes the oesr context. Sets the context pointer to _module and the module-&gt;context pointer to _context. </p>
-
-</div>
-</div>
-<a class="anchor" id="a2fb406f0c8046fb7681c5f125216e19a"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">counter_t oesr_counter_create </td>
-          <td>(</td>
-          <td class="paramtype">void *&#160;</td>
-          <td class="paramname"><em>context</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">string&#160;</td>
-          <td class="paramname"><em>name</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>A counter shall be used by a user to measure time intervals. <a class="el" href="group__counter.html#ga41e5302d08f95e87cc244cd83d5fc4b2">oesr_counter_create()</a> returns a counter_t object which is passed as a first parameter to <a class="el" href="group__counter.html#ga1b3a3d1f1126a8ec8ca914b36829f656" title="A counter shall be used by a user to measure time intervals. oesr_counter_create() returns a counter_...">oesr_counter_start()</a> and <a class="el" href="group__counter.html#ga0fa96946aba4cdd7bdc5829111fb94b5" title="A counter shall be used by a user to measure time intervals. oesr_counter_create() returns a counter_...">oesr_counter_stop()</a> functions, which start and stop the counter, respectively. A counter is associated with a public module variable which can be accessed from the oesr_man interface. The variable value is updated during a call to <a class="el" href="group__counter.html#ga0fa96946aba4cdd7bdc5829111fb94b5" title="A counter shall be used by a user to measure time intervals. oesr_counter_create() returns a counter_...">oesr_counter_stop()</a>, saving the elapsed time between successive calls to start() and stop(), in microseconds. </p>
-<p><a class="el" href="group__counter.html#ga41e5302d08f95e87cc244cd83d5fc4b2">oesr_counter_create()</a> returns a pointer to the first empty counter. Before returning, it fills the counter name with the second parameter string and sets the id to a positive integer.</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">context</td><td>Pointer to the oesr context </td></tr>
-    <tr><td class="paramname">name</td><td>Name associated to the public variable </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>On success, returns a non-null counter_t object. On error returns null. </dd></dl>
+<p>Initializes the oesr context. Sets the context pointer to _module and the module-&gt;context pointer to _context </p>
 
 </div>
 </div>
@@ -165,35 +119,6 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="ab04b551c4a9ea5f169e4b91e3218f6d0"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">log_t oesr_log_create </td>
-          <td>(</td>
-          <td class="paramtype">void *&#160;</td>
-          <td class="paramname"><em>context</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">string&#160;</td>
-          <td class="paramname"><em>name</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Returns a log handler used by the module to read/write logs. Find an empty log in the logs array and initializes it usign <a class="el" href="oesr__log_8c.html#ae03c7f19eb454076b851b821934f2525" title="Called from oesr_log_create. Initializes the structure and creates the associated filename for writin...">oesr_log_init()</a>. The returned handler (if non-null) is then passed as the first parameter to the functions <a class="el" href="group__log.html#ga525d34709c8290a1a5da99ae6fc298f2">oesr_log_write()</a> or <a class="el" href="group__log.html#ga72e99558a708d79d3eed3bb62e94ca93" title="Writes a formated string to the log file associated to the handler log.">oesr_log_printf()</a>. </p>
-<dl class="section return"><dt>Returns</dt><dd>NULL on error or non-null on success. </dd></dl>
-
-</div>
-</div>
 <a class="anchor" id="a4a4ec87abd81c9f8f58be0b7ec1fc69b"></a>
 <div class="memitem">
 <div class="memproto">
@@ -206,8 +131,7 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-
-<p>Returns the size of the oesr context. </p>
+<p>Returns the size of the oesr context </p>
 
 </div>
 </div>
@@ -231,7 +155,7 @@ Functions</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Dec 9 2012 21:33:13 for ALOE++ OESR API by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Dec 10 2012 12:55:28 for ALOE++ OESR API by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.1.2
 </small></address>

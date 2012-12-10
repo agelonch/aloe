@@ -40,11 +40,19 @@
 <div class="title">ALOE++ Real-Time Distributed Abstraction Layer (RTDAL) </div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p>RTDAL is a framework for distributed real-time processing. </p>
+<div class="textblock"><p>RTDAL facilitates real-time synchronous execution of tasks in a distributed environment. Tasks are executed periodically on each processor in a pipeline fashion. Each processor creates one thread per core, which runs each task (dynamically loaded as a shared library) one after another. The threads period on each core of each processor are continuously synchronized, offering the user an abstracted virtual platform. It is also possible to synchronize the task execution with a digital converter (AD/DA) for coherent transmission and processing of samples.</p>
+<p>Besides, the RTDAL API also provides other functions to abstract the specific platform-dependant characteristics:</p>
+<ul>
+<li>Low-priority tasks: Synchronous or asynchronous low-priority tasks can be created and managed.</li>
+<li>Interfaces: Two tasks sharing a common interface can communicate between each other. Interfaces can be external or internal, to communicate tasks in remote or local processors, respectively. Internal interfaces support zero-copy mode where only a pointer is transfered between the writer and reader, minimizing memory bandwidth consumption. The current implementation employs a wait-free SPSC bounded queue for best real-time performance.</li>
+<li>AD/DA abstraction, time functions, shared memory, file I/O, etc.</li>
+</ul>
+<p>When compiled, RTDAL creates an executable. When this executable is launched, it creates the necessary threads and timers. Then, it calls the function <a class="el" href="group__runmain.html#ga6ce50c697f0f74a11ea71aa883360f12">_run_main()</a> as a low-priority task. This function is undefined by RTDAL. At compile time, RTDAL <b> must be linked </b> with an object (or library) containing at least the <a class="el" href="group__runmain.html#ga6ce50c697f0f74a11ea71aa883360f12">_run_main()</a> function.</p>
+<p>These pages describe the RTDAL API. Please click on <b>Modules</b> to see the API functions. </p>
 </div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Dec 9 2012 21:33:17 for ALOE++ RTDAL API by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Dec 10 2012 11:45:32 for ALOE++ RTDAL API by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.1.2
 </small></address>

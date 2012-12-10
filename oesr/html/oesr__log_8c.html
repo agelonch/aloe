@@ -65,13 +65,9 @@
 Functions</h2></td></tr>
 <tr class="memitem:abfeaeb1193958135d594c3d39e42c82e"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="oesr__log_8c.html#abfeaeb1193958135d594c3d39e42c82e">lstrdef</a> (tmp_buffer)</td></tr>
 <tr class="memitem:ae03c7f19eb454076b851b821934f2525"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="oesr__log_8c.html#ae03c7f19eb454076b851b821934f2525">oesr_log_init</a> (void *context, <a class="el" href="structoesr__log__t.html">oesr_log_t</a> *log, string name)</td></tr>
-<tr class="memdesc:ae03c7f19eb454076b851b821934f2525"><td class="mdescLeft">&#160;</td><td class="mdescRight">Called from oesr_log_create. Initializes the structure and creates the associated filename for writing logs.  <a href="#ae03c7f19eb454076b851b821934f2525"></a><br/></td></tr>
 <tr class="memitem:gaf9b505cfb69aac32446acc3918d97ba0"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__log.html#gaf9b505cfb69aac32446acc3918d97ba0">oesr_log_close</a> (log_t log)</td></tr>
-<tr class="memdesc:gaf9b505cfb69aac32446acc3918d97ba0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Closes a log associated to the handler passed as parameter.  <a href="group__log.html#gaf9b505cfb69aac32446acc3918d97ba0"></a><br/></td></tr>
-<tr class="memitem:a6c48dd894e0031a60be668e968c1468e"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="oesr__log_8c.html#a6c48dd894e0031a60be668e968c1468e">oesr_log_write</a> (log_t log, string str)</td></tr>
-<tr class="memdesc:a6c48dd894e0031a60be668e968c1468e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Writes the buffer str to the log file associated to the handler log.  <a href="#a6c48dd894e0031a60be668e968c1468e"></a><br/></td></tr>
+<tr class="memitem:ga525d34709c8290a1a5da99ae6fc298f2"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__log.html#ga525d34709c8290a1a5da99ae6fc298f2">oesr_log_write</a> (log_t log, char *str)</td></tr>
 <tr class="memitem:ga72e99558a708d79d3eed3bb62e94ca93"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__log.html#ga72e99558a708d79d3eed3bb62e94ca93">oesr_log_printf</a> (log_t log, const char *fmt,...)</td></tr>
-<tr class="memdesc:ga72e99558a708d79d3eed3bb62e94ca93"><td class="mdescLeft">&#160;</td><td class="mdescRight">Writes a formated string to the log file associated to the handler log.  <a href="group__log.html#ga72e99558a708d79d3eed3bb62e94ca93"></a><br/></td></tr>
 </table>
 <h2>Function Documentation</h2>
 <a class="anchor" id="abfeaeb1193958135d594c3d39e42c82e"></a>
@@ -119,43 +115,14 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-
 <p>Called from oesr_log_create. Initializes the structure and creates the associated filename for writing logs. </p>
-
-</div>
-</div>
-<a class="anchor" id="a6c48dd894e0031a60be668e968c1468e"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">int oesr_log_write </td>
-          <td>(</td>
-          <td class="paramtype">log_t&#160;</td>
-          <td class="paramname"><em>log</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">string&#160;</td>
-          <td class="paramname"><em>str</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Writes the buffer str to the log file associated to the handler log. </p>
 
 </div>
 </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Dec 9 2012 21:33:13 for ALOE++ OESR API by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Dec 10 2012 12:55:28 for ALOE++ OESR API by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.1.2
 </small></address>

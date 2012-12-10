@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
-<title>ALOE++ RTDAL API: Low-priority task functions</title>
+<title>ALOE++ RTDAL API: Asynchronous Low-Priority Tasks</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -39,7 +39,7 @@
   <div class="summary">
 <a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
-<div class="title">Low-priority task functions</div>  </div>
+<div class="title">Asynchronous Low-Priority Tasks</div>  </div>
 </div><!--header-->
 <div class="contents">
 <table class="memberdecls">
@@ -52,6 +52,8 @@ Functions</h2></td></tr>
 <tr class="memitem:ga122b4c6c5a78a017efd19b132b890cec"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__task.html#ga122b4c6c5a78a017efd19b132b890cec">rtdal_task_print_sched</a> ()</td></tr>
 </table>
 <a name="details" id="details"></a><h2>Detailed Description</h2>
+<p>An asynchronous low-priority task is a task that executes with no periodicy and lower priority than the synchronous high-priority task.</p>
+<p>These tasks are created using <a class="el" href="group__task.html#ga6eecdd5beadd8298845b34b14cc4857a">rtdal_task_new()</a>. If the first argument of <a class="el" href="group__task.html#ga6eecdd5beadd8298845b34b14cc4857a">rtdal_task_new()</a> is non-null the function <a class="el" href="group__task.html#ga803eb418875bf39c16e28810e42b727d">rtdal_task_wait()</a> or <a class="el" href="group__task.html#gab0118f10dd112cd337c47426c8f127cc">rtdal_task_wait_nb()</a> <b> must be used </b> to deallocate the task resources from the system. </p>
 <h2>Function Documentation</h2>
 <a class="anchor" id="gadea1a4228cb49ce9649ac26442c1b70d"></a>
 <div class="memitem">
@@ -66,10 +68,12 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Kills a task handler passed as first argument to <a class="el" href="group__task.html#ga6eecdd5beadd8298845b34b14cc4857a">rtdal_task_new()</a> </p>
+<dl class="section return"><dt>Returns</dt><dd>0 on success or -1 on error </dd></dl>
 
-<p>Definition at line <a class="el" href="rtdal__task_8c_source.html#l00042">42</a> of file <a class="el" href="rtdal__task_8c_source.html">rtdal_task.c</a>.</p>
+<p>Definition at line <a class="el" href="rtdal__task_8c_source.html#l00058">58</a> of file <a class="el" href="rtdal__task_8c_source.html">rtdal_task.c</a>.</p>
 
-<p>References <a class="el" href="rtdal__error_8h_source.html#l00043">RTDAL_POSERROR</a>, and <a class="el" href="rtdal__kernel_8h_source.html#l00031">TASK_TERMINATION_SIGNAL</a>.</p>
+<p>References <a class="el" href="rtdal__error_8h_source.html#l00035">RTDAL_POSERROR</a>, and <a class="el" href="rtdal__kernel_8h_source.html#l00031">TASK_TERMINATION_SIGNAL</a>.</p>
 
 </div>
 </div>
@@ -102,11 +106,21 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Creates a new thread with normal priority, that is, no real-time priority. The thread is detachable, meaning that runs the function pointed by the first parameter and then is destroyed, ignoring the returned value. </p>
+<p>Creates a new thread with normal priority, that is, no real-time priority. If the the first argument is NULL, the task runs the function pointed by the first parameter and then is destroyed, ignoring the returned value. Otherwise, the function <a class="el" href="group__task.html#ga803eb418875bf39c16e28810e42b727d">rtdal_task_wait()</a> or <a class="el" href="group__task.html#gab0118f10dd112cd337c47426c8f127cc">rtdal_task_wait_nb()</a> may be used to obtain the returned value (a pointer).</p>
+<p>The task finishes when the function fnc returns.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">task</td><td>Can be NULL or a non-NULL pointer to a r_task_t value. </td></tr>
+    <tr><td class="paramname">fnc</td><td>Function pointer to run the task </td></tr>
+    <tr><td class="paramname">arg</td><td>Pointer argument to pass to the function</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>0 on success or -1 on error </dd></dl>
 
-<p>Definition at line <a class="el" href="rtdal__task_8c_source.html#l00038">38</a> of file <a class="el" href="rtdal__task_8c_source.html">rtdal_task.c</a>.</p>
+<p>Definition at line <a class="el" href="rtdal__task_8c_source.html#l00050">50</a> of file <a class="el" href="rtdal__task_8c_source.html">rtdal_task.c</a>.</p>
 
-<p>References <a class="el" href="rtdal__task_8c_source.html#l00078">rtdal_task_new_prio()</a>, <a class="el" href="rtdal__task_8h_source.html#l00023">TASK_DEFAULT_CPUID</a>, and <a class="el" href="rtdal__task_8h_source.html#l00022">TASK_DEFAULT_PRIORITY</a>.</p>
+<p>References <a class="el" href="rtdal__task_8c_source.html#l00108">rtdal_task_new_prio()</a>, <a class="el" href="rtdal__task_8h_source.html#l00023">TASK_DEFAULT_CPUID</a>, and <a class="el" href="rtdal__task_8h_source.html#l00022">TASK_DEFAULT_PRIORITY</a>.</p>
 
 <p>Referenced by <a class="el" href="rtdal__kernel_8c_source.html#l00655">main()</a>.</p>
 
@@ -125,7 +139,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="rtdal__task_8c_source.html#l00189">189</a> of file <a class="el" href="rtdal__task_8c_source.html">rtdal_task.c</a>.</p>
+<p>Definition at line <a class="el" href="rtdal__task_8c_source.html#l00219">219</a> of file <a class="el" href="rtdal__task_8c_source.html">rtdal_task.c</a>.</p>
 
 <p>Referenced by <a class="el" href="rtdal__timer_8c_source.html#l00109">timer_run_thread()</a>.</p>
 
@@ -154,10 +168,19 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Blocking function that waits a task to finish. The return value is obtained in retval </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">task</td><td>Handler to a task passed as the first argument to <a class="el" href="group__task.html#ga6eecdd5beadd8298845b34b14cc4857a">rtdal_task_new()</a> </td></tr>
+    <tr><td class="paramname">retval</td><td>Value returned by the task function. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>0 on success or -1 on error </dd></dl>
 
-<p>Definition at line <a class="el" href="rtdal__task_8c_source.html#l00051">51</a> of file <a class="el" href="rtdal__task_8c_source.html">rtdal_task.c</a>.</p>
+<p>Definition at line <a class="el" href="rtdal__task_8c_source.html#l00074">74</a> of file <a class="el" href="rtdal__task_8c_source.html">rtdal_task.c</a>.</p>
 
-<p>References <a class="el" href="defs_8h_source.html#l00037">hdebug</a>, and <a class="el" href="rtdal__error_8h_source.html#l00043">RTDAL_POSERROR</a>.</p>
+<p>References <a class="el" href="defs_8h_source.html#l00037">hdebug</a>, and <a class="el" href="rtdal__error_8h_source.html#l00035">RTDAL_POSERROR</a>.</p>
 
 </div>
 </div>
@@ -184,17 +207,26 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Non-blocking function that polls if a task has finished or not. If the task has finished, the return value is obtained in retval </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">task</td><td>Handler to a task passed as the first argument to <a class="el" href="group__task.html#ga6eecdd5beadd8298845b34b14cc4857a">rtdal_task_new()</a> </td></tr>
+    <tr><td class="paramname">retval</td><td>Value returned by the task function. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>0 if the task has not finished, 1 if the task has finished or -1 on error </dd></dl>
 
-<p>Definition at line <a class="el" href="rtdal__task_8c_source.html#l00061">61</a> of file <a class="el" href="rtdal__task_8c_source.html">rtdal_task.c</a>.</p>
+<p>Definition at line <a class="el" href="rtdal__task_8c_source.html#l00091">91</a> of file <a class="el" href="rtdal__task_8c_source.html">rtdal_task.c</a>.</p>
 
-<p>References <a class="el" href="defs_8h_source.html#l00037">hdebug</a>, and <a class="el" href="rtdal__error_8h_source.html#l00043">RTDAL_POSERROR</a>.</p>
+<p>References <a class="el" href="defs_8h_source.html#l00037">hdebug</a>, and <a class="el" href="rtdal__error_8h_source.html#l00035">RTDAL_POSERROR</a>.</p>
 
 </div>
 </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Dec 9 2012 21:33:17 for ALOE++ RTDAL API by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Dec 10 2012 11:45:32 for ALOE++ RTDAL API by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.1.2
 </small></address>

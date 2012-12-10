@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
-<title>ALOE++ RTDAL API: Periodic low-priority tasks functions</title>
+<title>ALOE++ RTDAL API: Synchronous Low-Priority Tasks</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -39,7 +39,7 @@
   <div class="summary">
 <a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
-<div class="title">Periodic low-priority tasks functions</div>  </div>
+<div class="title">Synchronous Low-Priority Tasks</div>  </div>
 </div><!--header-->
 <div class="contents">
 <table class="memberdecls">
@@ -49,6 +49,10 @@ Functions</h2></td></tr>
 <tr class="memitem:gaa7d670c916d527839e1d72db60bfeb4c"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__period.html#gaa7d670c916d527839e1d72db60bfeb4c">rtdal_periodic_remove</a> (void(*fnc)(void))</td></tr>
 </table>
 <a name="details" id="details"></a><h2>Detailed Description</h2>
+<p>A synchronous low-priority task is called periodically synchronous to the time slot. Conversely to high-priority synchronous tasks, these are called within a separate thread with lower priority. The execution period is defined in multiples of the time slot.</p>
+<p>Since creating a new thread consumes resources, it is <b> highly recommended </b> to use this functions with a high periodicy, either due to a large time slot or due to a large multiplicity factor (argument period in <a class="el" href="group__period.html#ga4cabb39c9b910f46cbc27b26a5e577b8">rtdal_periodic_add()</a> function).</p>
+<p>A periodic task is created using <a class="el" href="group__period.html#ga4cabb39c9b910f46cbc27b26a5e577b8">rtdal_periodic_add()</a> and removed from the system using <a class="el" href="group__period.html#gaa7d670c916d527839e1d72db60bfeb4c">rtdal_periodic_remove()</a>.</p>
+<p>If the task does not return from the function before the next execution time arrives, a new thread will be created which will run the function again. </p>
 <h2>Function Documentation</h2>
 <a class="anchor" id="ga4cabb39c9b910f46cbc27b26a5e577b8"></a>
 <div class="memitem">
@@ -73,7 +77,7 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Adds the function callback to the kernel periodic callback functions. If <a class="el" href="group__period.html#ga4cabb39c9b910f46cbc27b26a5e577b8">rtdal_periodic_add()</a> successes, the function callback will be called every period timeslots with Kernel Priority.</p>
+<p>Creates a new low-priority periodic function. If it succeeds, the function callback will be called every period timeslots with low priority.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">callback</td><td>Pointer to the periodic function </td></tr>
@@ -83,9 +87,9 @@ Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>zero on success, -1 on error </dd></dl>
 
-<p>Definition at line <a class="el" href="rtdal__base_8c_source.html#l00119">119</a> of file <a class="el" href="rtdal__base_8c_source.html">rtdal_base.c</a>.</p>
+<p>Definition at line <a class="el" href="rtdal__base_8c_source.html#l00118">118</a> of file <a class="el" href="rtdal__base_8c_source.html">rtdal_base.c</a>.</p>
 
-<p>References <a class="el" href="rtdal__periodic_8h_source.html#l00023">rtdal_periodic_t::callback</a>, <a class="el" href="rtdal__periodic_8h_source.html#l00025">rtdal_periodic_t::counter</a>, <a class="el" href="defs_8h_source.html#l00037">hdebug</a>, <a class="el" href="objects__max_8h_source.html#l00020">MAX</a>, <a class="el" href="rtdal__context_8h_source.html#l00052">rtdal_context_t::mutex</a>, <a class="el" href="rtdal__periodic_8h_source.html#l00024">rtdal_periodic_t::period</a>, <a class="el" href="rtdal__context_8h_source.html#l00045">rtdal_context_t::periodic</a>, <a class="el" href="rtdal__error_8h_source.html#l00036">RTDAL_ASSERT_PARAM</a>, <a class="el" href="rtdal__error_8h_source.html#l00030">RTDAL_ERROR_NOSPACE</a>, and <a class="el" href="rtdal__error_8h_source.html#l00052">RTDAL_SETERROR</a>.</p>
+<p>References <a class="el" href="rtdal__periodic_8h_source.html#l00023">rtdal_periodic_t::callback</a>, <a class="el" href="rtdal__periodic_8h_source.html#l00025">rtdal_periodic_t::counter</a>, <a class="el" href="defs_8h_source.html#l00037">hdebug</a>, <a class="el" href="objects__max_8h_source.html#l00020">MAX</a>, <a class="el" href="rtdal__context_8h_source.html#l00052">rtdal_context_t::mutex</a>, <a class="el" href="rtdal__periodic_8h_source.html#l00024">rtdal_periodic_t::period</a>, <a class="el" href="rtdal__context_8h_source.html#l00045">rtdal_context_t::periodic</a>, <a class="el" href="rtdal__error_8h_source.html#l00028">RTDAL_ASSERT_PARAM</a>, <a class="el" href="rtdal_8h_source.html#l00185">RTDAL_ERROR_NOSPACE</a>, and <a class="el" href="rtdal__error_8h_source.html#l00044">RTDAL_SETERROR</a>.</p>
 
 </div>
 </div>
@@ -111,16 +115,16 @@ Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>zero on success, -1 on error </dd></dl>
 
-<p>Definition at line <a class="el" href="rtdal__base_8c_source.html#l00152">152</a> of file <a class="el" href="rtdal__base_8c_source.html">rtdal_base.c</a>.</p>
+<p>Definition at line <a class="el" href="rtdal__base_8c_source.html#l00151">151</a> of file <a class="el" href="rtdal__base_8c_source.html">rtdal_base.c</a>.</p>
 
-<p>References <a class="el" href="rtdal__periodic_8h_source.html#l00023">rtdal_periodic_t::callback</a>, <a class="el" href="rtdal__periodic_8h_source.html#l00025">rtdal_periodic_t::counter</a>, <a class="el" href="defs_8h_source.html#l00037">hdebug</a>, <a class="el" href="objects__max_8h_source.html#l00020">MAX</a>, <a class="el" href="rtdal__context_8h_source.html#l00052">rtdal_context_t::mutex</a>, <a class="el" href="rtdal__periodic_8h_source.html#l00024">rtdal_periodic_t::period</a>, <a class="el" href="rtdal__context_8h_source.html#l00045">rtdal_context_t::periodic</a>, <a class="el" href="rtdal__error_8h_source.html#l00036">RTDAL_ASSERT_PARAM</a>, <a class="el" href="rtdal__error_8h_source.html#l00032">RTDAL_ERROR_NOTFOUND</a>, and <a class="el" href="rtdal__error_8h_source.html#l00052">RTDAL_SETERROR</a>.</p>
+<p>References <a class="el" href="rtdal__periodic_8h_source.html#l00023">rtdal_periodic_t::callback</a>, <a class="el" href="rtdal__periodic_8h_source.html#l00025">rtdal_periodic_t::counter</a>, <a class="el" href="defs_8h_source.html#l00037">hdebug</a>, <a class="el" href="objects__max_8h_source.html#l00020">MAX</a>, <a class="el" href="rtdal__context_8h_source.html#l00052">rtdal_context_t::mutex</a>, <a class="el" href="rtdal__periodic_8h_source.html#l00024">rtdal_periodic_t::period</a>, <a class="el" href="rtdal__context_8h_source.html#l00045">rtdal_context_t::periodic</a>, <a class="el" href="rtdal__error_8h_source.html#l00028">RTDAL_ASSERT_PARAM</a>, <a class="el" href="rtdal_8h_source.html#l00187">RTDAL_ERROR_NOTFOUND</a>, and <a class="el" href="rtdal__error_8h_source.html#l00044">RTDAL_SETERROR</a>.</p>
 
 </div>
 </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Dec 9 2012 21:33:17 for ALOE++ RTDAL API by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Dec 10 2012 11:45:32 for ALOE++ RTDAL API by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.1.2
 </small></address>

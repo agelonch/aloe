@@ -82,11 +82,11 @@
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;        <a class="code" href="rtdal__itf_8c.html#a999a3b1308afeedbcb5d414255bc4dc2">call</a>(<span class="keyword">remove</span>,obj);</div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;}</div>
 <div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;</div>
-<div class="line"><a name="l00043"></a><span class="lineno"><a class="code" href="group__itf.html#ga7013c5b24cc019f3112b341207f3d1ae">   43</a></span>&#160;<span class="keywordtype">int</span> <a class="code" href="group__itf.html#ga7013c5b24cc019f3112b341207f3d1ae" title="Receives up to len bytes from the interface and stores the data in the memory pointed by buffer...">rtdal_itf_recv</a>(<a class="code" href="structh__itf__.html">r_itf_t</a> obj, <span class="keywordtype">void</span>* buffer, <span class="keywordtype">int</span> len) {</div>
+<div class="line"><a name="l00043"></a><span class="lineno"><a class="code" href="group__itf.html#ga7013c5b24cc019f3112b341207f3d1ae">   43</a></span>&#160;<span class="keywordtype">int</span> <a class="code" href="group__itf.html#ga7013c5b24cc019f3112b341207f3d1ae">rtdal_itf_recv</a>(<a class="code" href="structh__itf__.html">r_itf_t</a> obj, <span class="keywordtype">void</span>* buffer, <span class="keywordtype">int</span> len) {</div>
 <div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;        <a class="code" href="rtdal__itf_8c.html#a999a3b1308afeedbcb5d414255bc4dc2">call</a>(recv,obj,buffer,len);</div>
 <div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;}</div>
 <div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;</div>
-<div class="line"><a name="l00056"></a><span class="lineno"><a class="code" href="group__itf.html#ga2a6d148b7ab1e2de028d2ed9ff1eeced">   56</a></span>&#160;<span class="keywordtype">int</span> <a class="code" href="group__itf.html#ga2a6d148b7ab1e2de028d2ed9ff1eeced" title="Sends len bytes from the memory pointed by buffer through the interface After rtdal_itfspscq_send() r...">rtdal_itf_send</a>(<a class="code" href="structh__itf__.html">r_itf_t</a> obj, <span class="keywordtype">void</span>* buffer, <span class="keywordtype">int</span> len) {</div>
+<div class="line"><a name="l00056"></a><span class="lineno"><a class="code" href="group__itf.html#ga2a6d148b7ab1e2de028d2ed9ff1eeced">   56</a></span>&#160;<span class="keywordtype">int</span> <a class="code" href="group__itf.html#ga2a6d148b7ab1e2de028d2ed9ff1eeced">rtdal_itf_send</a>(<a class="code" href="structh__itf__.html">r_itf_t</a> obj, <span class="keywordtype">void</span>* buffer, <span class="keywordtype">int</span> len) {</div>
 <div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;        <a class="code" href="rtdal__itf_8c.html#a999a3b1308afeedbcb5d414255bc4dc2">call</a>(send,obj,buffer,len);</div>
 <div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;}</div>
 <div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;</div>
@@ -98,20 +98,20 @@
 <div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;        <a class="code" href="rtdal__itf_8c.html#a999a3b1308afeedbcb5d414255bc4dc2">call</a>(get_blocking,obj);</div>
 <div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;}</div>
 <div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;</div>
-<div class="line"><a name="l00076"></a><span class="lineno"><a class="code" href="group__itf.html#ga1b5c9027dcbcd0a7c4940f95be94c8a2">   76</a></span>&#160;<span class="keywordtype">int</span> <a class="code" href="group__itf.html#ga1b5c9027dcbcd0a7c4940f95be94c8a2" title="Saves in ptr the address of the buffer that will be transmitted in a subsequent call to rtdal_itfspsc...">rtdal_itf_request</a>(<a class="code" href="structh__itf__.html">r_itf_t</a> obj, <span class="keywordtype">void</span> **ptr) {</div>
+<div class="line"><a name="l00076"></a><span class="lineno"><a class="code" href="group__itf.html#ga1b5c9027dcbcd0a7c4940f95be94c8a2">   76</a></span>&#160;<span class="keywordtype">int</span> <a class="code" href="group__itf.html#ga1b5c9027dcbcd0a7c4940f95be94c8a2">rtdal_itf_request</a>(<a class="code" href="structh__itf__.html">r_itf_t</a> obj, <span class="keywordtype">void</span> **ptr) {</div>
 <div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;        <a class="code" href="rtdal__itf_8c.html#a999a3b1308afeedbcb5d414255bc4dc2">call</a>(request,obj,ptr);</div>
 <div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;}</div>
 <div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;</div>
-<div class="line"><a name="l00087"></a><span class="lineno"><a class="code" href="group__itf.html#ga0f4987e78ffc6c4aae88f3c11fc0c99c">   87</a></span>&#160;<span class="keywordtype">int</span> <a class="code" href="group__itf.html#ga0f4987e78ffc6c4aae88f3c11fc0c99c" title="Releases the packet received by rtdal_itfspscq_pop() after the contents have been processed...">rtdal_itf_release</a>(<a class="code" href="structh__itf__.html">r_itf_t</a> obj) {</div>
+<div class="line"><a name="l00087"></a><span class="lineno"><a class="code" href="group__itf.html#ga0f4987e78ffc6c4aae88f3c11fc0c99c">   87</a></span>&#160;<span class="keywordtype">int</span> <a class="code" href="group__itf.html#ga0f4987e78ffc6c4aae88f3c11fc0c99c">rtdal_itf_release</a>(<a class="code" href="structh__itf__.html">r_itf_t</a> obj) {</div>
 <div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;        <a class="code" href="rtdal__itf_8c.html#a999a3b1308afeedbcb5d414255bc4dc2">call</a>(release,obj);</div>
 <div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;}</div>
 <div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;</div>
-<div class="line"><a name="l00098"></a><span class="lineno"><a class="code" href="group__itf.html#gab87fe53e0cb855f2633c07079721464e">   98</a></span>&#160;<span class="keywordtype">int</span> <a class="code" href="group__itf.html#gab87fe53e0cb855f2633c07079721464e" title="Pushes the current packet to the interface. The contents of the packet are modified using the pointer...">rtdal_itf_push</a>(<a class="code" href="structh__itf__.html">r_itf_t</a> obj, <span class="keywordtype">int</span> len) {</div>
+<div class="line"><a name="l00098"></a><span class="lineno"><a class="code" href="group__itf.html#gab87fe53e0cb855f2633c07079721464e">   98</a></span>&#160;<span class="keywordtype">int</span> <a class="code" href="group__itf.html#gab87fe53e0cb855f2633c07079721464e">rtdal_itf_push</a>(<a class="code" href="structh__itf__.html">r_itf_t</a> obj, <span class="keywordtype">int</span> len) {</div>
 <div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;        <a class="code" href="rtdal__itf_8c.html#a999a3b1308afeedbcb5d414255bc4dc2">call</a>(push,obj,len);</div>
 <div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;}</div>
 <div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;</div>
 <div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;</div>
-<div class="line"><a name="l00114"></a><span class="lineno"><a class="code" href="group__itf.html#ga2a083a0b484685e86b520381e394da8c">  114</a></span>&#160;<span class="keywordtype">int</span> <a class="code" href="group__itf.html#ga2a083a0b484685e86b520381e394da8c" title="Pops a packet from the interface. The address of the packet contents are saved in the ptr pointer and...">rtdal_itf_pop</a>(<a class="code" href="structh__itf__.html">r_itf_t</a> obj, <span class="keywordtype">void</span> **ptr, <span class="keywordtype">int</span> *len) {</div>
+<div class="line"><a name="l00114"></a><span class="lineno"><a class="code" href="group__itf.html#ga2a083a0b484685e86b520381e394da8c">  114</a></span>&#160;<span class="keywordtype">int</span> <a class="code" href="group__itf.html#ga2a083a0b484685e86b520381e394da8c">rtdal_itf_pop</a>(<a class="code" href="structh__itf__.html">r_itf_t</a> obj, <span class="keywordtype">void</span> **ptr, <span class="keywordtype">int</span> *len) {</div>
 <div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;        <a class="code" href="rtdal__itf_8c.html#a999a3b1308afeedbcb5d414255bc4dc2">call</a>(pop,obj,ptr,len);</div>
 <div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;}</div>
 <div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;</div>
@@ -130,7 +130,7 @@
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Dec 9 2012 21:33:16 for ALOE++ RTDAL API by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Dec 10 2012 11:45:32 for ALOE++ RTDAL API by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.1.2
 </small></address>

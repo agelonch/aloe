@@ -46,15 +46,123 @@
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2><a name="define-members"></a>
 Macros</h2></td></tr>
+<tr class="memitem:ga645b1f841a40cee9ae8a7ca482e66590"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__error.html#ga645b1f841a40cee9ae8a7ca482e66590">OESR_ERROR_INVAL</a>&#160;&#160;&#160;1</td></tr>
+<tr class="memitem:ga26c4ae6780db475996640ff8dcf546eb"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__error.html#ga26c4ae6780db475996640ff8dcf546eb">OESR_ERROR_RTDAL</a>&#160;&#160;&#160;2</td></tr>
+<tr class="memitem:ga5e54056779bb1338594f8ede5411d24a"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__error.html#ga5e54056779bb1338594f8ede5411d24a">OESR_ERROR_OTHER</a>&#160;&#160;&#160;3</td></tr>
+<tr class="memitem:ga8d8ac9300fb99716c4ec50cb9f3f9c2f"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__error.html#ga8d8ac9300fb99716c4ec50cb9f3f9c2f">OESR_ERROR_NOSPACE</a>&#160;&#160;&#160;4</td></tr>
+<tr class="memitem:gafca99764185a31243f7a8577cc446930"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__error.html#gafca99764185a31243f7a8577cc446930">OESR_ERROR_LARGE</a>&#160;&#160;&#160;5</td></tr>
+<tr class="memitem:ga9724872ba5b39c7021cf586742667703"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__error.html#ga9724872ba5b39c7021cf586742667703">OESR_ERROR_NOTFOUND</a>&#160;&#160;&#160;6</td></tr>
+<tr class="memitem:gab5527c87b032c4f169616d18e62838de"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__error.html#gab5527c87b032c4f169616d18e62838de">OESR_ERROR_MODNOTFOUND</a>&#160;&#160;&#160;7</td></tr>
+<tr class="memitem:ga0f8430457e125a6ac73d94b4f30ccba5"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__error.html#ga0f8430457e125a6ac73d94b4f30ccba5">OESR_ERROR_NOTREADY</a>&#160;&#160;&#160;8</td></tr>
 <tr class="memitem:ga04b1b3ca21047be3cf86c378286cdf57"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__error.html#ga04b1b3ca21047be3cf86c378286cdf57">oesr_perror</a>(msg)&#160;&#160;&#160;<a class="el" href="group__error.html#ga21c27a09f22f8430c080486a25195029">oesr_error_print</a>(ctx,&quot;&quot;); aerror(msg)</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2><a name="func-members"></a>
 Functions</h2></td></tr>
+<tr class="memitem:ga683ff7e339d29cf318005f15b761f3c4"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__error.html#ga683ff7e339d29cf318005f15b761f3c4">oesr_error_string</a> (void *ctx)</td></tr>
 <tr class="memitem:ga96241ad0cc82628558e79f319263d738"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__error.html#ga96241ad0cc82628558e79f319263d738">oesr_error_code</a> (void *ctx)</td></tr>
 <tr class="memitem:ga21c27a09f22f8430c080486a25195029"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__error.html#ga21c27a09f22f8430c080486a25195029">oesr_error_print</a> (void *context, const char *user_message)</td></tr>
 </table>
 <a name="details" id="details"></a><h2>Detailed Description</h2>
+<p>The error functions are used to print the errors produced during a call to an OESR function.</p>
+<p>When a function returns -1, the error is stored in a variable which is obtained using <a class="el" href="group__error.html#ga96241ad0cc82628558e79f319263d738">oesr_error_code()</a> and equals one of the OESR_ERROR_* constants.</p>
+<p>An error message can be obtained using the functions <a class="el" href="group__error.html#ga21c27a09f22f8430c080486a25195029">oesr_error_print()</a> or the macro <a class="el" href="group__error.html#ga04b1b3ca21047be3cf86c378286cdf57">oesr_perror()</a>. </p>
 <h2>Macro Definition Documentation</h2>
+<a class="anchor" id="ga645b1f841a40cee9ae8a7ca482e66590"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define OESR_ERROR_INVAL&#160;&#160;&#160;1</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="gafca99764185a31243f7a8577cc446930"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define OESR_ERROR_LARGE&#160;&#160;&#160;5</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="gab5527c87b032c4f169616d18e62838de"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define OESR_ERROR_MODNOTFOUND&#160;&#160;&#160;7</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="ga8d8ac9300fb99716c4ec50cb9f3f9c2f"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define OESR_ERROR_NOSPACE&#160;&#160;&#160;4</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="ga9724872ba5b39c7021cf586742667703"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define OESR_ERROR_NOTFOUND&#160;&#160;&#160;6</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="ga0f8430457e125a6ac73d94b4f30ccba5"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define OESR_ERROR_NOTREADY&#160;&#160;&#160;8</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="ga5e54056779bb1338594f8ede5411d24a"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define OESR_ERROR_OTHER&#160;&#160;&#160;3</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="ga26c4ae6780db475996640ff8dcf546eb"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define OESR_ERROR_RTDAL&#160;&#160;&#160;2</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a class="anchor" id="ga04b1b3ca21047be3cf86c378286cdf57"></a>
 <div class="memitem">
 <div class="memproto">
@@ -85,6 +193,7 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Returns the current error code </p>
 
 </div>
 </div>
@@ -96,7 +205,7 @@ Functions</h2></td></tr>
           <td class="memname">void oesr_error_print </td>
           <td>(</td>
           <td class="paramtype">void *&#160;</td>
-          <td class="paramname"><em>context</em>, </td>
+          <td class="paramname"><em>ctx</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -111,13 +220,31 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Prints to stderr the current error message accompanied by a user message. </p>
+
+</div>
+</div>
+<a class="anchor" id="ga683ff7e339d29cf318005f15b761f3c4"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">string oesr_error_string </td>
+          <td>(</td>
+          <td class="paramtype">void *&#160;</td>
+          <td class="paramname"><em>ctx</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Returns a pointer tot he current error message </p>
 
 </div>
 </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Dec 9 2012 21:33:13 for ALOE++ OESR API by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Dec 10 2012 12:55:28 for ALOE++ OESR API by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.1.2
 </small></address>

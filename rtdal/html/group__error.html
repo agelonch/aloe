@@ -46,6 +46,13 @@
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2><a name="define-members"></a>
 Macros</h2></td></tr>
+<tr class="memitem:gac82684684dc56978b7a379731fc8f265"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__error.html#gac82684684dc56978b7a379731fc8f265">RTDAL_ERROR_INVAL</a>&#160;&#160;&#160;1</td></tr>
+<tr class="memitem:ga0cedfe5afc2172a3b03d6056f55b6d25"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__error.html#ga0cedfe5afc2172a3b03d6056f55b6d25">RTDAL_ERROR_SYSTEM</a>&#160;&#160;&#160;2</td></tr>
+<tr class="memitem:ga1fe951f1bafef5d2f48d5e477c54bfe9"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__error.html#ga1fe951f1bafef5d2f48d5e477c54bfe9">RTDAL_ERROR_OTHER</a>&#160;&#160;&#160;3</td></tr>
+<tr class="memitem:ga644929c31c5df9e81151bb9e2b36d831"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__error.html#ga644929c31c5df9e81151bb9e2b36d831">RTDAL_ERROR_NOSPACE</a>&#160;&#160;&#160;4</td></tr>
+<tr class="memitem:gabffbe06ebb3a9e34026a3d69155f5c63"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__error.html#gabffbe06ebb3a9e34026a3d69155f5c63">RTDAL_ERROR_LARGE</a>&#160;&#160;&#160;5</td></tr>
+<tr class="memitem:gab6ec7eb3444e8c5d495f000fc88a9f96"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__error.html#gab6ec7eb3444e8c5d495f000fc88a9f96">RTDAL_ERROR_NOTFOUND</a>&#160;&#160;&#160;6</td></tr>
+<tr class="memitem:gad2c30c449d9ce1e0b92722cdd1a090e2"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__error.html#gad2c30c449d9ce1e0b92722cdd1a090e2">RTDAL_ERROR_DL</a>&#160;&#160;&#160;7</td></tr>
 <tr class="memitem:gaf0a54ccfc6eeb7a65939ebe18ff5d9f1"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__error.html#gaf0a54ccfc6eeb7a65939ebe18ff5d9f1">rtdal_perror</a>(msg)&#160;&#160;&#160;<a class="el" href="group__error.html#gab20356fe6f526384a14d6d27a3f1ff52">rtdal_error_print</a>(&quot;&quot;); <a class="el" href="defs_8h.html#a01fa3ae12c9c437ad6a8c57f815f13b7">aerror</a>(msg)</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2><a name="func-members"></a>
@@ -55,7 +62,119 @@ Functions</h2></td></tr>
 <tr class="memitem:gab20356fe6f526384a14d6d27a3f1ff52"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__error.html#gab20356fe6f526384a14d6d27a3f1ff52">rtdal_error_print</a> (const char *user_message)</td></tr>
 </table>
 <a name="details" id="details"></a><h2>Detailed Description</h2>
+<p>The error functions are used to print the errors produced during a call to an RTDAL function.</p>
+<p>When a function returns -1, the error is stored in a variable which is obtained using <a class="el" href="group__error.html#ga1ed1a584c5632090779cb8ca7a75bba3">rtdal_error_code()</a> and equals one of the RTDAL_ERROR_* constants.</p>
+<p>An error message can be obtained using the functions <a class="el" href="group__error.html#ga58bc9af166dac6b2749f9a7026d499d8">rtdal_error_string()</a>, <a class="el" href="group__error.html#gab20356fe6f526384a14d6d27a3f1ff52">rtdal_error_print()</a> or the macro <a class="el" href="group__error.html#gaf0a54ccfc6eeb7a65939ebe18ff5d9f1">rtdal_perror()</a>.</p>
+<p>: This part is not thread-safe. </p>
 <h2>Macro Definition Documentation</h2>
+<a class="anchor" id="gad2c30c449d9ce1e0b92722cdd1a090e2"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define RTDAL_ERROR_DL&#160;&#160;&#160;7</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="rtdal_8h_source.html#l00188">188</a> of file <a class="el" href="rtdal_8h_source.html">rtdal.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="gac82684684dc56978b7a379731fc8f265"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define RTDAL_ERROR_INVAL&#160;&#160;&#160;1</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="rtdal_8h_source.html#l00182">182</a> of file <a class="el" href="rtdal_8h_source.html">rtdal.h</a>.</p>
+
+<p>Referenced by <a class="el" href="rtdal__process_8c_source.html#l00168">rtdal_process_group_notified()</a>, and <a class="el" href="rtdal__base_8c_source.html#l00312">rtdal_process_new()</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="gabffbe06ebb3a9e34026a3d69155f5c63"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define RTDAL_ERROR_LARGE&#160;&#160;&#160;5</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="rtdal_8h_source.html#l00186">186</a> of file <a class="el" href="rtdal_8h_source.html">rtdal.h</a>.</p>
+
+<p>Referenced by <a class="el" href="rtdal__itfspscq_8c_source.html#l00186">rtdal_itfspscq_send()</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ga644929c31c5df9e81151bb9e2b36d831"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define RTDAL_ERROR_NOSPACE&#160;&#160;&#160;4</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="rtdal_8h_source.html#l00185">185</a> of file <a class="el" href="rtdal_8h_source.html">rtdal.h</a>.</p>
+
+<p>Referenced by <a class="el" href="rtdal__itfspscq_8c_source.html#l00101">rtdal_itfspscq_push()</a>, <a class="el" href="rtdal__itfspscq_8c_source.html#l00082">rtdal_itfspscq_request()</a>, <a class="el" href="rtdal__base_8c_source.html#l00118">rtdal_periodic_add()</a>, and <a class="el" href="rtdal__base_8c_source.html#l00312">rtdal_process_new()</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="gab6ec7eb3444e8c5d495f000fc88a9f96"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define RTDAL_ERROR_NOTFOUND&#160;&#160;&#160;6</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="rtdal_8h_source.html#l00187">187</a> of file <a class="el" href="rtdal_8h_source.html">rtdal.h</a>.</p>
+
+<p>Referenced by <a class="el" href="pipeline_8c_source.html#l00286">pipeline_remove()</a>, <a class="el" href="rtdal__base_8c_source.html#l00199">rtdal_itfphysic_get()</a>, <a class="el" href="rtdal__base_8c_source.html#l00223">rtdal_itfphysic_get_id()</a>, <a class="el" href="rtdal__base_8c_source.html#l00249">rtdal_itfspscq_new()</a>, and <a class="el" href="rtdal__base_8c_source.html#l00151">rtdal_periodic_remove()</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ga1fe951f1bafef5d2f48d5e477c54bfe9"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define RTDAL_ERROR_OTHER&#160;&#160;&#160;3</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="rtdal_8h_source.html#l00184">184</a> of file <a class="el" href="rtdal_8h_source.html">rtdal.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ga0cedfe5afc2172a3b03d6056f55b6d25"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define RTDAL_ERROR_SYSTEM&#160;&#160;&#160;2</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="rtdal_8h_source.html#l00183">183</a> of file <a class="el" href="rtdal_8h_source.html">rtdal.h</a>.</p>
+
+<p>Referenced by <a class="el" href="rtdal__error_8c_source.html#l00036">rtdal_error_systemcall()</a>.</p>
+
+</div>
+</div>
 <a class="anchor" id="gaf0a54ccfc6eeb7a65939ebe18ff5d9f1"></a>
 <div class="memitem">
 <div class="memproto">
@@ -70,7 +189,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="rtdal_8h_source.html#l00151">151</a> of file <a class="el" href="rtdal_8h_source.html">rtdal.h</a>.</p>
+<p>Definition at line <a class="el" href="rtdal_8h_source.html#l00194">194</a> of file <a class="el" href="rtdal_8h_source.html">rtdal.h</a>.</p>
 
 <p>Referenced by <a class="el" href="rtdal__kernel_8c_source.html#l00191">kernel_initialize_create_pipeline()</a>, and <a class="el" href="rtdal__kernel_8c_source.html#l00655">main()</a>.</p>
 
@@ -89,8 +208,9 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Returns the current error code </p>
 
-<p>Definition at line <a class="el" href="rtdal__error_8c_source.html#l00094">94</a> of file <a class="el" href="rtdal__error_8c_source.html">rtdal_error.c</a>.</p>
+<p>Definition at line <a class="el" href="rtdal__error_8c_source.html#l00102">102</a> of file <a class="el" href="rtdal__error_8c_source.html">rtdal_error.c</a>.</p>
 
 </div>
 </div>
@@ -107,8 +227,9 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Prints to stderr the current error message accompanied by a user message. </p>
 
-<p>Definition at line <a class="el" href="rtdal__error_8c_source.html#l00060">60</a> of file <a class="el" href="rtdal__error_8c_source.html">rtdal_error.c</a>.</p>
+<p>Definition at line <a class="el" href="rtdal__error_8c_source.html#l00062">62</a> of file <a class="el" href="rtdal__error_8c_source.html">rtdal_error.c</a>.</p>
 
 </div>
 </div>
@@ -124,15 +245,16 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Returns a pointer tot he current error message </p>
 
-<p>Definition at line <a class="el" href="rtdal__error_8c_source.html#l00089">89</a> of file <a class="el" href="rtdal__error_8c_source.html">rtdal_error.c</a>.</p>
+<p>Definition at line <a class="el" href="rtdal__error_8c_source.html#l00094">94</a> of file <a class="el" href="rtdal__error_8c_source.html">rtdal_error.c</a>.</p>
 
 </div>
 </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Dec 9 2012 21:33:17 for ALOE++ RTDAL API by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Dec 10 2012 11:45:32 for ALOE++ RTDAL API by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.1.2
 </small></address>

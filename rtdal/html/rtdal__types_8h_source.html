@@ -82,34 +82,27 @@
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;};</div>
 <div class="line"><a name="l00031"></a><span class="lineno"><a class="code" href="rtdal__types_8h.html#a9a6d36a76828ee198254e7084107ca38">   31</a></span>&#160;<span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code" href="structh__proc__.html">h_proc_</a>* <a class="code" href="rtdal__types_8h.html#a9a6d36a76828ee198254e7084107ca38">r_proc_t</a>;</div>
 <div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;</div>
-<div class="line"><a name="l00036"></a><span class="lineno"><a class="code" href="structrtdal__process__attr.html">   36</a></span>&#160;<span class="keyword">struct </span><a class="code" href="structrtdal__process__attr.html">rtdal_process_attr</a> {</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;        <a class="code" href="structrtdal__process__attr.html#af5db7229c0df55e9fe7e9a77dc2362af">strdef</a>(binary_path);</div>
-<div class="line"><a name="l00038"></a><span class="lineno"><a class="code" href="structrtdal__process__attr.html#acd4d32580ab29e3b881bebe616b5e833">   38</a></span>&#160;        <span class="keywordtype">int</span> <a class="code" href="structrtdal__process__attr.html#acd4d32580ab29e3b881bebe616b5e833">pipeline_id</a>;</div>
-<div class="line"><a name="l00039"></a><span class="lineno"><a class="code" href="structrtdal__process__attr.html#ad1462da5986c023d9865b556220bec0c">   39</a></span>&#160;        <span class="keywordtype">int</span> <a class="code" href="structrtdal__process__attr.html#ad1462da5986c023d9865b556220bec0c">exec_position</a>;</div>
-<div class="line"><a name="l00040"></a><span class="lineno"><a class="code" href="structrtdal__process__attr.html#a1c0bf46255fa36473470d432234e626f">   40</a></span>&#160;        <span class="keywordtype">int</span> <a class="code" href="structrtdal__process__attr.html#a1c0bf46255fa36473470d432234e626f">waveform_id</a>;</div>
-<div class="line"><a name="l00041"></a><span class="lineno"><a class="code" href="structrtdal__process__attr.html#ae9b5f9e60d4117f1da3e8bcc09161a4b">   41</a></span>&#160;        <span class="keywordtype">void</span>* (*finish_callback)(<span class="keywordtype">void</span>*);</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;};</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;</div>
-<div class="line"><a name="l00044"></a><span class="lineno"><a class="code" href="structh__itf__.html">   44</a></span>&#160;<span class="keyword">struct </span><a class="code" href="structh__itf__.html">h_itf_</a> {</div>
-<div class="line"><a name="l00045"></a><span class="lineno"><a class="code" href="structh__itf__.html#abef006ee2e660568174317099553d1d2">   45</a></span>&#160;        <span class="keywordtype">int</span> <a class="code" href="structh__itf__.html#abef006ee2e660568174317099553d1d2">id</a>;</div>
-<div class="line"><a name="l00046"></a><span class="lineno"><a class="code" href="structh__itf__.html#a5f14435220765d8722f0cd55cadb7d5a">   46</a></span>&#160;        <span class="keywordtype">int</span> <a class="code" href="structh__itf__.html#a5f14435220765d8722f0cd55cadb7d5a">is_external</a>;</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;};</div>
-<div class="line"><a name="l00048"></a><span class="lineno"><a class="code" href="rtdal__types_8h.html#a95fa1c8ca0f279eeb420f2083f6bee5d">   48</a></span>&#160;<span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code" href="structh__itf__.html">h_itf_</a>* <a class="code" href="rtdal__types_8h.html#a95fa1c8ca0f279eeb420f2083f6bee5d">r_itf_t</a>;</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;</div>
-<div class="line"><a name="l00051"></a><span class="lineno"><a class="code" href="structh__dac__.html">   51</a></span>&#160;<span class="keyword">struct </span><a class="code" href="structh__dac__.html">h_dac_</a> {</div>
-<div class="line"><a name="l00052"></a><span class="lineno"><a class="code" href="structh__dac__.html#aeaca55d5cad93c3ca5b3f9d94d188a1d">   52</a></span>&#160;        <span class="keywordtype">int</span> <a class="code" href="structh__dac__.html#aeaca55d5cad93c3ca5b3f9d94d188a1d">id</a>;</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;};</div>
-<div class="line"><a name="l00054"></a><span class="lineno"><a class="code" href="rtdal__types_8h.html#aa78f7bbd07935ad587fc182f06d4314c">   54</a></span>&#160;<span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code" href="structh__dac__.html">h_dac_</a>* <a class="code" href="rtdal__types_8h.html#aa78f7bbd07935ad587fc182f06d4314c">r_dac_t</a>;</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;</div>
-<div class="line"><a name="l00056"></a><span class="lineno"><a class="code" href="rtdal__types_8h.html#a30e668fd84aa9b5dacaa84e2bcfde194">   56</a></span>&#160;<span class="keyword">typedef</span> pthread_t <a class="code" href="rtdal__types_8h.html#a30e668fd84aa9b5dacaa84e2bcfde194">r_task_t</a>;</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;</div>
+<div class="line"><a name="l00034"></a><span class="lineno"><a class="code" href="structh__itf__.html">   34</a></span>&#160;<span class="keyword">struct </span><a class="code" href="structh__itf__.html">h_itf_</a> {</div>
+<div class="line"><a name="l00035"></a><span class="lineno"><a class="code" href="structh__itf__.html#abef006ee2e660568174317099553d1d2">   35</a></span>&#160;        <span class="keywordtype">int</span> <a class="code" href="structh__itf__.html#abef006ee2e660568174317099553d1d2">id</a>;</div>
+<div class="line"><a name="l00036"></a><span class="lineno"><a class="code" href="structh__itf__.html#a5f14435220765d8722f0cd55cadb7d5a">   36</a></span>&#160;        <span class="keywordtype">int</span> <a class="code" href="structh__itf__.html#a5f14435220765d8722f0cd55cadb7d5a">is_external</a>;</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;};</div>
+<div class="line"><a name="l00038"></a><span class="lineno"><a class="code" href="rtdal__types_8h.html#a95fa1c8ca0f279eeb420f2083f6bee5d">   38</a></span>&#160;<span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code" href="structh__itf__.html">h_itf_</a>* <a class="code" href="rtdal__types_8h.html#a95fa1c8ca0f279eeb420f2083f6bee5d">r_itf_t</a>;</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;</div>
+<div class="line"><a name="l00041"></a><span class="lineno"><a class="code" href="structh__dac__.html">   41</a></span>&#160;<span class="keyword">struct </span><a class="code" href="structh__dac__.html">h_dac_</a> {</div>
+<div class="line"><a name="l00042"></a><span class="lineno"><a class="code" href="structh__dac__.html#aeaca55d5cad93c3ca5b3f9d94d188a1d">   42</a></span>&#160;        <span class="keywordtype">int</span> <a class="code" href="structh__dac__.html#aeaca55d5cad93c3ca5b3f9d94d188a1d">id</a>;</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;};</div>
+<div class="line"><a name="l00044"></a><span class="lineno"><a class="code" href="rtdal__types_8h.html#aa78f7bbd07935ad587fc182f06d4314c">   44</a></span>&#160;<span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code" href="structh__dac__.html">h_dac_</a>* <a class="code" href="rtdal__types_8h.html#aa78f7bbd07935ad587fc182f06d4314c">r_dac_t</a>;</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;</div>
+<div class="line"><a name="l00046"></a><span class="lineno"><a class="code" href="rtdal__types_8h.html#a30e668fd84aa9b5dacaa84e2bcfde194">   46</a></span>&#160;<span class="keyword">typedef</span> pthread_t <a class="code" href="rtdal__types_8h.html#a30e668fd84aa9b5dacaa84e2bcfde194">r_task_t</a>;</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;<span class="preprocessor">#endif</span></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Dec 9 2012 21:33:16 for ALOE++ RTDAL API by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Dec 10 2012 11:45:32 for ALOE++ RTDAL API by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.1.2
 </small></address>

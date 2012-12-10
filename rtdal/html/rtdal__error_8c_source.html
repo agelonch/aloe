@@ -89,7 +89,7 @@
 <div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;                <span class="keyword">const</span> <span class="keywordtype">char</span> *system_call) {</div>
 <div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;        assert(context);</div>
 <div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;        context-&gt;<a class="code" href="structrtdal__error__t.html#aba3aa24fa1a3c37942b90a8b63f214c4">sys_errnum</a>=errnum;</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;        context-&gt;<a class="code" href="structrtdal__error__t.html#afef22b8ccca8067d63155dc9d823cd88">code</a> = <a class="code" href="rtdal__error_8h.html#a0cedfe5afc2172a3b03d6056f55b6d25">RTDAL_ERROR_SYSTEM</a>;</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;        context-&gt;<a class="code" href="structrtdal__error__t.html#afef22b8ccca8067d63155dc9d823cd88">code</a> = <a class="code" href="group__error.html#ga0cedfe5afc2172a3b03d6056f55b6d25">RTDAL_ERROR_SYSTEM</a>;</div>
 <div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;        snprintf(context-&gt;msg, <a class="code" href="str_8h.html#ab9c0b16e4bb674502096c5b4aa9f6c15">LSTR_LEN</a>, <span class="stringliteral">&quot;[file %s, line %d]: System call: %s. &quot;</span></div>
 <div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;                        <span class="stringliteral">&quot;Error: %s&quot;</span>, file, line, system_call, strerror(errnum));</div>
 <div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;}</div>
@@ -108,49 +108,48 @@
 <div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;        }</div>
 <div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;}</div>
 <div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;</div>
-<div class="line"><a name="l00060"></a><span class="lineno"><a class="code" href="group__error.html#gab20356fe6f526384a14d6d27a3f1ff52">   60</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="group__error.html#gab20356fe6f526384a14d6d27a3f1ff52">rtdal_error_print</a>(<span class="keyword">const</span> <span class="keywordtype">char</span> *user_message) {</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;        assert(context);</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;        assert(user_message);</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;        <span class="keywordflow">if</span> (strlen(user_message)) {</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;                fprintf(stderr, <span class="stringliteral">&quot;%s: %s\n&quot;</span>, context-&gt;msg, user_message);</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;        } <span class="keywordflow">else</span> {</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;                fprintf(stderr, <span class="stringliteral">&quot;%s\n&quot;</span>, context-&gt;msg);</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;        }</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;}</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;<span class="keyword">inline</span> <span class="keyword">static</span> <span class="keyword">const</span> <span class="keywordtype">char</span> *print_error_string(<span class="keywordtype">int</span> code) {</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;        assert(context);</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;        <span class="keywordflow">switch</span>(code) {</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;        <span class="keywordflow">case</span> <a class="code" href="rtdal__error_8h.html#ac82684684dc56978b7a379731fc8f265">RTDAL_ERROR_INVAL</a>:</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;                <span class="keywordflow">return</span> <span class="stringliteral">&quot;Invalid parameter. &quot;</span>;</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;        <span class="keywordflow">case</span> <a class="code" href="rtdal__error_8h.html#a644929c31c5df9e81151bb9e2b36d831">RTDAL_ERROR_NOSPACE</a>:</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;                <span class="keywordflow">return</span> <span class="stringliteral">&quot;Run out of space. &quot;</span>;</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;        <span class="keywordflow">case</span> <a class="code" href="rtdal__error_8h.html#abffbe06ebb3a9e34026a3d69155f5c63">RTDAL_ERROR_LARGE</a>:</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;                <span class="keywordflow">return</span> <span class="stringliteral">&quot;Too large. &quot;</span>;</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;        <span class="keywordflow">case</span> <a class="code" href="rtdal__error_8h.html#ad2c30c449d9ce1e0b92722cdd1a090e2">RTDAL_ERROR_DL</a>:</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;                <span class="keywordflow">return</span> <span class="stringliteral">&quot;Dynamic Loading. &quot;</span>;</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;        <span class="keywordflow">case</span> <a class="code" href="rtdal__error_8h.html#ab6ec7eb3444e8c5d495f000fc88a9f96">RTDAL_ERROR_NOTFOUND</a>:</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;                <span class="keywordflow">return</span> <span class="stringliteral">&quot;Object not found. &quot;</span>;</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;        <span class="keywordflow">default</span>:</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;                <span class="keywordflow">return</span> <span class="stringliteral">&quot;&quot;</span>;</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;        }</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;}</div>
+<div class="line"><a name="l00062"></a><span class="lineno"><a class="code" href="group__error.html#gab20356fe6f526384a14d6d27a3f1ff52">   62</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="group__error.html#gab20356fe6f526384a14d6d27a3f1ff52">rtdal_error_print</a>(<span class="keyword">const</span> <span class="keywordtype">char</span> *user_message) {</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;        assert(context);</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;        assert(user_message);</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;        <span class="keywordflow">if</span> (strlen(user_message)) {</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;                fprintf(stderr, <span class="stringliteral">&quot;%s: %s\n&quot;</span>, context-&gt;msg, user_message);</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;        } <span class="keywordflow">else</span> {</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;                fprintf(stderr, <span class="stringliteral">&quot;%s\n&quot;</span>, context-&gt;msg);</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;        }</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;}</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;<span class="keyword">inline</span> <span class="keyword">static</span> <span class="keyword">const</span> <span class="keywordtype">char</span> *print_error_string(<span class="keywordtype">int</span> code) {</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;        assert(context);</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;        <span class="keywordflow">switch</span>(code) {</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;        <span class="keywordflow">case</span> <a class="code" href="group__error.html#gac82684684dc56978b7a379731fc8f265">RTDAL_ERROR_INVAL</a>:</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;                <span class="keywordflow">return</span> <span class="stringliteral">&quot;Invalid parameter. &quot;</span>;</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;        <span class="keywordflow">case</span> <a class="code" href="group__error.html#ga644929c31c5df9e81151bb9e2b36d831">RTDAL_ERROR_NOSPACE</a>:</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;                <span class="keywordflow">return</span> <span class="stringliteral">&quot;Run out of space. &quot;</span>;</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;        <span class="keywordflow">case</span> <a class="code" href="group__error.html#gabffbe06ebb3a9e34026a3d69155f5c63">RTDAL_ERROR_LARGE</a>:</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;                <span class="keywordflow">return</span> <span class="stringliteral">&quot;Too large. &quot;</span>;</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;        <span class="keywordflow">case</span> <a class="code" href="group__error.html#gad2c30c449d9ce1e0b92722cdd1a090e2">RTDAL_ERROR_DL</a>:</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;                <span class="keywordflow">return</span> <span class="stringliteral">&quot;Dynamic Loading. &quot;</span>;</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;        <span class="keywordflow">case</span> <a class="code" href="group__error.html#gab6ec7eb3444e8c5d495f000fc88a9f96">RTDAL_ERROR_NOTFOUND</a>:</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;                <span class="keywordflow">return</span> <span class="stringliteral">&quot;Object not found. &quot;</span>;</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;        <span class="keywordflow">default</span>:</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;                <span class="keywordflow">return</span> <span class="stringliteral">&quot;&quot;</span>;</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;        }</div>
 <div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;</div>
-<div class="line"><a name="l00089"></a><span class="lineno"><a class="code" href="group__error.html#ga58bc9af166dac6b2749f9a7026d499d8">   89</a></span>&#160;<span class="keywordtype">string</span> <a class="code" href="group__error.html#ga58bc9af166dac6b2749f9a7026d499d8">rtdal_error_string</a>() {</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;        assert(context);</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;        <span class="keywordflow">return</span> context-&gt;msg;</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;}</div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;</div>
-<div class="line"><a name="l00094"></a><span class="lineno"><a class="code" href="group__error.html#ga1ed1a584c5632090779cb8ca7a75bba3">   94</a></span>&#160;<span class="keywordtype">int</span> <a class="code" href="group__error.html#ga1ed1a584c5632090779cb8ca7a75bba3">rtdal_error_code</a>() {</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;}</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;</div>
+<div class="line"><a name="l00094"></a><span class="lineno"><a class="code" href="group__error.html#ga58bc9af166dac6b2749f9a7026d499d8">   94</a></span>&#160;<span class="keywordtype">string</span> <a class="code" href="group__error.html#ga58bc9af166dac6b2749f9a7026d499d8">rtdal_error_string</a>() {</div>
 <div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;        assert(context);</div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;        <span class="keywordflow">return</span> context-&gt;<a class="code" href="structrtdal__error__t.html#afef22b8ccca8067d63155dc9d823cd88">code</a>;</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;        <span class="keywordflow">return</span> context-&gt;msg;</div>
 <div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;}</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;</div>
+<div class="line"><a name="l00102"></a><span class="lineno"><a class="code" href="group__error.html#ga1ed1a584c5632090779cb8ca7a75bba3">  102</a></span>&#160;<span class="keywordtype">int</span> <a class="code" href="group__error.html#ga1ed1a584c5632090779cb8ca7a75bba3">rtdal_error_code</a>() {</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;        assert(context);</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;        <span class="keywordflow">return</span> context-&gt;<a class="code" href="structrtdal__error__t.html#afef22b8ccca8067d63155dc9d823cd88">code</a>;</div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;}</div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Dec 9 2012 21:33:16 for ALOE++ RTDAL API by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Dec 10 2012 11:45:32 for ALOE++ RTDAL API by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.1.2
 </small></address>

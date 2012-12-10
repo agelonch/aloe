@@ -37,34 +37,99 @@
 </div><!-- top -->
 <div class="header">
   <div class="summary">
+<a href="#define-members">Macros</a> &#124;
+<a href="#enum-members">Enumerations</a> &#124;
 <a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
 <div class="title">Interface functions</div>  </div>
 </div><!--header-->
 <div class="contents">
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2><a name="define-members"></a>
+Macros</h2></td></tr>
+<tr class="memitem:ga9c80a94553b05c8132ad1351bcf65658"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__itf.html#ga9c80a94553b05c8132ad1351bcf65658">OESR_ITF_DEFAULT_MSG</a>&#160;&#160;&#160;50</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2><a name="enum-members"></a>
+Enumerations</h2></td></tr>
+<tr class="memitem:ga7f097e43c8deaa91df5ac04f6e774016"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__itf.html#ga7f097e43c8deaa91df5ac04f6e774016">oesr_itf_mode_t</a> { <a class="el" href="group__itf.html#gga7f097e43c8deaa91df5ac04f6e774016a7aec42e5cee356b2c0c0c9cc8ac07b28">ITF_READ</a>, 
+<a class="el" href="group__itf.html#gga7f097e43c8deaa91df5ac04f6e774016a97d3fa705c89984b70743cfa6e97e2a0">ITF_WRITE</a>
+ }</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:ga928f9703d5a3ce8da83bc98880cb1343"><td class="memItemLeft" align="right" valign="top">itf_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__itf.html#ga928f9703d5a3ce8da83bc98880cb1343">oesr_itf_create</a> (void *context, int port_idx, oesr_itf_mode_t mode, int size)</td></tr>
-<tr class="memdesc:ga928f9703d5a3ce8da83bc98880cb1343"><td class="mdescLeft">&#160;</td><td class="mdescRight">An interface is used by modules to exchange data packets (with samples) asynchronously.  <a href="#ga928f9703d5a3ce8da83bc98880cb1343"></a><br/></td></tr>
+<tr class="memitem:ga928f9703d5a3ce8da83bc98880cb1343"><td class="memItemLeft" align="right" valign="top">itf_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__itf.html#ga928f9703d5a3ce8da83bc98880cb1343">oesr_itf_create</a> (void *context, int port_idx, <a class="el" href="group__itf.html#ga7f097e43c8deaa91df5ac04f6e774016">oesr_itf_mode_t</a> mode, int size)</td></tr>
 <tr class="memitem:ga8ef4df01532194c90b85149429c7680d"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__itf.html#ga8ef4df01532194c90b85149429c7680d">oesr_itf_close</a> (itf_t itf)</td></tr>
-<tr class="memdesc:ga8ef4df01532194c90b85149429c7680d"><td class="mdescLeft">&#160;</td><td class="mdescRight">The <a class="el" href="group__itf.html#ga8ef4df01532194c90b85149429c7680d" title="The oesr_itf_close() function closes an interface previously created by oesr_itf_create(). The interface shall not be used again after calling this function.">oesr_itf_close()</a> function closes an interface previously created by <a class="el" href="group__itf.html#ga928f9703d5a3ce8da83bc98880cb1343" title="An interface is used by modules to exchange data packets (with samples) asynchronously.">oesr_itf_create()</a>. The interface shall not be used again after calling this function.  <a href="#ga8ef4df01532194c90b85149429c7680d"></a><br/></td></tr>
 <tr class="memitem:gab01376afdd65f1b4e9ea04584e79705b"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__itf.html#gab01376afdd65f1b4e9ea04584e79705b">oesr_itf_write</a> (itf_t itf, void *buffer, int size)</td></tr>
-<tr class="memdesc:gab01376afdd65f1b4e9ea04584e79705b"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="group__itf.html#gab01376afdd65f1b4e9ea04584e79705b" title="oesr_itf_write() copies size bytes of the memory pointed by buffer to a packet which is sent through ...">oesr_itf_write()</a> copies size bytes of the memory pointed by buffer to a packet which is sent through the interface. If size is larger than the size used in <a class="el" href="group__itf.html#ga928f9703d5a3ce8da83bc98880cb1343" title="An interface is used by modules to exchange data packets (with samples) asynchronously.">oesr_itf_create()</a>, no data is copied and -1 is returned. If there is not enough space in the interface to send the packet, 0 is returned. When the function returns, the user may overwrite the contents of the memory pointed by buffer.  <a href="#gab01376afdd65f1b4e9ea04584e79705b"></a><br/></td></tr>
 <tr class="memitem:ga43e3b33e38b8fca4bcec601f083a71fb"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__itf.html#ga43e3b33e38b8fca4bcec601f083a71fb">oesr_itf_read</a> (itf_t itf, void *buffer, int size)</td></tr>
-<tr class="memdesc:ga43e3b33e38b8fca4bcec601f083a71fb"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="group__itf.html#ga43e3b33e38b8fca4bcec601f083a71fb" title="oesr_itf_read() copies up to size bytes of the memory pointed by buffer from the packet received from...">oesr_itf_read()</a> copies up to size bytes of the memory pointed by buffer from the packet received from the interface. If size is smaller than the received packet length, only size bytes will be copied. If no packet is pending in the interface, zero is returned.  <a href="#ga43e3b33e38b8fca4bcec601f083a71fb"></a><br/></td></tr>
 <tr class="memitem:ga5a955fed4a85add4824cd2966e742124"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__itf.html#ga5a955fed4a85add4824cd2966e742124">oesr_itf_status</a> (itf_t itf)</td></tr>
-<tr class="memdesc:ga5a955fed4a85add4824cd2966e742124"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="group__itf.html#ga5a955fed4a85add4824cd2966e742124" title="oesr_itf_status() returns the number of bytes pending in the interface.">oesr_itf_status()</a> returns the number of bytes pending in the interface.  <a href="#ga5a955fed4a85add4824cd2966e742124"></a><br/></td></tr>
 <tr class="memitem:ga7a7c53b325a1a904682d4ffc07771f06"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__itf.html#ga7a7c53b325a1a904682d4ffc07771f06">oesr_itf_ptr_request</a> (itf_t itf, void **ptr)</td></tr>
-<tr class="memdesc:ga7a7c53b325a1a904682d4ffc07771f06"><td class="mdescLeft">&#160;</td><td class="mdescRight">Requests a pointer for zero-copy interface utilization.  <a href="#ga7a7c53b325a1a904682d4ffc07771f06"></a><br/></td></tr>
 <tr class="memitem:ga3275f85a616402b3108ad418ef0bc5ea"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__itf.html#ga3275f85a616402b3108ad418ef0bc5ea">oesr_itf_ptr_release</a> (itf_t itf)</td></tr>
-<tr class="memdesc:ga3275f85a616402b3108ad418ef0bc5ea"><td class="mdescLeft">&#160;</td><td class="mdescRight">Releases a pointer received using <a class="el" href="group__itf.html#gab57a810a4e00dd0ed18fb667c430f701" title="Receives a buffer from an interface.">oesr_itf_ptr_get()</a> after the contents have been processed.  <a href="#ga3275f85a616402b3108ad418ef0bc5ea"></a><br/></td></tr>
 <tr class="memitem:gade3bcfe877fdebce50643e692240e62d"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__itf.html#gade3bcfe877fdebce50643e692240e62d">oesr_itf_ptr_put</a> (itf_t itf, int len)</td></tr>
-<tr class="memdesc:gade3bcfe877fdebce50643e692240e62d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sends a buffer obtained by <a class="el" href="group__itf.html#ga7a7c53b325a1a904682d4ffc07771f06" title="Requests a pointer for zero-copy interface utilization.">oesr_itf_ptr_request()</a> after the samples have been written to it.  <a href="#gade3bcfe877fdebce50643e692240e62d"></a><br/></td></tr>
 <tr class="memitem:gab57a810a4e00dd0ed18fb667c430f701"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__itf.html#gab57a810a4e00dd0ed18fb667c430f701">oesr_itf_ptr_get</a> (itf_t itf, void **ptr, int *len)</td></tr>
-<tr class="memdesc:gab57a810a4e00dd0ed18fb667c430f701"><td class="mdescLeft">&#160;</td><td class="mdescRight">Receives a buffer from an interface.  <a href="#gab57a810a4e00dd0ed18fb667c430f701"></a><br/></td></tr>
 </table>
 <a name="details" id="details"></a><h2>Detailed Description</h2>
+<p>An interface is used by modules to exchange data packets (i.e. samples) asynchronously.</p>
+<p>An interface is created using <a class="el" href="group__itf.html#ga928f9703d5a3ce8da83bc98880cb1343">oesr_itf_create()</a>, which returns a handler pointer of type itf_t on success. This handler is passed to the oesr_itf_*() functions as the first parameter, in order to operate with interface.</p>
+<p>There are two modes to transmit/receive data. The <a class="el" href="group__itf.html#gab01376afdd65f1b4e9ea04584e79705b">oesr_itf_write()</a> function write a given amount of bytes from a buffer provided by the user to the interface. Memory copies can be avoided using the oesr_itf_ptr* collection of functions. With this mode, the transmitter obtains a buffer shared with the receiver. Then both modules write and read avoiding memory copies. The buffer is released by the receiver after the samples have been processed, avoiding other modules to use it meanwhile.</p>
+<p>The family of oesr_itf_ptr_* functions may be used for more efficient interface usage: they are designed for zero-copy packet communication.</p>
+<p>The transmitter obtains a buffer using the function <a class="el" href="group__itf.html#ga7a7c53b325a1a904682d4ffc07771f06">oesr_itf_ptr_request()</a>. It fills the contents with the samples to transmitted and then calls <a class="el" href="group__itf.html#gade3bcfe877fdebce50643e692240e62d">oesr_itf_ptr_put()</a> to make the packet available to the receiver. The receiver obtains the buffer address using the function <a class="el" href="group__itf.html#gab57a810a4e00dd0ed18fb667c430f701">oesr_itf_ptr_get()</a>. After the samples have been processed, a final call to <a class="el" href="group__itf.html#ga3275f85a616402b3108ad418ef0bc5ea">oesr_itf_ptr_release()</a> allows the packet to be reused again by the transmitter.</p>
+<p>These functions give the user direct access to the internal RTDAL memory. The buffers are automatically allocated for the size passed as a parameter to the <a class="el" href="group__itf.html#ga928f9703d5a3ce8da83bc98880cb1343">oesr_itf_create()</a> function. The user MUST ensure that this size is not exceed.</p>
+<p>Example:</p>
+<p>This would be the transmitter module: </p>
+<div class="fragment"><div class="line"><span class="keywordtype">int</span> *ptr;</div>
+<div class="line"></div>
+<div class="line"><a class="code" href="group__itf.html#ga7a7c53b325a1a904682d4ffc07771f06">oesr_itf_ptr_request</a>(my_itf, &amp;ptr);</div>
+<div class="line"></div>
+<div class="line"><span class="keywordflow">for</span> (i=0;i&lt;len;i++) {</div>
+<div class="line">        ptr[i] = fill_data(i);</div>
+<div class="line">}</div>
+<div class="line"></div>
+<div class="line"><a class="code" href="group__itf.html#gade3bcfe877fdebce50643e692240e62d">oesr_itf_ptr_put</a>(my_itf, len);</div>
+</div><!-- fragment --><p>And this is the receiver side: </p>
+<div class="fragment"><div class="line"><span class="keywordtype">int</span> *ptr;</div>
+<div class="line"></div>
+<div class="line"><a class="code" href="group__itf.html#gab57a810a4e00dd0ed18fb667c430f701">oesr_itf_ptr_get</a>(my_itf, &amp;ptr, &amp;len);</div>
+<div class="line"></div>
+<div class="line"><span class="keywordflow">for</span> (i=0;i&lt;len;i++) {</div>
+<div class="line">        process_data(i);</div>
+<div class="line">}</div>
+<div class="line"></div>
+<div class="line"><a class="code" href="group__itf.html#ga3275f85a616402b3108ad418ef0bc5ea">oesr_itf_ptr_release</a>(my_itf);</div>
+</div><!-- fragment --><p>More information on OESR interfaces is given in the RTDAL documentation (interfaces section). </p>
+<h2>Macro Definition Documentation</h2>
+<a class="anchor" id="ga9c80a94553b05c8132ad1351bcf65658"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define OESR_ITF_DEFAULT_MSG&#160;&#160;&#160;50</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2>Enumeration Type Documentation</h2>
+<a class="anchor" id="ga7f097e43c8deaa91df5ac04f6e774016"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="group__itf.html#ga7f097e43c8deaa91df5ac04f6e774016">oesr_itf_mode_t</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl><dt><b>Enumerator: </b></dt><dd><table border="0" cellspacing="2" cellpadding="0">
+<tr><td valign="top"><em><a class="anchor" id="gga7f097e43c8deaa91df5ac04f6e774016a7aec42e5cee356b2c0c0c9cc8ac07b28"></a>ITF_READ</em>&nbsp;</td><td>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="gga7f097e43c8deaa91df5ac04f6e774016a97d3fa705c89984b70743cfa6e97e2a0"></a>ITF_WRITE</em>&nbsp;</td><td>
+</td></tr>
+</table>
+</dd>
+</dl>
+
+</div>
+</div>
 <h2>Function Documentation</h2>
 <a class="anchor" id="ga8ef4df01532194c90b85149429c7680d"></a>
 <div class="memitem">
@@ -79,12 +144,10 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-
-<p>The <a class="el" href="group__itf.html#ga8ef4df01532194c90b85149429c7680d" title="The oesr_itf_close() function closes an interface previously created by oesr_itf_create(). The interface shall not be used again after calling this function.">oesr_itf_close()</a> function closes an interface previously created by <a class="el" href="group__itf.html#ga928f9703d5a3ce8da83bc98880cb1343" title="An interface is used by modules to exchange data packets (with samples) asynchronously.">oesr_itf_create()</a>. The interface shall not be used again after calling this function. </p>
-<p>See <a class="el" href="group__itf.html#ga928f9703d5a3ce8da83bc98880cb1343" title="An interface is used by modules to exchange data packets (with samples) asynchronously.">oesr_itf_create()</a> for an introduction to oesr interfaces.</p>
+<p>The <a class="el" href="group__itf.html#ga8ef4df01532194c90b85149429c7680d">oesr_itf_close()</a> function closes an interface previously created by <a class="el" href="group__itf.html#ga928f9703d5a3ce8da83bc98880cb1343">oesr_itf_create()</a>. The interface shall not be used again after calling this function.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">itf</td><td>Handler returned by the <a class="el" href="group__itf.html#ga928f9703d5a3ce8da83bc98880cb1343" title="An interface is used by modules to exchange data packets (with samples) asynchronously.">oesr_itf_create()</a> function.</td></tr>
+    <tr><td class="paramname">itf</td><td>Handler returned by the <a class="el" href="group__itf.html#ga928f9703d5a3ce8da83bc98880cb1343">oesr_itf_create()</a> function.</td></tr>
   </table>
   </dd>
 </dl>
@@ -111,7 +174,7 @@ Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">oesr_itf_mode_t&#160;</td>
+          <td class="paramtype"><a class="el" href="group__itf.html#ga7f097e43c8deaa91df5ac04f6e774016">oesr_itf_mode_t</a>&#160;</td>
           <td class="paramname"><em>mode</em>, </td>
         </tr>
         <tr>
@@ -127,11 +190,7 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-
-<p>An interface is used by modules to exchange data packets (with samples) asynchronously. </p>
-<p>An interface is created using <a class="el" href="group__itf.html#ga928f9703d5a3ce8da83bc98880cb1343" title="An interface is used by modules to exchange data packets (with samples) asynchronously.">oesr_itf_create()</a>, which returns a handler pointer of type itf_t on success. This handler is passed to the oesr_itf_*() functions as the first parameter, in order to operate with interface.</p>
-<p>There are two modes to transmit/receive data. The <a class="el" href="group__itf.html#gab01376afdd65f1b4e9ea04584e79705b" title="oesr_itf_write() copies size bytes of the memory pointed by buffer to a packet which is sent through ...">oesr_itf_write()</a> function write a given amount of bytes from a buffer provided by the user to the interface. Memory copies can be avoided using the oesr_itf_ptr* collection of functions. With this mode, the transmitter obtains a buffer shared with the receiver. Then both modules write and read avoiding memory copies. The buffer is released by the receiver after the samples have been processed, avoiding other modules to use it meanwhile.</p>
-<p>The <a class="el" href="group__itf.html#ga928f9703d5a3ce8da83bc98880cb1343" title="An interface is used by modules to exchange data packets (with samples) asynchronously.">oesr_itf_create()</a> function initializes the interface with the rtdal. A pair of transmitter/receiver modules use the same rtdal interface to communicate each other. This interface is created by the transmitter. The receiver then attaches to the same interface. Since the order of creation is unknown, the interface might not yet be created by the transmitter. In this case, the oesr_error_code is set to oesr_ERROR_NOTREADY and the transmitter may try to call again the <a class="el" href="group__itf.html#ga928f9703d5a3ce8da83bc98880cb1343" title="An interface is used by modules to exchange data packets (with samples) asynchronously.">oesr_itf_create()</a> function in the next timeslot.</p>
+<p>The <a class="el" href="group__itf.html#ga928f9703d5a3ce8da83bc98880cb1343">oesr_itf_create()</a> function initializes the interface with the rtdal. A pair of transmitter/receiver modules use the same rtdal interface to communicate each other. This interface is created by the transmitter. The receiver then attaches to the same interface. Since the order of creation is unknown, the interface might not yet be created by the transmitter. In this case, the oesr_error_code is set to OESR_ERROR_NOTREADY and the transmitter may try to call again the <a class="el" href="group__itf.html#ga928f9703d5a3ce8da83bc98880cb1343">oesr_itf_create()</a> function in the next timeslot.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">context</td><td>Pointer to the oesr context </td></tr>
@@ -174,13 +233,10 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-
-<p>Receives a buffer from an interface. </p>
-<p>See <a class="el" href="group__itf.html#ga928f9703d5a3ce8da83bc98880cb1343" title="An interface is used by modules to exchange data packets (with samples) asynchronously.">oesr_itf_create()</a> for an introduction to oesr interfaces.</p>
-<p>See <a class="el" href="group__itf.html#ga7a7c53b325a1a904682d4ffc07771f06" title="Requests a pointer for zero-copy interface utilization.">oesr_itf_ptr_request()</a> for documentation on the oesr_itf_ptr_* family of functions.</p>
+<p>Receives a buffer from an interface.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">itf</td><td>Handler returned by the <a class="el" href="group__itf.html#ga928f9703d5a3ce8da83bc98880cb1343" title="An interface is used by modules to exchange data packets (with samples) asynchronously.">oesr_itf_create()</a> function. </td></tr>
+    <tr><td class="paramname">itf</td><td>Handler returned by the <a class="el" href="group__itf.html#ga928f9703d5a3ce8da83bc98880cb1343">oesr_itf_create()</a> function. </td></tr>
     <tr><td class="paramname">ptr</td><td>Pointer where the received packet address will be stored </td></tr>
     <tr><td class="paramname">len</td><td>Pointer to where the number of useful received samples will be saved.</td></tr>
   </table>
@@ -213,13 +269,10 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-
-<p>Sends a buffer obtained by <a class="el" href="group__itf.html#ga7a7c53b325a1a904682d4ffc07771f06" title="Requests a pointer for zero-copy interface utilization.">oesr_itf_ptr_request()</a> after the samples have been written to it. </p>
-<p>See <a class="el" href="group__itf.html#ga928f9703d5a3ce8da83bc98880cb1343" title="An interface is used by modules to exchange data packets (with samples) asynchronously.">oesr_itf_create()</a> for an introduction to oesr interfaces.</p>
-<p>See <a class="el" href="group__itf.html#ga7a7c53b325a1a904682d4ffc07771f06" title="Requests a pointer for zero-copy interface utilization.">oesr_itf_ptr_request()</a> for documentation on the oesr_itf_ptr_* family of functions.</p>
+<p>Sends a buffer obtained by <a class="el" href="group__itf.html#ga7a7c53b325a1a904682d4ffc07771f06">oesr_itf_ptr_request()</a> after the samples have been written to it.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">itf</td><td>Handler returned by the <a class="el" href="group__itf.html#ga928f9703d5a3ce8da83bc98880cb1343" title="An interface is used by modules to exchange data packets (with samples) asynchronously.">oesr_itf_create()</a> function. </td></tr>
+    <tr><td class="paramname">itf</td><td>Handler returned by the <a class="el" href="group__itf.html#ga928f9703d5a3ce8da83bc98880cb1343">oesr_itf_create()</a> function. </td></tr>
     <tr><td class="paramname">len</td><td>Number of useful bytes written to the buffer</td></tr>
   </table>
   </dd>
@@ -241,13 +294,10 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-
-<p>Releases a pointer received using <a class="el" href="group__itf.html#gab57a810a4e00dd0ed18fb667c430f701" title="Receives a buffer from an interface.">oesr_itf_ptr_get()</a> after the contents have been processed. </p>
-<p>See <a class="el" href="group__itf.html#ga928f9703d5a3ce8da83bc98880cb1343" title="An interface is used by modules to exchange data packets (with samples) asynchronously.">oesr_itf_create()</a> for an introduction to oesr interfaces.</p>
-<p>See <a class="el" href="group__itf.html#ga7a7c53b325a1a904682d4ffc07771f06" title="Requests a pointer for zero-copy interface utilization.">oesr_itf_ptr_request()</a> for documentation on the oesr_itf_ptr_* family of functions.</p>
+<p>Releases a pointer received using <a class="el" href="group__itf.html#gab57a810a4e00dd0ed18fb667c430f701">oesr_itf_ptr_get()</a> after the contents have been processed.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">itf</td><td>Handler returned by the <a class="el" href="group__itf.html#ga928f9703d5a3ce8da83bc98880cb1343" title="An interface is used by modules to exchange data packets (with samples) asynchronously.">oesr_itf_create()</a> function.</td></tr>
+    <tr><td class="paramname">itf</td><td>Handler returned by the <a class="el" href="group__itf.html#ga928f9703d5a3ce8da83bc98880cb1343">oesr_itf_create()</a> function.</td></tr>
   </table>
   </dd>
 </dl>
@@ -278,16 +328,11 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-
-<p>Requests a pointer for zero-copy interface utilization. </p>
-<p>See <a class="el" href="group__itf.html#ga928f9703d5a3ce8da83bc98880cb1343" title="An interface is used by modules to exchange data packets (with samples) asynchronously.">oesr_itf_create()</a> for an introduction to oesr interfaces.</p>
-<p>The family of oesr_itf_ptr_* functions may be used for more efficient interface usage: they are designed for zero-copy packet communication.</p>
-<p>The transmitter obtains a buffer using the function <a class="el" href="group__itf.html#ga7a7c53b325a1a904682d4ffc07771f06" title="Requests a pointer for zero-copy interface utilization.">oesr_itf_ptr_request()</a>. It fills the contents with the samples to transmitted and then calls <a class="el" href="group__itf.html#gade3bcfe877fdebce50643e692240e62d" title="Sends a buffer obtained by oesr_itf_ptr_request() after the samples have been written to it...">oesr_itf_ptr_put()</a> to make the packet available to the receiver. The receiver obtains the buffer address using the function <a class="el" href="group__itf.html#gab57a810a4e00dd0ed18fb667c430f701" title="Receives a buffer from an interface.">oesr_itf_ptr_get()</a>. After the samples have been processed, a final call to <a class="el" href="group__itf.html#ga3275f85a616402b3108ad418ef0bc5ea" title="Releases a pointer received using oesr_itf_ptr_get() after the contents have been processed...">oesr_itf_ptr_release()</a> allows the packet to be reused again by the transmitter.</p>
-<p>These functions give the user direct access to the internal rtdal memory. The buffers are automatically allocated for the size passed as a parameter to the <a class="el" href="group__itf.html#ga928f9703d5a3ce8da83bc98880cb1343" title="An interface is used by modules to exchange data packets (with samples) asynchronously.">oesr_itf_create()</a> function. The user MUST ensure that this size is not exceed.</p>
+<p>Requests a pointer for zero-copy interface utilization.</p>
 <p>In the current implementation, internal interfaces employ a SPSP wait-free queue. Therefore, one transmitter module and one receiver module can use the same interface.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">itf</td><td>Handler returned by the <a class="el" href="group__itf.html#ga928f9703d5a3ce8da83bc98880cb1343" title="An interface is used by modules to exchange data packets (with samples) asynchronously.">oesr_itf_create()</a> function. </td></tr>
+    <tr><td class="paramname">itf</td><td>Handler returned by the <a class="el" href="group__itf.html#ga928f9703d5a3ce8da83bc98880cb1343">oesr_itf_create()</a> function. </td></tr>
     <tr><td class="paramname">ptr</td><td>Address of the buffer where the samples to transmit must be written.</td></tr>
   </table>
   </dd>
@@ -325,12 +370,10 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-
-<p><a class="el" href="group__itf.html#ga43e3b33e38b8fca4bcec601f083a71fb" title="oesr_itf_read() copies up to size bytes of the memory pointed by buffer from the packet received from...">oesr_itf_read()</a> copies up to size bytes of the memory pointed by buffer from the packet received from the interface. If size is smaller than the received packet length, only size bytes will be copied. If no packet is pending in the interface, zero is returned. </p>
-<p>See <a class="el" href="group__itf.html#ga928f9703d5a3ce8da83bc98880cb1343" title="An interface is used by modules to exchange data packets (with samples) asynchronously.">oesr_itf_create()</a> for an introduction to oesr interfaces.</p>
+<p><a class="el" href="group__itf.html#ga43e3b33e38b8fca4bcec601f083a71fb">oesr_itf_read()</a> copies up to size bytes of the memory pointed by buffer from the packet received from the interface. If size is smaller than the received packet length, only size bytes will be copied. If no packet is pending in the interface, zero is returned.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">itf</td><td>Handler returned by the <a class="el" href="group__itf.html#ga928f9703d5a3ce8da83bc98880cb1343" title="An interface is used by modules to exchange data packets (with samples) asynchronously.">oesr_itf_create()</a> function. </td></tr>
+    <tr><td class="paramname">itf</td><td>Handler returned by the <a class="el" href="group__itf.html#ga928f9703d5a3ce8da83bc98880cb1343">oesr_itf_create()</a> function. </td></tr>
     <tr><td class="paramname">buffer</td><td>Pointer to the memory to copy to the interface </td></tr>
     <tr><td class="paramname">size</td><td>Size of the buffer pointed by buffer</td></tr>
   </table>
@@ -353,14 +396,10 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-
-<p><a class="el" href="group__itf.html#ga5a955fed4a85add4824cd2966e742124" title="oesr_itf_status() returns the number of bytes pending in the interface.">oesr_itf_status()</a> returns the number of bytes pending in the interface. </p>
-<p>See <a class="el" href="group__itf.html#ga928f9703d5a3ce8da83bc98880cb1343" title="An interface is used by modules to exchange data packets (with samples) asynchronously.">oesr_itf_create()</a> for an introduction to oesr interfaces.</p>
+<p><a class="el" href="group__itf.html#ga5a955fed4a85add4824cd2966e742124">oesr_itf_status()</a> returns the number of bytes pending in the interface.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">itf</td><td>Handler returned by the <a class="el" href="group__itf.html#ga928f9703d5a3ce8da83bc98880cb1343" title="An interface is used by modules to exchange data packets (with samples) asynchronously.">oesr_itf_create()</a> function. </td></tr>
-    <tr><td class="paramname">buffer</td><td>Pointer to the memory to copy to the interface </td></tr>
-    <tr><td class="paramname">size</td><td>Size of the buffer pointed by buffer</td></tr>
+    <tr><td class="paramname">itf</td><td>Handler returned by the <a class="el" href="group__itf.html#ga928f9703d5a3ce8da83bc98880cb1343">oesr_itf_create()</a> function.</td></tr>
   </table>
   </dd>
 </dl>
@@ -397,12 +436,10 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-
-<p><a class="el" href="group__itf.html#gab01376afdd65f1b4e9ea04584e79705b" title="oesr_itf_write() copies size bytes of the memory pointed by buffer to a packet which is sent through ...">oesr_itf_write()</a> copies size bytes of the memory pointed by buffer to a packet which is sent through the interface. If size is larger than the size used in <a class="el" href="group__itf.html#ga928f9703d5a3ce8da83bc98880cb1343" title="An interface is used by modules to exchange data packets (with samples) asynchronously.">oesr_itf_create()</a>, no data is copied and -1 is returned. If there is not enough space in the interface to send the packet, 0 is returned. When the function returns, the user may overwrite the contents of the memory pointed by buffer. </p>
-<p>See <a class="el" href="group__itf.html#ga928f9703d5a3ce8da83bc98880cb1343" title="An interface is used by modules to exchange data packets (with samples) asynchronously.">oesr_itf_create()</a> for an introduction to oesr interfaces.</p>
+<p><a class="el" href="group__itf.html#gab01376afdd65f1b4e9ea04584e79705b">oesr_itf_write()</a> copies size bytes of the memory pointed by buffer to a packet which is sent through the interface. If size is larger than the size used in <a class="el" href="group__itf.html#ga928f9703d5a3ce8da83bc98880cb1343">oesr_itf_create()</a>, no data is copied and -1 is returned. If there is not enough space in the interface to send the packet, 0 is returned. When the function returns, the user may overwrite the contents of the memory pointed by buffer.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">itf</td><td>Handler returned by the <a class="el" href="group__itf.html#ga928f9703d5a3ce8da83bc98880cb1343" title="An interface is used by modules to exchange data packets (with samples) asynchronously.">oesr_itf_create()</a> function. </td></tr>
+    <tr><td class="paramname">itf</td><td>Handler returned by the <a class="el" href="group__itf.html#ga928f9703d5a3ce8da83bc98880cb1343">oesr_itf_create()</a> function. </td></tr>
     <tr><td class="paramname">buffer</td><td>Pointer to the memory to copy to the interface </td></tr>
     <tr><td class="paramname">size</td><td>Number of bytes to copy</td></tr>
   </table>
@@ -415,7 +452,7 @@ Functions</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Dec 9 2012 21:33:13 for ALOE++ OESR API by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Dec 10 2012 12:55:28 for ALOE++ OESR API by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.1.2
 </small></address>
