@@ -25,7 +25,7 @@
 #include "dft.h"
 #include "gen_dft.h"
 
-/** List of dft lengths to precompute a plan during init */
+/** List of dft lengths (dft points) for which dft plans are precomputed during init */
 const int precomputed_dft_len[] = {128,256,512,1024,2048};
 #define NOF_PRECOMPUTED_DFT 5
 
@@ -45,7 +45,7 @@ static int options;
  * the dft (used in LTE) (default is 0)
  * \param psd Set to 1 to compute the power spectral density (untested) (default is 0)
  * \param out_db Set to 1 to produce the output results in dB (untested) (default is 0)
- * \param dft_size Length of the DFT, in samples. This parameter is mandatory.
+ * \param dft_size Number of DFT points. This parameter is mandatory.
  */
 int initialize() {
 	int tmp;

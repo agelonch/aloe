@@ -19,16 +19,16 @@
 
 /** @defgroup gen_dft gen_dft
  *
- * Computes the Discrete Fourier Transform (DFT) of the received signal. If the DFT size is
- * a power of 2, the FFT algorithm is automatically employed.
+ * Computes the Discrete Fourier Transform (DFT).
  *
- * The number of received samples must be multiple of the dft_size parameter. gen_dft then
- * computes received_samples/dft_size DFTs appending the result one after another.
+ * The number of received samples must be an integer multiple of the dft_size parameter. gen_dft then
+ * sequentially computes received_samples/dft_size DFTs, each of dft_size points, and concatenates the outputs.
  *
- * The module uses the fftw3 library. In order to increase the performance, it precomputes the
- * plan during the initialization phase for a set of dft_sizes configured in the file dft.h.
- * If eventually the dft_size parameter does not equal any of the precomputed sizes, a new plan is
- * computed at run-time. Note that a real-time failure may be probable produced as a consequence.
+ * The module uses the fftw3 library for computing the dft efficiently. In order to improve the 
+ * performance and enable real-time reconfiguration, it precomputes dft plans
+ * during the initialization phase for the dft_sizes configured in file dft.h.
+ * If the dft_size parameter does not match any of the preconfigured sizes, a new plan is
+ * created at runtime. The runtime overhead of computing a new dft plan may cause real-time failures.
  *
  *
  *
