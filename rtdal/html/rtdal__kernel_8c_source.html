@@ -17,7 +17,7 @@
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
    <div id="projectname">ALOE++ RTDAL API
-   &#160;<span id="projectnumber">0.1</span>
+   &#160;<span id="projectnumber">0.2</span>
    </div>
   </td>
  </tr>
@@ -129,7 +129,7 @@
 <div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;                        <span class="keywordflow">if</span> (!rtdal.<a class="code" href="structrtdal__context__t.html#a772193d8fa3cedd8888abc472dfe38de">pipelines</a>[i].<a class="code" href="structpipeline__t.html#a676e2ef00113a6da513d70007858628b">finished</a></div>
 <div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;                                        &amp;&amp; rtdal.<a class="code" href="structrtdal__context__t.html#a772193d8fa3cedd8888abc472dfe38de">pipelines</a>[i].<a class="code" href="structpipeline__t.html#a8c842f2d27e3f3a3ff933d5a2ee409fa">running_process</a></div>
 <div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;                                        &amp;&amp; rtdal.<a class="code" href="structrtdal__context__t.html#a772193d8fa3cedd8888abc472dfe38de">pipelines</a>[i].<a class="code" href="structpipeline__t.html#ada6cb4fb46dcc2966c0237c2e24db1ed">ts_counter</a> &lt; <a class="code" href="group__time.html#ga2a0b7cd6a00af86f4a0b1f3c072c33d8">rtdal_time_slot</a>()-1) {</div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;                                <span class="keywordflow">if</span> (<a class="code" href="pipeline_8c.html#a02037b265fa3ed27bf0a7d75d7813292" title="Called when there is an rtfault in the pipeline.">pipeline_rt_fault</a>(&amp;rtdal.<a class="code" href="structrtdal__context__t.html#a772193d8fa3cedd8888abc472dfe38de">pipelines</a>[i])) {</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;                                <span class="keywordflow">if</span> (<a class="code" href="pipeline_8c.html#a02037b265fa3ed27bf0a7d75d7813292">pipeline_rt_fault</a>(&amp;rtdal.<a class="code" href="structrtdal__context__t.html#a772193d8fa3cedd8888abc472dfe38de">pipelines</a>[i])) {</div>
 <div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;                                        <a class="code" href="defs_8h.html#a01fa3ae12c9c437ad6a8c57f815f13b7">aerror</a>(<span class="stringliteral">&quot;Couldn&#39;t kill pipeline after an rt-fault, &quot;</span></div>
 <div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;                                                        <span class="stringliteral">&quot;going out\n&quot;</span>);</div>
 <div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;                                }</div>
@@ -384,7 +384,7 @@
 <div class="line"><a name="l00373"></a><span class="lineno">  373</span>&#160;                                        thread_id,</div>
 <div class="line"><a name="l00374"></a><span class="lineno">  374</span>&#160;                                        rtdal.<a class="code" href="structrtdal__context__t.html#a772193d8fa3cedd8888abc472dfe38de">pipelines</a>[thread_id].<a class="code" href="structpipeline__t.html#a09b2f4bb610224e4f5c9ddcbf81b7874">running_process_idx</a>);</div>
 <div class="line"><a name="l00375"></a><span class="lineno">  375</span>&#160;                }</div>
-<div class="line"><a name="l00376"></a><span class="lineno">  376</span>&#160;                <span class="keywordflow">if</span> (<a class="code" href="pipeline_8c.html#aaa0d27030e4683b82ffe9d5651b5c97c" title="Called from the sigwait kernel thread after a pipeline thread has died. Set the process that caused t...">pipeline_recover_thread</a>(</div>
+<div class="line"><a name="l00376"></a><span class="lineno">  376</span>&#160;                <span class="keywordflow">if</span> (<a class="code" href="pipeline_8c.html#aaa0d27030e4683b82ffe9d5651b5c97c">pipeline_recover_thread</a>(</div>
 <div class="line"><a name="l00377"></a><span class="lineno">  377</span>&#160;                                &amp;rtdal.<a class="code" href="structrtdal__context__t.html#a772193d8fa3cedd8888abc472dfe38de">pipelines</a>[thread_id])) {</div>
 <div class="line"><a name="l00378"></a><span class="lineno">  378</span>&#160;                        <a class="code" href="defs_8h.html#a01fa3ae12c9c437ad6a8c57f815f13b7">aerror</a>(<span class="stringliteral">&quot;recovering pipeline thread\n&quot;</span>);</div>
 <div class="line"><a name="l00379"></a><span class="lineno">  379</span>&#160;                }</div>
@@ -708,7 +708,7 @@
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Dec 10 2012 11:45:32 for ALOE++ RTDAL API by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Dec 10 2012 13:34:03 for ALOE++ RTDAL API by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.1.2
 </small></address>

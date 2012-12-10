@@ -17,7 +17,7 @@
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
    <div id="projectname">ALOE++ RTDAL API
-   &#160;<span id="projectnumber">0.1</span>
+   &#160;<span id="projectnumber">0.2</span>
    </div>
   </td>
  </tr>
@@ -76,9 +76,7 @@ Functions</h2></td></tr>
 <tr class="memitem:a644d25013c5885243e33edd9e7c61678"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="pipeline_8h.html#a644d25013c5885243e33edd9e7c61678">pipeline_initialize</a> (int _num_pipelines)</td></tr>
 <tr class="memitem:ac6bf4328375c6a9af588a208e692a02e"><td class="memItemLeft" align="right" valign="top">void *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="pipeline_8h.html#ac6bf4328375c6a9af588a208e692a02e">pipeline_run_thread</a> (void *obj)</td></tr>
 <tr class="memitem:aaa0d27030e4683b82ffe9d5651b5c97c"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="pipeline_8h.html#aaa0d27030e4683b82ffe9d5651b5c97c">pipeline_recover_thread</a> (<a class="el" href="structpipeline__t.html">pipeline_t</a> *obj)</td></tr>
-<tr class="memdesc:aaa0d27030e4683b82ffe9d5651b5c97c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Called from the sigwait kernel thread after a pipeline thread has died. Set the process that caused the fault as non-runnable and create a new pipeline thread.  <a href="#aaa0d27030e4683b82ffe9d5651b5c97c"></a><br/></td></tr>
 <tr class="memitem:a02037b265fa3ed27bf0a7d75d7813292"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="pipeline_8h.html#a02037b265fa3ed27bf0a7d75d7813292">pipeline_rt_fault</a> (<a class="el" href="structpipeline__t.html">pipeline_t</a> *obj)</td></tr>
-<tr class="memdesc:a02037b265fa3ed27bf0a7d75d7813292"><td class="mdescLeft">&#160;</td><td class="mdescRight">Called when there is an rtfault in the pipeline.  <a href="#a02037b265fa3ed27bf0a7d75d7813292"></a><br/></td></tr>
 <tr class="memitem:a615ac86c6cff54ffa2edb1bf1606729c"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="pipeline_8h.html#a615ac86c6cff54ffa2edb1bf1606729c">pipeline_add</a> (<a class="el" href="structpipeline__t.html">pipeline_t</a> *obj, <a class="el" href="rtdal__process_8h.html#aae6bdd48dcdbb9e74bbfb3dd6cd72b2a">rtdal_process_t</a> *process)</td></tr>
 <tr class="memitem:ae95c1483a8fa6f94477e280a52fdfe78"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="pipeline_8h.html#ae95c1483a8fa6f94477e280a52fdfe78">pipeline_remove</a> (<a class="el" href="structpipeline__t.html">pipeline_t</a> *obj, <a class="el" href="rtdal__process_8h.html#aae6bdd48dcdbb9e74bbfb3dd6cd72b2a">rtdal_process_t</a> *proc)</td></tr>
 </table>
@@ -172,7 +170,6 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-
 <p>Called from the sigwait kernel thread after a pipeline thread has died. Set the process that caused the fault as non-runnable and create a new pipeline thread. </p>
 
 <p>Definition at line <a class="el" href="pipeline_8c_source.html#l00186">186</a> of file <a class="el" href="pipeline_8c_source.html">pipeline.c</a>.</p>
@@ -235,8 +232,7 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-
-<p>Called when there is an rtfault in the pipeline. </p>
+<p>Called when there is an rtfault in the pipeline </p>
 
 <p>Definition at line <a class="el" href="pipeline_8c_source.html#l00202">202</a> of file <a class="el" href="pipeline_8c_source.html">pipeline.c</a>.</p>
 
@@ -329,7 +325,7 @@ Functions</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Dec 10 2012 11:45:32 for ALOE++ RTDAL API by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Dec 10 2012 13:34:03 for ALOE++ RTDAL API by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.1.2
 </small></address>

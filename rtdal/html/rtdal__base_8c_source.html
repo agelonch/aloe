@@ -17,7 +17,7 @@
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
    <div id="projectname">ALOE++ RTDAL API
-   &#160;<span id="projectnumber">0.1</span>
+   &#160;<span id="projectnumber">0.2</span>
    </div>
   </td>
  </tr>
@@ -87,7 +87,7 @@
 <div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;</div>
 <div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;</div>
 <div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;</div>
-<div class="line"><a name="l00041"></a><span class="lineno"><a class="code" href="group__other.html#gad4464c3f3b8bfd7988e04fbcfd4b1a7e">   41</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="group__other.html#gad4464c3f3b8bfd7988e04fbcfd4b1a7e" title="Writes the machine structure into the buffer pointed by *machine.">rtdal_machine</a>(<a class="code" href="structrtdal__machine__t.html">rtdal_machine_t</a> *machine) {</div>
+<div class="line"><a name="l00041"></a><span class="lineno"><a class="code" href="group__other.html#gad4464c3f3b8bfd7988e04fbcfd4b1a7e">   41</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="group__other.html#gad4464c3f3b8bfd7988e04fbcfd4b1a7e">rtdal_machine</a>(<a class="code" href="structrtdal__machine__t.html">rtdal_machine_t</a> *machine) {</div>
 <div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;        assert(context);</div>
 <div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;        memcpy(machine,&amp;context-&gt;<a class="code" href="structrtdal__context__t.html#a3eb563f1d3980bcfa87524bd53e6a636">machine</a>,<span class="keyword">sizeof</span>(<a class="code" href="structrtdal__machine__t.html">rtdal_machine_t</a>));</div>
 <div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;}</div>
@@ -175,7 +175,7 @@
 <div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;        <span class="keywordflow">return</span> 0;</div>
 <div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;}</div>
 <div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;</div>
-<div class="line"><a name="l00176"></a><span class="lineno"><a class="code" href="group__other.html#ga3aa3576db287b77dbbcb8e49095ee0a2">  176</a></span>&#160;<span class="keywordtype">int</span> <a class="code" href="group__other.html#ga3aa3576db287b77dbbcb8e49095ee0a2" title="sleep the calling thread for the time specified by the time_t structure.">rtdal_sleep</a>(<a class="code" href="rtdal__types_8h.html#a7157cbb87d46be33f7f913fa09144900">time_t</a> *t) {</div>
+<div class="line"><a name="l00176"></a><span class="lineno"><a class="code" href="group__other.html#ga3aa3576db287b77dbbcb8e49095ee0a2">  176</a></span>&#160;<span class="keywordtype">int</span> <a class="code" href="group__other.html#ga3aa3576db287b77dbbcb8e49095ee0a2">rtdal_sleep</a>(<a class="code" href="rtdal__types_8h.html#a7157cbb87d46be33f7f913fa09144900">time_t</a> *t) {</div>
 <div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;        assert(context);</div>
 <div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;        <a class="code" href="rtdal__error_8h.html#a86366326e77a7c12914011fe79331fe6">RTDAL_ASSERT_PARAM</a>(t);</div>
 <div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;        <a class="code" href="defs_8h.html#a1bb343c7f8e901961da4d427ad5e21ae">hdebug</a>(<span class="stringliteral">&quot;sleep_for=%d:%d\n&quot;</span>,t-&gt;tv_sec,t-&gt;tv_usec);</div>
@@ -334,7 +334,7 @@
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Dec 10 2012 11:45:32 for ALOE++ RTDAL API by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Dec 10 2012 13:34:03 for ALOE++ RTDAL API by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.1.2
 </small></address>

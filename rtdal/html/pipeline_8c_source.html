@@ -17,7 +17,7 @@
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
    <div id="projectname">ALOE++ RTDAL API
-   &#160;<span id="projectnumber">0.1</span>
+   &#160;<span id="projectnumber">0.2</span>
    </div>
   </td>
  </tr>
@@ -225,7 +225,7 @@
 <div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;        <span class="keywordflow">return</span> NULL;</div>
 <div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;}</div>
 <div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;</div>
-<div class="line"><a name="l00186"></a><span class="lineno"><a class="code" href="pipeline_8h.html#aaa0d27030e4683b82ffe9d5651b5c97c">  186</a></span>&#160;<span class="keywordtype">int</span> <a class="code" href="pipeline_8c.html#aaa0d27030e4683b82ffe9d5651b5c97c" title="Called from the sigwait kernel thread after a pipeline thread has died. Set the process that caused t...">pipeline_recover_thread</a>(<a class="code" href="structpipeline__t.html">pipeline_t</a> *obj) {</div>
+<div class="line"><a name="l00186"></a><span class="lineno"><a class="code" href="pipeline_8h.html#aaa0d27030e4683b82ffe9d5651b5c97c">  186</a></span>&#160;<span class="keywordtype">int</span> <a class="code" href="pipeline_8c.html#aaa0d27030e4683b82ffe9d5651b5c97c">pipeline_recover_thread</a>(<a class="code" href="structpipeline__t.html">pipeline_t</a> *obj) {</div>
 <div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;        <a class="code" href="defs_8h.html#a1bb343c7f8e901961da4d427ad5e21ae">hdebug</a>(<span class="stringliteral">&quot;pipeline_id=%d\n&quot;</span>,obj-&gt;<a class="code" href="structpipeline__t.html#a4d67080f7085c575d347d1ed5203a2ff">id</a>);</div>
 <div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;        obj-&gt;<a class="code" href="structpipeline__t.html#a676e2ef00113a6da513d70007858628b">finished</a> = 1;</div>
 <div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;        <span class="keywordflow">if</span> (<a class="code" href="group__process.html#ga62e8e5fe2fcbd59cfaf533663588e220">rtdal_process_seterror</a>((<a class="code" href="structh__proc__.html">r_proc_t</a>) obj-&gt;<a class="code" href="structpipeline__t.html#a8c842f2d27e3f3a3ff933d5a2ee409fa">running_process</a>, <a class="code" href="group__process.html#gga825233f1e8a1bd1e1eb99e1301f36a57a8b02f36385bd2fd5c4ce9efb7cbbb3a6">SIG_RECV</a>)) {</div>
@@ -239,7 +239,7 @@
 <div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;        <span class="keywordflow">return</span> 0;</div>
 <div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;}</div>
 <div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;</div>
-<div class="line"><a name="l00202"></a><span class="lineno"><a class="code" href="pipeline_8h.html#a02037b265fa3ed27bf0a7d75d7813292">  202</a></span>&#160;<span class="keywordtype">int</span> <a class="code" href="pipeline_8c.html#a02037b265fa3ed27bf0a7d75d7813292" title="Called when there is an rtfault in the pipeline.">pipeline_rt_fault</a>(<a class="code" href="structpipeline__t.html">pipeline_t</a> *obj) {</div>
+<div class="line"><a name="l00202"></a><span class="lineno"><a class="code" href="pipeline_8h.html#a02037b265fa3ed27bf0a7d75d7813292">  202</a></span>&#160;<span class="keywordtype">int</span> <a class="code" href="pipeline_8c.html#a02037b265fa3ed27bf0a7d75d7813292">pipeline_rt_fault</a>(<a class="code" href="structpipeline__t.html">pipeline_t</a> *obj) {</div>
 <div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;<span class="preprocessor">#ifdef KILL_RT_FAULT</span></div>
 <div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;<span class="preprocessor"></span>        <a class="code" href="defs_8h.html#a1bb343c7f8e901961da4d427ad5e21ae">hdebug</a>(<span class="stringliteral">&quot;pipeline_id=%d, process_idx=%d\n&quot;</span>,obj-&gt;<a class="code" href="structpipeline__t.html#a4d67080f7085c575d347d1ed5203a2ff">id</a>,obj-&gt;<a class="code" href="structpipeline__t.html#a09b2f4bb610224e4f5c9ddcbf81b7874">running_process_idx</a>,obj-&gt;<a class="code" href="structpipeline__t.html#a09b2f4bb610224e4f5c9ddcbf81b7874">running_process_idx</a>);</div>
 <div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;        obj-&gt;<a class="code" href="structpipeline__t.html#a676e2ef00113a6da513d70007858628b">finished</a> = 1;</div>
@@ -342,7 +342,7 @@
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Dec 10 2012 11:45:32 for ALOE++ RTDAL API by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Dec 10 2012 13:34:03 for ALOE++ RTDAL API by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.1.2
 </small></address>
