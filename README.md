@@ -5,7 +5,7 @@ ALOE stands for Abstraction Layer and Open Operating Environment. It is an Open 
 
 The project is partially founded by the NLnet foundation (http://www.nlnet.nl), as part of the OSLD project. OSLD aims at building an Open Source LTE system based on ALOE. More information and documentation can be found in the OSLD project website (https://sites.google.com/site/osldproject/)
 
-This is the first release of ALOE++ version 0.1. The old ALOE versions are still active in http://flexnets.upc.edu.
+This is the first release of ALOE++ version 0.2. The old ALOE versions are still active in http://flexnets.upc.edu.
 
 Requirements
 =============
