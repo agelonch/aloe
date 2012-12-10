@@ -78,7 +78,7 @@ int work_binary(void **data, int block_size) {
 		for (i=0;i<NOF_OUTPUT_ITF;i++) {
 			if (data[i]) {
 				output = data[i];
-				output[j] = tmp_binary[j];
+				output[j] = rand()%2; //tmp_binary[j];
 			}
 		}
 	}

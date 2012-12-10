@@ -73,7 +73,7 @@ modules:
 		mopts=5;
 		variables=(
 			{name="is_complex";value=1;},
-			{name="mode";value=2;},
+			{name="mode";value=3;},
 			{name="fft_size";value=512;},
 			{name="print_not_received";value=1;}
 		);

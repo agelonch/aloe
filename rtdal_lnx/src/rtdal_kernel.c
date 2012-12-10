@@ -422,7 +422,7 @@ static void sigwait_loop(void) {
 			printf("Caught SIGINT, exiting\n");
 			fflush(stdout);
 			goto out;
-		} else {
+		} else if (signum != SIGWINCH) {
 			printf("Got signal %d, exiting\n", signum);
 			fflush(stdout);
 			goto out;

@@ -52,7 +52,7 @@ int initialize() {
 
 
 int work(void **inp, void **out) {
-	int i, out_len, j;
+	int i, out_len;
 	input_t *input;
 	output_t *output;
 
@@ -81,6 +81,7 @@ int modulate(input_t *input, output_t *output, int nof_bits) {
 	int bits_per_symbol, nof_symbols;
 	int i,j;
 
+	j = 0;
 	bits_per_symbol = get_bits_per_symbol(modulation);
 	nof_symbols = nof_bits/bits_per_symbol;
 
