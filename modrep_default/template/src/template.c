@@ -41,13 +41,13 @@ int block_length;
 int initialize() {
 	int size;
 
+	/* obtains a handler for fast access to the parameter */
 	gain_id = param_id("gain");
-
+	/* In this case, we are obtaining the parameter value directly */
 	if (!param_get_int_name("block_length", &block_length)) {
-		block_length=0;
+		block_length = 0;
 	}
-
-	modinfo_msg("Parameter block_length is %d\n",block_length);
+	/* use this function to print formatted messages */modinfo_msg("Parameter block_length is %d\n",block_length);
 
 	/* Verify control parameters */
 	if (block_length > input_max_samples || block_length < 0) {
@@ -55,13 +55,10 @@ int initialize() {
 		return -1;
 	}
 
-
-	/* do some other initialization stuff */
+	/* here you may do some other initialization stuff */
 
 	return 0;
 }
-
-
 
 /**
  * @ingroup template
@@ -85,23 +82,27 @@ int initialize() {
  *
  */
 int work(void **inp, void **out) {
-	int rcv_samples = get_input_samples(0); /** number of samples at itf 0 buffer */
-	int i;
-	input_t *input = inp[0];
-	output_t *output = out[0];
+	int rcv_samples, snd_samples;
+	int j;
+	input_t *input;
+	output_t *output;
 	float gain;
 
-	if (param_get_float(gain_id,&gain)) {
-		gain = 2.0;
-	} else {
-		modinfo_msg("gain is %.2f\n",gain);
+	if (param_get_float(gain_id, &gain) != 1) {
+		moderror("Error getting parameter gain\n");
+		return -1;
 	}
 
-	/* do DSP stuff here */
-	for (i=0;i<rcv_samples;i++) {
-		output[i]=input[i]*gain;
+	/* inp[n] and out[m] are pointer to the n-th and m-th input and output interfaces */
+	/* let us assume we only have one input and output interface */
+	input = inp[0];
+	output = out[0];
+	rcv_samples = get_input_samples(0); /* this function returns the samples received from an input */
+	for (j = 0; j < rcv_samples; j++) {
+		/* do here your DSP work */
+		snd_samples = process_input_sample(input[j], &output[j], gain);
 	}
-	return rcv_samples;
+	return snd_samples;
 }
 
 /**  Deallocates resources created during initialize().

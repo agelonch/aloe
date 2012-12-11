@@ -17,37 +17,8 @@
  *  * Automatic generation of a <b>standalone</b> program for debugging and a
  *  <b>MATLAB/Octave MEX-file</b> for code verification.
  *
- *  To create a new module, just follow this step-by-step guide:
- *
- *  <h2> Generation </h2>
- *  1) Copy and rename the modrep_default/template directory to your module's repository (or use the default directory)
- *
- *  2) Rename the files inside the src/ directory
- *
- *  3) Write the initialize() and work() functions, as illustrated in the template.c example.
- *
- *  4) If you have ALOE installed in your system, you can compile the module (using cmake) from
- *  its directory, otherwise go to the root aloe directory and run cmake, compile and install.
- *
- *  5) When you install a module, the following files are installed in the system
- *  (by default, to /usr/local/bin):
- *  	* An executable: /usr/local/bin/modulename
- *  	* A MEX-file: /usr/local/mex/am_modulename
- *  	* A shared library: /usr/local/lib/libmodulename.so
- *
- *
- *  <h2> Debugging </h2>
- *  The executable is useful in this phase to carry out the initial debugging.
- *  Just use your favorite debugger or IDE to debug and ensure the correct functionality of the
- *  module under any circumstance.
- *
- *  TODO: Parameters passed to the executable, using gnuplot, ...
- *
- *  <h2> Verification with MATLAB/Octave</h2>
- *  TODO
- *
- *  <h2> Integration in ALOE++</h2>
- *  TODO
+ * For a step-by-step guide on how to create a new module, visit the project web-site
+ * https://github.com/flexnets/aloe/wiki/
  *
  *  More information about the template is the module documentation, under the Module section of
  *  this page
