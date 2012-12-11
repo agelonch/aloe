@@ -8,15 +8,24 @@ include_directories(/usr/local/include/)
 
 ############## DO NOT NEED TO MODIFY BEYOND HERE
 
-if (${MODULE_REPOS_NAME} STREQUAL "") 
+get_filename_component(module ${CMAKE_CURRENT_SOURCE_DIR} NAME) 
+
+if( CMAKE_SOURCE_DIR STREQUAL CMAKE_CURRENT_SOURCE_DIR )
+	cmake_minimum_required (VERSION 2.6)
+	project (${module})
+
+	# The version number.
+	set (OECORE_VERSION_MAJOR 1)
+	set (OECORE_VERSION_MINOR 0)
 	set(MODULE_REPOS_NAME "default")
+	
+else()
+	include_directories(${OESR_INCLUDE})
 endif()
 
 
 file(GLOB_RECURSE SOURCES "src/*.c")
 file(GLOB_RECURSE TEST_SOURCES "test/*.c")
-
-get_filename_component(module ${CMAKE_CURRENT_SOURCE_DIR} NAME) 
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src)
 

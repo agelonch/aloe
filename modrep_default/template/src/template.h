@@ -34,6 +34,8 @@ typedef _Complex float output_t;
 
 /**@} */
 
+#define GENERATE_COMPLEX
+
 /** Define here module constants shared with test_generate.c fie */
 #define PI			3.14159265359	/* pi approximation */
 #define PIx2		6.28318530718

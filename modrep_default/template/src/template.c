@@ -44,7 +44,7 @@ int initialize() {
 	/* obtains a handler for fast access to the parameter */
 	gain_id = param_id("gain");
 	/* In this case, we are obtaining the parameter value directly */
-	if (!param_get_int_name("block_length", &block_length)) {
+	if (param_get_int_name("block_length", &block_length)) {
 		block_length = 0;
 	}
 	/* use this function to print formatted messages */modinfo_msg("Parameter block_length is %d\n",block_length);
@@ -100,8 +100,9 @@ int work(void **inp, void **out) {
 	rcv_samples = get_input_samples(0); /* this function returns the samples received from an input */
 	for (j = 0; j < rcv_samples; j++) {
 		/* do here your DSP work */
-		snd_samples = process_input_sample(input[j], &output[j], gain);
+		output[j] = gain*input[j];
 	}
+	snd_samples = rcv_samples;
 	return snd_samples;
 }
 

@@ -36,7 +36,6 @@ extern const int nof_output_itf;
 extern const int input_max_samples;
 extern const int output_max_samples;
 
-static double *plot_buff;
 
 static int *input_lengths;
 static int *output_lengths;
@@ -127,9 +126,13 @@ void get_time_interval(struct timespec * tdata) {
 int main(int argc, char **argv)
 {
 	struct timespec tdata[3];
-	gnuplot_ctrl *in, *out;
+	gnuplot_ctrl *plot;
 	char tmp[64];
 	int ret, i, j;
+	float *tmp_f;
+	_Complex float *tmp_c;
+	double *plot_buff_r;
+	double *plot_buff_c;
 
 	allocate_memory();
 
@@ -193,61 +196,71 @@ int main(int argc, char **argv)
 
 	if (use_gnuplot) {
 		for (i=0;i<nof_input_itf;i++) {
-			plot_buff = malloc(sizeof(double)*input_lengths[i]);
-			assert(plot_buff);
-			for (j=0;j<input_lengths[i];j++) {
-				plot_buff[j] = (double) __real__ input_data[i*input_max_samples+j];
-			}
-		    in = gnuplot_init() ;
-		    gnuplot_setstyle(in,"lines");
-		    snprintf(tmp,64,"input_%d",i);
-	        gnuplot_plot_x(in, plot_buff,
-	        		get_input_samples(i), tmp);
-	        free(plot_buff);
-	        if (input_sample_sz == sizeof(_Complex float)) {
-	        	plot_buff = malloc(sizeof(double)*input_lengths[i]);
-				assert(plot_buff);
+			plot_buff_r = malloc(sizeof(double)*input_lengths[i]);
+			plot_buff_c = malloc(sizeof(double)*input_lengths[i]);
+			if (input_sample_sz == sizeof(float)) {
+				tmp_f = (float*) &input_data[i*input_max_samples];
 				for (j=0;j<input_lengths[i];j++) {
-					plot_buff[j] = (double) sqrt(__imag__ input_data[i*input_max_samples+j]*
-							__imag__ input_data[i*input_max_samples+j] +
-							__real__ input_data[i*input_max_samples+j]*
-							__real__ input_data[i*input_max_samples+j]);
+					plot_buff_r[j] = (double) tmp_f[j];
 				}
-				in = gnuplot_init() ;
-				gnuplot_setstyle(in,"lines");
-				snprintf(tmp,64,"input_%d_mod",i);
-				gnuplot_plot_x(in, plot_buff,
-						get_input_samples(i), tmp);
-				free(plot_buff);
-	        }
+				plot = gnuplot_init() ;
+			    gnuplot_setstyle(plot,"lines");
+			    snprintf(tmp,64,"input_%d",i);
+		        gnuplot_plot_x(plot, plot_buff_r,
+		        		get_input_samples(i), tmp);
+		        free(plot_buff_r);
+			} else if (input_sample_sz == sizeof(_Complex float)) {
+				tmp_c = (_Complex float*) &input_data[i*input_max_samples];
+				for (j=0;j<input_lengths[i];j++) {
+					plot_buff_r[j] = (double) __real__ tmp_c[j];
+					plot_buff_c[j] = (double) __imag__ tmp_c[j];
+				}
+				plot = gnuplot_init() ;
+			    gnuplot_setstyle(plot,"lines");
+			    snprintf(tmp,64,"input_real_%d",i);
+		        gnuplot_plot_x(plot, plot_buff_r,
+		        		get_input_samples(i), tmp);
+		        plot = gnuplot_init() ;
+			    gnuplot_setstyle(plot,"lines");
+			    snprintf(tmp,64,"input_imag_%d",i);
+		        gnuplot_plot_x(plot, plot_buff_c,
+		        		get_input_samples(i), tmp);
+		        free(plot_buff_r);
+		        free(plot_buff_c);
+			}
 		}
 		for (i=0;i<nof_output_itf;i++) {
-			plot_buff = malloc(sizeof(double)*output_lengths[i]);
-			assert(plot_buff);
-			for (j=0;j<output_lengths[i];j++) {
-				plot_buff[j] = (double) __real__ output_data[i*output_max_samples+j];
-			}
-		    out = gnuplot_init() ;
-		    gnuplot_setstyle(out,"lines");
-		    snprintf(tmp,64,"output_%d",i);
-	        gnuplot_plot_x(out, plot_buff,
-	        		output_lengths[i], tmp);
-	        free(plot_buff);
-	        if (output_sample_sz == sizeof(_Complex float)) {
-	        	plot_buff = malloc(sizeof(double)*output_lengths[i]);
-				assert(plot_buff);
+			plot_buff_r = malloc(sizeof(double)*output_lengths[i]);
+			plot_buff_c = malloc(sizeof(double)*output_lengths[i]);
+			if (output_sample_sz == sizeof(float)) {
+				tmp_f = (float*) &output_data[i*output_max_samples];
 				for (j=0;j<output_lengths[i];j++) {
-					plot_buff[j] = (double) sqrt(__imag__ output_data[i*output_max_samples+j]*
-							__imag__ output_data[i*output_max_samples+j] +
-							__real__ output_data[i*output_max_samples+j]*
-							__real__ output_data[i*output_max_samples+j]);
+					plot_buff_r[j] = (double) __real__ tmp_f[j];
 				}
-				out = gnuplot_init() ;
-				gnuplot_setstyle(out,"lines");
-				snprintf(tmp,64,"output_%d_mod",i);
-				gnuplot_plot_x(out, plot_buff,
+				plot = gnuplot_init() ;
+				gnuplot_setstyle(plot,"lines");
+				snprintf(tmp,64,"output_%d",i);
+				gnuplot_plot_x(plot, plot_buff_r,
 						output_lengths[i], tmp);
-				free(plot_buff);
+				free(plot_buff_r);
+			} else if (output_sample_sz == sizeof(_Complex float)) {
+				tmp_c = (_Complex float*) &output_data[i*output_max_samples];
+				for (j=0;j<output_lengths[i];j++) {
+					plot_buff_r[j] = (double) __real__ tmp_c[j];
+					plot_buff_c[j] = (double) __imag__ tmp_c[j];
+				}
+				plot = gnuplot_init() ;
+				gnuplot_setstyle(plot,"lines");
+				snprintf(tmp,64,"output_real_%d",i);
+				gnuplot_plot_x(plot, plot_buff_r,
+						output_lengths[i], tmp);
+				plot = gnuplot_init() ;
+				gnuplot_setstyle(plot,"lines");
+				snprintf(tmp,64,"output_imag_%d",i);
+				gnuplot_plot_x(plot, plot_buff_c,
+						output_lengths[i], tmp);
+				free(plot_buff_r);
+				free(plot_buff_c);
 	        }
 		}
 
@@ -344,7 +357,7 @@ int parse_paramters(int argc, char**argv)
 {
 	int i;
 	char *key,*value;
-	int k;
+	int k = 0;
 
 	use_gnuplot = 0;
 
