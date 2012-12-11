@@ -106,9 +106,9 @@ Functions</h2></td></tr>
 <tr class="memitem:ga03aede8ff91764482bb5e9accfae9b4f"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__gen__dft.html#ga03aede8ff91764482bb5e9accfae9b4f">initialize</a> ()</td></tr>
 </table>
 <a name="details" id="details"></a><h2>Detailed Description</h2>
-<p>Computes the Discrete Fourier Transform (DFT) of the received signal. If the DFT size is a power of 2, the FFT algorithm is automatically employed.</p>
-<p>The number of received samples must be multiple of the dft_size parameter. gen_dft then computes received_samples/dft_size DFTs appending the result one after another.</p>
-<p>The module uses the fftw3 library. In order to increase the performance, it precomputes the plan during the initialization phase for a set of dft_sizes configured in the file <a class="el" href="dft_8h_source.html">dft.h</a>. If eventually the dft_size parameter does not equal any of the precomputed sizes, a new plan is computed at run-time. Note that a real-time failure may be probable produced as a consequence. </p>
+<p>Computes the Discrete Fourier Transform (DFT).</p>
+<p>The number of received samples must be an integer multiple of the dft_size parameter. gen_dft then sequentially computes received_samples/dft_size DFTs, each of dft_size points, and concatenates the outputs.</p>
+<p>The module uses the fftw3 library for computing the dft efficiently. In order to improve the performance and enable real-time reconfiguration, it precomputes dft plans during the initialization phase for the dft_sizes configured in file <a class="el" href="dft_8h_source.html">dft.h</a>. If the dft_size parameter does not match any of the preconfigured sizes, a new plan is created at runtime. The runtime overhead of computing a new dft plan may cause real-time failures. </p>
 <h2>Function Documentation</h2>
 <a class="anchor" id="ga03aede8ff91764482bb5e9accfae9b4f"></a>
 <div class="memitem">
@@ -128,7 +128,7 @@ Functions</h2></td></tr>
     <tr><td class="paramname">mirror</td><td>0 computes a normal dft, 1 swaps the two halfes of the input signal before computing the dft (used in LTE) (default is 0) </td></tr>
     <tr><td class="paramname">psd</td><td>Set to 1 to compute the power spectral density (untested) (default is 0) </td></tr>
     <tr><td class="paramname">out_db</td><td>Set to 1 to produce the output results in dB (untested) (default is 0) </td></tr>
-    <tr><td class="paramname">dft_size</td><td>Length of the DFT, in samples. This parameter is mandatory. </td></tr>
+    <tr><td class="paramname">dft_size</td><td>Number of DFT points. This parameter is mandatory. </td></tr>
   </table>
   </dd>
 </dl>
@@ -138,7 +138,7 @@ Functions</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Dec 10 2012 13:33:55 for Module repository: OFDM by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue Dec 11 2012 01:01:40 for Module repository: OFDM by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.1.2
 </small></address>
