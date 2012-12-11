@@ -43,7 +43,6 @@ if(NOT $ENV{OCTAVE_INCLUDE} STREQUAL "")
 	endif()
 endif()
 
-#matlab mex 
 if(NOT $ENV{MATLAB_ROOT} STREQUAL "") 
 	add_library(${module}-mat SHARED ${SOURCES})
 	set_target_properties(${module}-mat PROPERTIES OUTPUT_NAME ${module})
@@ -51,11 +50,12 @@ if(NOT $ENV{MATLAB_ROOT} STREQUAL "")
 	
 	if(CMAKE_SIZEOF_VOID_P EQUAL 8)
 		set_target_properties(${module}-mat PROPERTIES SUFFIX .mexa64)
+		set_target_properties(${module}-mat PROPERTIES COMPILE_FLAGS "-D_ALOE_OLD_SKELETON -I$ENV{MATLAB_ROOT} -O -pthread -shared -Wl,--version-script,$ENV{MATLAB_ROOT}/extern/lib/glnxa64/mexFunction.map -Wl,--no-undefined -Wl,-rpath-link,$ENV{MATLAB_ROOT}/bin/glnxa64 -L$ENV{MATLAB_ROOT}/bin/glnxa64 -lmx -lmex -lmat -lm -lstdc++")
 	else()
 		set_target_properties(${module}-mat PROPERTIES SUFFIX .mexglx)
+	set_target_properties(${module}-mat PROPERTIES COMPILE_FLAGS "-D_ALOE_OLD_SKELETON -I$ENV{MATLAB_ROOT} -O -pthread -shared -m32 -Wl,--version-script,$ENV{MATLAB_ROOT}/extern/lib/glnx86/mexFunction.map -Wl,--no-undefined -Wl,-rpath-link,$ENV{MATLAB_ROOT}/bin/glnx86 -L$ENV{MATLAB_ROOT}/bin/glnx86 -lmx -lmex -lmat -lm -lstdc++")
 	endif()
 	
-	set_target_properties(${module}-mat PROPERTIES COMPILE_FLAGS "-D_ALOE_OLD_SKELETON -I$ENV{MATLAB_ROOT}/ -I$ENV{MATLAB_ROOT}/extern/include/ -O -pthread -shared -m32 -Wl,--version-script,$ENV{MATLAB_ROOT}/extern/lib/glnx86/mexFunction.map -Wl,--no-undefined -Wl,-rpath-link,$ENV{MATLAB_ROOT}/bin/glnx86 -L$ENV{MATLAB_ROOT}/bin/glnx86 -lmx -lmex -lmat -lm -lstdc++")
 	target_link_libraries(${module}-mat aloe_matlab_legacy ${LIBRARIES})
 	install(TARGETS ${module}-mat DESTINATION mex)
 	
