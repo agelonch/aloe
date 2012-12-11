@@ -81,6 +81,9 @@ set_target_properties(standalone_legacy PROPERTIES COMPILE_FLAGS "-Wno-implicit-
 set(install_mex "")
 if(NOT $ENV{OCTAVE_INCLUDE} STREQUAL "") 
 	if(NOT $ENV{OCTAVE_LIBS} STREQUAL "") 
+		if(CMAKE_SIZEOF_VOID_P EQUAL 8)
+			message(STATUS "Octave for 64-bit not yet tested")
+		endif()
 		# octave library
 		add_library(aloe_octave ${mex_SOURCES} ${params_SOURCES})
 		set_target_properties(aloe_octave PROPERTIES COMPILE_FLAGS "-D_COMPILE_MEX -D_FORTIFY_SOURCE=2 -fPIC -I$ENV{OCTAVE_INCLUDE} -I$ENV{OCTAVE_INCLUDE}..  -mieee-fp -g -O0 -fstack-protector --param=ssp-buffer-size=4 -Wformat -Werror=format-security -pthread -fopenmp")
@@ -95,11 +98,19 @@ endif()
 if(NOT $ENV{MATLAB_ROOT} STREQUAL "") 
 		# matlab library
 		add_library(aloe_matlab ${mex_SOURCES} ${params_SOURCES})
-		set_target_properties(aloe_matlab PROPERTIES COMPILE_FLAGS "-D_COMPILE_MEX -I$ENV{MATLAB_ROOT}/extern/include -I$ENV{MATLAB_ROOT}/simulink/include -DMATLAB_MEX_FILE -ansi -D_GNU_SOURCE -fPIC -pthread -m32  -fexceptions -D_FILE_OFFSET_BITS=64 -DMX_COMPAT_32")
+		if(CMAKE_SIZEOF_VOID_P EQUAL 8)
+			set_target_properties(aloe_matlab PROPERTIES COMPILE_FLAGS "-D_COMPILE_MEX -I$ENV{MATLAB_ROOT}/extern/include -I$ENV{MATLAB_ROOT}/simulink/include -DMATLAB_MEX_FILE -ansi -D_GNU_SOURCE -fPIC -fexceptions -fno-omit-frame-pointer -pthread")
+		else()
+			set_target_properties(aloe_matlab PROPERTIES COMPILE_FLAGS "-D_COMPILE_MEX -I$ENV{MATLAB_ROOT}/extern/include -I$ENV{MATLAB_ROOT}/simulink/include -DMATLAB_MEX_FILE -ansi -D_GNU_SOURCE -fPIC -pthread -m32  -fexceptions -D_FILE_OFFSET_BITS=64 -DMX_COMPAT_32")
+		endif()
 
 		# matlab-legacy library
 		add_library(aloe_matlab_legacy ${mex_SOURCES} ${params_SOURCES})
-		set_target_properties(aloe_matlab_legacy PROPERTIES COMPILE_FLAGS "-Wno-implicit -D_COMPILE_MEX -I$ENV{MATLAB_ROOT}/extern/include -I$ENV{MATLAB_ROOT}/simulink/include -DMATLAB_MEX_FILE -ansi -D_GNU_SOURCE -fPIC -pthread -m32  -fexceptions -D_FILE_OFFSET_BITS=64 -DMX_COMPAT_32")
+		if(CMAKE_SIZEOF_VOID_P EQUAL 8)
+			set_target_properties(aloe_matlab_legacy PROPERTIES COMPILE_FLAGS "-D_COMPILE_MEX -I$ENV{MATLAB_ROOT}/extern/include -I$ENV{MATLAB_ROOT}/simulink/include -DMATLAB_MEX_FILE -ansi -D_GNU_SOURCE -fPIC -fexceptions -fno-omit-frame-pointer -pthread")
+		else()
+			set_target_properties(aloe_matlab_legacy PROPERTIES COMPILE_FLAGS "-Wno-implicit -D_COMPILE_MEX -I$ENV{MATLAB_ROOT}/extern/include -I$ENV{MATLAB_ROOT}/simulink/include -DMATLAB_MEX_FILE -ansi -D_GNU_SOURCE -fPIC -pthread -m32  -fexceptions -D_FILE_OFFSET_BITS=64 -DMX_COMPAT_32")
+		endif()
 		list(APPEND install_mex aloe_matlab aloe_matlab_legacy)
 endif()
 
