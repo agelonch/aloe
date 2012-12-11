@@ -67,11 +67,11 @@ Data Structures</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2><a name="define-members"></a>
 Macros</h2></td></tr>
-<tr class="memitem:a858524d9d2343e1d0ad94368adeef0b7"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="oesr__error_8h.html#a858524d9d2343e1d0ad94368adeef0b7">oesr_ASSERT_PARAM</a>(a)</td></tr>
-<tr class="memitem:a3321531f90017ac3efbe1bdb4432d6cb"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="oesr__error_8h.html#a3321531f90017ac3efbe1bdb4432d6cb">oesr_ASSERT_PARAM_P</a>(a)</td></tr>
-<tr class="memitem:a233cae31ecac2512acb5bb7c7b322130"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="oesr__error_8h.html#a233cae31ecac2512acb5bb7c7b322130">oesr_HWERROR</a>(msg)&#160;&#160;&#160;<a class="el" href="oesr__error_8h.html#a39e6d579d30f8418dab1dfd6ca36e0b5">oesr_error_rtdal</a>(ctx,rtdal_error_code(), __FILE__, __LINE__, msg)</td></tr>
-<tr class="memitem:a43b7b488ac5e97e616468f6c516cc213"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="oesr__error_8h.html#a43b7b488ac5e97e616468f6c516cc213">oesr_SETERROR</a>(code)&#160;&#160;&#160;<a class="el" href="oesr__error_8h.html#a600b9acd465a5716555168ab8cf8eacd">oesr_error_set</a>(ctx,code, __FILE__, __LINE__)</td></tr>
-<tr class="memitem:a645155cb1cc9faaf517dc2113a04c0af"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="oesr__error_8h.html#a645155cb1cc9faaf517dc2113a04c0af">oesr_ERROR</a>(msg)&#160;&#160;&#160;<a class="el" href="oesr__error_8h.html#ad78ba6945b8317de81aacd58abb63d3c">oesr_error_set_msg</a>(ctx,oesr_ERROR_OTHER, __FILE__, __LINE__, msg)</td></tr>
+<tr class="memitem:a9c2175419a9b77e5bd2f515580251a92"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="oesr__error_8h.html#a9c2175419a9b77e5bd2f515580251a92">OESR_ASSERT_PARAM</a>(a)</td></tr>
+<tr class="memitem:a2a783091b59fe9961a70f9685b528a81"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="oesr__error_8h.html#a2a783091b59fe9961a70f9685b528a81">OESR_ASSERT_PARAM_P</a>(a)</td></tr>
+<tr class="memitem:a51adc822a436433688b0be05858bb79b"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="oesr__error_8h.html#a51adc822a436433688b0be05858bb79b">OESR_HWERROR</a>(msg)&#160;&#160;&#160;<a class="el" href="oesr__error_8h.html#a39e6d579d30f8418dab1dfd6ca36e0b5">oesr_error_rtdal</a>(ctx,rtdal_error_code(), __FILE__, __LINE__, msg)</td></tr>
+<tr class="memitem:a0494c8cc6852a27eb41024649e298b3a"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="oesr__error_8h.html#a0494c8cc6852a27eb41024649e298b3a">OESR_SETERROR</a>(code)&#160;&#160;&#160;<a class="el" href="oesr__error_8h.html#a600b9acd465a5716555168ab8cf8eacd">oesr_error_set</a>(ctx,code, __FILE__, __LINE__)</td></tr>
+<tr class="memitem:a9856b06b9916229d57c0d3999ab44516"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="oesr__error_8h.html#a9856b06b9916229d57c0d3999ab44516">OESR_ERROR</a>(msg)&#160;&#160;&#160;<a class="el" href="oesr__error_8h.html#ad78ba6945b8317de81aacd58abb63d3c">oesr_error_set_msg</a>(ctx,<a class="el" href="group__error.html#ga5e54056779bb1338594f8ede5411d24a">OESR_ERROR_OTHER</a>, __FILE__, __LINE__, msg)</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2><a name="func-members"></a>
 Functions</h2></td></tr>
@@ -80,12 +80,12 @@ Functions</h2></td></tr>
 <tr class="memitem:ad78ba6945b8317de81aacd58abb63d3c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="oesr__error_8h.html#ad78ba6945b8317de81aacd58abb63d3c">oesr_error_set_msg</a> (void *context, int code, const char *file, int line, const char *msg)</td></tr>
 </table>
 <h2>Macro Definition Documentation</h2>
-<a class="anchor" id="a858524d9d2343e1d0ad94368adeef0b7"></a>
+<a class="anchor" id="a9c2175419a9b77e5bd2f515580251a92"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define oesr_ASSERT_PARAM</td>
+          <td class="memname">#define OESR_ASSERT_PARAM</td>
           <td>(</td>
           <td class="paramtype">&#160;</td>
           <td class="paramname">a</td><td>)</td>
@@ -93,17 +93,17 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<b>Value:</b><div class="fragment"><div class="line"><span class="keywordflow">do</span> { <span class="keywordflow">if</span>(!(a)) { <a class="code" href="oesr__error_8c.html#a600b9acd465a5716555168ab8cf8eacd">oesr_error_set</a>(ctx,oesr_ERROR_INVAL, __FILE__, __LINE__); \</div>
+<b>Value:</b><div class="fragment"><div class="line"><span class="keywordflow">do</span> { <span class="keywordflow">if</span>(!(a)) { <a class="code" href="oesr__error_8c.html#a600b9acd465a5716555168ab8cf8eacd">oesr_error_set</a>(ctx,<a class="code" href="group__error.html#ga645b1f841a40cee9ae8a7ca482e66590">OESR_ERROR_INVAL</a>, __FILE__, __LINE__); \</div>
 <div class="line">        return -1; } } <span class="keywordflow">while</span>(0)</div>
 </div><!-- fragment -->
 </div>
 </div>
-<a class="anchor" id="a3321531f90017ac3efbe1bdb4432d6cb"></a>
+<a class="anchor" id="a2a783091b59fe9961a70f9685b528a81"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define oesr_ASSERT_PARAM_P</td>
+          <td class="memname">#define OESR_ASSERT_PARAM_P</td>
           <td>(</td>
           <td class="paramtype">&#160;</td>
           <td class="paramname">a</td><td>)</td>
@@ -111,33 +111,33 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<b>Value:</b><div class="fragment"><div class="line"><span class="keywordflow">do</span> { <span class="keywordflow">if</span>(!(a)) { <a class="code" href="oesr__error_8c.html#a600b9acd465a5716555168ab8cf8eacd">oesr_error_set</a>(ctx,oesr_ERROR_INVAL, __FILE__, __LINE__); \</div>
+<b>Value:</b><div class="fragment"><div class="line"><span class="keywordflow">do</span> { <span class="keywordflow">if</span>(!(a)) { <a class="code" href="oesr__error_8c.html#a600b9acd465a5716555168ab8cf8eacd">oesr_error_set</a>(ctx,<a class="code" href="group__error.html#ga645b1f841a40cee9ae8a7ca482e66590">OESR_ERROR_INVAL</a>, __FILE__, __LINE__); \</div>
 <div class="line">        return NULL; } } <span class="keywordflow">while</span>(0)</div>
 </div><!-- fragment -->
 </div>
 </div>
-<a class="anchor" id="a645155cb1cc9faaf517dc2113a04c0af"></a>
+<a class="anchor" id="a9856b06b9916229d57c0d3999ab44516"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define oesr_ERROR</td>
+          <td class="memname">#define OESR_ERROR</td>
           <td>(</td>
           <td class="paramtype">&#160;</td>
           <td class="paramname">msg</td><td>)</td>
-          <td>&#160;&#160;&#160;<a class="el" href="oesr__error_8h.html#ad78ba6945b8317de81aacd58abb63d3c">oesr_error_set_msg</a>(ctx,oesr_ERROR_OTHER, __FILE__, __LINE__, msg)</td>
+          <td>&#160;&#160;&#160;<a class="el" href="oesr__error_8h.html#ad78ba6945b8317de81aacd58abb63d3c">oesr_error_set_msg</a>(ctx,<a class="el" href="group__error.html#ga5e54056779bb1338594f8ede5411d24a">OESR_ERROR_OTHER</a>, __FILE__, __LINE__, msg)</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 </div>
 </div>
-<a class="anchor" id="a233cae31ecac2512acb5bb7c7b322130"></a>
+<a class="anchor" id="a51adc822a436433688b0be05858bb79b"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define oesr_HWERROR</td>
+          <td class="memname">#define OESR_HWERROR</td>
           <td>(</td>
           <td class="paramtype">&#160;</td>
           <td class="paramname">msg</td><td>)</td>
@@ -148,12 +148,12 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a43b7b488ac5e97e616468f6c516cc213"></a>
+<a class="anchor" id="a0494c8cc6852a27eb41024649e298b3a"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define oesr_SETERROR</td>
+          <td class="memname">#define OESR_SETERROR</td>
           <td>(</td>
           <td class="paramtype">&#160;</td>
           <td class="paramname">code</td><td>)</td>
@@ -294,7 +294,7 @@ Functions</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Dec 10 2012 13:34:00 for ALOE++ OESR API by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue Dec 11 2012 19:37:22 for ALOE++ OESR API by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.1.2
 </small></address>

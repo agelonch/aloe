@@ -421,7 +421,7 @@
 <div class="line"><a name="l00422"></a><span class="lineno">  422</span>&#160;                        printf(<span class="stringliteral">&quot;Caught SIGINT, exiting\n&quot;</span>);</div>
 <div class="line"><a name="l00423"></a><span class="lineno">  423</span>&#160;                        fflush(stdout);</div>
 <div class="line"><a name="l00424"></a><span class="lineno">  424</span>&#160;                        <span class="keywordflow">goto</span> out;</div>
-<div class="line"><a name="l00425"></a><span class="lineno">  425</span>&#160;                } <span class="keywordflow">else</span> {</div>
+<div class="line"><a name="l00425"></a><span class="lineno">  425</span>&#160;                } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (signum != SIGWINCH) {</div>
 <div class="line"><a name="l00426"></a><span class="lineno">  426</span>&#160;                        printf(<span class="stringliteral">&quot;Got signal %d, exiting\n&quot;</span>, signum);</div>
 <div class="line"><a name="l00427"></a><span class="lineno">  427</span>&#160;                        fflush(stdout);</div>
 <div class="line"><a name="l00428"></a><span class="lineno">  428</span>&#160;                        <span class="keywordflow">goto</span> out;</div>
@@ -708,7 +708,7 @@
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Dec 10 2012 13:34:03 for ALOE++ RTDAL API by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue Dec 11 2012 19:37:25 for ALOE++ RTDAL API by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.1.2
 </small></address>

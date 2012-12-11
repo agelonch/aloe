@@ -78,20 +78,20 @@
 <div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;</div>
 <div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;</div>
 <div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="comment">/* Invalid parameter during a call to a oesr function */</span></div>
-<div class="line"><a name="l00029"></a><span class="lineno"><a class="code" href="oesr__error_8h.html#a858524d9d2343e1d0ad94368adeef0b7">   29</a></span>&#160;<span class="preprocessor">#define oesr_ASSERT_PARAM(a) do { if(!(a)) { oesr_error_set(ctx,oesr_ERROR_INVAL, __FILE__, __LINE__); \</span></div>
+<div class="line"><a name="l00029"></a><span class="lineno"><a class="code" href="oesr__error_8h.html#a9c2175419a9b77e5bd2f515580251a92">   29</a></span>&#160;<span class="preprocessor">#define OESR_ASSERT_PARAM(a) do { if(!(a)) { oesr_error_set(ctx,OESR_ERROR_INVAL, __FILE__, __LINE__); \</span></div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="preprocessor">        return -1; } } while(0)</span></div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00032"></a><span class="lineno"><a class="code" href="oesr__error_8h.html#a3321531f90017ac3efbe1bdb4432d6cb">   32</a></span>&#160;<span class="preprocessor">#define oesr_ASSERT_PARAM_P(a) do { if(!(a)) { oesr_error_set(ctx,oesr_ERROR_INVAL, __FILE__, __LINE__); \</span></div>
+<div class="line"><a name="l00032"></a><span class="lineno"><a class="code" href="oesr__error_8h.html#a2a783091b59fe9961a70f9685b528a81">   32</a></span>&#160;<span class="preprocessor">#define OESR_ASSERT_PARAM_P(a) do { if(!(a)) { oesr_error_set(ctx,OESR_ERROR_INVAL, __FILE__, __LINE__); \</span></div>
 <div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">        return NULL; } } while(0)</span></div>
 <div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="preprocessor"></span></div>
 <div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="comment">/* a rtdal call caused an error. Errno is provided by rtdal_error_code() */</span></div>
-<div class="line"><a name="l00036"></a><span class="lineno"><a class="code" href="oesr__error_8h.html#a233cae31ecac2512acb5bb7c7b322130">   36</a></span>&#160;<span class="preprocessor">#define oesr_HWERROR(msg)   oesr_error_rtdal(ctx,rtdal_error_code(), __FILE__, __LINE__, msg)</span></div>
+<div class="line"><a name="l00036"></a><span class="lineno"><a class="code" href="oesr__error_8h.html#a51adc822a436433688b0be05858bb79b">   36</a></span>&#160;<span class="preprocessor">#define OESR_HWERROR(msg)   oesr_error_rtdal(ctx,rtdal_error_code(), __FILE__, __LINE__, msg)</span></div>
 <div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="preprocessor"></span></div>
 <div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="comment">/* a oesr call caused an error. */</span></div>
-<div class="line"><a name="l00039"></a><span class="lineno"><a class="code" href="oesr__error_8h.html#a43b7b488ac5e97e616468f6c516cc213">   39</a></span>&#160;<span class="preprocessor">#define oesr_SETERROR(code)   oesr_error_set(ctx,code, __FILE__, __LINE__)</span></div>
+<div class="line"><a name="l00039"></a><span class="lineno"><a class="code" href="oesr__error_8h.html#a0494c8cc6852a27eb41024649e298b3a">   39</a></span>&#160;<span class="preprocessor">#define OESR_SETERROR(code)   oesr_error_set(ctx,code, __FILE__, __LINE__)</span></div>
 <div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="preprocessor"></span></div>
 <div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="comment">/* general error caused by a oesr call */</span></div>
-<div class="line"><a name="l00042"></a><span class="lineno"><a class="code" href="oesr__error_8h.html#a645155cb1cc9faaf517dc2113a04c0af">   42</a></span>&#160;<span class="preprocessor">#define oesr_ERROR(msg)   oesr_error_set_msg(ctx,oesr_ERROR_OTHER, __FILE__, __LINE__, msg)</span></div>
+<div class="line"><a name="l00042"></a><span class="lineno"><a class="code" href="oesr__error_8h.html#a9856b06b9916229d57c0d3999ab44516">   42</a></span>&#160;<span class="preprocessor">#define OESR_ERROR(msg)   oesr_error_set_msg(ctx,OESR_ERROR_OTHER, __FILE__, __LINE__, msg)</span></div>
 <div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="preprocessor"></span></div>
 <div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;</div>
 <div class="line"><a name="l00045"></a><span class="lineno"><a class="code" href="structoesr__error__t.html">   45</a></span>&#160;<span class="keyword">typedef</span> <span class="keyword">struct </span>{</div>
@@ -111,7 +111,7 @@
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Dec 10 2012 13:34:00 for ALOE++ OESR API by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue Dec 11 2012 19:37:22 for ALOE++ OESR API by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.1.2
 </small></address>
