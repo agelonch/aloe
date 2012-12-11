@@ -123,7 +123,6 @@ oesr_var_type_t oesr_var_param_type(void *context, var_t parameter) {
 
 	OESR_ASSERT_PARAM(parameter);
 
-	nod_module_t *module = (nod_module_t*) ctx->module;
 	variable_t *variable = (variable_t*) parameter;
 	return (oesr_var_type_t) variable->type;
 }

@@ -77,9 +77,7 @@ void *nod_module_finish_callback(void *context) {
 	}
 
 	switch(rtdal_process_geterror(module->process)) {
-	case FINISH_OK:
-		aerror("Warning, not supposed to be here\n");
-		return 0;
+
 	case RTFAULT:
 		aerror_msg("Module %s violated real-time deadlines. Trying a clean stop\n",
 						module->parent.name);
@@ -91,6 +89,10 @@ void *nod_module_finish_callback(void *context) {
 	case RUNERROR:
 		aerror_msg("Module %s terminated abnormally. Trying a clean stop\n",
 						module->parent.name);
+		break;
+	default:
+			aerror("Warning, not supposed to be here\n");
+			return 0;
 		break;
 	}
 	if (nod_waveform_status_stop(waveform)) {
@@ -202,6 +204,7 @@ int nod_module_stop(nod_module_t *module) {
 		aerror_msg("removing module_id=%d\n",module->parent.id);
 		return -1;
 	}
+	return 0;
 }
 
 

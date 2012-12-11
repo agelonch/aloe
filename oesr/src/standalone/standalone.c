@@ -68,6 +68,7 @@ inline int set_output_samples(int idx, int len) {
 	if (idx<0 || idx>nof_input_itf)
 			return -1;
 	output_lengths[idx] = len;
+	return 0;
 }
 
 void allocate_memory() {
@@ -129,7 +130,6 @@ int main(int argc, char **argv)
 	gnuplot_ctrl *in, *out;
 	char tmp[64];
 	int ret, i, j;
-	int nof_params;
 
 	allocate_memory();
 

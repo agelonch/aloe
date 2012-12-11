@@ -214,13 +214,9 @@ void save_output(mxArray **dst, void *src, int len) {
 }
 
 void parse_parameters(const mxArray *ctrl) {
-	int i,j;
+	int j;
 	int slen;
-	void *pmem;
 	mxArray *cellparam,*cellkey;
-	void *dst;
-	double *src;
-	int plen;
 
 	if (!mxIsCell(ctrl)) {
 		help();
@@ -264,11 +260,7 @@ void allocate_memory() {
 /* the gateway function */
 void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[]) {
 
-
-	int nof_input_itf;
-
-	int m,n,i;
-	int len;
+	int i;
 	int out_samples;
 	mxArray *cell;
 
@@ -290,7 +282,7 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[]) {
 	for (i=0;i<nof_output_itf;i++) {
 		array_dims[i]=1;
 	}
-	nof_input_itf = fill_input_lengths(IN);
+	fill_input_lengths(IN);
 
 	format_input(IN);
 

@@ -113,6 +113,7 @@ int waveform_update(waveform_t *waveform) {
 	if (waveform_unserializeTo(&platform->packet, waveform,NONE)) {
 		return -1;
 	}
+	return 0;
 }
 
 

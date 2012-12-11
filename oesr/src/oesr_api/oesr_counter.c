@@ -110,7 +110,6 @@ int oesr_counter_usec(counter_t counter) {
 	oesr_counter_t *cnt = (oesr_counter_t*) counter;
 	oesr_context_t *ctx = cnt->context;
 	OESR_ASSERT_PARAM(counter);
-	variable_t *variable = cnt->variable;
 
 	return cnt->count[0].tv_usec;
 }

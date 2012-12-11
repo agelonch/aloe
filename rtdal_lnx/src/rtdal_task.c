@@ -223,7 +223,6 @@ void rtdal_task_print_sched() {
 	int policy;
 	const char *p;
 	int s,j;
-	int detachstate;
 
 	thread = pthread_self();
 

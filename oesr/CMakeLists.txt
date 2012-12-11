@@ -68,7 +68,7 @@ set_target_properties(skeleton PROPERTIES COMPILE_FLAGS "-D_COMPILE_ALOE")
 
 # skeleton-legacy library
 add_library(skeleton_legacy ${oesrapi_SOURCES} ${skeleton_SOURCES})
-set_target_properties(skeleton_legacy PROPERTIES COMPILE_FLAGS "-Wno-implicit -D_COMPILE_ALOE -D_ALOE_OLD_SKELETON")
+set_target_properties(skeleton_legacy PROPERTIES COMPILE_FLAGS "-Wno-implicit-function-declaration -D_COMPILE_ALOE -D_ALOE_OLD_SKELETON")
 
 # standalone library
 add_library(standalone ${standalone_SOURCES} ${params_SOURCES})
@@ -76,7 +76,7 @@ set_target_properties(standalone PROPERTIES COMPILE_FLAGS "-D_COMPILE_STANDALONE
 
 # standalone-legacy library
 add_library(standalone_legacy ${standalone_SOURCES} ${params_SOURCES})
-set_target_properties(standalone_legacy PROPERTIES COMPILE_FLAGS "-Wno-implicit -D_COMPILE_STANDALONE -D_ALOE_OLD_SKELETON")
+set_target_properties(standalone_legacy PROPERTIES COMPILE_FLAGS "-Wno-implicit-function-declaration -D_COMPILE_STANDALONE -D_ALOE_OLD_SKELETON")
 
 set(install_mex "")
 if(NOT $ENV{OCTAVE_INCLUDE} STREQUAL "") 
@@ -87,7 +87,7 @@ if(NOT $ENV{OCTAVE_INCLUDE} STREQUAL "")
 
 		# octave-legacy library
 		add_library(aloe_octave_legacy ${mex_SOURCES} ${params_SOURCES})
-		set_target_properties(aloe_octave_legacy PROPERTIES COMPILE_FLAGS "-Wno-implicit -D_ALOE_OLD_SKELETON -D_COMPILE_MEX -D_FORTIFY_SOURCE=2 -fPIC -I$ENV{OCTAVE_INCLUDE} -I$ENV{OCTAVE_INCLUDE}..  -mieee-fp -g -O0 -fstack-protector --param=ssp-buffer-size=4 -Wformat -Werror=format-security -pthread -fopenmp")
+		set_target_properties(aloe_octave_legacy PROPERTIES COMPILE_FLAGS "-Wno-implicit-function-declaration -D_ALOE_OLD_SKELETON -D_COMPILE_MEX -D_FORTIFY_SOURCE=2 -fPIC -I$ENV{OCTAVE_INCLUDE} -I$ENV{OCTAVE_INCLUDE}..  -mieee-fp -g -O0 -fstack-protector --param=ssp-buffer-size=4 -Wformat -Werror=format-security -pthread -fopenmp")
 		list(APPEND install_mex aloe_octave aloe_octave_legacy)
 	endif()
 endif()

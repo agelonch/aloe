@@ -122,8 +122,6 @@ int _run_cycle(void* context) {
 int _call_init(void *_module) {
 	int n;
 	nod_module_t *module = (nod_module_t*) _module;
-	oesr_context_t *ctx = module->context;
-	nod_waveform_t *waveform = module->parent.waveform;
 	sdebug("module_id=%d, changing_status=%d, now_is=0\n",module->parent.id,
 			module->changing_status);
 
@@ -149,7 +147,6 @@ int _call_stop(void *_module) {
 	nod_module_t *module = (nod_module_t*) _module;
 	sdebug("module_id=%d, changing_status=%d\n",module->parent.id,
 			module->changing_status);
-	nod_waveform_t *waveform = module->parent.waveform;
 
 	module->changing_status = 1;
 

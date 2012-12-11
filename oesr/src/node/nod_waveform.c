@@ -162,7 +162,6 @@ static void* nod_waveform_status_stop_thread(void *arg) {
 int nod_waveform_status_stop(nod_waveform_t *waveform) {
 	aassert(waveform);
 	ndebug("waveform_id=%d\n",waveform->id);
-	int i;
 	r_task_t task;
 	void *ret_val;
 	time_t t;

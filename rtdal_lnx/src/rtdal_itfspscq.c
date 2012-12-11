@@ -34,7 +34,6 @@
 int rtdal_itfspscq_init(rtdal_itfspscq_t *itf) {
 	RTDAL_ASSERT_PARAM(itf);
 	int i;
-	char *x;
 
 	itf->parent.is_external = 0;
 	itf->parent.delay = 1;
@@ -208,7 +207,6 @@ int rtdal_itfspscq_send(r_itf_t obj, void* buffer, int len) {
 }
 
 int rtdal_itfspscq_recv(r_itf_t obj, void* buffer, int len) {
-	cast(obj,itf);
 
 	RTDAL_ASSERT_PARAM(buffer);
 	RTDAL_ASSERT_PARAM(len>=0);
