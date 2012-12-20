@@ -19,6 +19,9 @@
 
 /* Define here module interfaces */
 
+#ifndef DEFINE_H
+#define DEFINE_H
+
 typedef char input_t;
 typedef char output_t;
 
@@ -32,6 +35,7 @@ typedef char output_t;
 #define DATA_TYPE_REAL		1
 #define DATA_TYPE_BITS		2
 
+#endif
 
 /** Define here module constants shared with test_generate.c fie */
 #define PI			3.14159265359	/* pi approximation */

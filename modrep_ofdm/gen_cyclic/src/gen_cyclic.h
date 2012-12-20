@@ -25,6 +25,8 @@
  *
  * @{
  */
+#ifndef DEFINE_H
+#define DEFINE_H
 
 typedef _Complex float input_t;
 typedef _Complex float output_t;
@@ -35,6 +37,9 @@ typedef _Complex float output_t;
 
 #define NOF_INPUT_ITF		1
 #define NOF_OUTPUT_ITF		1
+
+#endif
+
 /**@} */
 
 //#define GENERATE_COMPLEX

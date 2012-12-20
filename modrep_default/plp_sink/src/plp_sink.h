@@ -33,6 +33,11 @@
  *
  * @{
  */
+
+#ifndef DEFINE_H
+#define DEFINE_H
+
+
 typedef float input_t;
 typedef float output_t;
 
@@ -41,6 +46,8 @@ typedef float output_t;
 
 #define NOF_INPUT_ITF		1
 #define NOF_OUTPUT_ITF		0
+
+#endif
 
 /**@} */
 

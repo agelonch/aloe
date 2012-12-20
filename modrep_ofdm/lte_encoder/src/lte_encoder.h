@@ -29,6 +29,9 @@
  * @{
  */
 
+#ifndef DEFINE_H
+#define DEFINE_H
+
 typedef char input_t;
 typedef char output_t;
 
@@ -37,6 +40,8 @@ typedef char output_t;
 
 #define NOF_INPUT_ITF		1
 #define NOF_OUTPUT_ITF		1
+
+#endif
 
 /**@} */
 

@@ -25,6 +25,9 @@
  *
  * @{
  */
+#ifndef DEFINE_H
+#define DEFINE_H
+
 
 typedef char input_t;
 typedef char output_t;
@@ -40,6 +43,8 @@ typedef char output_t;
 
 #define MODE_ADD	0
 #define MODE_CHECK	1
+
+#endif
 
 /**@} */
 
